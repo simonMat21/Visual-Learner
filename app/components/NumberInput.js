@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export default function NumberInput() {
+export default function NumberInput({ onSubmit }) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState([]);
 
@@ -17,6 +17,7 @@ export default function NumberInput() {
       .filter((num) => !isNaN(num));
 
     setOutput(arr);
+    onSubmit(arr);
   };
 
   return (

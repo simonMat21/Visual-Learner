@@ -2,10 +2,12 @@
 
 import React, { useRef, useEffect } from "react";
 
-export default function P5Sketch() {
+export default function P5Sketch({ inputArray }) {
   const sketchRef = useRef(null);
+  const inputRef = useRef(inputArray);
 
   useEffect(() => {
+    inputRef.current = inputArray;
     // Dynamically import p5 only on the client
     import("p5").then((p5Module) => {
       const p5 = p5Module.default;
@@ -161,55 +163,6 @@ export default function P5Sketch() {
           return yt;
         }
 
-        function insertionSort(arr) {
-          let yt = [];
-          let n = arr.length;
-
-          for (let i = 1; i < n; i++) {
-            let j = i;
-
-            // Compare with previous elements
-            while (j > 0) {
-              yt.push([arr[j].id, arr[j - 1].id, "check"]);
-
-              if (arr[j - 1].ele < arr[j].ele) {
-                yt.push([arr[j - 1].id, arr[j].id, "swap"]);
-                // Actual data swap
-                [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]];
-                j--; // Continue checking further left
-              } else {
-                break; // No more moves needed
-              }
-            }
-          }
-
-          return yt;
-        }
-
-        function selectionSort(arr) {
-          let yt = [];
-          let n = arr.length;
-
-          for (let i = 0; i < n - 1; i++) {
-            let maxIdx = i;
-
-            for (let j = i + 1; j < n; j++) {
-              yt.push([arr[j].id, arr[maxIdx].id, "check"]);
-              if (arr[j].ele > arr[maxIdx].ele) {
-                maxIdx = j;
-              }
-            }
-
-            if (maxIdx !== i) {
-              yt.push([arr[i].id, arr[maxIdx].id, "check"]);
-              yt.push([arr[i].id, arr[maxIdx].id, "swap"]);
-              [arr[i], arr[maxIdx]] = [arr[maxIdx], arr[i]];
-            }
-          }
-
-          return yt;
-        }
-
         //------------------------------------------------------------------------------------------------
 
         let boxes = [];
@@ -222,19 +175,14 @@ export default function P5Sketch() {
           }
           arrows[0] = new arrow(150, 150);
           arrows[1] = new arrow(230, 150);
-
-          console.log(
-            selectionSort(
-              boxes.map((item, index) => {
-                return { ele: item.col, id: index };
-              })
-            )
-          );
         };
 
-        let x = 0;
-        let y = 0;
+        let start = false;
         p.draw = () => {
+          // if (!start) {
+          //   return 0;
+          // }
+          const liveInput = inputRef.current;
           p.frameRate(60);
           mainAnimationSequence(
             bubbleSort(
@@ -262,6 +210,9 @@ export default function P5Sketch() {
       };
     });
   }, []);
+  useEffect(() => {
+    inputRef.current = inputArray;
+  }, [inputArray]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }
