@@ -12,22 +12,26 @@ export default function P5Sketch({ inputArray }) {
     import("p5").then((p5Module) => {
       const p5 = p5Module.default;
 
-      const sketch = (p) => {
+      const sketch = (P) => {
         class box {
-          constructor(x = 0, y = 0, col = 200) {
+          constructor(x = 0, y = 0, val = P.floor(P.random() * 255)) {
             this.x = x;
             this.y = y;
-            this.col = col;
+            this.col = P.map(val, 0, 100, 255, 0);
+            this.val = val;
+            this.opacity = 0;
+            this.hide = false;
           }
 
           show() {
-            p.fill(this.col);
-            p.rect(this.x, this.y, 60);
-            p.fill(255, 105, 0);
-            p.strokeWeight(3);
-            p.textAlign(p.CENTER, p.CENTER);
-            p.textSize(20);
-            p.text(255 - this.col, this.x + 30, this.y + 30);
+            P.fill(this.col, this.opacity);
+            P.rect(this.x, this.y, 60);
+            P.fill(255, 105, 0, this.opacity);
+            P.strokeWeight(3);
+            P.textAlign(P.CENTER, P.CENTER);
+            P.textSize(20);
+            P.noStroke();
+            P.text(this.val, this.x + 30, this.y + 30);
           }
         }
 
@@ -35,15 +39,17 @@ export default function P5Sketch({ inputArray }) {
           constructor(x = 0, y = 0) {
             this.x = x;
             this.y = y;
+            this.opacity = 0;
+            this.hide = false;
           }
 
           show() {
-            p.push();
-            p.noFill();
-            p.strokeWeight(3);
-            p.stroke(0, 0, 255);
-            p.rect(this.x, this.y, 60);
-            p.pop();
+            P.push();
+            P.noFill();
+            P.strokeWeight(3);
+            P.stroke(0, 0, 255, this.opacity);
+            P.rect(this.x, this.y, 60);
+            P.pop();
           }
         }
 
@@ -86,6 +92,23 @@ export default function P5Sketch({ inputArray }) {
 
         //------------------------------------------------------------------------------------------------
 
+        function insert(a) {
+          return animationSequence([
+            () => {
+              return animate(1 * delayMult, () => {
+                a.opacity = 0;
+                a.y -= 50 / (1 * delayMult);
+              });
+            },
+            () => {
+              return animate(20 * delayMult, () => {
+                a.opacity += 255 / (20 * delayMult);
+                a.y += 50 / (20 * delayMult);
+              });
+            },
+          ]);
+        }
+
         function check(a, b) {
           return animationSequence([
             () => {
@@ -112,10 +135,10 @@ export default function P5Sketch({ inputArray }) {
             },
             () => {
               return animate(10 * delayMult, () => {
-                a.x += p.abs(initialVal(a, b)) / (10 * delayMult);
-                b.x -= p.abs(initialVal(a, b)) / (10 * delayMult);
-                arrows[0].x += p.abs(initialVal(a, b)) / (10 * delayMult);
-                arrows[1].x -= p.abs(initialVal(a, b)) / (10 * delayMult);
+                a.x += P.abs(initialVal(a, b)) / (10 * delayMult);
+                b.x -= P.abs(initialVal(a, b)) / (10 * delayMult);
+                arrows[0].x += P.abs(initialVal(a, b)) / (10 * delayMult);
+                arrows[1].x -= P.abs(initialVal(a, b)) / (10 * delayMult);
               });
             },
             () => {
@@ -131,17 +154,36 @@ export default function P5Sketch({ inputArray }) {
 
         //------------------------------------------------------------------------------------------------
 
-        let P = 0;
+        let aniCount = 0;
         function mainAnimationSequence(arr) {
-          if (P < arr.length && arr[P][2] == "check") {
-            if (P < arr.length && check(boxes[arr[P][0]], boxes[arr[P][1]])) {
+          if (aniCount < arr.length && arr[aniCount][0] == "insert") {
+            if (aniCount < arr.length && insert(boxes[arr[aniCount][1]])) {
               w = 0;
-              P++;
+              aniCount++;
             }
-          } else if (P < arr.length && arr[P][2] == "swap") {
-            if (P < arr.length && swap(boxes[arr[P][0]], boxes[arr[P][1]])) {
+          } else if (
+            aniCount < arr.length &&
+            arr[aniCount][0] == "insert_arrow"
+          ) {
+            if (aniCount < arr.length && insert(arrows[arr[aniCount][1]])) {
               w = 0;
-              P++;
+              aniCount++;
+            }
+          } else if (aniCount < arr.length && arr[aniCount][0] == "check") {
+            if (
+              aniCount < arr.length &&
+              check(boxes[arr[aniCount][1]], boxes[arr[aniCount][2]])
+            ) {
+              w = 0;
+              aniCount++;
+            }
+          } else if (aniCount < arr.length && arr[aniCount][0] == "swap") {
+            if (
+              aniCount < arr.length &&
+              swap(boxes[arr[aniCount][1]], boxes[arr[aniCount][2]])
+            ) {
+              w = 0;
+              aniCount++;
             }
           }
         }
@@ -153,9 +195,9 @@ export default function P5Sketch({ inputArray }) {
           let n = arr.length;
           for (let i = 0; i < n - 1; i++) {
             for (let j = 0; j < n - 1 - i; j++) {
-              yt.push([arr[j].id, arr[j + 1].id, "check"]);
-              if (arr[j].ele < arr[j + 1].ele) {
-                yt.push([arr[j].id, arr[j + 1].id, "swap"]);
+              yt.push(["check", arr[j].id, arr[j + 1].id]);
+              if (arr[j].ele > arr[j + 1].ele) {
+                yt.push(["swap", arr[j].id, arr[j + 1].id]);
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
               }
             }
@@ -168,38 +210,45 @@ export default function P5Sketch({ inputArray }) {
         let boxes = [];
         let arrows = [];
 
-        p.setup = () => {
-          p.createCanvas(1000, 500);
-          for (let i = 0; i < 8; i++) {
-            boxes[i] = new box(150 + i * 80, 150, p.floor(p.random() * 255));
-          }
-          arrows[0] = new arrow(150, 150);
-          arrows[1] = new arrow(230, 150);
+        let listOfActions = [];
+
+        P.setup = () => {
+          P.createCanvas(1000, 500);
         };
 
         let start = false;
-        p.draw = () => {
-          // if (!start) {
-          //   return 0;
-          // }
+        P.draw = () => {
+          P.frameRate(60);
+          P.background(220, 34, 72);
           const liveInput = inputRef.current;
-          p.frameRate(60);
-          mainAnimationSequence(
-            bubbleSort(
-              boxes.map((item, index) => {
-                return { ele: item.col, id: index };
-              })
-            )
-          );
+          if (liveInput.length > 0) {
+            if (!start) {
+              for (let i = 0; i < liveInput.length; i++) {
+                boxes[i] = new box(150 + i * 80, 220, liveInput[i]);
+                listOfActions.push(["insert", i]);
+              }
+              arrows[0] = new arrow(150, 220);
+              arrows[1] = new arrow(230, 220);
+              listOfActions.push(["insert_arrow", 0]);
+              listOfActions.push(["insert_arrow", 1]);
+              listOfActions = listOfActions.concat(
+                bubbleSort(
+                  liveInput.map((item, index) => ({ ele: item, id: index }))
+                )
+              );
 
-          p.background(220);
+              console.log(listOfActions);
 
-          boxes.forEach((i) => {
-            i.show();
-          });
-          arrows.forEach((i) => {
-            i.show();
-          });
+              start = true;
+            }
+            mainAnimationSequence(listOfActions);
+            boxes.forEach((i) => {
+              i.show();
+            });
+            arrows.forEach((i) => {
+              i.show();
+            });
+          }
         };
       };
 

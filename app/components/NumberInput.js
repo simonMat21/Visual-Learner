@@ -27,7 +27,7 @@ export default function NumberInput({ onSubmit }) {
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
-      <Button onClick={handleConvert}>Convert to Array</Button>
+      <Button onClick={handleConvert}>Sort!</Button>
       <div className="text-muted-foreground">Output: [{output.join(", ")}]</div>
     </div>
   );
