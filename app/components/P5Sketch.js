@@ -66,7 +66,12 @@ export default function P5Sketch({ inputArray }) {
         }
 
         let n = 0;
-        function animate(no_frame, func) {
+        /**
+         * does the given function for the given number of frames.
+         * @param {number} no_frame - Number of frames to animate for.
+         * @param {function} func - Animation function to be executed.
+         */
+        function sub_animate(no_frame, func) {
           if (n < no_frame) {
             func();
             n++;
@@ -78,11 +83,15 @@ export default function P5Sketch({ inputArray }) {
         }
 
         let w = 0;
-        function animationSequence(a) {
-          if (w < a.length && a[w]()) {
+        /**
+         * Takes in an array of animate functions and executes them one after the other.
+         * @param {[function]} arr - Array of functions to be executed in sequence.
+         */
+        function animationSequence(arr) {
+          if (w < arr.length && arr[w]()) {
             n = 0;
             w++;
-            if (w == a.length) {
+            if (w == arr.length) {
               w++;
               return 1;
             }
@@ -90,65 +99,67 @@ export default function P5Sketch({ inputArray }) {
           return 0;
         }
 
+        /**
+         * Animates the objects in A for the given duration all at the same time.
+         * @param {number} duration - Animation time in frames.
+         * @param {[object, number, number, number]} A - [object, x, y, opacity].
+         */
+        function animate(duration, A) {
+          return () => {
+            return sub_animate(duration * delayMult, () => {
+              A.forEach(([a, x, y, opacity]) => {
+                a.opacity += opacity / (duration * delayMult);
+                a.x += x / (duration * delayMult);
+                a.y += y / (duration * delayMult);
+              });
+            });
+          };
+        }
+
+        function delay(duration) {
+          return () => {
+            return sub_animate(duration * delayMult, () => {});
+          };
+        }
         //------------------------------------------------------------------------------------------------
 
         function insert(a) {
           return animationSequence([
-            () => {
-              return animate(1 * delayMult, () => {
-                a.opacity = 0;
-                a.y -= 50 / (1 * delayMult);
-              });
-            },
-            () => {
-              return animate(20 * delayMult, () => {
-                a.opacity += 255 / (20 * delayMult);
-                a.y += 50 / (20 * delayMult);
-              });
-            },
+            animate(1, [[a, 0, -50, 0]]),
+            animate(20, [[a, 0, 50, 255]]),
           ]);
         }
 
         function check(a, b) {
           return animationSequence([
-            () => {
-              return animate(10 * delayMult, () => {});
-            },
-            () => {
-              return animate(70 * delayMult, () => {
-                arrows[0].x += initialVal(a, arrows[0], 1) / (70 * delayMult);
-                arrows[1].x += initialVal(b, arrows[1], 2) / (70 * delayMult);
-              });
-            },
+            delay(10),
+            animate(70, [
+              [arrows[0], initialVal(a, arrows[0], 1), 0, 0],
+              [arrows[1], initialVal(b, arrows[1], 2), 0, 0],
+            ]),
           ]);
         }
 
         function swap(a, b) {
           return animationSequence([
-            () => {
-              return animate(15 * delayMult, () => {
-                a.y += 40 / (15 * delayMult);
-                b.y -= 40 / (15 * delayMult);
-                arrows[0].y += 40 / (15 * delayMult);
-                arrows[1].y -= 40 / (15 * delayMult);
-              });
-            },
-            () => {
-              return animate(10 * delayMult, () => {
-                a.x += P.abs(initialVal(a, b)) / (10 * delayMult);
-                b.x -= P.abs(initialVal(a, b)) / (10 * delayMult);
-                arrows[0].x += P.abs(initialVal(a, b)) / (10 * delayMult);
-                arrows[1].x -= P.abs(initialVal(a, b)) / (10 * delayMult);
-              });
-            },
-            () => {
-              return animate(15 * delayMult, () => {
-                a.y -= 40 / (15 * delayMult);
-                b.y += 40 / (15 * delayMult);
-                arrows[0].y -= 40 / (15 * delayMult);
-                arrows[1].y += 40 / (15 * delayMult);
-              });
-            },
+            animate(15, [
+              [a, 0, 40, 0],
+              [b, 0, -40, 0],
+              [arrows[0], 0, 40, 0],
+              [arrows[1], 0, -40, 0],
+            ]),
+            animate(10, [
+              [a, P.abs(initialVal(a, b)), 0, 0],
+              [b, -P.abs(initialVal(a, b)), 0, 0],
+              [arrows[0], P.abs(initialVal(a, b)), 0, 0],
+              [arrows[1], -P.abs(initialVal(a, b)), 0, 0],
+            ]),
+            animate(15, [
+              [a, 0, -40, 0],
+              [b, 0, 40, 0],
+              [arrows[0], 0, -40, 0],
+              [arrows[1], 0, 40, 0],
+            ]),
           ]);
         }
 
@@ -224,11 +235,15 @@ export default function P5Sketch({ inputArray }) {
           if (liveInput.length > 0) {
             if (!start) {
               for (let i = 0; i < liveInput.length; i++) {
-                boxes[i] = new box(150 + i * 80, 220, liveInput[i]);
+                boxes[i] = new box(
+                  500 - 40 * liveInput.length + i * 80,
+                  220,
+                  liveInput[i]
+                );
                 listOfActions.push(["insert", i]);
               }
-              arrows[0] = new arrow(150, 220);
-              arrows[1] = new arrow(230, 220);
+              arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
+              arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
               listOfActions.push(["insert_arrow", 0]);
               listOfActions.push(["insert_arrow", 1]);
               listOfActions = listOfActions.concat(
@@ -259,6 +274,7 @@ export default function P5Sketch({ inputArray }) {
       };
     });
   }, []);
+
   useEffect(() => {
     inputRef.current = inputArray;
   }, [inputArray]);
