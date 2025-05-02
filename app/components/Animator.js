@@ -1,0 +1,74 @@
+// Animator.js
+
+export class Animator {
+  constructor() {
+    this.delayMult = 1; // this is used to slow down the animation
+    this.n = 0;
+    this.w = 0;
+
+    // this might cause issues later
+    this.g = [0]; // this is used to store the initial value of the animation
+  }
+
+  initialVal(a, b, id) {
+    if (this.g[id] == 0 || this.g[id] == undefined) {
+      this.g[id] = a.x - b.x;
+    }
+    return this.g[id];
+  }
+
+  /**
+   * does the given function for the given number of frames.
+   * @param {number} no_frame - Number of frames to animate for.
+   * @param {function} func - Animation function to be executed.
+   */
+  sub_animate(no_frame, func) {
+    if (this.n < no_frame) {
+      func();
+      this.n++;
+      return 0;
+    } else {
+      this.g = [0];
+      return 1;
+    }
+  }
+
+  /**
+   * Takes in an array of animate functions and executes them one after the other.
+   * @param {[function]} arr - Array of functions to be executed in sequence.
+   */
+  animationSequence(arr) {
+    if (this.w < arr.length && arr[this.w]()) {
+      this.n = 0;
+      this.w++;
+      if (this.w == arr.length) {
+        this.w++;
+        return 1;
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * Animates the objects in A for the given duration all at the same time.
+   * @param {number} duration - Animation time in frames.
+   * @param {[object, number, number, number]} A - [object, x, y, opacity].
+   */
+  animate(duration, A) {
+    return () => {
+      return this.sub_animate(duration * this.delayMult, () => {
+        A.forEach(([a, x, y, opacity]) => {
+          a.opacity += opacity / (duration * this.delayMult);
+          a.x += x / (duration * this.delayMult);
+          a.y += y / (duration * this.delayMult);
+        });
+      });
+    };
+  }
+
+  delay(duration) {
+    return () => {
+      return this.sub_animate(duration * this.delayMult, () => {});
+    };
+  }
+}

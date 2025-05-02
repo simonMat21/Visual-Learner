@@ -1,0 +1,225 @@
+"use client";
+
+import React, { useRef, useEffect } from "react";
+import { Animator } from "./Animator";
+
+export default function P5Sketch_selectionSort({ inputArray }) {
+  const sketchRef = useRef(null);
+  const inputRef = useRef(inputArray);
+
+  useEffect(() => {
+    inputRef.current = inputArray;
+    // Dynamically import p5 only on the client
+    import("p5").then((p5Module) => {
+      const p5 = p5Module.default;
+
+      const sketch = (P) => {
+        class box {
+          constructor(x = 0, y = 0, val = P.floor(P.random() * 255)) {
+            this.x = x;
+            this.y = y;
+            this.col = P.map(val, 0, 100, 255, 0);
+            this.val = val;
+            this.opacity = 0;
+            this.hide = false;
+          }
+
+          show() {
+            P.fill(this.col, this.opacity);
+            P.rect(this.x, this.y, 60);
+            P.fill(255, 105, 0, this.opacity);
+            P.strokeWeight(3);
+            P.textAlign(P.CENTER, P.CENTER);
+            P.textSize(20);
+            P.noStroke();
+            P.text(this.val, this.x + 30, this.y + 30);
+          }
+        }
+
+        class arrow {
+          constructor(x = 0, y = 0) {
+            this.x = x;
+            this.y = y;
+            this.opacity = 0;
+            this.hide = false;
+          }
+
+          show() {
+            P.push();
+            P.noFill();
+            P.strokeWeight(3);
+            P.stroke(0, 0, 255, this.opacity);
+            P.rect(this.x, this.y, 60);
+            P.pop();
+          }
+        }
+        //-----------------------------------------------------------------------------------------------
+
+        function insert(a) {
+          return animator.animationSequence([
+            animator.animate(1, [[a, 0, -50, 0]]),
+            animator.animate(20, [[a, 0, 50, 255]]),
+          ]);
+        }
+
+        function check(a, b) {
+          return animator.animationSequence([
+            animator.delay(10),
+            animator.animate(70, [
+              [arrows[0], animator.initialVal(a, arrows[0], 1), 0, 0],
+              [arrows[1], animator.initialVal(b, arrows[1], 2), 0, 0],
+            ]),
+          ]);
+        }
+
+        function swap(a, b) {
+          return animator.animationSequence([
+            animator.animate(15, [
+              [a, 0, 40, 0],
+              [b, 0, -40, 0],
+              [arrows[0], 0, 40, 0],
+              [arrows[1], 0, -40, 0],
+            ]),
+            animator.animate(10, [
+              [a, P.abs(animator.initialVal(a, b)), 0, 0],
+              [b, -P.abs(animator.initialVal(a, b)), 0, 0],
+              [arrows[0], P.abs(animator.initialVal(a, b)), 0, 0],
+              [arrows[1], -P.abs(animator.initialVal(a, b)), 0, 0],
+            ]),
+            animator.animate(15, [
+              [a, 0, -40, 0],
+              [b, 0, 40, 0],
+              [arrows[0], 0, -40, 0],
+              [arrows[1], 0, 40, 0],
+            ]),
+          ]);
+        }
+
+        //------------------------------------------------------------------------------------------------
+
+        let aniCount = 0;
+        function mainAnimationSequence(arr) {
+          if (aniCount < arr.length && arr[aniCount][0] == "insert") {
+            if (aniCount < arr.length && insert(boxes[arr[aniCount][1]])) {
+              animator.w = 0;
+              aniCount++;
+            }
+          } else if (
+            aniCount < arr.length &&
+            arr[aniCount][0] == "insert_arrow"
+          ) {
+            if (aniCount < arr.length && insert(arrows[arr[aniCount][1]])) {
+              animator.w = 0;
+              aniCount++;
+            }
+          } else if (aniCount < arr.length && arr[aniCount][0] == "check") {
+            if (
+              aniCount < arr.length &&
+              check(boxes[arr[aniCount][1]], boxes[arr[aniCount][2]])
+            ) {
+              animator.w = 0;
+              aniCount++;
+            }
+          } else if (aniCount < arr.length && arr[aniCount][0] == "swap") {
+            if (
+              aniCount < arr.length &&
+              swap(boxes[arr[aniCount][1]], boxes[arr[aniCount][2]])
+            ) {
+              animator.w = 0;
+              aniCount++;
+            }
+          }
+        }
+
+        //------------------------------------------------------------------------------------------------
+
+        function selectionSort(arr) {
+          let yt = [];
+          let n = arr.length;
+
+          for (let i = 0; i < n - 1; i++) {
+            let maxIdx = i;
+
+            for (let j = i + 1; j < n; j++) {
+              yt.push(["check", arr[j].id, arr[maxIdx].id]);
+              if (arr[j].ele < arr[maxIdx].ele) {
+                maxIdx = j;
+              }
+            }
+
+            if (maxIdx !== i) {
+              yt.push(["check", arr[i].id, arr[maxIdx].id]);
+              yt.push(["swap", arr[i].id, arr[maxIdx].id]);
+              [arr[i], arr[maxIdx]] = [arr[maxIdx], arr[i]];
+            }
+          }
+
+          return yt;
+        }
+
+        //------------------------------------------------------------------------------------------------
+
+        let boxes = [];
+        let arrows = [];
+
+        let listOfActions = [];
+
+        let animator;
+        P.setup = () => {
+          P.createCanvas(1000, 500);
+          animator = new Animator();
+        };
+
+        let start = false;
+        P.draw = () => {
+          P.frameRate(60);
+          P.background(220, 34, 72);
+          const liveInput = inputRef.current;
+          if (liveInput.length > 0) {
+            if (!start) {
+              for (let i = 0; i < liveInput.length; i++) {
+                boxes[i] = new box(
+                  500 - 40 * liveInput.length + i * 80,
+                  220,
+                  liveInput[i]
+                );
+                listOfActions.push(["insert", i]);
+              }
+              arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
+              arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
+              listOfActions.push(["insert_arrow", 0]);
+              listOfActions.push(["insert_arrow", 1]);
+              listOfActions = listOfActions.concat(
+                selectionSort(
+                  liveInput.map((item, index) => ({ ele: item, id: index }))
+                )
+              );
+
+              console.log(listOfActions);
+
+              start = true;
+            }
+            mainAnimationSequence(listOfActions);
+            boxes.forEach((i) => {
+              i.show();
+            });
+            arrows.forEach((i) => {
+              i.show();
+            });
+          }
+        };
+      };
+
+      const myP5 = new p5(sketch, sketchRef.current);
+
+      return () => {
+        myP5.remove(); // Clean up on unmount
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    inputRef.current = inputArray;
+  }, [inputArray]);
+  return <div ref={sketchRef} className="canvas-wrapper"></div>;
+}

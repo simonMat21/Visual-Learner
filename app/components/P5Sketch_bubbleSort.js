@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 
-export default function P5Sketch({ inputArray }) {
+export default function P5Sketch_bubbleSort({ inputArray }) {
   const sketchRef = useRef(null);
   const inputRef = useRef(inputArray);
 
