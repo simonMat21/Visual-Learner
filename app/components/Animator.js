@@ -5,9 +5,12 @@ export class Animator {
     this.delayMult = 1; // this is used to slow down the animation
     this.n = 0;
     this.w = 0;
-
+    this.aniCount = 0;
     // this might cause issues later
     this.g = [0]; // this is used to store the initial value of the animation
+
+    this.objectIdArray = [];
+    this.funtionsDictionary = {};
   }
 
   initialVal(a, b, id) {
@@ -70,5 +73,21 @@ export class Animator {
     return () => {
       return this.sub_animate(duration * this.delayMult, () => {});
     };
+  }
+
+  mainAnimationSequence(arr) {
+    if (this.aniCount < arr.length) {
+      const [name, ...args] = arr[this.aniCount];
+      if (name in this.funtionsDictionary) {
+        if (
+          this.funtionsDictionary[name](
+            args.map((id) => this.objectIdArray[id])
+          )
+        ) {
+          this.w = 0;
+          this.aniCount++;
+        }
+      }
+    }
   }
 }

@@ -55,24 +55,24 @@ export default function P5Sketch_selectionSort({ inputArray }) {
         }
         //-----------------------------------------------------------------------------------------------
 
-        function insert(a) {
+        function insert([a]) {
           return animator.animationSequence([
             animator.animate(1, [[a, 0, -50, 0]]),
             animator.animate(20, [[a, 0, 50, 255]]),
           ]);
         }
 
-        function check(a, b) {
+        function check([a, b, ar1, ar2]) {
           return animator.animationSequence([
             animator.delay(10),
             animator.animate(70, [
-              [arrows[0], animator.initialVal(a, arrows[0], 1), 0, 0],
-              [arrows[1], animator.initialVal(b, arrows[1], 2), 0, 0],
+              [ar1, animator.initialVal(a, ar1, 1), 0, 0],
+              [ar2, animator.initialVal(b, ar2, 2), 0, 0],
             ]),
           ]);
         }
 
-        function swap(a, b) {
+        function swap([a, b]) {
           return animator.animationSequence([
             animator.animate(15, [
               [a, 0, 40, 0],
@@ -96,41 +96,6 @@ export default function P5Sketch_selectionSort({ inputArray }) {
         }
 
         //------------------------------------------------------------------------------------------------
-
-        let aniCount = 0;
-        function mainAnimationSequence(arr) {
-          if (aniCount < arr.length && arr[aniCount][0] == "insert") {
-            if (aniCount < arr.length && insert(boxes[arr[aniCount][1]])) {
-              animator.w = 0;
-              aniCount++;
-            }
-          } else if (
-            aniCount < arr.length &&
-            arr[aniCount][0] == "insert_arrow"
-          ) {
-            if (aniCount < arr.length && insert(arrows[arr[aniCount][1]])) {
-              animator.w = 0;
-              aniCount++;
-            }
-          } else if (aniCount < arr.length && arr[aniCount][0] == "check") {
-            if (
-              aniCount < arr.length &&
-              check(boxes[arr[aniCount][1]], boxes[arr[aniCount][2]])
-            ) {
-              animator.w = 0;
-              aniCount++;
-            }
-          } else if (aniCount < arr.length && arr[aniCount][0] == "swap") {
-            if (
-              aniCount < arr.length &&
-              swap(boxes[arr[aniCount][1]], boxes[arr[aniCount][2]])
-            ) {
-              animator.w = 0;
-              aniCount++;
-            }
-          }
-        }
-
         //------------------------------------------------------------------------------------------------
 
         function selectionSort(arr) {
@@ -141,14 +106,14 @@ export default function P5Sketch_selectionSort({ inputArray }) {
             let maxIdx = i;
 
             for (let j = i + 1; j < n; j++) {
-              yt.push(["check", arr[j].id, arr[maxIdx].id]);
+              yt.push(["check", arr[j].id, arr[maxIdx].id, 100, 101]);
               if (arr[j].ele < arr[maxIdx].ele) {
                 maxIdx = j;
               }
             }
 
             if (maxIdx !== i) {
-              yt.push(["check", arr[i].id, arr[maxIdx].id]);
+              yt.push(["check", arr[i].id, arr[maxIdx].id, 100, 101]);
               yt.push(["swap", arr[i].id, arr[maxIdx].id]);
               [arr[i], arr[maxIdx]] = [arr[maxIdx], arr[i]];
             }
@@ -168,6 +133,11 @@ export default function P5Sketch_selectionSort({ inputArray }) {
         P.setup = () => {
           P.createCanvas(1000, 500);
           animator = new Animator();
+          animator.funtionsDictionary = {
+            insert: insert,
+            check: check,
+            swap: swap,
+          };
         };
 
         let start = false;
@@ -183,12 +153,15 @@ export default function P5Sketch_selectionSort({ inputArray }) {
                   220,
                   liveInput[i]
                 );
+                animator.objectIdArray[i] = boxes[i];
                 listOfActions.push(["insert", i]);
               }
               arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
               arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
-              listOfActions.push(["insert_arrow", 0]);
-              listOfActions.push(["insert_arrow", 1]);
+              animator.objectIdArray[100] = arrows[0];
+              animator.objectIdArray[101] = arrows[1];
+              listOfActions.push(["insert", 100]);
+              listOfActions.push(["insert", 101]);
               listOfActions = listOfActions.concat(
                 selectionSort(
                   liveInput.map((item, index) => ({ ele: item, id: index }))
@@ -199,7 +172,7 @@ export default function P5Sketch_selectionSort({ inputArray }) {
 
               start = true;
             }
-            mainAnimationSequence(listOfActions);
+            animator.mainAnimationSequence(listOfActions);
             boxes.forEach((i) => {
               i.show();
             });
