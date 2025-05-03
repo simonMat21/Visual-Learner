@@ -14,17 +14,21 @@ export default function P5Sketch_bubbleSort({ inputArray }) {
 
       const sketch = (P) => {
         class box {
+          static maxVal = 100;
+          static minVal = 0;
           constructor(x = 0, y = 0, val = P.floor(P.random() * 255)) {
             this.x = x;
             this.y = y;
-            this.col = P.map(val, 0, 100, 255, 0);
             this.val = val;
             this.opacity = 0;
             this.hide = false;
           }
 
           show() {
-            P.fill(this.col, this.opacity);
+            P.fill(
+              P.map(this.val, box.minVal, box.maxVal, 255, 50),
+              this.opacity
+            );
             P.rect(this.x, this.y, 60);
             P.fill(255, 105, 0, this.opacity);
             P.strokeWeight(3);
@@ -242,6 +246,12 @@ export default function P5Sketch_bubbleSort({ inputArray }) {
                 );
                 listOfActions.push(["insert", i]);
               }
+              box.maxVal = boxes.reduce((max, obj) =>
+                obj.val > max.val ? obj : max
+              ).val;
+              box.minVal = boxes.reduce((max, obj) =>
+                obj.val < max.val ? obj : max
+              ).val;
               arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
               arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
               listOfActions.push(["insert_arrow", 0]);

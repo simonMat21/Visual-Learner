@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 
+import NumberInput from "../components/NumberInput";
+import P5Sketch_insertionSort from "./P5Sketch_insertionSort";
+
 export default function Home() {
   const [data, setData] = useState([]);
   return (
     <main>
       <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
-      <a href="/page_bubbleSort">bubbleSort</a>
-      <br></br>
-      <a href="/page_selectionSort">selectionSort</a>
-      <br></br>
-      <a href="/page_insertionSort">insertionSort</a>
+      <NumberInput onSubmit={(arr) => setData(arr)} />
+      <P5Sketch_insertionSort inputArray={data} />
     </main>
   );
 }

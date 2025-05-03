@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { Animator } from "./Animator";
+import { Animator } from "../components/Animator";
 
-export default function P5Sketch_selectionSort({ inputArray }) {
+export default function P5Sketch_insertionSort({ inputArray }) {
   const sketchRef = useRef(null);
   const inputRef = useRef(inputArray);
 
@@ -15,22 +15,26 @@ export default function P5Sketch_selectionSort({ inputArray }) {
 
       const sketch = (P) => {
         class box {
+          static maxVal = 100;
+          static minVal = 0;
           constructor(x = 0, y = 0, val = P.floor(P.random() * 255)) {
             this.x = x;
             this.y = y;
-            this.col = P.map(val, 0, 100, 255, 0);
             this.val = val;
             this.opacity = 0;
             this.hide = false;
           }
 
           show() {
-            P.fill(this.col, this.opacity);
+            P.fill(
+              P.map(this.val, box.minVal, box.maxVal, 255, 50),
+              this.opacity
+            );
             P.rect(this.x, this.y, 60);
             P.fill(255, 105, 0, this.opacity);
             P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(20);
+            P.textSize(25);
             P.noStroke();
             P.text(this.val, this.x + 30, this.y + 30);
           }
@@ -97,24 +101,25 @@ export default function P5Sketch_selectionSort({ inputArray }) {
 
         //------------------------------------------------------------------------------------------------
 
-        function selectionSort(arr) {
+        function insertionSort(arr) {
           let yt = [];
           let n = arr.length;
 
-          for (let i = 0; i < n - 1; i++) {
-            let maxIdx = i;
+          for (let i = 1; i < n; i++) {
+            let j = i;
 
-            for (let j = i + 1; j < n; j++) {
-              yt.push(["check", arr[j].id, arr[maxIdx].id, 100, 101]);
-              if (arr[j].ele < arr[maxIdx].ele) {
-                maxIdx = j;
+            // Compare with previous elements
+            while (j > 0) {
+              yt.push(["check", arr[j - 1].id, arr[j].id, 100, 101]);
+
+              if (arr[j - 1].ele > arr[j].ele) {
+                yt.push(["swap", arr[j - 1].id, arr[j].id]);
+                // Actual data swap
+                [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]];
+                j--; // Continue checking further left
+              } else {
+                break; // No more moves needed
               }
-            }
-
-            if (maxIdx !== i) {
-              yt.push(["check", arr[i].id, arr[maxIdx].id, 100, 101]);
-              yt.push(["swap", arr[i].id, arr[maxIdx].id]);
-              [arr[i], arr[maxIdx]] = [arr[maxIdx], arr[i]];
             }
           }
 
@@ -155,6 +160,14 @@ export default function P5Sketch_selectionSort({ inputArray }) {
                 animator.objectIdArray[i] = boxes[i];
                 listOfActions.push(["insert", i]);
               }
+              box.maxVal = boxes.reduce((max, obj) =>
+                obj.val > max.val ? obj : max
+              ).val;
+              box.minVal = boxes.reduce((max, obj) =>
+                obj.val < max.val ? obj : max
+              ).val;
+              console.log(box.maxVal, box.minVal);
+
               arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
               arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
               animator.objectIdArray[100] = arrows[0];
@@ -162,7 +175,7 @@ export default function P5Sketch_selectionSort({ inputArray }) {
               listOfActions.push(["insert", 100]);
               listOfActions.push(["insert", 101]);
               listOfActions = listOfActions.concat(
-                selectionSort(
+                insertionSort(
                   liveInput.map((item, index) => ({ ele: item, id: index }))
                 )
               );
