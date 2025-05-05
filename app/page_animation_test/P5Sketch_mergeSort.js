@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator";
 
-export default function P5Sketch_selectionSort({ inputArray }) {
+export default function P5Sketch_mergeSort({ inputArray }) {
   const sketchRef = useRef(null);
   const inputRef = useRef(inputArray);
 
@@ -30,13 +30,13 @@ export default function P5Sketch_selectionSort({ inputArray }) {
               P.map(this.val, box.minVal, box.maxVal, 255, 50),
               this.opacity
             );
-            P.rect(this.x, this.y, 60);
+            P.rect(this.x, this.y, 40);
             P.fill(255, 105, 0, this.opacity);
             P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
             P.textSize(20);
             P.noStroke();
-            P.text(this.val, this.x + 30, this.y + 30);
+            P.text(this.val, this.x + 20, this.y + 20);
           }
         }
 
@@ -72,6 +72,15 @@ export default function P5Sketch_selectionSort({ inputArray }) {
             animator.animate(70, [
               [ar1, animator.initialVal(a, ar1, 1), 0, 0],
               [ar2, animator.initialVal(b, ar2, 2), 0, 0],
+            ]),
+          ]);
+        }
+
+        function div([a, b]) {
+          return animator.animationSequence([
+            animator.animate(70, [
+              [a, -60, 60, 0],
+              [b, 60, 60, 0],
             ]),
           ]);
         }
@@ -138,8 +147,7 @@ export default function P5Sketch_selectionSort({ inputArray }) {
           animator = new Animator();
           animator.funtionsDictionary = {
             insert: insert,
-            check: check,
-            swap: swap,
+            div: div,
           };
         };
 
@@ -147,13 +155,13 @@ export default function P5Sketch_selectionSort({ inputArray }) {
         P.draw = () => {
           P.frameRate(60);
           P.background(220, 34, 72);
-          const liveInput = inputRef.current;
+          const liveInput = [4, 1, 3, 2, 5]; //inputRef.current;
           if (liveInput.length > 0) {
             if (!start) {
               for (let i = 0; i < liveInput.length; i++) {
                 boxes[i] = new box(
                   500 - 40 * liveInput.length + i * 80,
-                  220,
+                  100,
                   liveInput[i]
                 );
                 animator.objectIdArray[i] = boxes[i];
@@ -167,17 +175,13 @@ export default function P5Sketch_selectionSort({ inputArray }) {
                 obj.val < max.val ? obj : max
               ).val;
 
-              arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
-              arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
-              animator.objectIdArray[100] = arrows[0];
-              animator.objectIdArray[101] = arrows[1];
-              listOfActions.push(["insert", 100]);
-              listOfActions.push(["insert", 101]);
-              listOfActions = listOfActions.concat(
-                selectionSort(
-                  liveInput.map((item, index) => ({ ele: item, id: index }))
-                )
-              );
+              // arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
+              // arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
+              // animator.objectIdArray[100] = arrows[0];
+              // animator.objectIdArray[101] = arrows[1];
+              // listOfActions.push(["insert", 100]);
+              // listOfActions.push(["insert", 101]);
+              listOfActions.push(["div", 0, 1], ["div", 2, 3]);
 
               console.log(listOfActions);
 

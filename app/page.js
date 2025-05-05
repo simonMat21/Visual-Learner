@@ -12,6 +12,8 @@ export default function Home() {
       <a href="/page_selectionSort">selectionSort</a>
       <br></br>
       <a href="/page_insertionSort">insertionSort</a>
+      <br></br>
+      <a href="/page_animation_test">animation test</a>
     </main>
   );
 }
