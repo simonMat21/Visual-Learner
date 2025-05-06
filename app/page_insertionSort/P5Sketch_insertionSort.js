@@ -110,10 +110,16 @@ export default function P5Sketch_insertionSort({ inputArray }) {
 
             // Compare with previous elements
             while (j > 0) {
-              yt.push(["check", arr[j - 1].id, arr[j].id, 100, 101]);
+              yt.push({
+                funcName: "check",
+                objArgs: [arr[j - 1].id, arr[j].id, 100, 101],
+              });
 
               if (arr[j - 1].ele > arr[j].ele) {
-                yt.push(["swap", arr[j - 1].id, arr[j].id]);
+                yt.push({
+                  funcName: "swap",
+                  objArgs: [arr[j - 1].id, arr[j].id],
+                });
                 // Actual data swap
                 [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]];
                 j--; // Continue checking further left
@@ -158,7 +164,7 @@ export default function P5Sketch_insertionSort({ inputArray }) {
                   liveInput[i]
                 );
                 animator.objectIdArray[i] = boxes[i];
-                listOfActions.push(["insert", i]);
+                listOfActions.push({ funcName: "insert", objArgs: [i] });
               }
               box.maxVal = boxes.reduce((max, obj) =>
                 obj.val > max.val ? obj : max
@@ -172,8 +178,8 @@ export default function P5Sketch_insertionSort({ inputArray }) {
               arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
               animator.objectIdArray[100] = arrows[0];
               animator.objectIdArray[101] = arrows[1];
-              listOfActions.push(["insert", 100]);
-              listOfActions.push(["insert", 101]);
+              listOfActions.push({ funcName: "insert", objArgs: [100] });
+              listOfActions.push({ funcName: "insert", objArgs: [101] });
               listOfActions = listOfActions.concat(
                 insertionSort(
                   liveInput.map((item, index) => ({ ele: item, id: index }))

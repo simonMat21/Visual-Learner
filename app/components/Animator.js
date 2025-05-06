@@ -76,12 +76,15 @@ export class Animator {
   }
 
   mainAnimationSequence(arr) {
+    //arr = [{name:"",objArgs:[0,1,2],othArgs:[0,1]}]
+
     if (this.aniCount < arr.length) {
-      const [name, ...args] = arr[this.aniCount];
-      if (name in this.funtionsDictionary) {
+      const Arg = arr[this.aniCount];
+      if (Arg.funcName in this.funtionsDictionary) {
         if (
-          this.funtionsDictionary[name](
-            args.map((id) => this.objectIdArray[id])
+          this.funtionsDictionary[Arg.funcName](
+            Arg.objArgs.map((id) => this.objectIdArray[id]),
+            Arg.othArgs
           )
         ) {
           this.w = 0;

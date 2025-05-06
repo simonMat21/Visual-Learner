@@ -109,15 +109,24 @@ export default function P5Sketch_selectionSort({ inputArray }) {
             let maxIdx = i;
 
             for (let j = i + 1; j < n; j++) {
-              yt.push(["check", arr[j].id, arr[maxIdx].id, 100, 101]);
+              yt.push({
+                funcName: "check",
+                objArgs: [arr[i].id, arr[maxIdx].id, 100, 101],
+              });
               if (arr[j].ele < arr[maxIdx].ele) {
                 maxIdx = j;
               }
             }
 
             if (maxIdx !== i) {
-              yt.push(["check", arr[i].id, arr[maxIdx].id, 100, 101]);
-              yt.push(["swap", arr[i].id, arr[maxIdx].id]);
+              yt.push({
+                funcName: "check",
+                objArgs: [arr[i].id, arr[maxIdx].id, 100, 101],
+              });
+              yt.push({
+                funcName: "swap",
+                objArgs: [arr[i].id, arr[maxIdx].id],
+              });
               [arr[i], arr[maxIdx]] = [arr[maxIdx], arr[i]];
             }
           }
@@ -157,7 +166,7 @@ export default function P5Sketch_selectionSort({ inputArray }) {
                   liveInput[i]
                 );
                 animator.objectIdArray[i] = boxes[i];
-                listOfActions.push(["insert", i]);
+                listOfActions.push({ funcName: "insert", objArgs: [i] });
               }
 
               box.maxVal = boxes.reduce((max, obj) =>
@@ -171,8 +180,8 @@ export default function P5Sketch_selectionSort({ inputArray }) {
               arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
               animator.objectIdArray[100] = arrows[0];
               animator.objectIdArray[101] = arrows[1];
-              listOfActions.push(["insert", 100]);
-              listOfActions.push(["insert", 101]);
+              listOfActions.push({ funcName: "insert", objArgs: [100] });
+              listOfActions.push({ funcName: "insert", objArgs: [101] });
               listOfActions = listOfActions.concat(
                 selectionSort(
                   liveInput.map((item, index) => ({ ele: item, id: index }))

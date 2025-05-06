@@ -76,12 +76,17 @@ export default function P5Sketch_mergeSort({ inputArray }) {
           ]);
         }
 
-        function div([a, b]) {
+        function div(arr) {
+          const transformed = arr.map((val, i) => [
+            val,
+            i < Math.floor(arr.length / 2) ? -60 : 60,
+            40,
+            0,
+          ]);
+
           return animator.animationSequence([
-            animator.animate(70, [
-              [a, -60, 60, 0],
-              [b, 60, 60, 0],
-            ]),
+            animator.delay(10),
+            animator.animate(70, transformed),
           ]);
         }
 
@@ -160,7 +165,7 @@ export default function P5Sketch_mergeSort({ inputArray }) {
             if (!start) {
               for (let i = 0; i < liveInput.length; i++) {
                 boxes[i] = new box(
-                  500 - 40 * liveInput.length + i * 80,
+                  500 - 20 * liveInput.length + i * 40,
                   100,
                   liveInput[i]
                 );
@@ -174,14 +179,12 @@ export default function P5Sketch_mergeSort({ inputArray }) {
               box.minVal = boxes.reduce((max, obj) =>
                 obj.val < max.val ? obj : max
               ).val;
-
-              // arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
-              // arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
-              // animator.objectIdArray[100] = arrows[0];
-              // animator.objectIdArray[101] = arrows[1];
-              // listOfActions.push(["insert", 100]);
-              // listOfActions.push(["insert", 101]);
-              listOfActions.push(["div", 0, 1], ["div", 2, 3]);
+              listOfActions.push(
+                { name: "div", objArgs: [0, 1, 2, 3, 4] },
+                { name: "div", objArgs: [0, 1] },
+                { name: "div", objArgs: [2, 3, 4] },
+                { name: "div", objArgs: [3, 4] }
+              );
 
               console.log(listOfActions);
 
