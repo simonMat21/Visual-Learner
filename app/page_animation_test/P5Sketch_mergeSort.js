@@ -66,22 +66,14 @@ export default function P5Sketch_mergeSort({ inputArray }) {
           ]);
         }
 
-        function check([a, b, ar1, ar2]) {
-          return animator.animationSequence([
-            animator.delay(10),
-            animator.animate(70, [
-              [ar1, animator.initialVal(a.x, ar1.x, 1), 0, 0],
-              [ar2, animator.initialVal(b.x, ar2.x, 2), 0, 0],
-            ]),
-          ]);
-        }
-
-        function merge(arr, [d]) {
-          const pos = arr.map((item, i) =>
-            i < Math.floor(arr.length / 2)
-              ? animator.initialVal(item.x + 150 / d, 0, i)
-              : animator.initialVal(item.x - 150 / d, 0, i)
-          );
+        function merge1(arr, [d]) {
+          const pos = arr
+            .map((item, i) =>
+              i < Math.floor(arr.length / 2)
+                ? animator.initialVal(item.x + 150 / d, 0, i)
+                : animator.initialVal(item.x - 150 / d, 0, i)
+            )
+            .sort((a, b) => a - b);
           arr.sort((a, b) => a.val - b.val);
           const transformed = arr.map((item, i) => [
             item,
@@ -95,6 +87,42 @@ export default function P5Sketch_mergeSort({ inputArray }) {
           return animator.animationSequence([
             animator.delay(10),
             animator.animate(70, transformed),
+          ]);
+        }
+
+        function merge(arr, [d]) {
+          const pos = arr
+            .map((item, i) =>
+              i < Math.floor(arr.length / 2)
+                ? animator.initialVal(item.x + 150 / d, 0, i)
+                : animator.initialVal(item.x - 150 / d, 0, i)
+            )
+            .sort((a, b) => a - b);
+          arr.sort((a, b) => a.val - b.val);
+          const transformed = arr.map((item, i) => [
+            item,
+            i < Math.floor(arr.length / 2)
+              ? animator.initialVal(pos[i], item.x, (i + 1) * 20)
+              : animator.initialVal(pos[i], item.x, (i + 1) * 20),
+            d == 1 ? -70 : -90,
+            0,
+          ]);
+
+          return animator.animationSequence([
+            animator.delay(10),
+            // animator.animate(70, transformed),
+            ...arr.map((item, i) => {
+              animator.animate(70, [
+                [
+                  item,
+                  i < Math.floor(arr.length / 2)
+                    ? animator.initialVal(pos[i], item.x, (i + 1) * 20)
+                    : animator.initialVal(pos[i], item.x, (i + 1) * 20),
+                  d == 1 ? -70 : -90,
+                  0,
+                ],
+              ]);
+            }),
           ]);
         }
 
@@ -138,8 +166,7 @@ export default function P5Sketch_mergeSort({ inputArray }) {
 
         //------------------------------------------------------------------------------------------------
         function generateAnimationSequence(inputArr) {
-          const divSteps = [];
-          const mergeSteps = [];
+          let divSteps = [];
           function generateDivSteps(length) {
             const levels = {}; // Stores steps grouped by depth
 
@@ -178,18 +205,21 @@ export default function P5Sketch_mergeSort({ inputArray }) {
 
             return result;
           }
-          function mergeSt(arr, div) {
-            let arrMap = arr.map((item, i) => [item, i]);
+          function mergeSt(div) {
             div.reverse();
-            div.forEach((item) => {
-              const q = item.objArgs.map((i) => arrMap[i][1]);
+            return div.map((item) => {
+              return {
+                funcName: "merge",
+                objArgs: item.objArgs,
+                othArgs: item.othArgs,
+              };
             });
           }
 
           // recurse(0, inputArr.length, 1);
           divSteps = generateDivSteps(inputArr.length);
 
-          return [...divSteps, ...mergeSteps];
+          return [...divSteps, ...mergeSt(divSteps)];
         }
 
         //------------------------------------------------------------------------------------------------
@@ -215,10 +245,10 @@ export default function P5Sketch_mergeSort({ inputArray }) {
         P.draw = () => {
           P.frameRate(60);
           P.background(220, 34, 72);
-          const liveInput = [0, 1, 4, 7, 3, 5, 6, 2, 9, 8]; //inputRef.current;
+          const liveInput = [8, 1, 4, 7, 3, 5]; //inputRef.current;
           if (liveInput.length > 0) {
             if (!start) {
-              console.log(liveInput, generateAnimationSequence(liveInput));
+              console.log(generateAnimationSequence(liveInput));
               for (let i = 0; i < liveInput.length; i++) {
                 boxes[i] = new box(
                   490 - 20 * liveInput.length + i * 40,
@@ -237,32 +267,33 @@ export default function P5Sketch_mergeSort({ inputArray }) {
               ).val;
               // listOfActions.push(...generateAnimationSequence(liveInput));
               listOfActions.push(
-                {
-                  funcName: "div",
-                  objArgs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-                  othArgs: [1],
-                },
-                { funcName: "div", objArgs: [0, 1, 2, 3, 4], othArgs: [2] },
-                { funcName: "div", objArgs: [5, 6, 7, 8, 9], othArgs: [2] },
-                { funcName: "div", objArgs: [0, 1], othArgs: [3] },
-                { funcName: "div", objArgs: [2, 3, 4], othArgs: [3] },
-                { funcName: "div", objArgs: [5, 6], othArgs: [3] },
-                { funcName: "div", objArgs: [7, 8, 9], othArgs: [3] },
-                { funcName: "div", objArgs: [3, 4], othArgs: [4] },
-                { funcName: "div", objArgs: [8, 9], othArgs: [4] },
-                { funcName: "merge", objArgs: [8, 9], othArgs: [4] },
-                { funcName: "merge", objArgs: [3, 4], othArgs: [4] },
-                { funcName: "merge", objArgs: [7, 9, 8], othArgs: [3] },
-                { funcName: "merge", objArgs: [5, 6], othArgs: [3] },
-                { funcName: "merge", objArgs: [2, 4, 3], othArgs: [3] },
-                { funcName: "merge", objArgs: [0, 1], othArgs: [3] },
-                { funcName: "merge", objArgs: [5, 6, 7, 9, 8], othArgs: [2] },
-                { funcName: "merge", objArgs: [0, 1, 4, 2, 3], othArgs: [2] },
-                {
-                  funcName: "merge",
-                  objArgs: [0, 1, 4, 2, 3, 7, 5, 6, 9, 8],
-                  othArgs: [1],
-                }
+                // {
+                //   funcName: "div",
+                //   objArgs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                //   othArgs: [1],
+                // },
+                // { funcName: "div", objArgs: [0, 1, 2, 3, 4], othArgs: [2] },
+                // { funcName: "div", objArgs: [5, 6, 7, 8, 9], othArgs: [2] },
+                // { funcName: "div", objArgs: [0, 1], othArgs: [3] },
+                // { funcName: "div", objArgs: [2, 3, 4], othArgs: [3] },
+                // { funcName: "div", objArgs: [5, 6], othArgs: [3] },
+                // { funcName: "div", objArgs: [7, 8, 9], othArgs: [3] },
+                // { funcName: "div", objArgs: [3, 4], othArgs: [4] },
+                // { funcName: "div", objArgs: [8, 9], othArgs: [4] },
+                // { funcName: "merge", objArgs: [8, 9], othArgs: [4] },
+                // { funcName: "merge", objArgs: [3, 4], othArgs: [4] },
+                // { funcName: "merge", objArgs: [7, 9, 8], othArgs: [3] },
+                // { funcName: "merge", objArgs: [5, 6], othArgs: [3] },
+                // { funcName: "merge", objArgs: [2, 4, 3], othArgs: [3] },
+                // { funcName: "merge", objArgs: [0, 1], othArgs: [3] },
+                // { funcName: "merge", objArgs: [5, 6, 7, 9, 8], othArgs: [2] },
+                // { funcName: "merge", objArgs: [0, 1, 4, 2, 3], othArgs: [2] },
+                // {
+                //   funcName: "merge",
+                //   objArgs: [0, 1, 4, 2, 3, 7, 5, 6, 9, 8],
+                //   othArgs: [1],
+                // }
+                ...generateAnimationSequence(liveInput)
               );
 
               console.log(listOfActions);
