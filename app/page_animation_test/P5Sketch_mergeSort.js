@@ -70,23 +70,46 @@ export default function P5Sketch_mergeSort({ inputArray }) {
           return animator.animationSequence([
             animator.delay(10),
             animator.animate(70, [
-              [ar1, animator.initialVal(a, ar1, 1), 0, 0],
-              [ar2, animator.initialVal(b, ar2, 2), 0, 0],
+              [ar1, animator.initialVal(a.x, ar1.x, 1), 0, 0],
+              [ar2, animator.initialVal(b.x, ar2.x, 2), 0, 0],
             ]),
           ]);
         }
 
-        function div(arr) {
-          const transformed = arr.map((val, i) => [
-            val,
-            i < Math.floor(arr.length / 2) ? -60 : 60,
-            40,
+        function merge(arr, [d]) {
+          const pos = arr.map((item, i) =>
+            i < Math.floor(arr.length / 2)
+              ? animator.initialVal(item.x + 150 / d, 0, i)
+              : animator.initialVal(item.x - 150 / d, 0, i)
+          );
+          arr.sort((a, b) => a.val - b.val);
+          const transformed = arr.map((item, i) => [
+            item,
+            i < Math.floor(arr.length / 2)
+              ? animator.initialVal(pos[i], item.x, (i + 1) * 20)
+              : animator.initialVal(pos[i], item.x, (i + 1) * 20),
+            d == 1 ? -70 : -90,
             0,
           ]);
 
           return animator.animationSequence([
             animator.delay(10),
             animator.animate(70, transformed),
+          ]);
+        }
+
+        function div(arr, [d]) {
+          const transformed = arr.map((val, i) => [
+            val,
+            i < Math.floor(arr.length / 2) ? -150 / d : 150 / d,
+            d == 1 ? 70 : 90,
+            0,
+          ]);
+
+          return animator.animationSequence([
+            animator.delay(10),
+            animator.animate(70, transformed),
+            //animator.animate(70, transformed2),
           ]);
         }
 
@@ -114,29 +137,59 @@ export default function P5Sketch_mergeSort({ inputArray }) {
         }
 
         //------------------------------------------------------------------------------------------------
+        function generateAnimationSequence(inputArr) {
+          const divSteps = [];
+          const mergeSteps = [];
+          function generateDivSteps(length) {
+            const levels = {}; // Stores steps grouped by depth
 
-        function selectionSort(arr) {
-          let yt = [];
-          let n = arr.length;
+            function divide(start, end, depth) {
+              const len = end - start;
+              if (len <= 1) return;
 
-          for (let i = 0; i < n - 1; i++) {
-            let maxIdx = i;
+              const segment = [];
+              for (let i = start; i < end; i++) {
+                segment.push(i);
+              }
 
-            for (let j = i + 1; j < n; j++) {
-              yt.push(["check", arr[j].id, arr[maxIdx].id, 100, 101]);
-              if (arr[j].ele < arr[maxIdx].ele) {
-                maxIdx = j;
+              // Store in levels by depth
+              if (!levels[depth]) levels[depth] = [];
+              levels[depth].push({
+                funcName: "div",
+                objArgs: segment,
+                othArgs: [depth],
+              });
+
+              const mid = Math.floor((start + end) / 2);
+              divide(start, mid, depth + 1); // left half first
+              divide(mid, end, depth + 1); // then right half
+            }
+
+            divide(0, length, 1);
+
+            // Flatten levels in increasing depth order
+            const result = [];
+            const maxDepth = Math.max(...Object.keys(levels).map(Number));
+            for (let d = 1; d <= maxDepth; d++) {
+              if (levels[d]) {
+                result.push(...levels[d]);
               }
             }
 
-            if (maxIdx !== i) {
-              yt.push(["check", arr[i].id, arr[maxIdx].id, 100, 101]);
-              yt.push(["swap", arr[i].id, arr[maxIdx].id]);
-              [arr[i], arr[maxIdx]] = [arr[maxIdx], arr[i]];
-            }
+            return result;
+          }
+          function mergeSt(arr, div) {
+            let arrMap = arr.map((item, i) => [item, i]);
+            div.reverse();
+            div.forEach((item) => {
+              const q = item.objArgs.map((i) => arrMap[i][1]);
+            });
           }
 
-          return yt;
+          // recurse(0, inputArr.length, 1);
+          divSteps = generateDivSteps(inputArr.length);
+
+          return [...divSteps, ...mergeSteps];
         }
 
         //------------------------------------------------------------------------------------------------
@@ -150,9 +203,11 @@ export default function P5Sketch_mergeSort({ inputArray }) {
         P.setup = () => {
           P.createCanvas(1000, 500);
           animator = new Animator();
+          // animator.delayMult = 0.5;
           animator.funtionsDictionary = {
             insert: insert,
             div: div,
+            merge: merge,
           };
         };
 
@@ -160,17 +215,18 @@ export default function P5Sketch_mergeSort({ inputArray }) {
         P.draw = () => {
           P.frameRate(60);
           P.background(220, 34, 72);
-          const liveInput = [4, 1, 3, 2, 5]; //inputRef.current;
+          const liveInput = [0, 1, 4, 7, 3, 5, 6, 2, 9, 8]; //inputRef.current;
           if (liveInput.length > 0) {
             if (!start) {
+              console.log(liveInput, generateAnimationSequence(liveInput));
               for (let i = 0; i < liveInput.length; i++) {
                 boxes[i] = new box(
-                  500 - 20 * liveInput.length + i * 40,
-                  100,
+                  490 - 20 * liveInput.length + i * 40,
+                  50,
                   liveInput[i]
                 );
                 animator.objectIdArray[i] = boxes[i];
-                listOfActions.push(["insert", i]);
+                listOfActions.push({ funcName: "insert", objArgs: [i] });
               }
 
               box.maxVal = boxes.reduce((max, obj) =>
@@ -179,11 +235,34 @@ export default function P5Sketch_mergeSort({ inputArray }) {
               box.minVal = boxes.reduce((max, obj) =>
                 obj.val < max.val ? obj : max
               ).val;
+              // listOfActions.push(...generateAnimationSequence(liveInput));
               listOfActions.push(
-                { name: "div", objArgs: [0, 1, 2, 3, 4] },
-                { name: "div", objArgs: [0, 1] },
-                { name: "div", objArgs: [2, 3, 4] },
-                { name: "div", objArgs: [3, 4] }
+                {
+                  funcName: "div",
+                  objArgs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                  othArgs: [1],
+                },
+                { funcName: "div", objArgs: [0, 1, 2, 3, 4], othArgs: [2] },
+                { funcName: "div", objArgs: [5, 6, 7, 8, 9], othArgs: [2] },
+                { funcName: "div", objArgs: [0, 1], othArgs: [3] },
+                { funcName: "div", objArgs: [2, 3, 4], othArgs: [3] },
+                { funcName: "div", objArgs: [5, 6], othArgs: [3] },
+                { funcName: "div", objArgs: [7, 8, 9], othArgs: [3] },
+                { funcName: "div", objArgs: [3, 4], othArgs: [4] },
+                { funcName: "div", objArgs: [8, 9], othArgs: [4] },
+                { funcName: "merge", objArgs: [8, 9], othArgs: [4] },
+                { funcName: "merge", objArgs: [3, 4], othArgs: [4] },
+                { funcName: "merge", objArgs: [7, 9, 8], othArgs: [3] },
+                { funcName: "merge", objArgs: [5, 6], othArgs: [3] },
+                { funcName: "merge", objArgs: [2, 4, 3], othArgs: [3] },
+                { funcName: "merge", objArgs: [0, 1], othArgs: [3] },
+                { funcName: "merge", objArgs: [5, 6, 7, 9, 8], othArgs: [2] },
+                { funcName: "merge", objArgs: [0, 1, 4, 2, 3], othArgs: [2] },
+                {
+                  funcName: "merge",
+                  objArgs: [0, 1, 4, 2, 3, 7, 5, 6, 9, 8],
+                  othArgs: [1],
+                }
               );
 
               console.log(listOfActions);

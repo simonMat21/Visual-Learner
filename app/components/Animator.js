@@ -15,7 +15,7 @@ export class Animator {
 
   initialVal(a, b, id) {
     if (this.g[id] == 0 || this.g[id] == undefined) {
-      this.g[id] = a.x - b.x;
+      this.g[id] = a - b;
     }
     return this.g[id];
   }
@@ -64,6 +64,22 @@ export class Animator {
           a.opacity += opacity / (duration * this.delayMult);
           a.x += x / (duration * this.delayMult);
           a.y += y / (duration * this.delayMult);
+        });
+      });
+    };
+  }
+
+  to(duration, A) {
+    return () => {
+      return this.sub_animate(duration * this.delayMult, () => {
+        A.forEach(([obj, x, y, opacity]) => {
+          obj.opacity +=
+            this.initialVal(opacity, obj.opacity, 1001) /
+            (duration * this.delayMult);
+          obj.x +=
+            this.initialVal(x, obj.x, 1002) / (duration * this.delayMult);
+          obj.y +=
+            this.initialVal(y, obj.y, 1003) / (duration * this.delayMult);
         });
       });
     };

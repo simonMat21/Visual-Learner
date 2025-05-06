@@ -70,8 +70,8 @@ export default function P5Sketch_insertionSort({ inputArray }) {
           return animator.animationSequence([
             animator.delay(10),
             animator.animate(70, [
-              [ar1, animator.initialVal(a, ar1, 1), 0, 0],
-              [ar2, animator.initialVal(b, ar2, 2), 0, 0],
+              [ar1, animator.initialVal(a.x, ar1.x, 1), 0, 0],
+              [ar2, animator.initialVal(b.x, ar2.x, 2), 0, 0],
             ]),
           ]);
         }
@@ -85,10 +85,10 @@ export default function P5Sketch_insertionSort({ inputArray }) {
               [arrows[1], 0, -40, 0],
             ]),
             animator.animate(10, [
-              [a, P.abs(animator.initialVal(a, b)), 0, 0],
-              [b, -P.abs(animator.initialVal(a, b)), 0, 0],
-              [arrows[0], P.abs(animator.initialVal(a, b)), 0, 0],
-              [arrows[1], -P.abs(animator.initialVal(a, b)), 0, 0],
+              [a, P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+              [b, -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+              [arrows[0], P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+              [arrows[1], -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
             ]),
             animator.animate(15, [
               [a, 0, -40, 0],
