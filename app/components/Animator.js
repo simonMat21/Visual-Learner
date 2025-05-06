@@ -8,6 +8,7 @@ export class Animator {
     this.aniCount = 0;
     // this might cause issues later
     this.g = [0]; // this is used to store the initial value of the animation
+    this.v = [0];
 
     this.objectIdArray = [];
     this.funtionsDictionary = {};
@@ -18,6 +19,12 @@ export class Animator {
       this.g[id] = a - b;
     }
     return this.g[id];
+  }
+  initialValSeq(a, b, id) {
+    if (this.v[id] == 0 || this.v[id] == undefined) {
+      this.v[id] = a - b;
+    }
+    return this.v[id];
   }
 
   /**
@@ -46,6 +53,7 @@ export class Animator {
       this.w++;
       if (this.w == arr.length) {
         this.w++;
+        this.v = [0];
         return 1;
       }
     }
