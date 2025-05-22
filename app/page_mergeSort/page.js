@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import NumberInput from "../components/NumberInput";
-import P5Sketch_mergeSort from "./P5Sketch_testPage";
+import P5Sketch_mergeSort from "./P5Sketch_mergeSort";
 
 export default function Home() {
   const [data, setData] = useState([]);

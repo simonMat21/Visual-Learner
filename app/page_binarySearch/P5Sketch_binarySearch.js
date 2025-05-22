@@ -3,9 +3,10 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator";
 
-export default function P5Sketch_selectionSort({ inputArray }) {
+export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
   const sketchRef = useRef(null);
   const inputRef = useRef(inputArray);
+  const searchElementRef = useRef(searchElement);
 
   useEffect(() => {
     inputRef.current = inputArray;
@@ -72,29 +73,6 @@ export default function P5Sketch_selectionSort({ inputArray }) {
             animator.animate(70, [
               [ar1, animator.initialVal(a.x, ar1.x, 1), 0, 0],
               [ar2, animator.initialVal(b.x, ar2.x, 2), 0, 0],
-            ]),
-          ]);
-        }
-
-        function swap([a, b]) {
-          return animator.animationSequence([
-            animator.animate(15, [
-              [a, 0, 40, 0],
-              [b, 0, -40, 0],
-              [arrows[0], 0, 40, 0],
-              [arrows[1], 0, -40, 0],
-            ]),
-            animator.animate(10, [
-              [a, P.abs(animator.initialVal(a.x, b.x)), 0, 0],
-              [b, -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
-              [arrows[0], P.abs(animator.initialVal(a.x, b.x)), 0, 0],
-              [arrows[1], -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
-            ]),
-            animator.animate(15, [
-              [a, 0, -40, 0],
-              [b, 0, 40, 0],
-              [arrows[0], 0, -40, 0],
-              [arrows[1], 0, 40, 0],
             ]),
           ]);
         }
@@ -213,7 +191,8 @@ export default function P5Sketch_selectionSort({ inputArray }) {
 
   useEffect(() => {
     inputRef.current = inputArray;
-  }, [inputArray]);
+    searchElementRef.current = searchElement;
+  }, [inputArray, searchElement]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

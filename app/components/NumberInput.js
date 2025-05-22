@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export default function NumberInput({ onSubmit }) {
+export default function NumberInput({ btnName = "button", onSubmit }) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState([]);
 
@@ -27,7 +27,7 @@ export default function NumberInput({ onSubmit }) {
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
-      <Button onClick={handleConvert}>Sort!</Button>
+      <Button onClick={handleConvert}>{btnName}</Button>
       <div className="text-muted-foreground">Output: [{output.join(", ")}]</div>
     </div>
   );

@@ -13,6 +13,10 @@ export default function Home() {
       <br></br>
       <a href="/page_insertionSort">insertionSort</a>
       <br></br>
+      <a href="/page_mergeSort">mergeSort</a>
+      <br></br>
+      <a href="/page_binarySearch">binary Search</a>
+      <br></br>
       <a href="/page_animation_test">animation test</a>
     </main>
   );
