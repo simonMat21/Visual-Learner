@@ -9,22 +9,51 @@ export class Animator {
     // this might cause issues later
     this.g = [0]; // this is used to store the initial value of the animation
     this.v = [0];
+    this.q = [];
 
     this.objectIdArray = [];
     this.funtionsDictionary = {};
   }
 
+  /**
+   * this gets the difference and refreshes it at the end of the animation.
+   * @param {*} a
+   * @param {*} b
+   * @param {*} id unique id for the object.
+   * @returns
+   */
   initialVal(a, b, id) {
     if (this.g[id] == 0 || this.g[id] == undefined) {
       this.g[id] = a - b;
     }
     return this.g[id];
   }
-  initialValSeq(a, b, id) {
+
+  /**
+   * this gets the difference and refreshes it at the end of the animation sequence.
+   * @param {*} a
+   * @param {*} b
+   * @param {*} id
+   * @returns
+   */
+  initialDiffSeq(a, b = 0, id = 0) {
     if (this.v[id] == 0 || this.v[id] == undefined) {
       this.v[id] = a - b;
     }
     return this.v[id];
+  }
+
+  /**
+   * this gets the difference and refreshes it at the end of the animation sequence.
+   * @param {*} a
+   * @param {*} id
+   * @returns
+   */
+  iV(a, id) {
+    if (this.q[id] == 0 || this.q[id] == undefined) {
+      this.q[id] = a;
+    }
+    return this.q[id];
   }
 
   /**
@@ -54,6 +83,7 @@ export class Animator {
       if (this.w == arr.length) {
         this.w++;
         this.v = [0];
+        this.q = [];
         return 1;
       }
     }
@@ -80,14 +110,16 @@ export class Animator {
   to(duration, A) {
     return () => {
       return this.sub_animate(duration * this.delayMult, () => {
-        A.forEach(([obj, x, y, opacity]) => {
+        A.forEach(([obj, x, y, opacity], ind) => {
           obj.opacity +=
-            this.initialVal(opacity, obj.opacity, 1001) /
+            this.initialVal(opacity, obj.opacity, 1001 + ind * 3) /
             (duration * this.delayMult);
           obj.x +=
-            this.initialVal(x, obj.x, 1002) / (duration * this.delayMult);
+            this.initialVal(x, obj.x, 1002 + ind * 3) /
+            (duration * this.delayMult);
           obj.y +=
-            this.initialVal(y, obj.y, 1003) / (duration * this.delayMult);
+            this.initialVal(y, obj.y, 1003 + ind * 3) /
+            (duration * this.delayMult);
         });
       });
     };

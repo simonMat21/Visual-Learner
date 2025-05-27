@@ -67,49 +67,87 @@ export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
           ]);
         }
 
-        function check([a, b, ar1, ar2]) {
+        function check([a, ar1]) {
           return animator.animationSequence([
             animator.delay(10),
             animator.animate(70, [
-              [ar1, animator.initialVal(a.x, ar1.x, 1), 0, 0],
-              [ar2, animator.initialVal(b.x, ar2.x, 2), 0, 0],
+              [
+                ar1,
+                animator.initialVal(a.x, ar1.x, 1),
+                animator.initialVal(a.y, ar1.y, 2),
+                0,
+              ],
             ]),
+          ]);
+        }
+
+        function found([a, ar1]) {
+          return animator.animationSequence([
+            animator.delay(10),
+            animator.animate(30, [
+              [a, 0, -100, 0],
+              [ar1, 0, -100, 0],
+            ]),
+          ]);
+        }
+        function notFound([ar1]) {
+          return animator.animationSequence([
+            animator.delay(10),
+            animator.animate(30, [[ar1, 0, -100, 0]]),
+          ]);
+        }
+
+        function Sort(arr) {
+          const pos = arr
+            .map((item, i) => animator.initialDiffSeq(item.x, 0, i))
+            .sort((a, b) => a - b);
+          console.log(pos);
+          // sortedArr.sort((a, b) => a.val - b.val);
+          // sortedArr = sortedArr.map((item) => item.x);
+          // sortedArr = animator.iV(sortedArr, 1);
+          return animator.animationSequence([
+            animator.to(
+              40,
+              arr
+                .sort((a, b) => a.val - b.val)
+                .map((item, index) => {
+                  return [item, pos[index], item.y, item.opacity];
+                })
+            ),
           ]);
         }
 
         //------------------------------------------------------------------------------------------------
 
-        function selectionSort(arr) {
-          let yt = [];
-          let n = arr.length;
+        function getBinarySearchSteps(arr, searchValue) {
+          const steps = [];
+          let left = 0;
+          let right = arr.length - 1;
 
-          for (let i = 0; i < n - 1; i++) {
-            let maxIdx = i;
+          while (left <= right) {
+            const mid = Math.floor((left + right) / 2);
+            const crt = arr[mid];
 
-            for (let j = i + 1; j < n; j++) {
-              yt.push({
-                funcName: "check",
-                objArgs: [arr[j].id, arr[maxIdx].id, 100, 101],
-              });
-              if (arr[j].ele < arr[maxIdx].ele) {
-                maxIdx = j;
-              }
-            }
+            // Add the step to "check" this element
+            steps.push({ funcName: "check", objArgs: [crt.id, 100] });
 
-            if (maxIdx !== i) {
-              yt.push({
-                funcName: "check",
-                objArgs: [arr[i].id, arr[maxIdx].id, 100, 101],
-              });
-              yt.push({
-                funcName: "swap",
-                objArgs: [arr[i].id, arr[maxIdx].id],
-              });
-              [arr[i], arr[maxIdx]] = [arr[maxIdx], arr[i]];
+            if (crt.val === searchValue) {
+              // Optionally, indicate that we found it
+              steps.push({ funcName: "found", objArgs: [crt.id, 100] });
+              break;
+            } else if (crt.val < searchValue) {
+              left = mid + 1;
+            } else {
+              right = mid - 1;
             }
           }
 
-          return yt;
+          // Optional: indicate not found
+          if (steps.length && steps[steps.length - 1].funcName !== "found") {
+            steps.push({ funcName: "notFound", objArgs: [100] });
+          }
+
+          return steps;
         }
 
         //------------------------------------------------------------------------------------------------
@@ -126,7 +164,9 @@ export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
           animator.funtionsDictionary = {
             insert: insert,
             check: check,
-            swap: swap,
+            sort: Sort,
+            found: found,
+            notFound: notFound,
           };
         };
 
@@ -134,7 +174,8 @@ export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
         P.draw = () => {
           P.frameRate(60);
           P.background(220, 34, 72);
-          const liveInput = inputRef.current;
+          const liveInput = [4, 2, 5, 1, 10, 8, 12, 7, 3, 2]; // inputRef.current;
+          const searchElement = 3; // searchElementRef.current;
           if (liveInput.length > 0) {
             if (!start) {
               for (let i = 0; i < liveInput.length; i++) {
@@ -154,18 +195,25 @@ export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
                 obj.val < max.val ? obj : max
               ).val;
 
-              arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
-              arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
+              arrows[0] = new arrow(P.width / 2, 120);
               animator.objectIdArray[100] = arrows[0];
-              animator.objectIdArray[101] = arrows[1];
               listOfActions.push({ funcName: "insert", objArgs: [100] });
-              listOfActions.push({ funcName: "insert", objArgs: [101] });
-              listOfActions = listOfActions.concat(
-                selectionSort(
-                  liveInput.map((item, index) => ({ ele: item, id: index }))
-                )
-              );
+              listOfActions.push({
+                funcName: "sort",
+                objArgs: Array.from({ length: liveInput.length }, (_, i) => i),
+              });
 
+              listOfActions.push(
+                ...getBinarySearchSteps(
+                  boxes
+                    .map((a, i) => ({
+                      val: a.val,
+                      id: i,
+                    }))
+                    .sort((a, b) => a.val - b.val),
+                  searchElement
+                ) // Replace 23 with searchElementRef.current
+              );
               console.log(listOfActions);
 
               start = true;

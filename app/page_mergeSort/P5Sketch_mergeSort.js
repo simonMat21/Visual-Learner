@@ -77,8 +77,8 @@ export default function P5Sketch_mergeSort({ inputArray }) {
           const pos = arr
             .map((item, i) =>
               i < Math.floor(arr.length / 2)
-                ? animator.initialValSeq(item.x + 150 / d, 0, i)
-                : animator.initialValSeq(item.x - 150 / d, 0, i)
+                ? animator.initialDiffSeq(item.x + 150 / d, 0, i)
+                : animator.initialDiffSeq(item.x - 150 / d, 0, i)
             )
             .sort((a, b) => a - b);
           arr.sort((a, b) => a.val - b.val);
