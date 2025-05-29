@@ -3,10 +3,15 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator";
 
-export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
+export default function P5Sketch_binarySearch({
+  inputArray,
+  searchElement,
+  startBool = false,
+}) {
   const sketchRef = useRef(null);
   const inputRef = useRef(inputArray);
   const searchElementRef = useRef(searchElement);
+  const startAnimation = useRef(startBool);
 
   useEffect(() => {
     inputRef.current = inputArray;
@@ -101,7 +106,6 @@ export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
           const pos = arr
             .map((item, i) => animator.initialDiffSeq(item.x, 0, i))
             .sort((a, b) => a - b);
-          console.log(pos);
           // sortedArr.sort((a, b) => a.val - b.val);
           // sortedArr = sortedArr.map((item) => item.x);
           // sortedArr = animator.iV(sortedArr, 1);
@@ -174,9 +178,9 @@ export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
         P.draw = () => {
           P.frameRate(60);
           P.background(220, 34, 72);
-          const liveInput = [4, 2, 5, 1, 10, 8, 12, 7, 3, 2]; // inputRef.current;
-          const searchElement = 3; // searchElementRef.current;
-          if (liveInput.length > 0) {
+          const liveInput = inputRef.current; // inputRef.current;
+          const searchElement = searchElementRef.current; // searchElementRef.current;
+          if (startAnimation.current) {
             if (!start) {
               for (let i = 0; i < liveInput.length; i++) {
                 boxes[i] = new box(
@@ -214,9 +218,8 @@ export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
                   searchElement
                 ) // Replace 23 with searchElementRef.current
               );
-              console.log(listOfActions);
-
               start = true;
+              console.log(listOfActions);
             }
             animator.mainAnimationSequence(listOfActions);
             boxes.forEach((i) => {
@@ -240,7 +243,8 @@ export default function P5Sketch_binarySearch({ inputArray, searchElement }) {
   useEffect(() => {
     inputRef.current = inputArray;
     searchElementRef.current = searchElement;
-  }, [inputArray, searchElement]);
+    startAnimation.current = startBool;
+  }, [inputArray, searchElement, startBool]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }
