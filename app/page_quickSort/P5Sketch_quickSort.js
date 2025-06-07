@@ -3,15 +3,9 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator";
 
-export default function P5Sketch_linkedLise({
-  inputArray,
-  searchElement,
-  startBool = false,
-}) {
+export default function P5Sketch_quickSort({ inputArray }) {
   const sketchRef = useRef(null);
   const inputRef = useRef(inputArray);
-  const searchElementRef = useRef(searchElement);
-  const startAnimation = useRef(startBool);
 
   useEffect(() => {
     inputRef.current = inputArray;
@@ -40,7 +34,7 @@ export default function P5Sketch_linkedLise({
             P.fill(255, 105, 0, this.opacity);
             P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(20);
+            P.textSize(25);
             P.noStroke();
             P.text(this.val, this.x + 30, this.y + 30);
           }
@@ -72,87 +66,93 @@ export default function P5Sketch_linkedLise({
           ]);
         }
 
-        function check([a, ar1]) {
+        function check([a, b, ar1, ar2]) {
           return animator.animationSequence([
             animator.delay(10),
             animator.animate(70, [
-              [
-                ar1,
-                animator.initialVal(a.x, ar1.x, 1),
-                animator.initialVal(a.y, ar1.y, 2),
-                0,
-              ],
+              [ar1, animator.initialVal(a.x, ar1.x, 1), 0, 0],
+              [ar2, animator.initialVal(b.x, ar2.x, 2), 0, 0],
             ]),
           ]);
         }
 
-        function found([a, ar1]) {
+        function swap([a, b]) {
           return animator.animationSequence([
-            animator.delay(10),
-            animator.animate(30, [
-              [a, 0, -100, 0],
-              [ar1, 0, -100, 0],
+            animator.animate(15, [
+              [a, 0, 40, 0],
+              [b, 0, -40, 0],
+              // [arrows[0], 0, 40, 0],
+              // [arrows[1], 0, -40, 0],
             ]),
-          ]);
-        }
-        function notFound([ar1]) {
-          return animator.animationSequence([
-            animator.delay(10),
-            animator.animate(30, [[ar1, 0, -100, 0]]),
-          ]);
-        }
-
-        function Sort(arr) {
-          const pos = arr
-            .map((item, i) => animator.initialDiffSeq(item.x, 0, i))
-            .sort((a, b) => a - b);
-          // sortedArr.sort((a, b) => a.val - b.val);
-          // sortedArr = sortedArr.map((item) => item.x);
-          // sortedArr = animator.iV(sortedArr, 1);
-          return animator.animationSequence([
-            animator.to(
-              40,
-              arr
-                .sort((a, b) => a.val - b.val)
-                .map((item, index) => {
-                  return [item, pos[index], item.y, item.opacity];
-                })
-            ),
+            animator.animate(10, [
+              [a, P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+              [b, -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+              // [arrows[0], P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+              // [arrows[1], -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+            ]),
+            animator.animate(15, [
+              [a, 0, -40, 0],
+              [b, 0, 40, 0],
+              // [arrows[0], 0, -40, 0],
+              // [arrows[1], 0, 40, 0],
+            ]),
           ]);
         }
 
         //------------------------------------------------------------------------------------------------
 
-        function getBinarySearchSteps(arr, searchValue) {
-          const steps = [];
-          let left = 0;
-          let right = arr.length - 1;
+        function getQuickSortInstructions(arr) {
+          let yt = [];
 
-          while (left <= right) {
-            const mid = Math.floor((left + right) / 2);
-            const crt = arr[mid];
+          function partition(arr, start, end) {
+            let i = start;
 
-            // Add the step to "check" this element
-            steps.push({ funcName: "check", objArgs: [crt.id, 100] });
+            for (let j = start; j < end; j++) {
+              yt.push({
+                funcName: "check",
+                objArgs: [arr[j].id, arr[end].id, 100, 101],
+              });
 
-            if (crt.val === searchValue) {
-              // Optionally, indicate that we found it
-              steps.push({ funcName: "found", objArgs: [crt.id, 100] });
-              break;
-            } else if (crt.val < searchValue) {
-              left = mid + 1;
-            } else {
-              right = mid - 1;
+              if (arr[j].ele < arr[end].ele) {
+                yt.push({
+                  funcName: "swap",
+                  objArgs: [arr[i].id, arr[j].id],
+                });
+
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+                i++;
+              }
+            }
+
+            // Final pivot swap
+            yt.push({
+              funcName: "swap",
+              objArgs: [arr[i].id, arr[end].id],
+            });
+            [arr[i], arr[end]] = [arr[end], arr[i]];
+
+            return i;
+          }
+
+          function quick_sort(arr, start = 0, end = arr.length - 1) {
+            if (start < end) {
+              const p = partition(arr, start, end);
+              quick_sort(arr, start, p - 1);
+              quick_sort(arr, p + 1, end);
             }
           }
-
-          // Optional: indicate not found
-          if (steps.length && steps[steps.length - 1].funcName !== "found") {
-            steps.push({ funcName: "notFound", objArgs: [100] });
-          }
-
-          return steps;
+          quick_sort(arr);
+          console.log(arr);
+          return yt;
         }
+        console.log(
+          getQuickSortInstructions(
+            [8, 4, 7, 3, 10, 2, 1].map((item, index) => ({
+              ele: item,
+              id: index,
+            }))
+          )
+        );
 
         //------------------------------------------------------------------------------------------------
 
@@ -165,12 +165,11 @@ export default function P5Sketch_linkedLise({
         P.setup = () => {
           P.createCanvas(1000, 500);
           animator = new Animator();
+          // animator.delayMult = 0.5;
           animator.funtionsDictionary = {
             insert: insert,
             check: check,
-            sort: Sort,
-            found: found,
-            notFound: notFound,
+            swap: swap,
           };
         };
 
@@ -178,9 +177,8 @@ export default function P5Sketch_linkedLise({
         P.draw = () => {
           P.frameRate(60);
           P.background(220, 34, 72);
-          const liveInput = inputRef.current; // inputRef.current;
-          const searchElement = searchElementRef.current; // searchElementRef.current;
-          if (startAnimation.current) {
+          const liveInput = inputRef.current; //inputRef.current;
+          if (liveInput.length > 0) {
             if (!start) {
               for (let i = 0; i < liveInput.length; i++) {
                 boxes[i] = new box(
@@ -199,27 +197,24 @@ export default function P5Sketch_linkedLise({
                 obj.val < max.val ? obj : max
               ).val;
 
-              arrows[0] = new arrow(P.width / 2, 120);
+              arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
+              arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
               animator.objectIdArray[100] = arrows[0];
+              animator.objectIdArray[101] = arrows[1];
               listOfActions.push({ funcName: "insert", objArgs: [100] });
-              listOfActions.push({
-                funcName: "sort",
-                objArgs: Array.from({ length: liveInput.length }, (_, i) => i),
-              });
-
+              listOfActions.push({ funcName: "insert", objArgs: [101] });
               listOfActions.push(
-                ...getBinarySearchSteps(
-                  boxes
-                    .map((a, i) => ({
-                      val: a.val,
-                      id: i,
-                    }))
-                    .sort((a, b) => a.val - b.val),
-                  searchElement
-                ) // Replace 23 with searchElementRef.current
+                ...getQuickSortInstructions(
+                  liveInput.map((item, index) => ({
+                    ele: item,
+                    id: index,
+                  }))
+                )
               );
-              start = true;
+
               console.log(listOfActions);
+
+              start = true;
             }
             animator.mainAnimationSequence(listOfActions);
             boxes.forEach((i) => {
@@ -242,9 +237,7 @@ export default function P5Sketch_linkedLise({
 
   useEffect(() => {
     inputRef.current = inputArray;
-    searchElementRef.current = searchElement;
-    startAnimation.current = startBool;
-  }, [inputArray, searchElement, startBool]);
+  }, [inputArray]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }
