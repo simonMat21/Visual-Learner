@@ -19,7 +19,6 @@ export default function NumberInput({ btnName = "button", onSubmit }) {
 
     setInput(array.join(", "));
     setOutput(array);
-    onSubmit(array);
   }
 
   const handleConvert = () => {

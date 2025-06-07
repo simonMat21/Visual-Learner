@@ -57,6 +57,31 @@ export default function P5Sketch_quickSort({ inputArray }) {
             P.pop();
           }
         }
+
+        class pointer {
+          constructor(x = 0, y = 0) {
+            this.x = x;
+            this.y = y;
+            this.opacity = 0;
+            this.hide = false;
+          }
+
+          show() {
+            P.push();
+            P.fill(0, 0, 255, this.opacity);
+            P.strokeWeight(3);
+            P.stroke(0, 0, 255, this.opacity);
+            P.triangle(
+              this.x,
+              this.y - 5,
+              this.x - 5,
+              this.y - 15,
+              this.x + 5,
+              this.y - 15
+            );
+            P.pop();
+          }
+        }
         //-----------------------------------------------------------------------------------------------
 
         function insert([a]) {
@@ -70,8 +95,18 @@ export default function P5Sketch_quickSort({ inputArray }) {
           return animator.animationSequence([
             animator.delay(10),
             animator.animate(70, [
-              [ar1, animator.initialVal(a.x, ar1.x, 1), 0, 0],
-              [ar2, animator.initialVal(b.x, ar2.x, 2), 0, 0],
+              [
+                ar1,
+                animator.initialVal(a.x, ar1.x, 1),
+                animator.initialVal(a.y, ar1.y, 3),
+                0,
+              ],
+              [
+                ar2,
+                animator.initialVal(b.x, ar2.x, 2),
+                animator.initialVal(b.y, ar2.y, 4),
+                0,
+              ],
             ]),
           ]);
         }
@@ -81,21 +116,38 @@ export default function P5Sketch_quickSort({ inputArray }) {
             animator.animate(15, [
               [a, 0, 40, 0],
               [b, 0, -40, 0],
-              // [arrows[0], 0, 40, 0],
-              // [arrows[1], 0, -40, 0],
             ]),
             animator.animate(10, [
               [a, P.abs(animator.initialVal(a.x, b.x)), 0, 0],
               [b, -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
-              // [arrows[0], P.abs(animator.initialVal(a.x, b.x)), 0, 0],
-              // [arrows[1], -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
             ]),
             animator.animate(15, [
               [a, 0, -40, 0],
               [b, 0, 40, 0],
-              // [arrows[0], 0, -40, 0],
-              // [arrows[1], 0, 40, 0],
             ]),
+          ]);
+        }
+        function depth(arr) {
+          return animator.animationSequence([
+            animator.animate(
+              20,
+              arr.map((item) => [item, 0, 60, 0])
+            ),
+          ]);
+        }
+
+        function comeBack(arr) {
+          return animator.animationSequence([
+            animator.to(
+              40,
+              arr.map((item) => [item, item.x, 200, item.opacity])
+            ),
+          ]);
+        }
+
+        function pointTo([a, ptr]) {
+          return animator.animationSequence([
+            animator.to(20, [[ptr, a.x + 30, a.y - 25, 255]]),
           ]);
         }
 
@@ -105,7 +157,15 @@ export default function P5Sketch_quickSort({ inputArray }) {
           let yt = [];
 
           function partition(arr, start, end) {
+            yt.push({
+              funcName: "depth",
+              objArgs: arr.slice(start, end + 1).map((item) => item.id),
+            });
             let i = start;
+            yt.push({
+              funcName: "pointTo",
+              objArgs: [arr[i].id, 102],
+            });
 
             for (let j = start; j < end; j++) {
               yt.push({
@@ -121,6 +181,10 @@ export default function P5Sketch_quickSort({ inputArray }) {
 
                 [arr[i], arr[j]] = [arr[j], arr[i]];
                 i++;
+                yt.push({
+                  funcName: "pointTo",
+                  objArgs: [arr[i].id, 102],
+                });
               }
             }
 
@@ -143,6 +207,10 @@ export default function P5Sketch_quickSort({ inputArray }) {
           }
           quick_sort(arr);
           console.log(arr);
+          yt.push({
+            funcName: "comeBack",
+            objArgs: [...arr.map((item) => item.id), 100, 101, 102],
+          });
           return yt;
         }
         console.log(
@@ -158,6 +226,7 @@ export default function P5Sketch_quickSort({ inputArray }) {
 
         let boxes = [];
         let arrows = [];
+        let pointers = [];
 
         let listOfActions = [];
 
@@ -170,6 +239,9 @@ export default function P5Sketch_quickSort({ inputArray }) {
             insert: insert,
             check: check,
             swap: swap,
+            depth: depth,
+            comeBack: comeBack,
+            pointTo: pointTo,
           };
         };
 
@@ -183,7 +255,7 @@ export default function P5Sketch_quickSort({ inputArray }) {
               for (let i = 0; i < liveInput.length; i++) {
                 boxes[i] = new box(
                   500 - 40 * liveInput.length + i * 80,
-                  220,
+                  50,
                   liveInput[i]
                 );
                 animator.objectIdArray[i] = boxes[i];
@@ -197,12 +269,15 @@ export default function P5Sketch_quickSort({ inputArray }) {
                 obj.val < max.val ? obj : max
               ).val;
 
-              arrows[0] = new arrow(500 - 40 * liveInput.length, 220);
-              arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 220);
+              arrows[0] = new arrow(500 - 40 * liveInput.length, 50);
+              arrows[1] = new arrow(500 - 40 * liveInput.length + 80, 50);
+              pointers[0] = new pointer(500 - 40 * liveInput.length + 40, 20);
               animator.objectIdArray[100] = arrows[0];
               animator.objectIdArray[101] = arrows[1];
+              animator.objectIdArray[102] = pointers[0];
               listOfActions.push({ funcName: "insert", objArgs: [100] });
               listOfActions.push({ funcName: "insert", objArgs: [101] });
+              listOfActions.push({ funcName: "insert", objArgs: [102] });
               listOfActions.push(
                 ...getQuickSortInstructions(
                   liveInput.map((item, index) => ({
@@ -221,6 +296,9 @@ export default function P5Sketch_quickSort({ inputArray }) {
               i.show();
             });
             arrows.forEach((i) => {
+              i.show();
+            });
+            pointers.forEach((i) => {
               i.show();
             });
           }
