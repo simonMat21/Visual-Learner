@@ -7,9 +7,9 @@ export class Animator {
     this.w = 0;
     this.aniCount = 0;
     // this might cause issues later
-    this.g = [0]; // this is used to store the initial value of the animation
-    this.v = [0];
-    this.q = [];
+    this.g = []; // this is used to store the initial value of the animation
+    this.v = [];
+    this.initialValArray = [];
 
     this.initialFuncKeyArr = [];
     this.initialFuncSeqKeyArr = [];
@@ -61,16 +61,17 @@ export class Animator {
   }
 
   /**
-   * this gets the difference and refreshes it at the end of the animation sequence.
+   * this gets the value and refreshes it at the end of the animation sequence.
    * @param {*} a
    * @param {*} id
    * @returns
    */
-  iV(a, id) {
-    if (this.q[id] == 0 || this.q[id] == undefined) {
-      this.q[id] = a;
+  iV(a = null, id = 0) {
+    if (a !== null && this.initialValArray[id] === undefined) {
+      this.initialValArray[id] = a;
     }
-    return this.q[id];
+    console.log(this.initialValArray[id]);
+    return this.initialValArray[id];
   }
 
   /**
@@ -101,7 +102,7 @@ export class Animator {
       if (this.w == arr.length) {
         this.w++;
         this.v = [];
-        this.q = [];
+        this.initialValArray = [];
         this.initialFuncSeqKeyArr = [];
         return 1;
       }
@@ -164,13 +165,12 @@ export class Animator {
 
   mainAnimationSequence(arr) {
     //arr = [{name:"",objArgs:[0,1,2],othArgs:[0,1]}]
-
     if (this.aniCount < arr.length) {
       const Arg = arr[this.aniCount];
       if (Arg.funcName in this.funtionsDictionary) {
         if (
           this.funtionsDictionary[Arg.funcName](
-            Arg.objArgs.map((id) => this.objectIdArray[id]),
+            (Arg.objArgs || []).map((id) => this.objectIdArray[id]),
             Arg.othArgs
           )
         ) {

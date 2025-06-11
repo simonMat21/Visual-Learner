@@ -42,14 +42,21 @@ export default function P5Sketch_testPage({ inputArray, add }) {
         }
 
         class arrow {
-          constructor(head, tail, x = 0, y = 0) {
-            this.opacity = 255;
+          constructor(tail, head, x = 100, y = 100) {
+            this.opacity = 0;
             this.hide = false;
             this.head = head;
-            this.tail = tail || { x: x, y: y };
+            this.tail = tail;
+            this.x = head.x || x;
+            this.y = head.y || y;
+            this.lockToHead = false;
           }
 
           show() {
+            if (this.lockToHead) {
+              this.x = this.head.x;
+              this.y = this.head.y;
+            }
             P.push();
             P.noFill();
             P.strokeWeight(3);
@@ -57,26 +64,21 @@ export default function P5Sketch_testPage({ inputArray, add }) {
             P.bezier(
               this.tail.x + 40,
               this.tail.y + 20,
-              this.head.x,
+              this.x,
               this.tail.y + 20,
               this.tail.x + 40,
-              this.head.y + 20,
-              this.head.x,
-              this.head.y + 20
+              this.y + 20,
+              this.x,
+              this.y + 20
             );
-            P.line(
-              this.head.x,
-              this.head.y + 20,
-              this.head.x - 5,
-              this.head.y + 25
-            );
-            P.line(
-              this.head.x,
-              this.head.y + 20,
-              this.head.x - 5,
-              this.head.y + 15
-            );
+            P.line(this.x, this.y + 20, this.x - 5, this.y + 25);
+            P.line(this.x, this.y + 20, this.x - 5, this.y + 15);
             P.pop();
+          }
+
+          resetToTail() {
+            this.x = this.tail.x + 40;
+            this.y = this.tail.y;
           }
         }
         //-----------------------------------------------------------------------------------------------
@@ -103,8 +105,19 @@ export default function P5Sketch_testPage({ inputArray, add }) {
           ]);
         }
 
+        function addArrow(_, [ar]) {
+          return animator.animationSequence([
+            animator.to(1, [[ar, ar.tail.x + 40, ar.tail.y, 0]]),
+            animator.to(40, [[ar, ar.head.x, ar.head.y, 255]]),
+            animator.animateFunc(1, () => {
+              ar.lockToHead = true;
+            }),
+          ]);
+        }
+
         function addNode(__, [arr, [ind, val]]) {
           let NewBox = boxes[ind];
+          let arToAdd = animator.iV(undefined, 0) || [];
           const pos = [
             animator.initialDiffSeq(arr[0].x, 0, 0),
             animator.initialDiffSeq(arr[0].y, 0, 1),
@@ -114,12 +127,10 @@ export default function P5Sketch_testPage({ inputArray, add }) {
               box.maxVal = box.maxVal > val ? box.maxVal : val;
               box.minVal = box.minVal < val ? box.minVal : val;
               arr.splice(ind, 0, new box(0, 0, val));
-              // arrows.splice(ind, 0, new arrow(boxes[ind + 1], boxes[ind]));
               animator.objectIdArray.push(boxes[ind]);
               NewBox = boxes[ind];
               NewBox.x = pos[0];
               NewBox.y = pos[1];
-              console.log(arr);
             }),
             animator.animate(1, [[NewBox, 0, -100, 0]]),
             animator.animate(20, [[NewBox, 0, 50, 255]]),
@@ -133,17 +144,41 @@ export default function P5Sketch_testPage({ inputArray, add }) {
             ),
             animator.animateFunc(1, () => {
               if (ind == boxes.length - 1) {
-                arrows.splice(ind, 0, new arrow(boxes[ind], boxes[ind - 1]));
-                return;
+                arrows.splice(ind, 0, new arrow(boxes[ind - 1], boxes[ind]));
+                arToAdd.push(arrows[ind]);
+              } else {
+                arrows.splice(ind, 0, new arrow(boxes[ind], boxes[ind + 1]));
+                arToAdd.push(arrows[ind]);
+
+                if (ind > 0) {
+                  arrows[ind - 1].head = boxes[ind];
+                  arrows[ind - 1].lockToHead = false;
+                  arrows[ind - 1].resetToTail();
+                  arrows[ind - 1].opacity = 0;
+                  arToAdd.unshift(arrows[ind - 1]);
+                }
               }
-              arrows.splice(ind, 0, new arrow(boxes[ind + 1], boxes[ind]));
-              if (ind > 0) {
-                arrows[ind - 1].head = boxes[ind];
-              }
+
+              animator.iV(arToAdd, 0);
             }),
+            // animator.to(1, [
+            //   [arToAdd[0], arToAdd[0].tail.x + 40, arToAdd[0].tail.y, 0],
+            // ]),
+            // animator.to(40, [
+            //   [arToAdd[0], arToAdd[0].head.x, arToAdd[0].head.y, 255],
+            // ]),
+            ...arToAdd.flatMap((ar) => [
+              animator.to(1, [[ar, ar.tail.x + 40, ar.tail.y, 0]]),
+              animator.to(30, [[ar, ar.head.x, ar.head.y, 255]]),
+              animator.animateFunc(1, () => {
+                ar.lockToHead = true;
+              }),
+            ]),
             animator.animate(40, [[NewBox, 0, 50, 0]]),
           ]);
         }
+
+        function deleteNode(_, [ind]) {}
         //------------------------------------------------------------------------------------------------
 
         let boxes = [];
@@ -160,6 +195,7 @@ export default function P5Sketch_testPage({ inputArray, add }) {
             insert: insert,
             div: div,
             add: addNode,
+            addArrow: addArrow,
           };
         };
 
@@ -176,7 +212,6 @@ export default function P5Sketch_testPage({ inputArray, add }) {
               objArgs: boxes.map((_, i) => i),
               othArgs: [boxes, [addRef.current.pos, addRef.current.val]],
             });
-            console.log(addRef.current);
             addRef.current.add = false;
           }
 
@@ -194,7 +229,11 @@ export default function P5Sketch_testPage({ inputArray, add }) {
               }
 
               for (let i = 1; i < boxes.length; i++) {
-                arrows[i - 1] = new arrow(boxes[i], boxes[i - 1]);
+                arrows[i - 1] = new arrow(boxes[i - 1], boxes[i]);
+                listOfActions.push({
+                  funcName: "addArrow",
+                  othArgs: [arrows[i - 1]],
+                });
               }
 
               box.maxVal = boxes.reduce((max, obj) =>
