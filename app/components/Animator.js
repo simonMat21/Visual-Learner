@@ -11,6 +11,9 @@ export class Animator {
     this.v = [0];
     this.q = [];
 
+    this.initialFuncKeyArr = [];
+    this.initialFuncSeqKeyArr = [];
+
     this.objectIdArray = [];
     this.funtionsDictionary = {};
   }
@@ -27,6 +30,20 @@ export class Animator {
       this.g[id] = a - b;
     }
     return this.g[id];
+  }
+
+  initialFunc(func, id = 0) {
+    if (this.initialFuncKeyArr[id] == undefined) {
+      this.initialFuncKeyArr[id] = func() || -1;
+    }
+    return this.initialFuncKeyArr[id];
+  }
+
+  initialFuncSeq(func, id = 0) {
+    if (this.initialFuncSeqKeyArr[id] == undefined) {
+      this.initialFuncSeqKeyArr[id] = func() || -1;
+    }
+    return this.initialFuncSeqKeyArr[id];
   }
 
   /**
@@ -68,6 +85,7 @@ export class Animator {
       return 0;
     } else {
       this.g = [0];
+      this.initialFuncKeyArr = [];
       return 1;
     }
   }
@@ -82,12 +100,22 @@ export class Animator {
       this.w++;
       if (this.w == arr.length) {
         this.w++;
-        this.v = [0];
+        this.v = [];
         this.q = [];
+        this.initialFuncSeqKeyArr = [];
         return 1;
       }
     }
     return 0;
+  }
+
+  animateFunc(duration, func) {
+    return () => {
+      return this.sub_animate(
+        duration * this.delayMult < 1 ? 1 : duration * this.delayMult,
+        func
+      );
+    };
   }
 
   /**
@@ -96,6 +124,9 @@ export class Animator {
    * @param {[object, number, number, number]} A - [object, x, y, opacity].
    */
   animate(duration, A) {
+    if (A.length == 0) {
+      duration = 0;
+    }
     return () => {
       return this.sub_animate(duration * this.delayMult, () => {
         A.forEach(([a, x, y, opacity]) => {

@@ -65,10 +65,10 @@ export default function P5Sketch_binarySearch({
         }
         //-----------------------------------------------------------------------------------------------
 
-        function insert([a]) {
+        function insert([a], [b]) {
           return animator.animationSequence([
-            animator.animate(1, [[a, 0, -50, 0]]),
-            animator.animate(20, [[a, 0, 50, 255]]),
+            animator.animate(1, [[b, 0, -50, 0]]),
+            animator.animate(20, [[b, 0, 50, 255]]),
           ]);
         }
 
@@ -189,7 +189,11 @@ export default function P5Sketch_binarySearch({
                   liveInput[i]
                 );
                 animator.objectIdArray[i] = boxes[i];
-                listOfActions.push({ funcName: "insert", objArgs: [i] });
+                listOfActions.push({
+                  funcName: "insert",
+                  objArgs: [i],
+                  othArgs: [boxes[i]],
+                });
               }
 
               box.maxVal = boxes.reduce((max, obj) =>
@@ -201,7 +205,11 @@ export default function P5Sketch_binarySearch({
 
               arrows[0] = new arrow(P.width / 2, 120);
               animator.objectIdArray[100] = arrows[0];
-              listOfActions.push({ funcName: "insert", objArgs: [100] });
+              listOfActions.push({
+                funcName: "insert",
+                objArgs: [100],
+                othArgs: [arrows[0]],
+              });
               listOfActions.push({
                 funcName: "sort",
                 objArgs: Array.from({ length: liveInput.length }, (_, i) => i),

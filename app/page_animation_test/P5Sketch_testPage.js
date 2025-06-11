@@ -3,9 +3,10 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator";
 
-export default function P5Sketch_testPage({ inputArray }) {
+export default function P5Sketch_testPage({ inputArray, add }) {
   const sketchRef = useRef(null);
   const inputRef = useRef(inputArray);
+  const addRef = useRef(add);
 
   useEffect(() => {
     inputRef.current = inputArray;
@@ -41,12 +42,11 @@ export default function P5Sketch_testPage({ inputArray }) {
         }
 
         class arrow {
-          constructor(p, x = 0, y = 0) {
-            this.x = x;
-            this.y = y;
+          constructor(head, tail, x = 0, y = 0) {
             this.opacity = 255;
             this.hide = false;
-            this.p = p;
+            this.head = head;
+            this.tail = tail || { x: x, y: y };
           }
 
           show() {
@@ -54,9 +54,28 @@ export default function P5Sketch_testPage({ inputArray }) {
             P.noFill();
             P.strokeWeight(3);
             P.stroke(0, 0, 255, this.opacity);
-            P.line(this.p.x, this.p.y + 20, this.x, this.y);
-            P.line(this.p.x, this.p.y + 20, this.p.x - 10, this.p.y + 30);
-            P.line(this.p.x, this.p.y + 20, this.p.x - 10, this.p.y + 10);
+            P.bezier(
+              this.tail.x + 40,
+              this.tail.y + 20,
+              this.head.x,
+              this.tail.y + 20,
+              this.tail.x + 40,
+              this.head.y + 20,
+              this.head.x,
+              this.head.y + 20
+            );
+            P.line(
+              this.head.x,
+              this.head.y + 20,
+              this.head.x - 5,
+              this.head.y + 25
+            );
+            P.line(
+              this.head.x,
+              this.head.y + 20,
+              this.head.x - 5,
+              this.head.y + 15
+            );
             P.pop();
           }
         }
@@ -66,33 +85,6 @@ export default function P5Sketch_testPage({ inputArray }) {
           return animator.animationSequence([
             animator.animate(1, [[a, 0, -50, 0]]),
             animator.animate(20, [[a, 0, 50, 255]]),
-          ]);
-        }
-
-        let q = true;
-        function merge(arr, [d]) {
-          const pos = arr
-            .map((item, i) =>
-              i < Math.floor(arr.length / 2)
-                ? animator.initialValSeq(item.x + 150 / d, 0, i)
-                : animator.initialValSeq(item.x - 150 / d, 0, i)
-            )
-            .sort((a, b) => a - b);
-          arr.sort((a, b) => a.val - b.val);
-          return animator.animationSequence([
-            animator.delay(10),
-            ...arr.map((item, i) =>
-              animator.animate(70, [
-                [
-                  item,
-                  i < Math.floor(arr.length / 2)
-                    ? animator.initialVal(pos[i], item.x, (i + 1) * 20)
-                    : animator.initialVal(pos[i], item.x, (i + 1) * 20),
-                  d == 1 ? -70 : -90,
-                  0,
-                ],
-              ])
-            ),
           ]);
         }
 
@@ -111,64 +103,45 @@ export default function P5Sketch_testPage({ inputArray }) {
           ]);
         }
 
-        //------------------------------------------------------------------------------------------------
-        function getMergeSortInstructions(n) {
-          const instructions = [];
-          const array = Array.from({ length: n }, (_, i) => i);
-
-          function mergeSort(arr, depth = 1) {
-            if (arr.length <= 1) return arr;
-
-            instructions.push({
-              funcName: "div",
-              objArgs: [...arr],
-              othArgs: [depth],
-            });
-
-            const mid = Math.floor(arr.length / 2);
-            const left = arr.slice(0, mid);
-            const right = arr.slice(mid);
-
-            const sortedLeft = mergeSort(left, depth + 1);
-            const sortedRight = mergeSort(right, depth + 1);
-
-            const merged = merge(sortedLeft, sortedRight);
-            instructions.push({
-              funcName: "merge",
-              objArgs: [...merged],
-              othArgs: [depth],
-            });
-
-            return merged;
-          }
-
-          function merge(left, right) {
-            // Just concatenate indices for visualization — no actual sorting
-            return [...left, ...right];
-          }
-
-          mergeSort(array);
-          return instructions;
-        }
-
-        function add(arr) {
-          const a = arr.shift();
-          const oth = arr;
-          console.log(a);
+        function addNode(__, [arr, [ind, val]]) {
+          let NewBox = boxes[ind];
+          const pos = [
+            animator.initialDiffSeq(arr[0].x, 0, 0),
+            animator.initialDiffSeq(arr[0].y, 0, 1),
+          ];
           return animator.animationSequence([
-            // animator.animate(1, [[a, 0, 0, -255]]),
-            // animator.delay(10),
+            animator.animateFunc(1, () => {
+              box.maxVal = box.maxVal > val ? box.maxVal : val;
+              box.minVal = box.minVal < val ? box.minVal : val;
+              arr.splice(ind, 0, new box(0, 0, val));
+              // arrows.splice(ind, 0, new arrow(boxes[ind + 1], boxes[ind]));
+              animator.objectIdArray.push(boxes[ind]);
+              NewBox = boxes[ind];
+              NewBox.x = pos[0];
+              NewBox.y = pos[1];
+              console.log(arr);
+            }),
+            animator.animate(1, [[NewBox, 0, -100, 0]]),
+            animator.animate(20, [[NewBox, 0, 50, 255]]),
+            ...Array.from(Array(ind).keys()).flatMap(() => [
+              animator.animate(30, [[NewBox, 80, 0, 0]]),
+              animator.delay(10),
+            ]),
             animator.animate(
               70,
-              arr.map((item) => [item, 80, 0, 0])
+              arr.filter((_, i) => i > ind).map((item) => [item, 80, 0, 0])
             ),
-            animator.animate(70, [[a, 100, 100, 255]]),
-
-            // animator.animate(70, [
-            //   [arr[0], 80, 0, 0],
-            //   [arr[1], 80, 0, 0],
-            //   [arr[2], 80, 0, 0],
-            // ]),
+            animator.animateFunc(1, () => {
+              if (ind == boxes.length - 1) {
+                arrows.splice(ind, 0, new arrow(boxes[ind], boxes[ind - 1]));
+                return;
+              }
+              arrows.splice(ind, 0, new arrow(boxes[ind + 1], boxes[ind]));
+              if (ind > 0) {
+                arrows[ind - 1].head = boxes[ind];
+              }
+            }),
+            animator.animate(40, [[NewBox, 0, 50, 0]]),
           ]);
         }
         //------------------------------------------------------------------------------------------------
@@ -186,8 +159,7 @@ export default function P5Sketch_testPage({ inputArray }) {
           animator.funtionsDictionary = {
             insert: insert,
             div: div,
-            merge: merge,
-            add: add,
+            add: addNode,
           };
         };
 
@@ -195,19 +167,34 @@ export default function P5Sketch_testPage({ inputArray }) {
         P.draw = () => {
           P.frameRate(60);
           P.background(220, 34, 72);
+
+          if (addRef.current.add) {
+            // boxes.unshift(new box(0, 0, 8));
+            // animator.objectIdArray.push(boxes[3]);
+            listOfActions.push({
+              funcName: "add",
+              objArgs: boxes.map((_, i) => i),
+              othArgs: [boxes, [addRef.current.pos, addRef.current.val]],
+            });
+            console.log(addRef.current);
+            addRef.current.add = false;
+          }
+
           const liveInput = [5, 7, 2]; //inputRef.current;
           if (liveInput.length > 0) {
             if (!start) {
-              console.log(getMergeSortInstructions(liveInput.length));
               for (let i = 0; i < liveInput.length; i++) {
                 boxes[i] = new box(
-                  490 - 20 * liveInput.length + i * 60,
-                  50,
+                  100 - 20 * liveInput.length + i * 80,
+                  200,
                   liveInput[i]
                 );
-                arrows[i] = new arrow(boxes[i], 100, 100);
                 animator.objectIdArray[i] = boxes[i];
                 listOfActions.push({ funcName: "insert", objArgs: [i] });
+              }
+
+              for (let i = 1; i < boxes.length; i++) {
+                arrows[i - 1] = new arrow(boxes[i], boxes[i - 1]);
               }
 
               box.maxVal = boxes.reduce((max, obj) =>
@@ -221,9 +208,6 @@ export default function P5Sketch_testPage({ inputArray }) {
 
               console.log(listOfActions);
 
-              boxes.push(new box(0, 0, 8));
-              animator.objectIdArray[3] = boxes[3];
-              listOfActions.push({ funcName: "add", objArgs: [3, 0, 1, 2] });
               start = true;
             }
             animator.mainAnimationSequence(listOfActions);
@@ -247,7 +231,8 @@ export default function P5Sketch_testPage({ inputArray }) {
 
   useEffect(() => {
     inputRef.current = inputArray;
-  }, [inputArray]);
+    addRef.current = add;
+  }, [inputArray, add]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }
