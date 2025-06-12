@@ -18,6 +18,12 @@ export class Animator {
     this.funtionsDictionary = {};
   }
 
+  setDelayMult(val) {
+    if (this.n == 0 && val > 0) {
+      this.delayMult = val;
+    }
+  }
+
   /**
    * this gets the difference and refreshes it at the end of the animation.
    * @param {*} a
@@ -70,7 +76,6 @@ export class Animator {
     if (a !== null && this.initialValArray[id] === undefined) {
       this.initialValArray[id] = a;
     }
-    console.log(this.initialValArray[id]);
     return this.initialValArray[id];
   }
 
@@ -111,11 +116,9 @@ export class Animator {
   }
 
   animateFunc(duration, func) {
+    duration = duration <= 1 ? 1 : Math.floor(duration * this.delayMult);
     return () => {
-      return this.sub_animate(
-        duration * this.delayMult < 1 ? 1 : duration * this.delayMult,
-        func
-      );
+      return this.sub_animate(duration, func);
     };
   }
 
@@ -125,33 +128,33 @@ export class Animator {
    * @param {[object, number, number, number]} A - [object, x, y, opacity].
    */
   animate(duration, A) {
+    duration = duration <= 1 ? 1 : Math.floor(duration * this.delayMult);
     if (A.length == 0) {
       duration = 0;
     }
     return () => {
-      return this.sub_animate(duration * this.delayMult, () => {
+      return this.sub_animate(duration, () => {
         A.forEach(([a, x, y, opacity]) => {
-          a.opacity += opacity / (duration * this.delayMult);
-          a.x += x / (duration * this.delayMult);
-          a.y += y / (duration * this.delayMult);
+          a.opacity += opacity / duration;
+          a.x += x / duration;
+          a.y += y / duration;
         });
       });
     };
   }
 
   to(duration, A) {
+    duration = duration <= 1 ? 1 : Math.floor(duration * this.delayMult);
+    if (A.length == 0) {
+      duration = 0;
+    }
     return () => {
-      return this.sub_animate(duration * this.delayMult, () => {
+      return this.sub_animate(duration, () => {
         A.forEach(([obj, x, y, opacity], ind) => {
           obj.opacity +=
-            this.initialVal(opacity, obj.opacity, 1001 + ind * 3) /
-            (duration * this.delayMult);
-          obj.x +=
-            this.initialVal(x, obj.x, 1002 + ind * 3) /
-            (duration * this.delayMult);
-          obj.y +=
-            this.initialVal(y, obj.y, 1003 + ind * 3) /
-            (duration * this.delayMult);
+            this.initialVal(opacity, obj.opacity, 1001 + ind * 3) / duration;
+          obj.x += this.initialVal(x, obj.x, 1002 + ind * 3) / duration;
+          obj.y += this.initialVal(y, obj.y, 1003 + ind * 3) / duration;
         });
       });
     };
@@ -159,7 +162,7 @@ export class Animator {
 
   delay(duration) {
     return () => {
-      return this.sub_animate(duration * this.delayMult, () => {});
+      return this.sub_animate(duration, () => {});
     };
   }
 
