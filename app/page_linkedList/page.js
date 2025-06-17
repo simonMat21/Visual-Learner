@@ -6,10 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
-import P5Sketch_mergeSort from "./P5Sketch_testPage";
+import P5Sketch_linkedList from "./P5Sketch_linkedList";
 
 export default function Home() {
-  const [AEBool, setAEBool] = useState(true);
   const [addForm, setAddForm] = useState({ val: 0, pos: 0, start: false });
   const [searchForm, setSearchForm] = useState({
     val: 0,
@@ -23,14 +22,12 @@ export default function Home() {
   const [animSpd, setAnimSpd] = useState(1);
 
   const updateForm = (n, key, value) => {
-    if (AEBool) {
-      if (n == 1) {
-        setAddForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 2) {
-        setDeleteForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 3) {
-        setSearchForm((prev) => ({ ...prev, [key]: value }));
-      }
+    if (n == 1) {
+      setAddForm((prev) => ({ ...prev, [key]: value }));
+    } else if (n == 2) {
+      setDeleteForm((prev) => ({ ...prev, [key]: value }));
+    } else if (n == 3) {
+      setSearchForm((prev) => ({ ...prev, [key]: value }));
     }
   };
   return (
@@ -42,6 +39,12 @@ export default function Home() {
         placeholder="Enter number to search"
         // value={form.elem}
         onChange={(e) => updateForm(1, "val", Number(e.target.value))}
+      />
+      <Input
+        className="w-lg"
+        placeholder="Enter position"
+        // value={form.pos}
+        onChange={(e) => updateForm(1, "pos", Number(e.target.value))}
       />
       <Button
         onClick={() => {
@@ -93,12 +96,11 @@ export default function Home() {
         onValueChange={([val]) => setAnimSpd(val)}
         className="w-64 h-6 "
       />
-      <P5Sketch_mergeSort
+      <P5Sketch_linkedList
         add={addForm}
         dlt={deleteForm}
         srch={searchForm}
         animSpd={animSpd}
-        actionExicutable={(b) => setAEBool(b)}
       />
     </main>
   );

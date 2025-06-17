@@ -3,13 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator";
 
-export default function P5Sketch_testPage({
-  dlt,
-  add,
-  srch,
-  animSpd,
-  actionExicutable,
-}) {
+export default function P5Sketch_linkedList({ dlt, add, srch, animSpd }) {
   const sketchRef = useRef(null);
   const deleteRef = useRef(dlt);
   const searchRef = useRef(srch);
@@ -62,7 +56,6 @@ export default function P5Sketch_testPage({
             P.noFill();
             P.strokeWeight(3);
             P.stroke(this.col[0], this.col[1], this.col[2], this.opacity);
-            P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
             P.pop();
           }
@@ -108,269 +101,9 @@ export default function P5Sketch_testPage({
             this.y = this.tail.y;
           }
         }
-
-        class bst {
-          constructor(root) {
-            this.root = root;
-          }
-
-          addNode(val) {
-            let root = this.root;
-            if (root === null || root === undefined) {
-              this.root = new Node(val);
-            }
-            while (root != null) {
-              // root.hilight();
-              if (root.val > val) {
-                if (root.lchild != null) {
-                  root = root.lchild;
-                } else {
-                  root.lchild = new Node(val);
-                  return;
-                }
-              } else {
-                if (root.rchild != null) {
-                  root = root.rchild;
-                } else {
-                  root.rchild = new Node((val = val));
-                  return;
-                }
-              }
-            }
-          }
-
-          showAll(rt = this.root) {
-            if (rt != null || rt != undefined) {
-              if (rt.rchild != null) {
-                this.showAll(rt.rchild);
-              }
-              if (rt.lchild != null) {
-                this.showAll(rt.lchild);
-              }
-            }
-          }
-        }
-
-        class Node {
-          constructor(
-            val = P.floor(P.random(100)),
-            x = P.random(P.width / 2),
-            y = P.random(P.height / 2),
-            wd = 1000
-          ) {
-            this.x = x;
-            this.y = y;
-            this.val = val;
-            this.wd = wd;
-            this.color = [];
-            this.opacity = 255;
-            this.parent = null;
-            this.rchild = null;
-            this.lchild = null;
-          }
-
-          show() {
-            P.push();
-            P.stroke(0, 0, 255, this.opacity);
-            P.strokeWeight(4);
-            P.noFill();
-            if (this.parent != null) {
-              // this.rchild.setPosition(
-              //   this.x + this.wd / 2,
-              //   this.y + 100,
-              //   this.wd / 2
-              // );
-              P.bezier(
-                this.x,
-                this.y,
-                this.x,
-                this.parent.y,
-                this.parent.x,
-                this.y,
-                this.parent.x,
-                this.parent.y
-              );
-            }
-            if (this.rchild != null) {
-              // this.rchild.setPosition(
-              //   this.x + this.wd / 2,
-              //   this.y + 100,
-              //   this.wd / 2
-              // );
-              // P.bezier(
-              //   this.x,
-              //   this.y,
-              //   this.x,
-              //   this.rchild.y,
-              //   this.rchild.x,
-              //   this.y,
-              //   this.rchild.x,
-              //   this.rchild.y
-              // );
-              this.rchild.show();
-            }
-            if (this.lchild != null) {
-              // this.lchild.setPosition(
-              //   this.x - this.wd / 2,
-              //   this.y + 100,
-              //   this.wd / 2
-              // );
-              // P.bezier(
-              //   this.x,
-              //   this.y,
-              //   this.x,
-              //   this.lchild.y,
-              //   this.lchild.x,
-              //   this.y,
-              //   this.lchild.x,
-              //   this.lchild.y
-              // );
-              this.lchild.show();
-            }
-            P.pop();
-
-            P.push();
-            //---------rect---------
-            // P.stroke(100);
-            // P.strokeWeight(3);
-            P.noStroke();
-            P.fill(68, 5, 97, this.opacity);
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
-            //---------text---------
-            P.fill(255, 105, 0, this.opacity);
-            P.strokeWeight(1);
-            P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(20);
-            P.noStroke();
-            P.text(this.val, this.x, this.y);
-            P.pop();
-          }
-
-          getPosition() {
-            return [this.x, this.y];
-          }
-
-          setPosition(x = this.x, y = this.y, wd = this.wd) {
-            this.wd = wd;
-            this.x = x;
-            this.y = y;
-          }
-
-          hilight() {
-            P.push();
-            P.stroke(42, 161, 152);
-            P.strokeWeight(4);
-            P.noFill();
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 80, 50, 10);
-            P.pop();
-          }
-        }
         //-----------------------------------------------------------------------------------------------
 
-        function addNodeN(val, root) {
-          checkers.push(new checker(root.x, root.y));
-          listOfActions.push({
-            funcName: "insert",
-            othArgs: [checkers[0]],
-          });
-          while (root != null) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [root, checkers[0]],
-            });
-            if (root.val > val) {
-              if (root.lchild != null) {
-                root = root.lchild;
-              } else {
-                listOfActions.push({
-                  funcName: "addNode",
-                  othArgs: [root, "l", val],
-                });
-                console.log(listOfActions);
-                return;
-              }
-            } else {
-              if (root.rchild != null) {
-                root = root.rchild;
-              } else {
-                listOfActions.push({
-                  funcName: "addNode",
-                  othArgs: [root, "r", val],
-                });
-                // root.rchild = new Node((val = val));
-                // root.rchild.parent = root;
-                // root.rchild.setPosition(
-                //   root.x + root.wd / 2,
-                //   root.y + 100,
-                //   root.wd / 2
-                // );
-                // listOfActions.push({
-                //   funcName: "tt",
-                //   othArgs: [root.rchild],
-                // });
-                return;
-              }
-            }
-          }
-        }
-        //-----------------------------------------------------------------------------------------------
-
-        function tt(_, [a]) {
-          return animator.animationSequence([
-            animator.from(50, [[a, a.parent.x, a.parent.y, 255]]),
-          ]);
-        }
-        function addNode_1(_, [parent, RorL, val]) {
-          let nNode = RorL === "r" ? parent.rchild : parent.lchild;
-          if (nNode === null) {
-            nNode = parent;
-          }
-          console.log(nNode, parent);
-          return animator.animationSequence([
-            animator.animateFunc(1, () => {
-              nNode = new Node(val, parent.x, parent.y);
-              nNode.parent = parent;
-              nNode.opacity = 0;
-              if (RorL === "r") {
-                console.log("hi");
-                parent.rchild = nNode;
-                nNode.setPosition(
-                  parent.x + parent.wd / 2,
-                  parent.y + 100,
-                  parent.wd / 2
-                );
-              } else {
-                parent.lchild = nNode;
-                nNode.setPosition(
-                  parent.x - parent.wd / 2,
-                  parent.y + 100,
-                  parent.wd / 2
-                );
-              }
-              checkers = [];
-            }),
-            animator.to(1, [[nNode, parent.x, parent.y, 0]]),
-            animator.animate(130, [
-              [
-                nNode,
-                animator.initialDiffSeq(nNode.x, parent.x, 0),
-                animator.initialDiffSeq(nNode.y, parent.y, 1),
-                255,
-              ],
-            ]),
-          ]);
-        }
-
-        function check(_, [a, ckr]) {
-          return animator.animationSequence([
-            animator.delay(10),
-            animator.to(40, [[ckr, a.x, a.y, 255]]),
-          ]);
-        }
-
-        function insert(_, [a]) {
+        function insert([a]) {
           return animator.animationSequence([
             animator.animate(1, [[a, 0, -50, 0]]),
             animator.animate(20, [[a, 0, 50, 255]]),
@@ -556,29 +289,21 @@ export default function P5Sketch_testPage({
         //------------------------------------------------------------------------------------------------
 
         let boxes = [];
-        // let nodes = [];
         let arrows = [];
         let checkers = [];
-        let root;
 
         let listOfActions = [];
 
         let animator;
         P.setup = () => {
           P.createCanvas(1000, 500);
-          root = new Node();
-          root.setPosition(P.width / 2, 50, P.width / 2);
-          // addNodeN(3, root);
-          root.show();
           animator = new Animator();
           animator.funtionsDictionary = {
             insert: insert,
-            addNode: addNode_1,
+            add: addNode,
             addArrow: addArrow,
             search: searchNode,
             delete: deleteNode,
-            tt: tt,
-            check: check,
           };
         };
 
@@ -588,14 +313,13 @@ export default function P5Sketch_testPage({
           P.background(220, 34, 72);
 
           animator.setDelayMult(animSpdRef.current);
-          if (animator.executing) {
-            actionExicutable(false);
-          } else {
-            actionExicutable(true);
-          }
 
           if (addRef.current.start) {
-            addNodeN(addRef.current.val, root);
+            listOfActions.push({
+              funcName: "add",
+              objArgs: boxes.map((_, i) => i),
+              othArgs: [boxes, [addRef.current.pos, addRef.current.val]],
+            });
             addRef.current.start = false;
           }
 
@@ -604,7 +328,7 @@ export default function P5Sketch_testPage({
               funcName: "delete",
               othArgs: [deleteRef.current.pos],
             });
-            addRef.current.add = false;
+            addRef.current.start = false;
           }
 
           if (searchRef.current.start) {
@@ -612,45 +336,45 @@ export default function P5Sketch_testPage({
               funcName: "search",
               othArgs: [searchRef.current.val],
             });
-            addRef.current.add = false;
+            addRef.current.start = false;
           }
 
           const liveInput = [5, 7, 2, 6, 9]; //inputRef.current;
           if (liveInput.length > 0) {
             if (!start) {
-              // for (let i = 0; i < liveInput.length; i++) {
-              //   boxes[i] = new box(100 + i * 80, 200, liveInput[i]);
-              //   animator.objectIdArray[i] = boxes[i];
-              // }
+              for (let i = 0; i < liveInput.length; i++) {
+                boxes[i] = new box(100 + i * 80, 200, liveInput[i]);
+                animator.objectIdArray[i] = boxes[i];
+                listOfActions.push({ funcName: "insert", objArgs: [i] });
+              }
 
-              // for (let i = 1; i < boxes.length; i++) {
-              //   arrows[i - 1] = new arrow(boxes[i - 1], boxes[i]);
-              // }
-              // listOfActions.push({
-              //   funcName: "addArrow",
-              //   othArgs: [arrows],
-              // });
+              for (let i = 1; i < boxes.length; i++) {
+                arrows[i - 1] = new arrow(boxes[i - 1], boxes[i]);
+              }
+              listOfActions.push({
+                funcName: "addArrow",
+                othArgs: [arrows],
+              });
 
-              // box.maxVal = boxes.reduce((max, obj) =>
-              //   obj.val > max.val ? obj : max
-              // ).val;
-              // box.minVal = boxes.reduce((max, obj) =>
-              //   obj.val < max.val ? obj : max
-              // ).val;
+              box.maxVal = boxes.reduce((max, obj) =>
+                obj.val > max.val ? obj : max
+              ).val;
+              box.minVal = boxes.reduce((max, obj) =>
+                obj.val < max.val ? obj : max
+              ).val;
 
               console.log(listOfActions);
 
               start = true;
             }
             animator.mainAnimationSequence(listOfActions);
-            // boxes.forEach((i) => {
-            //   i.show();
-            // });
-            // arrows.forEach((i) => {
-            //   i.show();
-            // });
+            boxes.forEach((i) => {
+              i.show();
+            });
+            arrows.forEach((i) => {
+              i.show();
+            });
             checkers.forEach((i) => i.show());
-            root.show();
           }
         };
       };

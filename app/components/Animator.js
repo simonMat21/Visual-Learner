@@ -16,6 +16,10 @@ export class Animator {
 
     this.objectIdArray = [];
     this.funtionsDictionary = {};
+
+    this.listOfActions = [];
+
+    this.executing = true;
   }
 
   setDelayMult(val) {
@@ -31,9 +35,16 @@ export class Animator {
    * @param {*} id unique id for the object.
    * @returns
    */
-  initialVal(a, b, id) {
+  initialVal(a, b = 0, id) {
     if (this.g[id] == 0 || this.g[id] == undefined) {
       this.g[id] = a - b;
+    }
+    return this.g[id];
+  }
+
+  iVSub(a = null, id = 0) {
+    if (a !== null && this.g[id] === undefined) {
+      this.g[id] = a;
     }
     return this.g[id];
   }
@@ -160,6 +171,34 @@ export class Animator {
     };
   }
 
+  from(duration, A) {
+    duration = duration <= 1 ? 1 : Math.floor(duration * this.delayMult);
+    if (A.length == 0) {
+      duration = 0;
+    }
+    return () => {
+      return this.sub_animate(duration, () => {
+        let copy = this.iVSub(
+          A.map(([obj]) => structuredClone(obj)),
+          1000
+        );
+        if (this.iVSub(null, 1001) === undefined) {
+          A.forEach(([obj, x, y, opacity]) => {
+            obj.x = x;
+            obj.y = y;
+            obj.opacity = opacity;
+          });
+          this.iVSub(1, 1001);
+        }
+        A.forEach(([obj, x, y, opacity], ind) => {
+          obj.opacity += (copy[ind].opacity - opacity) / duration;
+          obj.x += (copy[ind].x - x) / duration;
+          obj.y += (copy[ind].y - y) / duration;
+        });
+      });
+    };
+  }
+
   delay(duration) {
     return () => {
       return this.sub_animate(duration, () => {});
@@ -169,6 +208,7 @@ export class Animator {
   mainAnimationSequence(arr) {
     //arr = [{name:"",objArgs:[0,1,2],othArgs:[0,1]}]
     if (this.aniCount < arr.length) {
+      this.executing = true;
       const Arg = arr[this.aniCount];
       if (Arg.funcName in this.funtionsDictionary) {
         if (
@@ -181,6 +221,8 @@ export class Animator {
           this.aniCount++;
         }
       }
+    } else {
+      this.executing = false;
     }
   }
 }
