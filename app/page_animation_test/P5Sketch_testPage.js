@@ -22,32 +22,6 @@ export default function P5Sketch_testPage({
       const p5 = p5Module.default;
 
       const sketch = (P) => {
-        class box {
-          static maxVal = 100;
-          static minVal = 0;
-          constructor(x = 0, y = 0, val = P.floor(P.random() * 255)) {
-            this.x = x;
-            this.y = y;
-            this.val = val;
-            this.opacity = 0;
-            this.hide = false;
-          }
-
-          show() {
-            P.fill(
-              P.map(this.val, box.minVal, box.maxVal, 255, 50),
-              this.opacity
-            );
-            P.rect(this.x, this.y, 40);
-            P.fill(255, 105, 0, this.opacity);
-            P.strokeWeight(3);
-            P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(20);
-            P.noStroke();
-            P.text(this.val, this.x + 20, this.y + 20);
-          }
-        }
-
         class checker {
           constructor(x = 0, y = 0) {
             this.x = x;
@@ -68,89 +42,6 @@ export default function P5Sketch_testPage({
           }
         }
 
-        class arrow {
-          constructor(tail, head, x = 100, y = 100) {
-            this.opacity = 0;
-            this.hide = false;
-            this.head = head;
-            this.tail = tail;
-            this.x = head.x || x;
-            this.y = head.y || y;
-            this.lockToHead = false;
-          }
-
-          show() {
-            if (this.lockToHead) {
-              this.x = this.head.x;
-              this.y = this.head.y;
-            }
-            P.push();
-            P.noFill();
-            P.strokeWeight(3);
-            P.stroke(0, 0, 255, this.opacity);
-            P.bezier(
-              this.tail.x + 40,
-              this.tail.y + 20,
-              this.x,
-              this.tail.y + 20,
-              this.tail.x + 40,
-              this.y + 20,
-              this.x,
-              this.y + 20
-            );
-            P.line(this.x, this.y + 20, this.x - 5, this.y + 25);
-            P.line(this.x, this.y + 20, this.x - 5, this.y + 15);
-            P.pop();
-          }
-
-          resetToTail() {
-            this.x = this.tail.x + 40;
-            this.y = this.tail.y;
-          }
-        }
-
-        class bst {
-          constructor(root) {
-            this.root = root;
-          }
-
-          addNode(val) {
-            let root = this.root;
-            if (root === null || root === undefined) {
-              this.root = new Node(val);
-            }
-            while (root != null) {
-              // root.hilight();
-              if (root.val > val) {
-                if (root.lchild != null) {
-                  root = root.lchild;
-                } else {
-                  root.lchild = new Node(val);
-                  return;
-                }
-              } else {
-                if (root.rchild != null) {
-                  root = root.rchild;
-                } else {
-                  root.rchild = new Node((val = val));
-                  return;
-                }
-              }
-            }
-          }
-
-          showAll(rt = this.root) {
-            if (rt != null || rt != undefined) {
-              if (rt.rchild != null) {
-                this.showAll(rt.rchild);
-              }
-              if (rt.lchild != null) {
-                this.showAll(rt.lchild);
-              }
-            }
-          }
-        }
-
         class Node {
           constructor(
             val = P.floor(P.random(100)),
@@ -162,7 +53,6 @@ export default function P5Sketch_testPage({
             this.y = y;
             this.val = val;
             this.wd = wd;
-            this.color = [];
             this.opacity = 255;
             this.parent = null;
             this.rchild = null;
@@ -172,67 +62,32 @@ export default function P5Sketch_testPage({
           show() {
             P.push();
             P.stroke(0, 0, 255, this.opacity);
-            P.strokeWeight(4);
+            P.strokeWeight(3);
             P.noFill();
             if (this.parent != null) {
-              // this.rchild.setPosition(
-              //   this.x + this.wd / 2,
-              //   this.y + 100,
-              //   this.wd / 2
-              // );
               P.bezier(
                 this.x,
-                this.y,
+                this.y - 20,
                 this.x,
-                this.parent.y,
+                this.parent.y + 20,
                 this.parent.x,
-                this.y,
+                this.y - 20,
                 this.parent.x,
-                this.parent.y
+                this.parent.y + 20
               );
+              P.line(this.x, this.y - 21, this.x + 5, this.y - 21 - 5);
+              P.line(this.x, this.y - 21, this.x - 5, this.y - 21 - 5);
             }
             if (this.rchild != null) {
-              // this.rchild.setPosition(
-              //   this.x + this.wd / 2,
-              //   this.y + 100,
-              //   this.wd / 2
-              // );
-              // P.bezier(
-              //   this.x,
-              //   this.y,
-              //   this.x,
-              //   this.rchild.y,
-              //   this.rchild.x,
-              //   this.y,
-              //   this.rchild.x,
-              //   this.rchild.y
-              // );
               this.rchild.show();
             }
             if (this.lchild != null) {
-              // this.lchild.setPosition(
-              //   this.x - this.wd / 2,
-              //   this.y + 100,
-              //   this.wd / 2
-              // );
-              // P.bezier(
-              //   this.x,
-              //   this.y,
-              //   this.x,
-              //   this.lchild.y,
-              //   this.lchild.x,
-              //   this.y,
-              //   this.lchild.x,
-              //   this.lchild.y
-              // );
               this.lchild.show();
             }
             P.pop();
 
             P.push();
             //---------rect---------
-            // P.stroke(100);
-            // P.strokeWeight(3);
             P.noStroke();
             P.fill(68, 5, 97, this.opacity);
             P.rectMode(P.CENTER);
@@ -269,10 +124,25 @@ export default function P5Sketch_testPage({
         }
         //-----------------------------------------------------------------------------------------------
 
+        function getMin(node) {
+          if (checkers[1] === undefined) {
+            checkers.push(new checker(node.x, node.y));
+            listOfActions.push({
+              funcName: "insert",
+              othArgs: [checkers[1]],
+            });
+          }
+          while (node.lchild != null) {
+            node = node.lchild;
+          }
+          return node;
+        }
+
         function addNodeN(val, root) {
           checkers.push(new checker(root.x, root.y));
           listOfActions.push({
-            funcName: "insert",
+            // funcName: "insert",
+            func: insert,
             othArgs: [checkers[0]],
           });
           while (root != null) {
@@ -299,35 +169,57 @@ export default function P5Sketch_testPage({
                   funcName: "addNode",
                   othArgs: [root, "r", val],
                 });
-                // root.rchild = new Node((val = val));
-                // root.rchild.parent = root;
-                // root.rchild.setPosition(
-                //   root.x + root.wd / 2,
-                //   root.y + 100,
-                //   root.wd / 2
-                // );
-                // listOfActions.push({
-                //   funcName: "tt",
-                //   othArgs: [root.rchild],
-                // });
                 return;
               }
             }
           }
         }
+
+        function deleteNodeN(val, root) {
+          if (root == null) return null;
+          if (checkers[0] === undefined) {
+            checkers.push(new checker(root.x, root.y));
+            listOfActions.push({
+              funcName: "insert",
+              othArgs: [checkers[0]],
+            });
+          }
+          listOfActions.push({
+            funcName: "check",
+            othArgs: [root, checkers[0]],
+          });
+          if (val < root.val) {
+            root.lchild = deleteNodeN(val, root.lchild);
+          } else if (val > root.val) {
+            root.rchild = deleteNodeN(val, root.rchild);
+          } else {
+            // Node to delete found
+
+            // Case 1: No children
+
+            if (root.lchild == null && root.rchild == null) {
+              return null;
+            }
+
+            // Case 2: Only one child
+            if (root.lchild == null) return root.rchild;
+            if (root.rchild == null) return root.lchild;
+
+            // Case 3: Two children – find in-order successor
+            let minNode = getMin(root.rchild);
+            root.val = minNode.val;
+            root.rchild = deleteNode(minNode.val, root.rchild);
+          }
+
+          return root;
+        }
         //-----------------------------------------------------------------------------------------------
 
-        function tt(_, [a]) {
-          return animator.animationSequence([
-            animator.from(50, [[a, a.parent.x, a.parent.y, 255]]),
-          ]);
-        }
-        function addNode_1(_, [parent, RorL, val]) {
+        function addNode(_, [parent, RorL, val]) {
           let nNode = RorL === "r" ? parent.rchild : parent.lchild;
           if (nNode === null) {
             nNode = parent;
           }
-          console.log(nNode, parent);
           return animator.animationSequence([
             animator.animateFunc(1, () => {
               nNode = new Node(val, parent.x, parent.y);
@@ -349,10 +241,13 @@ export default function P5Sketch_testPage({
                   parent.wd / 2
                 );
               }
+            }),
+            animator.animate(15, [[checkers[0], 0, 0, -255]]),
+            animator.animateFunc(1, () => {
               checkers = [];
             }),
             animator.to(1, [[nNode, parent.x, parent.y, 0]]),
-            animator.animate(130, [
+            animator.animate(70, [
               [
                 nNode,
                 animator.initialDiffSeq(nNode.x, parent.x, 0),
@@ -361,6 +256,34 @@ export default function P5Sketch_testPage({
               ],
             ]),
           ]);
+        }
+
+        function deleteNode(val, root) {
+          if (root == null) return null;
+          if (val < root.val) {
+            root.lchild = deleteNode(val, root.lchild);
+          } else if (val > root.val) {
+            root.rchild = deleteNode(val, root.rchild);
+          } else {
+            // Node to delete found
+
+            // Case 1: No children
+
+            if (root.lchild == null && root.rchild == null) {
+              return null;
+            }
+
+            // Case 2: Only one child
+            if (root.lchild == null) return root.rchild;
+            if (root.rchild == null) return root.lchild;
+
+            // Case 3: Two children – find in-order successor
+            let minNode = getMin(root.rchild);
+            root.val = minNode.val;
+            root.rchild = deleteNode(minNode.val, root.rchild);
+          }
+
+          return root;
         }
 
         function check(_, [a, ckr]) {
@@ -374,81 +297,6 @@ export default function P5Sketch_testPage({
           return animator.animationSequence([
             animator.animate(1, [[a, 0, -50, 0]]),
             animator.animate(20, [[a, 0, 50, 255]]),
-          ]);
-        }
-
-        function addArrow(_, [ar]) {
-          return animator.animationSequence([
-            animator.to(
-              1,
-              ar.map((item) => [item, item.tail.x + 40, item.tail.y, 0])
-            ),
-            animator.to(
-              30,
-              ar.map((item) => [item, item.head.x, item.head.y, 255])
-            ),
-            animator.animateFunc(1, () => {
-              ar.forEach((item) => {
-                item.lockToHead = true;
-              });
-            }),
-          ]);
-        }
-
-        function addNode(__, [arr, [ind, val]]) {
-          let NewBox = boxes[ind];
-          let arToAdd = animator.iV(undefined, 0) || [];
-          const pos = [
-            animator.initialDiffSeq(arr[0].x, 0, 0),
-            animator.initialDiffSeq(arr[0].y, 0, 1),
-          ];
-          return animator.animationSequence([
-            animator.animateFunc(1, () => {
-              box.maxVal = box.maxVal > val ? box.maxVal : val;
-              box.minVal = box.minVal < val ? box.minVal : val;
-              arr.splice(ind, 0, new box(0, 0, val));
-              animator.objectIdArray.push(boxes[ind]);
-              NewBox = boxes[ind];
-              NewBox.x = pos[0];
-              NewBox.y = pos[1];
-            }),
-            animator.animate(1, [[NewBox, 0, -100, 0]]),
-            animator.animate(20, [[NewBox, 0, 50, 255]]),
-            ...Array.from(Array(ind).keys()).flatMap(() => [
-              animator.animate(30, [[NewBox, 80, 0, 0]]),
-              animator.delay(10),
-            ]),
-            animator.animate(
-              70,
-              arr.filter((_, i) => i > ind).map((item) => [item, 80, 0, 0])
-            ),
-            animator.animateFunc(1, () => {
-              if (ind == boxes.length - 1) {
-                arrows.push(new arrow(boxes[ind - 1], boxes[ind]));
-                arToAdd.push(arrows[arrows.length - 1]);
-              } else {
-                arrows.splice(ind, 0, new arrow(boxes[ind], boxes[ind + 1]));
-                arToAdd.push(arrows[ind]);
-
-                if (ind > 0) {
-                  arrows[ind - 1].head = boxes[ind];
-                  arrows[ind - 1].lockToHead = false;
-                  arrows[ind - 1].resetToTail();
-                  arrows[ind - 1].opacity = 0;
-                  arToAdd.unshift(arrows[ind - 1]);
-                }
-              }
-
-              animator.iV(arToAdd, 0);
-            }),
-            ...arToAdd.flatMap((ar) => [
-              animator.to(1, [[ar, ar.tail.x + 40, ar.tail.y, 0]]),
-              animator.to(30, [[ar, ar.head.x, ar.head.y, 255]]),
-              animator.animateFunc(1, () => {
-                ar.lockToHead = true;
-              }),
-            ]),
-            animator.animate(40, [[NewBox, 0, 50, 0]]),
           ]);
         }
 
@@ -556,7 +404,6 @@ export default function P5Sketch_testPage({
         //------------------------------------------------------------------------------------------------
 
         let boxes = [];
-        // let nodes = [];
         let arrows = [];
         let checkers = [];
         let root;
@@ -568,26 +415,24 @@ export default function P5Sketch_testPage({
           P.createCanvas(1000, 500);
           root = new Node();
           root.setPosition(P.width / 2, 50, P.width / 2);
-          // addNodeN(3, root);
           root.show();
           animator = new Animator();
-          animator.funtionsDictionary = {
+          animator.functionsDictionary = {
             insert: insert,
-            addNode: addNode_1,
-            addArrow: addArrow,
+            addNode: addNode,
             search: searchNode,
             delete: deleteNode,
-            tt: tt,
             check: check,
           };
         };
 
-        let start = false;
         P.draw = () => {
           P.frameRate(60);
           P.background(220, 34, 72);
 
+          animator.mainAnimationSequence(listOfActions);
           animator.setDelayMult(animSpdRef.current);
+
           if (animator.executing) {
             actionExicutable(false);
           } else {
@@ -615,43 +460,8 @@ export default function P5Sketch_testPage({
             addRef.current.add = false;
           }
 
-          const liveInput = [5, 7, 2, 6, 9]; //inputRef.current;
-          if (liveInput.length > 0) {
-            if (!start) {
-              // for (let i = 0; i < liveInput.length; i++) {
-              //   boxes[i] = new box(100 + i * 80, 200, liveInput[i]);
-              //   animator.objectIdArray[i] = boxes[i];
-              // }
-
-              // for (let i = 1; i < boxes.length; i++) {
-              //   arrows[i - 1] = new arrow(boxes[i - 1], boxes[i]);
-              // }
-              // listOfActions.push({
-              //   funcName: "addArrow",
-              //   othArgs: [arrows],
-              // });
-
-              // box.maxVal = boxes.reduce((max, obj) =>
-              //   obj.val > max.val ? obj : max
-              // ).val;
-              // box.minVal = boxes.reduce((max, obj) =>
-              //   obj.val < max.val ? obj : max
-              // ).val;
-
-              console.log(listOfActions);
-
-              start = true;
-            }
-            animator.mainAnimationSequence(listOfActions);
-            // boxes.forEach((i) => {
-            //   i.show();
-            // });
-            // arrows.forEach((i) => {
-            //   i.show();
-            // });
-            checkers.forEach((i) => i.show());
-            root.show();
-          }
+          root.show();
+          checkers.forEach((i) => i.show());
         };
       };
 

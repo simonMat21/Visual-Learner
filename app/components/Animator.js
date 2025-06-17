@@ -15,11 +15,11 @@ export class Animator {
     this.initialFuncSeqKeyArr = [];
 
     this.objectIdArray = [];
-    this.funtionsDictionary = {};
+    this.functionsDictionary = {};
 
     this.listOfActions = [];
 
-    this.executing = true;
+    this.executing = false;
   }
 
   setDelayMult(val) {
@@ -210,9 +210,20 @@ export class Animator {
     if (this.aniCount < arr.length) {
       this.executing = true;
       const Arg = arr[this.aniCount];
-      if (Arg.funcName in this.funtionsDictionary) {
+      if (Arg.funcName === undefined) {
+        // console.log(Arg);
         if (
-          this.funtionsDictionary[Arg.funcName](
+          Arg.func(
+            (Arg.objArgs || []).map((id) => this.objectIdArray[id]),
+            Arg.othArgs
+          )
+        ) {
+          this.w = 0;
+          this.aniCount++;
+        }
+      } else if (Arg.funcName in this.functionsDictionary) {
+        if (
+          this.functionsDictionary[Arg.funcName](
             (Arg.objArgs || []).map((id) => this.objectIdArray[id]),
             Arg.othArgs
           )
