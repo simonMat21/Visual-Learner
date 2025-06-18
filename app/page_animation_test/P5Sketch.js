@@ -319,6 +319,7 @@ export default function P5Sketch({
                     return animator.animationSequence([
                       animator.animateFunc(10, () => {
                         checkers[0].col = [0, 255, 0];
+                        console.log(curr);
                       }),
                       animator.animate(30, [
                         [curr, 0, 0, -255],
@@ -441,6 +442,7 @@ export default function P5Sketch({
                   },
                 });
               }
+              return curr;
             }
             if (val < curr.val) curr = curr.lchild;
             else curr = curr.rchild;
