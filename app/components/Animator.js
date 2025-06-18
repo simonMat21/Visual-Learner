@@ -199,6 +199,47 @@ export class Animator {
     };
   }
 
+  mix(duration, A) {
+    duration = duration <= 1 ? 1 : Math.floor(duration * this.delayMult);
+    if (A.length == 0) {
+      duration = 0;
+    }
+    return () => {
+      return this.sub_animate(duration, () => {
+        let copy = this.iVSub(
+          A.map(([_, obj]) => structuredClone(obj)),
+          1000
+        );
+        if (this.iVSub(null, 1001) === undefined) {
+          A.filter(([tag]) => tag === "from").forEach(
+            ([_, obj, x, y, opacity]) => {
+              obj.x = x;
+              obj.y = y;
+              obj.opacity = opacity;
+            }
+          );
+          this.iVSub(1, 1001);
+        }
+        A.forEach(([tag, obj, x, y, opacity], ind) => {
+          if (tag === "from") {
+            obj.opacity += (copy[ind].opacity - opacity) / duration;
+            obj.x += (copy[ind].x - x) / duration;
+            obj.y += (copy[ind].y - y) / duration;
+          } else if (tag === "to") {
+            obj.opacity +=
+              this.initialVal(opacity, obj.opacity, 1002 + ind * 3) / duration;
+            obj.x += this.initialVal(x, obj.x, 1003 + ind * 3) / duration;
+            obj.y += this.initialVal(y, obj.y, 1004 + ind * 3) / duration;
+          } else if (tag === "animate") {
+            a.opacity += opacity / duration;
+            a.x += x / duration;
+            a.y += y / duration;
+          }
+        });
+      });
+    };
+  }
+
   delay(duration) {
     return () => {
       return this.sub_animate(duration, () => {});

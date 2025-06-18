@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator";
 
-export default function P5Sketch_testPage({
+export default function P5Sketch({
   dlt,
   add,
   srch,
@@ -141,8 +141,8 @@ export default function P5Sketch_testPage({
         function addNodeN(val, root) {
           checkers.push(new checker(root.x, root.y));
           listOfActions.push({
-            // funcName: "insert",
-            func: insert,
+            funcName: "insert",
+            // func: insert,
             othArgs: [checkers[0]],
           });
           while (root != null) {

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
-import P5Sketch_mergeSort from "./P5Sketch_testPage";
+import P5Sketch from "./P5Sketch";
 
 export default function Home() {
   const [AEBool, setAEBool] = useState(true);
@@ -37,53 +37,58 @@ export default function Home() {
     <main>
       <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
       {/* <NumberInput onSubmit={(arr) => setData(arr)} /> */}
-      <Input
-        className="w-lg"
-        placeholder="Enter number to search"
-        // value={form.elem}
-        onChange={(e) => updateForm(1, "val", Number(e.target.value))}
-      />
-      <Button
-        onClick={() => {
-          updateForm(1, "start", true);
-          setTimeout(() => updateForm(1, "start", false), 10);
-        }}
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-      >
-        add
-      </Button>
+      <div className="flex items-center gap-2">
+        <Input
+          className="w-50"
+          placeholder="Enter number to search"
+          onChange={(e) => updateForm(1, "val", Number(e.target.value))}
+        />
+        <Button
+          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
+          onClick={() => {
+            updateForm(1, "start", true);
+            setTimeout(() => updateForm(1, "start", false), 10);
+          }}
+        >
+          add
+        </Button>
+      </div>
 
-      <Input
-        className="w-lg"
-        placeholder="Enter position"
-        // value={form.pos}
-        onChange={(e) => updateForm(3, "val", Number(e.target.value))}
-      />
-      <Button
-        onClick={() => {
-          updateForm(3, "start", true);
-          setTimeout(() => updateForm(3, "start", false), 10);
-        }}
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-      >
-        search
-      </Button>
+      <div className="flex items-center gap-2">
+        <Input
+          className="w-50"
+          placeholder="Enter position"
+          // value={form.pos}
+          onChange={(e) => updateForm(3, "val", Number(e.target.value))}
+        />
+        <Button
+          onClick={() => {
+            updateForm(3, "start", true);
+            setTimeout(() => updateForm(3, "start", false), 10);
+          }}
+          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
+        >
+          search
+        </Button>
+      </div>
 
-      <Input
-        className="w-lg"
-        placeholder="Enter position"
-        // value={form.pos}
-        onChange={(e) => updateForm(2, "pos", Number(e.target.value))}
-      />
-      <Button
-        onClick={() => {
-          updateForm(2, "start", true);
-          setTimeout(() => updateForm(2, "start", false), 10);
-        }}
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-      >
-        delete
-      </Button>
+      <div className="flex items-center gap-2">
+        <Input
+          className="w-50"
+          placeholder="Enter position"
+          // value={form.pos}
+          onChange={(e) => updateForm(2, "pos", Number(e.target.value))}
+        />
+        <Button
+          onClick={() => {
+            updateForm(2, "start", true);
+            setTimeout(() => updateForm(2, "start", false), 10);
+          }}
+          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
+        >
+          delete
+        </Button>
+      </div>
 
       <Slider
         defaultValue={[1]}
@@ -93,7 +98,7 @@ export default function Home() {
         onValueChange={([val]) => setAnimSpd(val)}
         className="w-64 h-6 "
       />
-      <P5Sketch_mergeSort
+      <P5Sketch
         add={addForm}
         dlt={deleteForm}
         srch={searchForm}
