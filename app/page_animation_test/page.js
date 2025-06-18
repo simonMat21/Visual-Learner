@@ -23,7 +23,7 @@ export default function Home() {
   const [animSpd, setAnimSpd] = useState(1);
 
   const updateForm = (n, key, value) => {
-    if (AEBool) {
+    if (key !== "start" || AEBool) {
       if (n == 1) {
         setAddForm((prev) => ({ ...prev, [key]: value }));
       } else if (n == 2) {

@@ -42,6 +42,31 @@ export default function P5Sketch({
           }
         }
 
+        class box {
+          constructor(val, x, y, op) {
+            this.val = val;
+            this.x = x;
+            this.y = y;
+            this.opacity = op;
+          }
+          show() {
+            P.push();
+            //---------rect---------
+            P.noStroke();
+            P.fill(68, 5, 97, this.opacity);
+            P.rectMode(P.CENTER);
+            P.rect(this.x, this.y, 40);
+            //---------text---------
+            P.fill(255, 105, 0, this.opacity);
+            P.strokeWeight(1);
+            P.textAlign(P.CENTER, P.CENTER);
+            P.textSize(20);
+            P.noStroke();
+            P.text(this.val, this.x, this.y);
+            P.pop();
+          }
+        }
+
         class Node {
           constructor(
             val = P.floor(P.random(100)),
@@ -57,6 +82,7 @@ export default function P5Sketch({
             this.parent = null;
             this.rchild = null;
             this.lchild = null;
+            this.hide = false;
           }
 
           show() {
@@ -86,20 +112,22 @@ export default function P5Sketch({
             }
             P.pop();
 
-            P.push();
-            //---------rect---------
-            P.noStroke();
-            P.fill(68, 5, 97, this.opacity);
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
-            //---------text---------
-            P.fill(255, 105, 0, this.opacity);
-            P.strokeWeight(1);
-            P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(20);
-            P.noStroke();
-            P.text(this.val, this.x, this.y);
-            P.pop();
+            if (!this.hide) {
+              P.push();
+              //---------rect---------
+              P.noStroke();
+              P.fill(68, 5, 97, this.opacity);
+              P.rectMode(P.CENTER);
+              P.rect(this.x, this.y, 40);
+              //---------text---------
+              P.fill(255, 105, 0, this.opacity);
+              P.strokeWeight(1);
+              P.textAlign(P.CENTER, P.CENTER);
+              P.textSize(20);
+              P.noStroke();
+              P.text(this.val, this.x, this.y);
+              P.pop();
+            }
           }
 
           getPosition() {
@@ -247,72 +275,28 @@ export default function P5Sketch({
           return null; // Not found
         }
 
-        function deleteNode(val, root) {
-          let curr = root;
-          let parent = null;
+        function getAllNodesWithData(curr, x, y, opacity) {
+          const result = [];
+          const stack = [];
 
-          // Step 1: Search for the node to delete
-          while (curr && curr.val !== val) {
-            parent = curr;
-            if (val < curr.val) curr = curr.lchild;
-            else curr = curr.rchild;
+          if (!curr) return result;
+
+          stack.push(curr);
+
+          while (stack.length > 0) {
+            const node = stack.pop();
+            result.push([node, x, y, opacity]);
+
+            // Push right child first so left is processed first (like in DFS preorder)
+            if (node.rchild) stack.push(node.rchild);
+            if (node.lchild) stack.push(node.lchild);
           }
 
-          if (!curr) return root; // Not found
-
-          // Helper to replace a node in the parent
-          function replaceInParent(node, newNode) {
-            if (!node.parent) {
-              // Node is root
-              if (newNode) newNode.parent = null;
-              return newNode;
-            }
-            if (node.parent.lchild === node) {
-              node.parent.lchild = newNode;
-            } else {
-              node.parent.rchild = newNode;
-            }
-            if (newNode) newNode.parent = node.parent;
-            return root;
-          }
-
-          // Case 1: Node has no children
-          if (!curr.lchild && !curr.rchild) {
-            return replaceInParent(curr, null);
-          }
-
-          // Case 2: Node has one child
-          if (!curr.lchild || !curr.rchild) {
-            const child = curr.lchild || curr.rchild;
-            return replaceInParent(curr, child);
-          }
-
-          // Case 3: Node has two children
-          // Find in-order successor (leftmost in right subtree)
-          let successor = curr.rchild;
-          while (successor.lchild) {
-            successor = successor.lchild;
-          }
-
-          // Copy successor value to current node
-          curr.val = successor.val;
-
-          // Delete successor (it has at most one child)
-          if (successor.parent.lchild === successor) {
-            successor.parent.lchild = successor.rchild;
-          } else {
-            successor.parent.rchild = successor.rchild;
-          }
-
-          if (successor.rchild) {
-            successor.rchild.parent = successor.parent;
-          }
-
-          return root;
+          return result;
         }
 
-        function deleteNodeN(val, root) {
-          if (root == null) return null;
+        function deleteNode_test(val, root) {
+          let curr = root;
           if (checkers[0] === undefined) {
             checkers[0] = new checker(root.x, root.y);
             listOfActions.push({
@@ -320,95 +304,163 @@ export default function P5Sketch({
               othArgs: [checkers[0]],
             });
           }
-          listOfActions.push({
-            funcName: "check",
-            othArgs: [root, checkers[0]],
-          });
-          if (val < root.val) {
-            root.lchild = deleteNodeN(val, root.lchild);
-          } else if (val > root.val) {
-            root.rchild = deleteNodeN(val, root.rchild);
-          } else {
-            // Node to delete found
 
+          while (curr) {
             listOfActions.push({
-              func: function () {
-                return animator.animationSequence([
-                  animator.animateFunc(10, () => {
-                    checkers[0].col = [0, 255, 0];
-                  }),
-                  animator.animate(40, [[checkers[0], 0, 0, -255]]),
-                  animator.animateFunc(1, () => {
-                    checkers.splice(0, 1);
-                  }),
-                ]);
-              },
+              funcName: "check",
+              othArgs: [curr, checkers[0]],
             });
+            if (curr.val === val) {
+              // Case 1: No children
 
-            // Case 1: No children
+              if (curr.lchild == null && curr.rchild == null) {
+                listOfActions.push({
+                  func: function () {
+                    return animator.animationSequence([
+                      animator.animateFunc(10, () => {
+                        checkers[0].col = [0, 255, 0];
+                      }),
+                      animator.animate(30, [
+                        [curr, 0, 0, -255],
+                        [checkers[0], 0, 0, -255],
+                      ]),
+                      animator.animateFunc(1, () => {
+                        checkers.splice(0, 1);
+                        if (curr.parent.rchild === curr) {
+                          curr.parent.rchild = null;
+                        } else {
+                          curr.parent.lchild = null;
+                        }
+                      }),
+                    ]);
+                  },
+                });
+              }
 
-            if (root.lchild == null && root.rchild == null) {
-              listOfActions.push({
-                func: function () {
-                  return animator.animationSequence([
-                    animator.animate(30, [[root, 0, 0, -255]]),
-                    animator.animateFunc(1, () => {
-                      if (root.parent.rchild === root) {
-                        root.parent.rchild = null;
-                      } else {
-                        root.parent.lchild = null;
-                      }
-                    }),
-                  ]);
-                },
-              });
-              return root;
+              // Case 2: Only one child
+              else if (curr.lchild == null) {
+                listOfActions.push({
+                  func: function () {
+                    return animator.animationSequence([
+                      animator.animateFunc(10, () => {
+                        checkers[0].col = [0, 255, 0];
+                      }),
+                      animator.animate(30, [
+                        [curr, 0, 0, -255],
+                        [checkers[0], 0, 0, -255],
+                      ]),
+                      animator.animate(
+                        30,
+                        getAllNodesWithData(
+                          curr.rchild,
+                          animator.initialDiffSeq(curr.x, curr.rchild.x, 0),
+                          animator.initialDiffSeq(curr.y, curr.rchild.y, 1),
+                          0
+                        )
+                      ),
+                      animator.animateFunc(1, () => {
+                        checkers.splice(0, 1);
+                        if (curr.parent.lchild === curr) {
+                          curr.parent.lchild = curr.rchild;
+                        } else {
+                          curr.parent.rchild = curr.rchild;
+                        }
+                        curr.rchild.parent = curr.parent;
+                      }),
+                    ]);
+                  },
+                });
+              } else if (curr.rchild == null) {
+                listOfActions.push({
+                  func: function () {
+                    return animator.animationSequence([
+                      animator.animateFunc(10, () => {
+                        checkers[0].col = [0, 255, 0];
+                      }),
+                      animator.animate(30, [
+                        [curr, 0, 0, -255],
+                        [checkers[0], 0, 0, -255],
+                      ]),
+                      animator.animate(
+                        30,
+                        getAllNodesWithData(
+                          curr.lchild,
+                          animator.initialDiffSeq(curr.x, curr.lchild.x, 0),
+                          animator.initialDiffSeq(curr.y, curr.lchild.y, 1),
+                          0
+                        )
+                      ),
+                      animator.animateFunc(1, () => {
+                        checkers.splice(0, 1);
+                        if (curr.parent.lchild === curr) {
+                          curr.parent.lchild = curr.lchild;
+                        } else {
+                          curr.parent.rchild = curr.lchild;
+                        }
+                        curr.lchild.parent = curr.parent;
+                      }),
+                    ]);
+                  },
+                });
+              } else {
+                // Case 3: Two children – find in-order successor
+                let minNode = getMin(curr.rchild);
+
+                listOfActions.push({
+                  func: function () {
+                    return animator.animationSequence([
+                      animator.animateFunc(1, () => {
+                        checkers.splice(0, 1);
+                        boxes[0] = new box(
+                          curr.val,
+                          curr.x,
+                          curr.y,
+                          curr.opacity
+                        );
+                        boxes[1] = new box(
+                          minNode.val,
+                          minNode.x,
+                          minNode.y,
+                          minNode.opacity
+                        );
+                        curr.hide = true;
+                        minNode.hide = true;
+                      }),
+                      animator.to(90, [
+                        [boxes[0], minNode.x, minNode.y, 255],
+                        [boxes[1], curr.x, curr.y, 255],
+                      ]),
+                      animator.animateFunc(1, () => {
+                        boxes = [];
+                        [curr.val, minNode.val] = [minNode.val, curr.val];
+                        curr.hide = false;
+                        minNode.hide = false;
+                        deleteNode_test(val, curr.rchild);
+                      }),
+                    ]);
+                  },
+                });
+              }
             }
-
-            // Case 2: Only one child
-            if (root.lchild == null) {
-              listOfActions.push({
-                func: function () {
-                  return animator.animationSequence([
-                    animator.animate(30, [[root, 0, 0, -255]]),
-                    animator.animateFunc(1, () => {
-                      if (root.parent.rchild === root) {
-                        root.parent.rchild = null;
-                      } else {
-                        root.parent.lchild = null;
-                      }
-                    }),
-                  ]);
-                },
-              });
-              return root.rchild;
-            }
-            if (root.rchild == null) {
-              listOfActions.push({
-                func: function () {
-                  return animator.animationSequence([
-                    animator.animate(30, [[root, 0, 0, -255]]),
-                    animator.animateFunc(1, () => {
-                      if (root.parent.rchild === root) {
-                        root.parent.rchild = null;
-                      } else {
-                        root.parent.lchild = null;
-                      }
-                    }),
-                  ]);
-                },
-              });
-              return root.lchild;
-            }
-
-            // Case 3: Two children – find in-order successor
-            let minNode = getMin(root.rchild);
-            root.val = minNode.val;
-            root.rchild = deleteNodeN(minNode.val, root.rchild);
+            if (val < curr.val) curr = curr.lchild;
+            else curr = curr.rchild;
           }
-
-          return root;
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(10, () => {
+                  checkers[0].col = [0, 0, 0];
+                }),
+                animator.animate(40, [[checkers[0], 0, 0, -255]]),
+                animator.animateFunc(1, () => {
+                  checkers.splice(0, 1);
+                }),
+              ]);
+            },
+          });
+          return null; // Not found
         }
+
         //-----------------------------------------------------------------------------------------------
 
         function addNode(_, [parent, RorL, val]) {
@@ -504,7 +556,6 @@ export default function P5Sketch({
         //------------------------------------------------------------------------------------------------
 
         let boxes = [];
-        let arrows = [];
         let checkers = [];
         let root;
 
@@ -549,7 +600,7 @@ export default function P5Sketch({
             //   othArgs: [deleteRef.current.pos],
             // });
             // getMin(root);
-            deleteNodeN(deleteRef.current.pos, root);
+            deleteNode_test(deleteRef.current.pos, root);
             deleteRef.current.add = false;
           }
 
@@ -560,6 +611,7 @@ export default function P5Sketch({
 
           root.show();
           checkers.forEach((i) => i.show());
+          boxes.forEach((i) => i.show());
         };
       };
 
