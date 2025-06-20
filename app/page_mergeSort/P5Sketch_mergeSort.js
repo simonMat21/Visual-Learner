@@ -189,7 +189,7 @@ export default function P5Sketch_mergeSort({ inputArray }) {
           P.createCanvas(1000, 500);
           animator = new Animator();
           // animator.delayMult = 0.5;
-          animator.funtionsDictionary = {
+          animator.functionsDictionary = {
             insert: insert,
             div: div,
             merge: merge,

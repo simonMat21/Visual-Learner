@@ -165,7 +165,7 @@ export default function P5Sketch_binarySearch({
         P.setup = () => {
           P.createCanvas(1000, 500);
           animator = new Animator();
-          animator.funtionsDictionary = {
+          animator.functionsDictionary = {
             insert: insert,
             check: check,
             sort: Sort,

@@ -43,32 +43,6 @@ export default function P5Sketch({
         }
 
         class box {
-          static maxVal = 100;
-          static minVal = 0;
-          constructor(x = 0, y = 0, val = P.floor(P.random() * 255)) {
-            this.x = x;
-            this.y = y;
-            this.val = val;
-            this.opacity = 0;
-            this.hide = false;
-          }
-
-          show() {
-            P.fill(
-              P.map(this.val, box.minVal, box.maxVal, 255, 50),
-              this.opacity
-            );
-            P.rect(this.x, this.y, 40);
-            P.fill(255, 105, 0, this.opacity);
-            P.strokeWeight(3);
-            P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(20);
-            P.noStroke();
-            P.text(this.val, this.x + 20, this.y + 20);
-          }
-        }
-
-        class box_ertra {
           constructor(val, x, y, op) {
             this.val = val;
             this.x = x;
@@ -175,10 +149,6 @@ export default function P5Sketch({
             P.rect(this.x, this.y, 80, 50, 10);
             P.pop();
           }
-        }
-
-        class heap {
-          constructor() {}
         }
         //-----------------------------------------------------------------------------------------------
 
@@ -442,13 +412,13 @@ export default function P5Sketch({
                     return animator.animationSequence([
                       animator.animateFunc(1, () => {
                         checkers.splice(0, 1);
-                        boxes[0] = new box_ertra(
+                        boxes[0] = new box(
                           curr.val,
                           curr.x,
                           curr.y,
                           curr.opacity
                         );
-                        boxes[1] = new box_ertra(
+                        boxes[1] = new box(
                           minNode.val,
                           minNode.x,
                           minNode.y,
@@ -594,14 +564,12 @@ export default function P5Sketch({
         let listOfActions = [];
 
         let animator;
-        let animator2;
         P.setup = () => {
           P.createCanvas(1000, 500);
           root = new Node();
           root.setPosition(P.width / 2, 50, P.width / 2);
           root.show();
           animator = new Animator();
-          animator2 = new Animator();
           animator.functionsDictionary = {
             insert: insert,
             addNode: addNode,

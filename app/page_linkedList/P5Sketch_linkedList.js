@@ -298,7 +298,7 @@ export default function P5Sketch_linkedList({ dlt, add, srch, animSpd }) {
         P.setup = () => {
           P.createCanvas(1000, 500);
           animator = new Animator();
-          animator.funtionsDictionary = {
+          animator.functionsDictionary = {
             insert: insert,
             add: addNode,
             addArrow: addArrow,

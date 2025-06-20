@@ -21,6 +21,8 @@ export default function Home() {
       <br></br>
       <a href="/page_linkedList">linked List</a>
       <br></br>
+      <a href="/page_bst">BST</a>
+      <br></br>
       <a href="/page_animation_test">animation test</a>
     </main>
   );
