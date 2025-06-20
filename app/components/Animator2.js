@@ -35,11 +35,18 @@ export class Animator {
    * @param {*} id unique id for the object.
    * @returns
    */
-  initialVal(a, b = 0, id) {
+  initialVal(a, id) {
     if (this.g[id] == 0 || this.g[id] == undefined) {
-      this.g[id] = a - b;
+      this.g[id] = a;
     }
     return this.g[id];
+  }
+
+  initialValSeq(a = null, id = 0) {
+    if (a !== null && this.initialValArray[id] === undefined) {
+      this.initialValArray[id] = a;
+    }
+    return this.initialValArray[id];
   }
 
   iVSub(a = null, id = 0) {
@@ -75,19 +82,6 @@ export class Animator {
       this.v[id] = a - b;
     }
     return this.v[id];
-  }
-
-  /**
-   * this gets the value and refreshes it at the end of the animation sequence.
-   * @param {*} a
-   * @param {*} id
-   * @returns
-   */
-  iV(a = null, id = 0) {
-    if (a !== null && this.initialValArray[id] === undefined) {
-      this.initialValArray[id] = a;
-    }
-    return this.initialValArray[id];
   }
 
   /**
@@ -168,7 +162,7 @@ export class Animator {
           for (const key in changes) {
             if (typeof changes[key] === "number") {
               obj[key] +=
-                this.initialVal(changes[key], obj[key], 1001 + ind) / duration;
+                this.initialVal(changes[key] - obj[key], 1001 + ind) / duration;
             }
           }
         });
@@ -253,29 +247,18 @@ export class Animator {
     };
   }
 
-  mainAnimationSequence(arr) {
-    //arr = [{name:"",objArgs:[0,1,2],othArgs:[0,1]}]
-    if (this.aniCount < arr.length) {
+  mainAnimationSequence() {
+    //arr = [{name:"",Args:[0,1]}]
+    if (this.aniCount < this.listOfActions.length) {
       this.executing = true;
-      const Arg = arr[this.aniCount];
+      const Arg = this.listOfActions[this.aniCount];
       if (Arg.funcName === undefined) {
-        // console.log(Arg);
-        if (
-          Arg.func(
-            (Arg.objArgs || []).map((id) => this.objectIdArray[id]),
-            Arg.othArgs
-          )
-        ) {
+        if (Arg.func(Arg.Args || [])) {
           this.w = 0;
           this.aniCount++;
         }
       } else if (Arg.funcName in this.functionsDictionary) {
-        if (
-          this.functionsDictionary[Arg.funcName](
-            (Arg.objArgs || []).map((id) => this.objectIdArray[id]),
-            Arg.othArgs
-          )
-        ) {
+        if (this.functionsDictionary[Arg.funcName](Arg.Args || [])) {
           this.w = 0;
           this.aniCount++;
         }
@@ -283,5 +266,9 @@ export class Animator {
     } else {
       this.executing = false;
     }
+  }
+
+  addStage(stage) {
+    this.listOfActions.push(stage);
   }
 }

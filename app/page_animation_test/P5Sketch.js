@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { Animator } from "../components/Animator";
+import { Animator } from "../components/Animator2";
 
 export default function P5Sketch({
   dlt,
@@ -68,520 +68,173 @@ export default function P5Sketch({
           }
         }
 
-        class box_ertra {
-          constructor(val, x, y, op) {
-            this.val = val;
-            this.x = x;
-            this.y = y;
-            this.opacity = op;
-          }
-          show() {
-            P.push();
-            //---------rect---------
-            P.noStroke();
-            P.fill(68, 5, 97, this.opacity);
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
-            //---------text---------
-            P.fill(255, 105, 0, this.opacity);
-            P.strokeWeight(1);
-            P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(20);
-            P.noStroke();
-            P.text(this.val, this.x, this.y);
-            P.pop();
-          }
-        }
-
-        class Node {
-          constructor(
-            val = P.floor(P.random(100)),
-            x = P.random(P.width / 2),
-            y = P.random(P.height / 2),
-            wd = 1000
-          ) {
-            this.x = x;
-            this.y = y;
-            this.val = val;
-            this.wd = wd;
-            this.opacity = 255;
-            this.parent = null;
-            this.rchild = null;
-            this.lchild = null;
-            this.hide = false;
-          }
-
-          show() {
-            P.push();
-            P.stroke(0, 0, 255, this.opacity);
-            P.strokeWeight(3);
-            P.noFill();
-            if (this.parent != null) {
-              P.bezier(
-                this.x,
-                this.y - 20,
-                this.x,
-                this.parent.y + 20,
-                this.parent.x,
-                this.y - 20,
-                this.parent.x,
-                this.parent.y + 20
-              );
-              P.line(this.x, this.y - 21, this.x + 5, this.y - 21 - 5);
-              P.line(this.x, this.y - 21, this.x - 5, this.y - 21 - 5);
-            }
-            if (this.rchild != null) {
-              this.rchild.show();
-            }
-            if (this.lchild != null) {
-              this.lchild.show();
-            }
-            P.pop();
-
-            if (!this.hide) {
-              P.push();
-              //---------rect---------
-              P.noStroke();
-              P.fill(68, 5, 97, this.opacity);
-              P.rectMode(P.CENTER);
-              P.rect(this.x, this.y, 40);
-              //---------text---------
-              P.fill(255, 105, 0, this.opacity);
-              P.strokeWeight(1);
-              P.textAlign(P.CENTER, P.CENTER);
-              P.textSize(20);
-              P.noStroke();
-              P.text(this.val, this.x, this.y);
-              P.pop();
-            }
-          }
-
-          getPosition() {
-            return [this.x, this.y];
-          }
-
-          setPosition(x = this.x, y = this.y, wd = this.wd) {
-            this.wd = wd;
-            this.x = x;
-            this.y = y;
-          }
-
-          hilight() {
-            P.push();
-            P.stroke(42, 161, 152);
-            P.strokeWeight(4);
-            P.noFill();
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 80, 50, 10);
-            P.pop();
-          }
-        }
-
-        class heap {
-          constructor() {}
-        }
         //-----------------------------------------------------------------------------------------------
+        function heapSort(arr) {
+          const n = arr.length;
 
-        function getMin(node) {
-          if (checkers[1] === undefined) {
-            checkers[1] = new checker(node.x, node.y);
-            checkers[1].col = [200, 150, 255];
-            listOfActions.push({
-              funcName: "insert",
-              othArgs: [checkers[1]],
-            });
-          }
-          while (node.lchild != null) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [node, checkers[1]],
-            });
-            node = node.lchild;
-          }
-          listOfActions.push({
-            funcName: "check",
-            othArgs: [node, checkers[1]],
-          });
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[1].col = [0, 255, 0];
-                }),
-                animator.animate(40, [[checkers[1], 0, 0, -255]]),
-                animator.animateFunc(1, () => {
-                  checkers.splice(1, 1);
-                }),
-              ]);
-            },
-            othArgs: [root, checkers[0]],
-          });
-          return node;
-        }
+          // Heapify subtree rooted at index i
+          function heapify(arr, n, i) {
+            let largest = i; // Initialize largest as root
+            const left = 2 * i + 1; // left child index
+            const right = 2 * i + 2; // right child index
 
-        function addNodeN(val, root) {
-          checkers.push(new checker(root.x, root.y));
-          listOfActions.push({
-            funcName: "insert",
-            // func: insert,
-            othArgs: [checkers[0]],
-          });
-          while (root != null) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [root, checkers[0]],
-            });
-            if (root.val > val) {
-              if (root.lchild != null) {
-                root = root.lchild;
-              } else {
-                listOfActions.push({
-                  funcName: "addNode",
-                  othArgs: [root, "l", val],
-                });
-                console.log(listOfActions);
-                return;
-              }
-            } else {
-              if (root.rchild != null) {
-                root = root.rchild;
-              } else {
-                listOfActions.push({
-                  funcName: "addNode",
-                  othArgs: [root, "r", val],
-                });
-                return;
-              }
+            // If left child is larger than root
+            if (left < n && arr[left] > arr[largest]) {
+              largest = left;
             }
-          }
-        }
-        function searchNodeN(val, root) {
-          let curr = root;
-          if (checkers[0] === undefined) {
-            checkers[0] = new checker(root.x, root.y);
-            listOfActions.push({
-              funcName: "insert",
-              othArgs: [checkers[0]],
-            });
-          }
 
-          while (curr) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [curr, checkers[0]],
-            });
-            if (curr.val === val) {
-              listOfActions.push({
+            // If right child is larger than largest so far
+            if (right < n && arr[right] > arr[largest]) {
+              largest = right;
+            }
+
+            // If largest is not root
+            if (largest !== i) {
+              [arr[i], arr[largest]] = [arr[largest], arr[i]]; // Swap
+
+              animator.addStage({
+                funcName: "swap",
+                Args: [boxes[i], boxes[largest]],
+              });
+              animator.addStage({
                 func: function () {
                   return animator.animationSequence([
-                    animator.animateFunc(10, () => {
-                      checkers[0].col = [0, 255, 0];
-                    }),
-                    animator.animate(40, [[checkers[0], 0, 0, -255]]),
                     animator.animateFunc(1, () => {
-                      checkers.splice(0, 1);
+                      [boxes[i], boxes[largest]] = [boxes[largest], boxes[i]];
                     }),
                   ]);
                 },
               });
-              return curr;
+
+              // Recursively heapify the affected sub-tree
+              heapify(arr, n, largest);
             }
-            if (val < curr.val) curr = curr.lchild;
-            else curr = curr.rchild;
           }
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[0].col = [0, 0, 0];
-                }),
-                animator.animate(40, [[checkers[0], 0, 0, -255]]),
-                animator.animateFunc(1, () => {
-                  checkers.splice(0, 1);
-                }),
-              ]);
-            },
-          });
-          return null; // Not found
+
+          // Build max heap
+          for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+          }
+
+          // One by one extract elements from heap
+          for (let i = n - 1; i > 0; i--) {
+            [arr[0], arr[i]] = [arr[i], arr[0]]; // Swap current root with end
+            animator.addStage({
+              funcName: "swap",
+              Args: [boxes[i], boxes[0]],
+            });
+            animator.addStage({
+              func: function () {
+                return animator.animationSequence([
+                  animator.animateFunc(1, () => {
+                    [boxes[i], boxes[0]] = [boxes[0], boxes[i]];
+                  }),
+                ]);
+              },
+            });
+            heapify(arr, i, 0); // call max heapify on the reduced heap
+          }
+
+          return arr;
         }
 
-        function getAllNodesWithData(curr, x, y, opacity) {
-          const result = [];
-          const stack = [];
+        function heapSortByVal(arr) {
+          const n = arr.length;
 
-          if (!curr) return result;
+          function heapify(arr, n, i) {
+            let largest = i;
+            const left = 2 * i + 1;
+            const right = 2 * i + 2;
 
-          stack.push(curr);
-
-          while (stack.length > 0) {
-            const node = stack.pop();
-            result.push([node, x, y, opacity]);
-
-            // Push right child first so left is processed first (like in DFS preorder)
-            if (node.rchild) stack.push(node.rchild);
-            if (node.lchild) stack.push(node.lchild);
-          }
-
-          return result;
-        }
-
-        function deleteNode_test(val, root) {
-          let curr = root;
-          if (checkers[0] === undefined) {
-            checkers[0] = new checker(root.x, root.y);
-            listOfActions.push({
-              funcName: "insert",
-              othArgs: [checkers[0]],
-            });
-          }
-
-          while (curr) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [curr, checkers[0]],
-            });
-            if (curr.val === val) {
-              // Case 1: No children
-
-              if (curr.lchild == null && curr.rchild == null) {
-                listOfActions.push({
-                  func: function () {
-                    return animator.animationSequence([
-                      animator.animateFunc(10, () => {
-                        checkers[0].col = [0, 255, 0];
-                        console.log(curr);
-                      }),
-                      animator.animate(30, [
-                        [curr, 0, 0, -255],
-                        [checkers[0], 0, 0, -255],
-                      ]),
-                      animator.animateFunc(1, () => {
-                        checkers.splice(0, 1);
-                        if (curr.parent.rchild === curr) {
-                          curr.parent.rchild = null;
-                        } else {
-                          curr.parent.lchild = null;
-                        }
-                      }),
-                    ]);
-                  },
-                });
-              }
-
-              // Case 2: Only one child
-              else if (curr.lchild == null) {
-                listOfActions.push({
-                  func: function () {
-                    return animator.animationSequence([
-                      animator.animateFunc(10, () => {
-                        checkers[0].col = [0, 255, 0];
-                      }),
-                      animator.animate(30, [
-                        [curr, 0, 0, -255],
-                        [checkers[0], 0, 0, -255],
-                      ]),
-                      animator.animate(
-                        30,
-                        getAllNodesWithData(
-                          curr.rchild,
-                          animator.initialDiffSeq(curr.x, curr.rchild.x, 0),
-                          animator.initialDiffSeq(curr.y, curr.rchild.y, 1),
-                          0
-                        )
-                      ),
-                      animator.animateFunc(1, () => {
-                        checkers.splice(0, 1);
-                        if (curr.parent.lchild === curr) {
-                          curr.parent.lchild = curr.rchild;
-                        } else {
-                          curr.parent.rchild = curr.rchild;
-                        }
-                        curr.rchild.parent = curr.parent;
-                      }),
-                    ]);
-                  },
-                });
-              } else if (curr.rchild == null) {
-                listOfActions.push({
-                  func: function () {
-                    return animator.animationSequence([
-                      animator.animateFunc(10, () => {
-                        checkers[0].col = [0, 255, 0];
-                      }),
-                      animator.animate(30, [
-                        [curr, 0, 0, -255],
-                        [checkers[0], 0, 0, -255],
-                      ]),
-                      animator.animate(
-                        30,
-                        getAllNodesWithData(
-                          curr.lchild,
-                          animator.initialDiffSeq(curr.x, curr.lchild.x, 0),
-                          animator.initialDiffSeq(curr.y, curr.lchild.y, 1),
-                          0
-                        )
-                      ),
-                      animator.animateFunc(1, () => {
-                        checkers.splice(0, 1);
-                        if (curr.parent.lchild === curr) {
-                          curr.parent.lchild = curr.lchild;
-                        } else {
-                          curr.parent.rchild = curr.lchild;
-                        }
-                        curr.lchild.parent = curr.parent;
-                      }),
-                    ]);
-                  },
-                });
-              } else {
-                // Case 3: Two children – find in-order successor
-                let minNode = getMin(curr.rchild);
-
-                listOfActions.push({
-                  func: function () {
-                    return animator.animationSequence([
-                      animator.animateFunc(1, () => {
-                        checkers.splice(0, 1);
-                        boxes[0] = new box_ertra(
-                          curr.val,
-                          curr.x,
-                          curr.y,
-                          curr.opacity
-                        );
-                        boxes[1] = new box_ertra(
-                          minNode.val,
-                          minNode.x,
-                          minNode.y,
-                          minNode.opacity
-                        );
-                        curr.hide = true;
-                        minNode.hide = true;
-                      }),
-                      animator.to(90, [
-                        [boxes[0], minNode.x, minNode.y, 255],
-                        [boxes[1], curr.x, curr.y, 255],
-                      ]),
-                      animator.animateFunc(1, () => {
-                        boxes = [];
-                        [curr.val, minNode.val] = [minNode.val, curr.val];
-                        curr.hide = false;
-                        minNode.hide = false;
-                        deleteNode_test(val, curr.rchild);
-                      }),
-                    ]);
-                  },
-                });
-              }
-              return curr;
+            if (left < n && arr[left].val > arr[largest].val) {
+              largest = left;
             }
-            if (val < curr.val) curr = curr.lchild;
-            else curr = curr.rchild;
+
+            if (right < n && arr[right].val > arr[largest].val) {
+              largest = right;
+            }
+
+            if (largest !== i) {
+              [arr[i], arr[largest]] = [arr[largest], arr[i]];
+              animator.addStage({
+                funcName: "swap",
+                Args: [arr[i], arr[largest]],
+              });
+              heapify(arr, n, largest);
+            }
           }
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[0].col = [0, 0, 0];
-                }),
-                animator.animate(40, [[checkers[0], 0, 0, -255]]),
-                animator.animateFunc(1, () => {
-                  checkers.splice(0, 1);
-                }),
-              ]);
-            },
-          });
-          return null; // Not found
+
+          // Build max heap
+          for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+          }
+
+          // Heap sort
+          for (let i = n - 1; i > 0; i--) {
+            [arr[0], arr[i]] = [arr[i], arr[0]];
+            animator.addStage({
+              funcName: "swap",
+              Args: [arr[0], arr[i]],
+            });
+            // animator.addStage({
+            //   func: function () {
+            //     return animator.animationSequence([
+            //       animator.animateFunc(1, () => {
+            //         [boxes[i], boxes[largest]] = [boxes[largest], boxes[i]];
+            //       }),
+            //     ]);
+            //   },
+            // });
+            heapify(arr, i, 0);
+          }
+
+          return arr;
         }
 
         //-----------------------------------------------------------------------------------------------
 
-        function addNode(_, [parent, RorL, val]) {
-          let nNode = RorL === "r" ? parent.rchild : parent.lchild;
-          if (nNode === null) {
-            nNode = parent;
-          }
-          return animator.animationSequence([
-            animator.animateFunc(1, () => {
-              nNode = new Node(val, parent.x, parent.y);
-              nNode.parent = parent;
-              nNode.opacity = 0;
-              if (RorL === "r") {
-                console.log("hi");
-                parent.rchild = nNode;
-                nNode.setPosition(
-                  parent.x + parent.wd / 2,
-                  parent.y + 100,
-                  parent.wd / 2
-                );
-              } else {
-                parent.lchild = nNode;
-                nNode.setPosition(
-                  parent.x - parent.wd / 2,
-                  parent.y + 100,
-                  parent.wd / 2
-                );
-              }
-            }),
-            animator.animate(15, [[checkers[0], 0, 0, -255]]),
-            animator.animateFunc(1, () => {
-              checkers = [];
-            }),
-            animator.to(1, [[nNode, parent.x, parent.y, 0]]),
-            animator.animate(70, [
-              [
-                nNode,
-                animator.initialDiffSeq(nNode.x, parent.x, 0),
-                animator.initialDiffSeq(nNode.y, parent.y, 1),
-                255,
-              ],
-            ]),
-          ]);
-        }
-
         function check(_, [a, ckr]) {
           return animator.animationSequence([
             animator.delay(10),
-            animator.to(40, [[ckr, a.x, a.y, 255]]),
+            animator.to(40, [{ obj: ckr, x: a.x, y: a.y }]),
           ]);
         }
 
-        function insert(_, [a]) {
+        function insert([a]) {
           return animator.animationSequence([
-            animator.animate(1, [[a, 0, -50, 0]]),
-            animator.animate(20, [[a, 0, 50, 255]]),
-          ]);
-        }
-
-        function searchNode(_, [val]) {
-          let ckr = checkers[0];
-          const index = boxes.findIndex((obj) => obj.val === val);
-          const result =
-            index !== -1
-              ? boxes.slice(0, index)
-              : boxes.slice(0, boxes.length - 1);
-          return animator.animationSequence([
-            animator.animateFunc(1, () => {
-              checkers.push(new checker(boxes[0].x, boxes[0].y));
-              ckr = checkers[0];
-            }),
-            animator.animate(1, [[ckr, 0, -50, 0]]),
-            animator.animate(20, [[ckr, 0, 50, 255]]),
-            animator.delay(10),
-            ...result.flatMap(() => [
-              animator.animate(30, [[ckr, 80, 0, 0]]),
-              animator.delay(20),
+            animator.animate(1, [{ obj: a, changes: { y: -50 } }]),
+            animator.animate(20, [
+              { obj: a, changes: { y: 50, opacity: 255 } },
             ]),
-            animator.animateFunc(40, () => {
-              if (index !== -1) {
-                ckr.col = [0, 255, 0];
-              } else {
-                ckr.col = [255, 0, 0];
-              }
-            }),
-            animator.animate(20, [[ckr, 0, 0, -255]]),
-            animator.animateFunc(1, () => {
-              checkers = [];
-            }),
+          ]);
+        }
+
+        function swap([a, b]) {
+          return animator.animationSequence([
+            animator.animate(15, [
+              { obj: a, changes: { y: 40 } },
+              { obj: b, changes: { y: -40 } },
+              // [arrows[0], 0, 40, 0],
+              // [arrows[1], 0, -40, 0],
+            ]),
+            animator.to(10, [
+              {
+                obj: a,
+                changes: { x: animator.initialVal(b.x, 0) },
+              },
+              {
+                obj: b,
+                changes: { x: animator.initialVal(a.x, 1) },
+              },
+              // [arrows[0], P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+              // [arrows[1], -P.abs(animator.initialVal(a.x, b.x)), 0, 0],
+            ]),
+            animator.animate(15, [
+              { obj: a, changes: { y: -40 } },
+              { obj: b, changes: { y: 40 } },
+              // [arrows[0], 0, -40, 0],
+              // [arrows[1], 0, 40, 0],
+            ]),
           ]);
         }
 
@@ -589,24 +242,15 @@ export default function P5Sketch({
 
         let boxes = [];
         let checkers = [];
-        let root;
-
-        let listOfActions = [];
-
         let animator;
-        let animator2;
+
         P.setup = () => {
           P.createCanvas(1000, 500);
-          root = new Node();
-          root.setPosition(P.width / 2, 50, P.width / 2);
-          root.show();
           animator = new Animator();
-          animator2 = new Animator();
           animator.functionsDictionary = {
             insert: insert,
-            addNode: addNode,
-            search: searchNode,
             check: check,
+            swap: swap,
           };
         };
 
@@ -614,7 +258,7 @@ export default function P5Sketch({
           P.frameRate(60);
           P.background(220, 34, 72);
 
-          animator.mainAnimationSequence(listOfActions);
+          animator.mainAnimationSequence();
           animator.setDelayMult(animSpdRef.current);
 
           if (animator.executing) {
@@ -624,26 +268,40 @@ export default function P5Sketch({
           }
 
           if (addRef.current.start) {
-            addNodeN(addRef.current.val, root);
+            const liveInput = [3, 8, 5, 7, 1, 9, 10, 7, 3, 9, 2, 6];
+            for (let i = 0; i < liveInput.length; i++) {
+              console.log("hi");
+              boxes[i] = new box(
+                P.width / 2 - 20 * liveInput.length + i * 40,
+                100,
+                liveInput[i]
+              );
+              animator.objectIdArray[i] = boxes[i];
+              animator.addStage({ funcName: "insert", Args: [boxes[i]] });
+              // listOfActions.push({ funcName: "insert", objArgs: [i] });
+            }
+            box.maxVal = boxes.reduce((max, obj) =>
+              obj.val > max.val ? obj : max
+            ).val;
+            box.minVal = boxes.reduce((max, obj) =>
+              obj.val < max.val ? obj : max
+            ).val;
             addRef.current.start = false;
           }
 
           if (deleteRef.current.start) {
-            // listOfActions.push({
-            //   funcName: "delete",
-            //   othArgs: [deleteRef.current.pos],
-            // });
-            // getMin(root);
-            deleteNode_test(deleteRef.current.pos, root);
+            console.log(heapSortByVal(boxes));
+            // console.log(
+            //   heapSortByVal(boxes.map((item) => ({ val: item.val, obj: item })))
+            // );
+            // console.log(heapSort([3, 8, 5, 7, 1, 9, 10, 7, 3, 9, 2, 6]));
             deleteRef.current.add = false;
           }
 
           if (searchRef.current.start) {
-            searchNodeN(searchRef.current.val, root);
             searchRef.current.add = false;
           }
 
-          root.show();
           checkers.forEach((i) => i.show());
           boxes.forEach((i) => i.show());
         };
