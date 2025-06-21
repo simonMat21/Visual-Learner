@@ -139,16 +139,6 @@ export default function P5Sketch({
             this.x = x;
             this.y = y;
           }
-
-          hilight() {
-            P.push();
-            P.stroke(42, 161, 152);
-            P.strokeWeight(4);
-            P.noFill();
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 80, 50, 10);
-            P.pop();
-          }
         }
         //-----------------------------------------------------------------------------------------------
 

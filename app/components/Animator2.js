@@ -28,13 +28,6 @@ export class Animator {
     }
   }
 
-  /**
-   * this gets the difference and refreshes it at the end of the animation.
-   * @param {*} a
-   * @param {*} b
-   * @param {*} id unique id for the object.
-   * @returns
-   */
   initialVal(a, id) {
     if (this.g[id] == 0 || this.g[id] == undefined) {
       this.g[id] = a;
@@ -47,13 +40,6 @@ export class Animator {
       this.initialValArray[id] = a;
     }
     return this.initialValArray[id];
-  }
-
-  iVSub(a = null, id = 0) {
-    if (a !== null && this.g[id] === undefined) {
-      this.g[id] = a;
-    }
-    return this.g[id];
   }
 
   initialFunc(func, id = 0) {
@@ -70,25 +56,6 @@ export class Animator {
     return this.initialFuncSeqKeyArr[id];
   }
 
-  /**
-   * this gets the difference and refreshes it at the end of the animation sequence.
-   * @param {*} a
-   * @param {*} b
-   * @param {*} id
-   * @returns
-   */
-  initialDiffSeq(a, b = 0, id = 0) {
-    if (this.v[id] == 0 || this.v[id] == undefined) {
-      this.v[id] = a - b;
-    }
-    return this.v[id];
-  }
-
-  /**
-   * does the given function for the given number of frames.
-   * @param {number} no_frame - Number of frames to animate for.
-   * @param {function} func - Animation function to be executed.
-   */
   sub_animate(no_frame, func) {
     if (this.n < no_frame) {
       func();
@@ -101,10 +68,6 @@ export class Animator {
     }
   }
 
-  /**
-   * Takes in an array of animate functions and executes them one after the other.
-   * @param {[function]} arr - Array of functions to be executed in sequence.
-   */
   animationSequence(arr) {
     if (this.w < arr.length && arr[this.w]()) {
       this.n = 0;
@@ -127,11 +90,6 @@ export class Animator {
     };
   }
 
-  /**
-   * Animates the objects in A for the given duration all at the same time.
-   * @param {number} duration - Animation time in frames.
-   * @param {[object, number, number, number]} A - [object, x, y, opacity].
-   */
   animate(duration, A) {
     duration = duration <= 1 ? 1 : Math.floor(duration * this.delayMult);
     if (A.length === 0) {
@@ -159,11 +117,14 @@ export class Animator {
     return () => {
       return this.sub_animate(duration, () => {
         A.forEach(({ obj, changes }, ind) => {
+          let j = 1;
           for (const key in changes) {
             if (typeof changes[key] === "number") {
               obj[key] +=
-                this.initialVal(changes[key] - obj[key], 1001 + ind) / duration;
+                this.initialVal(changes[key] - obj[key], 1001 * j + ind) /
+                duration;
             }
+            j++;
           }
         });
       });
