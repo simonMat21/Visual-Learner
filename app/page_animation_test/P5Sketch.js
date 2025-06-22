@@ -3,16 +3,8 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator2";
 
-export default function P5Sketch({
-  dlt,
-  add,
-  srch,
-  animSpd,
-  actionExicutable,
-}) {
+export default function P5Sketch({ add, animSpd, actionExicutable }) {
   const sketchRef = useRef(null);
-  const deleteRef = useRef(dlt);
-  const searchRef = useRef(srch);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
 
@@ -302,6 +294,14 @@ export default function P5Sketch({
             ]),
           ]);
         }
+        function insertNode([a]) {
+          return animator_2.animationSequence([
+            animator_2.animate(1, [{ obj: a, changes: { y: -50 } }]),
+            animator_2.animate(20, [
+              { obj: a, changes: { y: 50, opacity: 255 } },
+            ]),
+          ]);
+        }
 
         function swap([a, b]) {
           return animator_1.animationSequence([
@@ -309,7 +309,7 @@ export default function P5Sketch({
               { obj: a, changes: { y: 40 } },
               { obj: b, changes: { y: -40 } },
             ]),
-            animator_1.to(10, [
+            animator_1.to(19, [
               {
                 obj: a,
                 changes: { x: animator_1.initialVal(b.x, 0) },
@@ -328,12 +328,6 @@ export default function P5Sketch({
 
         function swapNode([a, b]) {
           return animator_2.animationSequence([
-            // animator_2.animateFunc(1, () => {
-            //   boxes_s[0] = new box_ex(a.val, a.x, a.y, a.opacity);
-            //   boxes_s[1] = new box_ex(b.val, b.x, b.y, b.opacity);
-            //   a.hide = true;
-            //   b.hide = true;
-            // }),
             animator_2.to(40, [
               {
                 obj: a,
@@ -350,12 +344,7 @@ export default function P5Sketch({
                 },
               },
             ]),
-            // animator_2.animateFunc(1, () => {
-            //   boxes_s = [];
-            //   [a.val, b.val] = [b.val, a.val];
-            //   a.hide = false;
-            //   b.hide = false;
-            // }),
+            animator_2.delay(10),
           ]);
         }
 
@@ -439,6 +428,7 @@ export default function P5Sketch({
 
           animator_2.functionsDictionary = {
             swap: swapNode,
+            insert: insertNode,
           };
 
           animator_1.functionsDictionary = {
@@ -463,8 +453,9 @@ export default function P5Sketch({
             actionExicutable(true);
           }
 
-          if (addRef.current.start) {
-            const liveInput = [3, 8, 5, 7, 1, 9, 10, 7, 3, 9, 2, 6];
+          if (addRef.current.start && addRef.current.val.length != 0) {
+            let liveInput = [];
+            liveInput = addRef.current.val;
             for (let i = 0; i < liveInput.length; i++) {
               boxes[i] = new box(
                 P.width / 2 - 20 * liveInput.length + i * 40,
@@ -476,23 +467,11 @@ export default function P5Sketch({
                 50,
                 liveInput[i]
               );
-              boxes_s[i].opacity = 255;
+              // boxes_s[i].opacity = 255;
               animator_1.objectIdArray[i] = boxes[i];
               animator_1.addStage({ funcName: "insert", Args: [boxes[i]] });
+              animator_2.addStage({ funcName: "insert", Args: [boxes_s[i]] });
             }
-            const levels = getHeapLevels(boxes_s);
-            levels.forEach((level, i) => {
-              const levelCount = level.length;
-              const spacing = P.width / (levelCount + 1); // +1 for padding on sides
-
-              level.forEach((item, j) => {
-                // x position: evenly spaced across the width
-                item.x = spacing * (j + 1);
-
-                // y position: fixed gap between levels
-                item.y = 150 + i * 80; // adjust 100 and 80 as needed for vertical spacing
-              });
-            });
 
             linkHeapNodes(boxes_s);
             boxes_s[0].setPosition(P.width / 2, 150, P.width / 2);
@@ -515,8 +494,6 @@ export default function P5Sketch({
             });
             setupArrows(boxes_s);
 
-            console.log(boxes_s);
-
             box.maxVal = boxes.reduce((max, obj) =>
               obj.val > max.val ? obj : max
             ).val;
@@ -525,26 +502,15 @@ export default function P5Sketch({
             ).val;
             box_ex.maxVal = box.maxVal;
             box_ex.minVal = box.minVal;
-            addRef.current.start = false;
-          }
-
-          if (deleteRef.current.start) {
-            console.log(rootArr, boxes);
             heapSortByVal(animator_1, boxes);
             heapSortByVal(animator_2, boxes_s);
-            // heapSortFromTree(root);
-            deleteRef.current.add = false;
-          }
-
-          if (searchRef.current.start) {
-            searchRef.current.add = false;
+            addRef.current.start = false;
           }
 
           checkers.forEach((i) => i.show());
           boxes.forEach((i) => i.show());
           boxes_s.forEach((i) => i.show());
           arrows.forEach((i) => i.show());
-          // root.show();
         };
       };
 
@@ -558,10 +524,8 @@ export default function P5Sketch({
 
   useEffect(() => {
     addRef.current = add;
-    deleteRef.current = dlt;
-    searchRef.current = srch;
     animSpdRef.current = animSpd;
-  }, [dlt, add, srch, animSpd]);
+  }, [add, animSpd]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }
