@@ -42,28 +42,76 @@ export default function P5Sketch({
           }
         }
 
-        class box_ex {
-          constructor(val, x, y, op) {
-            this.val = val;
-            this.x = x;
-            this.y = y;
-            this.opacity = op;
+        class arrow {
+          constructor(head = null, tail = null) {
+            this.head = { x: head.x, y: head.y };
+            this.tail = { x: tail.x, y: tail.y };
           }
           show() {
             P.push();
-            //---------rect---------
-            P.noStroke();
-            P.fill(68, 5, 97, this.opacity);
+            P.stroke(0, 0, 255);
+            P.strokeWeight(3);
+            P.noFill();
+            P.bezier(
+              this.head.x,
+              this.head.y - 20,
+              this.head.x,
+              this.tail.y + 20,
+              this.tail.x,
+              this.head.y - 20,
+              this.tail.x,
+              this.tail.y + 20
+            );
+            P.line(
+              this.head.x,
+              this.head.y - 21,
+              this.head.x + 5,
+              this.head.y - 21 - 5
+            );
+            P.line(
+              this.head.x,
+              this.head.y - 21,
+              this.head.x - 5,
+              this.head.y - 21 - 5
+            );
+            P.pop();
+          }
+        }
+
+        class box_ex {
+          static maxVal = 100;
+          static minVal = 0;
+          constructor(x = 0, y = 0, val = P.floor(P.random() * 255)) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+            this.opacity = 0;
+            this.hide = false;
+            this.parent = null;
+            this.lchild = null;
+            this.rchild = null;
+            this.wd = 0;
+          }
+
+          show() {
+            P.fill(
+              P.map(this.val, box.minVal, box.maxVal, 255, 50),
+              this.opacity
+            );
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
-            //---------text---------
             P.fill(255, 105, 0, this.opacity);
-            P.strokeWeight(1);
+            P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
             P.textSize(20);
             P.noStroke();
             P.text(this.val, this.x, this.y);
-            P.pop();
+          }
+
+          setPosition(x = this.x, y = this.y, wd = this.wd) {
+            this.wd = wd;
+            this.x = x;
+            this.y = y;
           }
         }
 
@@ -83,13 +131,14 @@ export default function P5Sketch({
               P.map(this.val, box.minVal, box.maxVal, 255, 50),
               this.opacity
             );
+            P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
             P.fill(255, 105, 0, this.opacity);
             P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
             P.textSize(20);
             P.noStroke();
-            P.text(this.val, this.x + 20, this.y + 20);
+            P.text(this.val, this.x, this.y);
           }
         }
 
@@ -192,7 +241,7 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
 
-        function heapSortByVal(arr) {
+        function heapSortByVal(animator, arr) {
           const n = arr.length;
 
           function heapify(arr, n, i) {
@@ -210,7 +259,7 @@ export default function P5Sketch({
 
             if (largest !== i) {
               [arr[i], arr[largest]] = [arr[largest], arr[i]];
-              animator_1.addStage({
+              animator.addStage({
                 funcName: "swap",
                 Args: [arr[i], arr[largest]],
               });
@@ -226,7 +275,7 @@ export default function P5Sketch({
           // Heap sort
           for (let i = n - 1; i > 0; i--) {
             [arr[0], arr[i]] = [arr[i], arr[0]];
-            animator_1.addStage({
+            animator.addStage({
               funcName: "swap",
               Args: [arr[0], arr[i]],
             });
@@ -234,89 +283,6 @@ export default function P5Sketch({
           }
 
           return arr;
-        }
-
-        function heapSortByVal_t(arr) {
-          const n = arr.length;
-
-          function heapify(arr, n, i) {
-            let largest = i;
-            const left = 2 * i + 1;
-            const right = 2 * i + 2;
-
-            if (left < n && arr[left].val > arr[largest].val) {
-              largest = left;
-            }
-
-            if (right < n && arr[right].val > arr[largest].val) {
-              largest = right;
-            }
-
-            if (largest !== i) {
-              [arr[i], arr[largest]] = [arr[largest], arr[i]];
-              animator_2.addStage({
-                funcName: "swap",
-                Args: [arr[i], arr[largest]],
-              });
-              heapify(arr, n, largest);
-            }
-          }
-
-          // Build max heap
-          for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-            heapify(arr, n, i);
-          }
-
-          // Heap sort
-          for (let i = n - 1; i > 0; i--) {
-            [arr[0], arr[i]] = [arr[i], arr[0]];
-            animator_2.addStage({
-              funcName: "swap",
-              Args: [arr[0], arr[i]],
-            });
-            heapify(arr, i, 0);
-          }
-
-          return arr;
-        }
-
-        function buildHeapTree(arr) {
-          if (!arr || arr.length === 0) return null;
-
-          const nodes = arr.map((obj) => new Node(obj.val));
-
-          for (let i = 0; i < nodes.length; i++) {
-            const leftIndex = 2 * i + 1;
-            const rightIndex = 2 * i + 2;
-
-            if (leftIndex < nodes.length) {
-              nodes[i].rchild = nodes[leftIndex];
-              nodes[leftIndex].parent = nodes[i];
-            }
-            if (rightIndex < nodes.length) {
-              nodes[i].lchild = nodes[rightIndex];
-              nodes[rightIndex].parent = nodes[i];
-            }
-          }
-
-          return nodes[0]; // root node
-        }
-
-        function heapTreeToArray(root) {
-          if (!root) return [];
-
-          const result = [];
-          const queue = [root];
-
-          while (queue.length > 0) {
-            const node = queue.shift();
-            result.push(node);
-
-            if (node.lchild) queue.push(node.lchild);
-            if (node.rchild) queue.push(node.rchild);
-          }
-
-          return result;
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -362,40 +328,93 @@ export default function P5Sketch({
 
         function swapNode([a, b]) {
           return animator_2.animationSequence([
-            animator_2.animateFunc(1, () => {
-              boxes_s[0] = new box_ex(a.val, a.x, a.y, a.opacity);
-              boxes_s[1] = new box_ex(b.val, b.x, b.y, b.opacity);
-              a.hide = true;
-              b.hide = true;
-            }),
-            // animator_2.animate(90, [
-            //   {
-            //     obj: boxes_s[0],
-            //     changes: {
-            //       x: animator_2.initialVal(b.x - a.x, 0),
-            //       y: animator_2.initialVal(b.y - a.y, 1),
-            //     },
-            //   },
-            //   {
-            //     obj: boxes_s[1],
-            //     changes: {
-            //       x: animator_2.initialVal(a.x - b.x, 2),
-            //       y: animator_2.initialVal(a.y - b.y, 3),
-            //     },
-            //   },
-            //   // { obj: boxes_s[1], changes: { x: a.x, y: a.y } },
-            // ]),
-            animator_2.to(38, [
-              { obj: boxes_s[0], changes: { x: b.x, y: b.y } },
-              { obj: boxes_s[1], changes: { x: a.x, y: a.y } },
+            // animator_2.animateFunc(1, () => {
+            //   boxes_s[0] = new box_ex(a.val, a.x, a.y, a.opacity);
+            //   boxes_s[1] = new box_ex(b.val, b.x, b.y, b.opacity);
+            //   a.hide = true;
+            //   b.hide = true;
+            // }),
+            animator_2.to(40, [
+              {
+                obj: a,
+                changes: {
+                  x: animator_2.initialVal(b.x, 0),
+                  y: animator_2.initialVal(b.y, 1),
+                },
+              },
+              {
+                obj: b,
+                changes: {
+                  x: animator_2.initialVal(a.x, 2),
+                  y: animator_2.initialVal(a.y, 3),
+                },
+              },
             ]),
-            animator_2.animateFunc(1, () => {
-              boxes_s = [];
-              [a.val, b.val] = [b.val, a.val];
-              a.hide = false;
-              b.hide = false;
-            }),
+            // animator_2.animateFunc(1, () => {
+            //   boxes_s = [];
+            //   [a.val, b.val] = [b.val, a.val];
+            //   a.hide = false;
+            //   b.hide = false;
+            // }),
           ]);
+        }
+
+        //------------------------------------------------------------------------------------------------
+        function getHeapLevels(heapArray) {
+          const levels = [];
+          let level = 0;
+          let start = 0;
+
+          while (start < heapArray.length) {
+            const end = Math.min(heapArray.length, start + 2 ** level);
+            const currentLevel = heapArray.slice(start, end);
+            levels.push(currentLevel);
+            start = end;
+            level++;
+          }
+
+          return levels;
+        }
+
+        function linkHeapNodes(arr) {
+          for (let i = 0; i < arr.length; i++) {
+            const node = arr[i];
+
+            const leftIndex = 2 * i + 1;
+            const rightIndex = 2 * i + 2;
+            const parentIndex = Math.floor((i - 1) / 2);
+
+            // Link left child if exists
+            if (leftIndex < arr.length) {
+              node.lchild = arr[leftIndex];
+            } else {
+              node.lchild = null;
+            }
+
+            // Link right child if exists
+            if (rightIndex < arr.length) {
+              node.rchild = arr[rightIndex];
+            } else {
+              node.rchild = null;
+            }
+
+            // Link parent if not root
+            if (i === 0) {
+              node.parent = null;
+            } else {
+              node.parent = arr[parentIndex];
+            }
+          }
+
+          return arr;
+        }
+
+        function setupArrows(arr) {
+          arr.forEach((item) => {
+            if (item.parent) {
+              arrows.push(new arrow(item, item.parent));
+            }
+          });
         }
 
         //------------------------------------------------------------------------------------------------
@@ -406,6 +425,8 @@ export default function P5Sketch({
         let animator_1;
         let animator_2;
         let root;
+        let rootArr = [];
+        let arrows = [];
 
         P.setup = () => {
           P.createCanvas(1000, 500);
@@ -434,8 +455,9 @@ export default function P5Sketch({
           animator_1.mainAnimationSequence();
           animator_2.mainAnimationSequence();
           animator_1.setDelayMult(animSpdRef.current);
+          animator_2.setDelayMult(animSpdRef.current);
 
-          if (animator_1.executing) {
+          if (animator_1.executing || animator_2.executing) {
             actionExicutable(false);
           } else {
             actionExicutable(true);
@@ -446,26 +468,71 @@ export default function P5Sketch({
             for (let i = 0; i < liveInput.length; i++) {
               boxes[i] = new box(
                 P.width / 2 - 20 * liveInput.length + i * 40,
+                60,
+                liveInput[i]
+              );
+              boxes_s[i] = new box_ex(
+                P.width / 2 - 20 * liveInput.length + i * 40,
                 50,
                 liveInput[i]
               );
+              boxes_s[i].opacity = 255;
               animator_1.objectIdArray[i] = boxes[i];
               animator_1.addStage({ funcName: "insert", Args: [boxes[i]] });
             }
+            const levels = getHeapLevels(boxes_s);
+            levels.forEach((level, i) => {
+              const levelCount = level.length;
+              const spacing = P.width / (levelCount + 1); // +1 for padding on sides
+
+              level.forEach((item, j) => {
+                // x position: evenly spaced across the width
+                item.x = spacing * (j + 1);
+
+                // y position: fixed gap between levels
+                item.y = 150 + i * 80; // adjust 100 and 80 as needed for vertical spacing
+              });
+            });
+
+            linkHeapNodes(boxes_s);
+            boxes_s[0].setPosition(P.width / 2, 150, P.width / 2);
+            boxes_s.forEach((item) => {
+              if (item.parent) {
+                if (item.parent.lchild === item) {
+                  item.setPosition(
+                    item.parent.x - item.parent.wd / 2,
+                    item.parent.y + 100,
+                    item.parent.wd / 2
+                  );
+                } else {
+                  item.setPosition(
+                    item.parent.x + item.parent.wd / 2,
+                    item.parent.y + 100,
+                    item.parent.wd / 2
+                  );
+                }
+              }
+            });
+            setupArrows(boxes_s);
+
+            console.log(boxes_s);
+
             box.maxVal = boxes.reduce((max, obj) =>
               obj.val > max.val ? obj : max
             ).val;
             box.minVal = boxes.reduce((max, obj) =>
               obj.val < max.val ? obj : max
             ).val;
-            root = buildHeapTree(boxes);
-            root.fixSetup(500, 150, 500);
+            box_ex.maxVal = box.maxVal;
+            box_ex.minVal = box.minVal;
             addRef.current.start = false;
           }
 
           if (deleteRef.current.start) {
-            console.log(heapSortByVal(boxes));
-            heapSortByVal_t(heapTreeToArray(root));
+            console.log(rootArr, boxes);
+            heapSortByVal(animator_1, boxes);
+            heapSortByVal(animator_2, boxes_s);
+            // heapSortFromTree(root);
             deleteRef.current.add = false;
           }
 
@@ -476,7 +543,8 @@ export default function P5Sketch({
           checkers.forEach((i) => i.show());
           boxes.forEach((i) => i.show());
           boxes_s.forEach((i) => i.show());
-          root.show();
+          arrows.forEach((i) => i.show());
+          // root.show();
         };
       };
 
