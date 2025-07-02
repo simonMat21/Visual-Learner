@@ -3,8 +3,16 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator2";
 
-export default function P5Sketch({ add, animSpd, actionExicutable }) {
+export default function P5Sketch({
+  dlt,
+  add,
+  srch,
+  animSpd,
+  actionExicutable,
+}) {
   const sketchRef = useRef(null);
+  const deleteRef = useRef(dlt);
+  const searchRef = useRef(srch);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
 
@@ -428,61 +436,83 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
             actionExicutable(true);
           }
 
-          if (addRef.current.start && addRef.current.val.length != 0) {
-            boxes = [];
-            boxes_s = [];
-            arrows = [];
-            const liveInput = addRef.current.val;
-            for (let i = 0; i < liveInput.length; i++) {
-              boxes[i] = new box(
-                P.width / 2 - 20 * liveInput.length + i * 40,
-                60,
-                liveInput[i]
-              );
-              boxes_s[i] = new box_ex(
-                P.width / 2 - 20 * liveInput.length + i * 40,
-                50,
-                liveInput[i]
-              );
-              animator_1.objectIdArray[i] = boxes[i];
-              animator_1.addStage({ funcName: "insert", Args: [boxes[i]] });
-              animator_2.addStage({ funcName: "insert", Args: [boxes_s[i]] });
-            }
-
-            linkHeapNodes(boxes_s);
-            boxes_s[0].setPosition(P.width / 2, 150, P.width / 2);
-            boxes_s.forEach((item) => {
-              if (item.parent) {
-                if (item.parent.lchild === item) {
-                  item.setPosition(
-                    item.parent.x - item.parent.wd / 2,
-                    item.parent.y + 100,
-                    item.parent.wd / 2
-                  );
-                } else {
-                  item.setPosition(
-                    item.parent.x + item.parent.wd / 2,
-                    item.parent.y + 100,
-                    item.parent.wd / 2
-                  );
-                }
-              }
-            });
-            setupArrows(boxes_s);
-            console.log(animator_2.listOfActions);
-
-            box.maxVal = boxes.reduce((max, obj) =>
-              obj.val > max.val ? obj : max
-            ).val;
-            box.minVal = boxes.reduce((max, obj) =>
-              obj.val < max.val ? obj : max
-            ).val;
-            box_ex.maxVal = box.maxVal;
-            box_ex.minVal = box.minVal;
-            heapSortByVal(animator_1, boxes);
-            heapSortByVal(animator_2, boxes_s);
+          //--
+          if (addRef.current.start) {
+            heap.add(addRef.current.val);
+            heap.print();
             addRef.current.start = false;
           }
+
+          if (deleteRef.current.start) {
+            heap.delete();
+            heap.print();
+
+            deleteRef.current.start = false;
+          }
+
+          if (searchRef.current.start) {
+            searchNodeN(searchRef.current.val, root);
+            heap.print();
+
+            searchRef.current.start = false;
+          }
+          //--
+
+          // if (addRef.current.start && addRef.current.val.length != 0) {
+          //   boxes = [];
+          //   boxes_s = [];
+          //   arrows = [];
+          //   const liveInput = addRef.current.val;
+          //   for (let i = 0; i < liveInput.length; i++) {
+          //     boxes[i] = new box(
+          //       P.width / 2 - 20 * liveInput.length + i * 40,
+          //       60,
+          //       liveInput[i]
+          //     );
+          //     boxes_s[i] = new box_ex(
+          //       P.width / 2 - 20 * liveInput.length + i * 40,
+          //       50,
+          //       liveInput[i]
+          //     );
+          //     animator_1.objectIdArray[i] = boxes[i];
+          //     animator_1.addStage({ funcName: "insert", Args: [boxes[i]] });
+          //     animator_2.addStage({ funcName: "insert", Args: [boxes_s[i]] });
+          //   }
+
+          //   linkHeapNodes(boxes_s);
+          //   boxes_s[0].setPosition(P.width / 2, 150, P.width / 2);
+          //   boxes_s.forEach((item) => {
+          //     if (item.parent) {
+          //       if (item.parent.lchild === item) {
+          //         item.setPosition(
+          //           item.parent.x - item.parent.wd / 2,
+          //           item.parent.y + 100,
+          //           item.parent.wd / 2
+          //         );
+          //       } else {
+          //         item.setPosition(
+          //           item.parent.x + item.parent.wd / 2,
+          //           item.parent.y + 100,
+          //           item.parent.wd / 2
+          //         );
+          //       }
+          //     }
+          //   });
+          //   setupArrows(boxes_s);
+          //   console.log(animator_2.listOfActions);
+
+          //   box.maxVal = boxes.reduce((max, obj) =>
+          //     obj.val > max.val ? obj : max
+          //   ).val;
+          //   box.minVal = boxes.reduce((max, obj) =>
+          //     obj.val < max.val ? obj : max
+          //   ).val;
+          //   box_ex.maxVal = box.maxVal;
+          //   box_ex.minVal = box.minVal;
+          //   heapSortByVal(animator_1, boxes);
+          //   heapSortByVal(animator_2, boxes_s);
+          //   addRef.current.start = false;
+          // }
 
           checkers.forEach((i) => i.show());
           boxes.forEach((i) => i.show());
@@ -501,8 +531,10 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
 
   useEffect(() => {
     addRef.current = add;
+    deleteRef.current = dlt;
+    searchRef.current = srch;
     animSpdRef.current = animSpd;
-  }, [add, animSpd]);
+  }, [dlt, add, srch, animSpd]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

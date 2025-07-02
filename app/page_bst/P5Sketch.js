@@ -285,7 +285,7 @@ export default function P5Sketch({
           return result;
         }
 
-        function deleteNode_test(val, root) {
+        function deleteNode(val, root) {
           let curr = root;
           if (checkers[0] === undefined) {
             checkers[0] = new checker(root.x, root.y);
@@ -426,7 +426,7 @@ export default function P5Sketch({
                         [curr.val, minNode.val] = [minNode.val, curr.val];
                         curr.hide = false;
                         minNode.hide = false;
-                        deleteNode_test(val, curr.rchild);
+                        deleteNode(val, curr.rchild);
                       }),
                     ]);
                   },
@@ -587,18 +587,13 @@ export default function P5Sketch({
           }
 
           if (deleteRef.current.start) {
-            // listOfActions.push({
-            //   funcName: "delete",
-            //   othArgs: [deleteRef.current.pos],
-            // });
-            // getMin(root);
-            deleteNode_test(deleteRef.current.pos, root);
-            deleteRef.current.add = false;
+            deleteNode(deleteRef.current.pos, root);
+            deleteRef.current.start = false;
           }
 
           if (searchRef.current.start) {
             searchNodeN(searchRef.current.val, root);
-            searchRef.current.add = false;
+            searchRef.current.start = false;
           }
 
           root.show();
