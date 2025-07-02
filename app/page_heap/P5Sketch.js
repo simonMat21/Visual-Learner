@@ -14,6 +14,96 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
       const p5 = p5Module.default;
 
       const sketch = (P) => {
+        class MinHeap {
+          constructor() {
+            this.heap = [];
+          }
+
+          // Swap two elements in the heap array
+          swap(i, j) {
+            [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
+          }
+
+          // Get parent index
+          parent(i) {
+            return Math.floor((i - 1) / 2);
+          }
+
+          // Get left child index
+          left(i) {
+            return 2 * i + 1;
+          }
+
+          // Get right child index
+          right(i) {
+            return 2 * i + 2;
+          }
+
+          // Add a new value to the heap
+          add(value) {
+            this.heap.push(value);
+            this.heapifyUp(this.heap.length - 1);
+          }
+
+          // Move the value up to maintain heap property
+          heapifyUp(i) {
+            let current = i;
+            while (
+              current > 0 &&
+              this.heap[current] < this.heap[this.parent(current)]
+            ) {
+              this.swap(current, this.parent(current));
+              current = this.parent(current);
+            }
+          }
+
+          // Remove and return the minimum value (root)
+          delete() {
+            if (this.heap.length === 0) return null;
+            if (this.heap.length === 1) return this.heap.pop();
+
+            const min = this.heap[0];
+            this.heap[0] = this.heap.pop();
+            this.heapifyDown(0);
+            return min;
+          }
+
+          // Move the root value down to maintain heap property
+          heapifyDown(i) {
+            let smallest = i;
+            const left = this.left(i);
+            const right = this.right(i);
+
+            if (
+              left < this.heap.length &&
+              this.heap[left] < this.heap[smallest]
+            ) {
+              smallest = left;
+            }
+            if (
+              right < this.heap.length &&
+              this.heap[right] < this.heap[smallest]
+            ) {
+              smallest = right;
+            }
+
+            if (smallest !== i) {
+              this.swap(i, smallest);
+              this.heapifyDown(smallest);
+            }
+          }
+
+          // Search for a value in the heap
+          search(value) {
+            return this.heap.indexOf(value); // returns -1 if not found
+          }
+
+          // Utility to print the heap
+          print() {
+            console.log(this.heap);
+          }
+        }
+
         class checker {
           constructor(x = 0, y = 0) {
             this.x = x;
@@ -135,103 +225,6 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
         }
 
-        class Node {
-          constructor(
-            val = P.floor(P.random(100)),
-            x = P.random(P.width / 2),
-            y = P.random(P.height / 2),
-            wd = 1000
-          ) {
-            this.x = x;
-            this.y = y;
-            this.val = val;
-            this.wd = wd;
-            this.opacity = 255;
-            this.parent = null;
-            this.rchild = null;
-            this.lchild = null;
-            this.hide = false;
-          }
-
-          show() {
-            P.push();
-            P.stroke(0, 0, 255, this.opacity);
-            P.strokeWeight(3);
-            P.noFill();
-            if (this.parent != null) {
-              P.bezier(
-                this.x,
-                this.y - 20,
-                this.x,
-                this.parent.y + 20,
-                this.parent.x,
-                this.y - 20,
-                this.parent.x,
-                this.parent.y + 20
-              );
-              P.line(this.x, this.y - 21, this.x + 5, this.y - 21 - 5);
-              P.line(this.x, this.y - 21, this.x - 5, this.y - 21 - 5);
-            }
-            if (this.rchild != null) {
-              this.rchild.show();
-            }
-            if (this.lchild != null) {
-              this.lchild.show();
-            }
-            P.pop();
-
-            if (!this.hide) {
-              P.push();
-              //---------rect---------
-              P.noStroke();
-              P.fill(68, 5, 97, this.opacity);
-              P.rectMode(P.CENTER);
-              P.rect(this.x, this.y, 40);
-              //---------text---------
-              P.fill(255, 105, 0, this.opacity);
-              P.strokeWeight(1);
-              P.textAlign(P.CENTER, P.CENTER);
-              P.textSize(20);
-              P.noStroke();
-              P.text(this.val, this.x, this.y);
-              P.pop();
-            }
-          }
-
-          getPosition() {
-            return [this.x, this.y];
-          }
-
-          setPosition(x = this.x, y = this.y, wd = this.wd) {
-            this.wd = wd;
-            this.x = x;
-            this.y = y;
-          }
-
-          fixSetup(x = 100, y = 10, wd = 1000) {
-            // console.log(12);
-            if (this.parent != null) {
-              if (this === this.parent.lchild) {
-                this.x = this.parent.x + this.parent.wd / 2;
-              } else {
-                this.x = this.parent.x - this.parent.wd / 2;
-              }
-              this.y = this.parent.y + 100;
-              this.wd = this.parent.wd / 2;
-            } else {
-              this.x = x;
-              this.y = y;
-              this.wd = wd;
-            }
-            if (this.rchild != null) {
-              this.rchild.fixSetup();
-            }
-            if (this.lchild != null) {
-              this.lchild.fixSetup();
-            }
-          }
-        }
-
         //-----------------------------------------------------------------------------------------------
 
         function heapSortByVal(animator, arr) {
@@ -350,21 +343,6 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
         }
 
         //------------------------------------------------------------------------------------------------
-        function getHeapLevels(heapArray) {
-          const levels = [];
-          let level = 0;
-          let start = 0;
-
-          while (start < heapArray.length) {
-            const end = Math.min(heapArray.length, start + 2 ** level);
-            const currentLevel = heapArray.slice(start, end);
-            levels.push(currentLevel);
-            start = end;
-            level++;
-          }
-
-          return levels;
-        }
 
         function linkHeapNodes(arr) {
           for (let i = 0; i < arr.length; i++) {
@@ -403,10 +381,6 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           arr.forEach((item) => {
             if (item.parent) {
               arrows.push(new arrow(item, item.parent));
-              // animator_2.addStage({
-              //   funcName: "insert",
-              //   Args: [arrows[arrows.length - 1]],
-              // });
             }
           });
         }
@@ -418,15 +392,12 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
         let checkers = [];
         let animator_1;
         let animator_2;
-        let root;
         let arrows = [];
+
+        const heap = new MinHeap();
 
         P.setup = () => {
           P.createCanvas(1000, 500);
-          root = new Node();
-          root.val = 12;
-          root.setPosition(P.width / 2, 180, P.width / 2);
-          root.show();
           animator_1 = new Animator();
           animator_2 = new Animator();
 

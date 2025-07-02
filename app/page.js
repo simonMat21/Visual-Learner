@@ -24,6 +24,8 @@ export default function Home() {
       <a href="/page_bst">BST</a>
       <br></br>
       <a href="/page_heapSort">heap sort</a>
+      <br></br>
+      <a href="/page_heap">heap</a>
     </main>
   );
 }
