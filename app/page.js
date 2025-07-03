@@ -21,6 +21,10 @@ export default function Home() {
       <br></br>
       <a href="/page_linkedList">linked List</a>
       <br></br>
+      <a href="/page_doubleLinkedList">Double linked List</a>
+      <br></br>
+      <a href="/page_linkedList">Cyclic linked List</a>
+      <br></br>
       <a href="/page_bst">BST</a>
       <br></br>
       <a href="/page_bst_2">BST 2</a>
@@ -28,6 +32,8 @@ export default function Home() {
       <a href="/page_heapSort">heap sort</a>
       <br></br>
       <a href="/page_heap">heap</a>
+      <br></br>
+      <a href="/page_hashTable">hash table</a>
     </main>
   );
 }
