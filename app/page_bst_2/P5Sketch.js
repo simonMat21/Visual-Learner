@@ -152,10 +152,12 @@ export default function P5Sketch({
             });
           }
           while (node.lchild != null) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [node, checkers[1]],
-            });
+            if (checkers[1].x !== node.x && checkers[1].y !== node.y) {
+              listOfActions.push({
+                funcName: "check",
+                othArgs: [node, checkers[1]],
+              });
+            }
             node = node.lchild;
           }
           listOfActions.push({
@@ -189,10 +191,12 @@ export default function P5Sketch({
             });
           }
           while (node.rchild != null) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [node, checkers[1]],
-            });
+            if (checkers[1].x !== node.x && checkers[1].y !== node.y) {
+              listOfActions.push({
+                funcName: "check",
+                othArgs: [node, checkers[1]],
+              });
+            }
             node = node.rchild;
           }
           listOfActions.push({
@@ -216,30 +220,51 @@ export default function P5Sketch({
           return node;
         }
 
-        function addNodeN(val, root) {
-          if (root === null) {
+        function addNodeN(val, rootN) {
+          if (!rootN) {
             root = new Node(val, P.width / 2, 50, P.width / 2);
+            root.opacity = 0;
+            listOfActions.push({
+              funcName: "qq",
+              othArgs: [root],
+            });
             return;
           }
-          while (root != null) {
-            if (root.val > val) {
-              if (root.lchild != null) {
-                root = root.lchild;
+          let nNode = new Node(val);
+          while (rootN != null) {
+            if (rootN.val > val) {
+              if (rootN.lchild != null) {
+                rootN = rootN.lchild;
               } else {
+                rootN.lchild = nNode;
+                nNode.parent = rootN;
+                nNode.opacity = 0;
+                nNode.setPosition(
+                  rootN.x - rootN.wd / 2,
+                  rootN.y + 100,
+                  rootN.wd / 2
+                );
                 listOfActions.push({
-                  funcName: "addNode",
-                  othArgs: [root, "l", val],
+                  funcName: "qq",
+                  othArgs: [nNode],
                 });
-                console.log(listOfActions);
                 return;
               }
             } else {
-              if (root.rchild != null) {
-                root = root.rchild;
+              if (rootN.rchild != null) {
+                rootN = rootN.rchild;
               } else {
+                rootN.rchild = nNode;
+                nNode.parent = rootN;
+                nNode.opacity = 0;
+                nNode.setPosition(
+                  rootN.x + rootN.wd / 2,
+                  rootN.y + 100,
+                  rootN.wd / 2
+                );
                 listOfActions.push({
-                  funcName: "addNode",
-                  othArgs: [root, "r", val],
+                  funcName: "qq",
+                  othArgs: [nNode],
                 });
                 return;
               }
@@ -249,39 +274,16 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
 
-        function addNode(_, [parent, RorL, val]) {
-          let nNode = RorL === "r" ? parent.rchild : parent.lchild;
-          if (nNode === null) {
-            nNode = parent;
-          }
+        function qq(_, [node]) {
+          const parentX = node.parent ? node.parent.x : P.width / 2;
+          const parentY = node.parent ? node.parent.y : 50;
           return animator.animationSequence([
-            animator.animateFunc(1, () => {
-              nNode = new Node(val, parent.x, parent.y);
-              nNode.parent = parent;
-              nNode.opacity = 0;
-              if (RorL === "r") {
-                console.log("hi");
-                parent.rchild = nNode;
-                nNode.setPosition(
-                  parent.x + parent.wd / 2,
-                  parent.y + 100,
-                  parent.wd / 2
-                );
-              } else {
-                parent.lchild = nNode;
-                nNode.setPosition(
-                  parent.x - parent.wd / 2,
-                  parent.y + 100,
-                  parent.wd / 2
-                );
-              }
-            }),
-            animator.to(1, [[nNode, parent.x, parent.y, 0]]),
-            animator.animate(70, [
+            animator.to(1, [[node, parentX, parentY, 0]]),
+            animator.animate(40, [
               [
-                nNode,
-                animator.initialDiffSeq(nNode.x, parent.x, 0),
-                animator.initialDiffSeq(nNode.y, parent.y, 1),
+                node,
+                animator.initialDiffSeq(node.x, parentX, 0),
+                animator.initialDiffSeq(node.y, parentY, 1),
                 255,
               ],
             ]),
@@ -346,15 +348,12 @@ export default function P5Sketch({
         let animator;
         P.setup = () => {
           P.createCanvas(1000, 500);
-          root = new Node();
-          root.setPosition(P.width / 2, 50, P.width / 2);
-          root.show();
           animator = new Animator();
           animator.functionsDictionary = {
             insert: insert,
-            addNode: addNode,
             search: searchNode,
             check: check,
+            qq: qq,
           };
         };
 
@@ -372,7 +371,18 @@ export default function P5Sketch({
           }
 
           if (addRef.current.start) {
-            addNodeN(addRef.current.val, root);
+            root = null;
+            addRef.current.val.forEach((val) => {
+              listOfActions.push({
+                func: function () {
+                  return animator.animationSequence([
+                    animator.animateFunc(1, () => {
+                      addNodeN(val, root);
+                    }),
+                  ]);
+                },
+              });
+            });
             addRef.current.start = false;
           }
 
@@ -386,7 +396,9 @@ export default function P5Sketch({
             searchRef.current.start = false;
           }
 
-          root.show();
+          if (root) {
+            root.show();
+          }
           checkers.forEach((i) => i.show());
           boxes.forEach((i) => i.show());
         };
