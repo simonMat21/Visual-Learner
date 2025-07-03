@@ -5,19 +5,18 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import NumberInput from "../components/NumberInput";
 
 import P5Sketch from "./P5Sketch";
 
 export default function Home() {
   const [AEBool, setAEBool] = useState(true);
-  const [addForm, setAddForm] = useState({ val: [], start: false });
+  const [addForm, setAddForm] = useState({ val: 0, pos: 0, start: false });
   const [searchForm, setSearchForm] = useState({
     val: 0,
     start: false,
   });
   const [deleteForm, setDeleteForm] = useState({
-    pos: 0,
+    val: 0,
     start: false,
   });
 
@@ -37,16 +36,31 @@ export default function Home() {
   return (
     <main>
       <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
-      <NumberInput
-        btnName="add"
-        onSubmit={(arr) => {
-          updateForm(1, "val", arr);
-          updateForm(1, "start", true);
-          setTimeout(() => updateForm(1, "start", false), 10);
-        }}
-      />
+      {/* <NumberInput onSubmit={(arr) => setData(arr)} /> */}
+      <div className="flex items-center gap-2">
+        <Input
+          className="w-50"
+          placeholder="Enter number to search"
+          onChange={(e) => updateForm(1, "val", Number(e.target.value))}
+        />
+        <Button
+          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
+          onClick={() => {
+            updateForm(1, "start", true);
+            setTimeout(() => updateForm(1, "start", false), 10);
+          }}
+        >
+          add
+        </Button>
+      </div>
 
       <div className="flex items-center gap-2">
+        <Input
+          className="w-50"
+          placeholder="Enter position"
+          // value={form.pos}
+          onChange={(e) => updateForm(3, "val", Number(e.target.value))}
+        />
         <Button
           onClick={() => {
             updateForm(3, "start", true);
@@ -54,11 +68,17 @@ export default function Home() {
           }}
           className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
         >
-          Get Max
+          search
         </Button>
       </div>
 
       <div className="flex items-center gap-2">
+        <Input
+          className="w-50"
+          placeholder="Enter position"
+          // value={form.pos}
+          onChange={(e) => updateForm(2, "val", Number(e.target.value))}
+        />
         <Button
           onClick={() => {
             updateForm(2, "start", true);
@@ -66,7 +86,7 @@ export default function Home() {
           }}
           className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
         >
-          Get Min
+          delete
         </Button>
       </div>
 
