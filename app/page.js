@@ -34,6 +34,8 @@ export default function Home() {
       <a href="/page_heap">heap</a>
       <br></br>
       <a href="/page_hashTable">hash table</a>
+      <br></br>
+      <a href="/page_countSort">Count sort</a>
     </main>
   );
 }

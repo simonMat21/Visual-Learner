@@ -13,7 +13,7 @@ export default function NumberInput({ btnName = "button", onSubmit }) {
     const array = [];
 
     for (let i = 0; i < length; i++) {
-      const randomNum = Math.floor(Math.random() * 101); // Random number between 0 and 100
+      const randomNum = Math.floor(Math.random() * 100); // Random number between 0 and 100
       array.push(randomNum);
     }
 
