@@ -35,39 +35,39 @@ export default function Home() {
     }
   };
   return (
-    <main>
-      <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
-      <NumberInput
-        btnName="add"
-        onSubmit={(arr) => {
-          updateForm(1, "val", arr);
-          updateForm(1, "start", true);
-          setTimeout(() => updateForm(1, "start", false), 10);
-        }}
-      />
-
-      <div className="flex items-center gap-2">
-        <Button
-          onClick={() => {
-            updateForm(3, "start", true);
-            setTimeout(() => updateForm(3, "start", false), 10);
+    <main className="main">
+      <h1 className="heading tshad">Algo Visualisor</h1>
+      <div className="flex gap-96">
+        <NumberInput
+          btnName="add"
+          onSubmit={(arr) => {
+            updateForm(1, "val", arr);
+            updateForm(1, "start", true);
+            setTimeout(() => updateForm(1, "start", false), 10);
           }}
-          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-        >
-          Get Max
-        </Button>
-      </div>
+        />
 
-      <div className="flex items-center gap-2">
-        <Button
-          onClick={() => {
-            updateForm(2, "start", true);
-            setTimeout(() => updateForm(2, "start", false), 10);
-          }}
-          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-        >
-          Get Min
-        </Button>
+        <div className="flex items-center gap-4">
+          <Button
+            onClick={() => {
+              updateForm(3, "start", true);
+              setTimeout(() => updateForm(3, "start", false), 10);
+            }}
+            className="dobtn"
+          >
+            Get Max
+          </Button>
+
+          <Button
+            onClick={() => {
+              updateForm(2, "start", true);
+              setTimeout(() => updateForm(2, "start", false), 10);
+            }}
+            className="dobtn"
+          >
+            Get Min
+          </Button>
+        </div>
       </div>
 
       <Slider

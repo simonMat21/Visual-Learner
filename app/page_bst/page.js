@@ -41,17 +41,15 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex flex-col items-center min-h-screen px-4">
-      <h1 className="text-6xl font-bold mb-4 mt-4 text-red-600 text-shadow">
-        Algo Visualisor
-      </h1>
+    <main className="main">
+      <h1 className="heading tshad">Algo Visualisor</h1>
       {/* <NumberInput onSubmit={(arr) => setData(arr)} /> */}
       <div className="flex flex-row gap-10">
         {inputs.map((item, index) => {
           return (
             <div key={index} className="flex items-center gap-2 mb-4 rounded-5">
               <Input
-                className="w-50 bg-black text-red-600 rounded-2xl"
+                className="inpbox"
                 placeholder={item.inp}
                 onChange={(e) =>
                   updateForm(item.x1, item.x2, Number(e.target.value))
@@ -59,8 +57,7 @@ export default function Home() {
               />
 
               <Button
-                className="bg-black w-30 text-[#e5e695] px-4 py-2 rounded-2xl border
-               hover:bg-black hover:bg-opacity-60 hover:cursor-pointer transition-transform duration-200 shadow-md hover:scale-105"
+                className="dobtn"
                 onClick={() => {
                   updateForm(item.x1, "start", true);
                   setTimeout(() => updateForm(item.x1, "start", false), 10);

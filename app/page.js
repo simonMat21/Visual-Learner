@@ -8,7 +8,7 @@ export default function Home() {
   const [data, setData] = useState([]);
 
   const links = [
-    { href: "/page_selectionSort", val: "bubbleSort" },
+    { href: "/page_bubbleSort", val: "bubbleSort" },
     { href: "/page_selectionSort", val: "selectionSort" },
     { href: "/page_insertionSort", val: "insertionSort" },
     { href: "/page_mergeSort", val: "mergeSort" },
@@ -25,10 +25,8 @@ export default function Home() {
     { href: "/page_countSort", val: "count sort" },
   ];
   return (
-    <main className="flex flex-col items-center min-h-screen px-4">
-      <h1 className="text-6xl font-bold mb-2 mt-20 text-red-600 text-shadow">
-        Algo Visualisor
-      </h1>
+    <main className="main">
+      <h1 className="heading tshad">Algo Visualisor</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-10 p-4 m-[100px] max-w-6xl w-full">
         {links.map((item, index) => {
           return (

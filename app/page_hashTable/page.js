@@ -34,60 +34,62 @@ export default function Home() {
     }
   };
   return (
-    <main>
-      <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
+    <main className="main">
+      <h1 className="heading tshad">Algo Visualiser</h1>
       {/* <NumberInput onSubmit={(arr) => setData(arr)} /> */}
-      <div className="flex items-center gap-2">
-        <Input
-          className="w-50"
-          placeholder="Enter number to search"
-          onChange={(e) => updateForm(1, "val", Number(e.target.value))}
-        />
-        <Button
-          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-          onClick={() => {
-            updateForm(1, "start", true);
-            setTimeout(() => updateForm(1, "start", false), 10);
-          }}
-        >
-          add
-        </Button>
-      </div>
+      <div className="flex gap-10">
+        <div className="flex items-center gap-2">
+          <Input
+            className="inpbox"
+            placeholder="Enter number to search"
+            onChange={(e) => updateForm(1, "val", Number(e.target.value))}
+          />
+          <Button
+            className="dobtn"
+            onClick={() => {
+              updateForm(1, "start", true);
+              setTimeout(() => updateForm(1, "start", false), 10);
+            }}
+          >
+            add
+          </Button>
+        </div>
 
-      <div className="flex items-center gap-2">
-        <Input
-          className="w-50"
-          placeholder="Enter position"
-          // value={form.pos}
-          onChange={(e) => updateForm(3, "val", Number(e.target.value))}
-        />
-        <Button
-          onClick={() => {
-            updateForm(3, "start", true);
-            setTimeout(() => updateForm(3, "start", false), 10);
-          }}
-          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-        >
-          search
-        </Button>
-      </div>
+        <div className="flex items-center gap-2">
+          <Input
+            className="inpbox"
+            placeholder="Enter position"
+            // value={form.pos}
+            onChange={(e) => updateForm(3, "val", Number(e.target.value))}
+          />
+          <Button
+            onClick={() => {
+              updateForm(3, "start", true);
+              setTimeout(() => updateForm(3, "start", false), 10);
+            }}
+            className="dobtn"
+          >
+            search
+          </Button>
+        </div>
 
-      <div className="flex items-center gap-2">
-        <Input
-          className="w-50"
-          placeholder="Enter position"
-          // value={form.pos}
-          onChange={(e) => updateForm(2, "val", Number(e.target.value))}
-        />
-        <Button
-          onClick={() => {
-            updateForm(2, "start", true);
-            setTimeout(() => updateForm(2, "start", false), 10);
-          }}
-          className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-        >
-          delete
-        </Button>
+        <div className="flex items-center gap-2">
+          <Input
+            className="inpbox"
+            placeholder="Enter position"
+            // value={form.pos}
+            onChange={(e) => updateForm(2, "val", Number(e.target.value))}
+          />
+          <Button
+            onClick={() => {
+              updateForm(2, "start", true);
+              setTimeout(() => updateForm(2, "start", false), 10);
+            }}
+            className="dobtn"
+          >
+            delete
+          </Button>
+        </div>
       </div>
 
       <Slider

@@ -8,8 +8,8 @@ import P5Sketch_insertionSort from "./P5Sketch_insertionSort";
 export default function Home() {
   const [data, setData] = useState([]);
   return (
-    <main>
-      <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
+    <main className="main">
+      <h1 className="heading tshad">Algo visuvalizor</h1>
       <NumberInput onSubmit={(arr) => setData(arr)} />
       <P5Sketch_insertionSort inputArray={data} />
     </main>

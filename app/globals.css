@@ -20,13 +20,13 @@
     margin: 0;
   }
 
-  .text-shadow {
-    text-shadow: 3px 3px 4px rgba(255, 0, 0, 0.5);
-  }
-
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .tshad {
+    text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.7);
   }
 
   .canvas-wrapper {
@@ -109,4 +109,22 @@
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
   }
+}
+
+.dobtn {
+  @apply rounded-3xl bg-black w-[120px] text-[#e5e695] px-4 py-2 border 
+           hover:bg-black/60 hover:cursor-pointer 
+           transition-transform duration-200 shadow-md hover:scale-105;
+}
+
+.main {
+  @apply flex flex-col items-center min-h-screen px-4;
+}
+
+.heading {
+  @apply text-6xl font-bold mb-4 mt-4 text-red-600;
+}
+
+.inpbox {
+  @apply w-65 bg-black text-red-600 rounded-2xl placeholder:text-white placeholder:opacity-20;
 }
