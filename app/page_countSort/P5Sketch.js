@@ -232,49 +232,6 @@ export default function P5Sketch({
             func: function () {
               return animator.animationSequence([
                 animator.animateFunc(1, () => {
-                  checkers[1].x = ht.table[0].x;
-                  checkers[1].y = ht.table[0].y;
-                }),
-              ]);
-            },
-          });
-
-          listOfActions.push({
-            funcName: "insert",
-            othArgs: [checkers[1]],
-          });
-
-          for (let i = 1; i < ht.table.length; i++) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [ht.table[i], checkers[1], [2, 2]],
-            });
-            listOfActions.push({
-              func: function () {
-                return animator.animationSequence([
-                  animator.animateFunc(1, () => {
-                    ht.table[i].count += ht.table[i - 1].count;
-                  }),
-                ]);
-              },
-            });
-          }
-
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[1].col = [0, 255, 0];
-                }),
-                animator.animate(40, [[checkers[1], 0, 0, -255]]),
-              ]);
-            },
-          });
-
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(1, () => {
                   checkers[0].x = arr[0].x;
                   checkers[0].y = arr[0].y;
                   checkers[0].col = [0, 0, 255];
@@ -301,33 +258,48 @@ export default function P5Sketch({
             func: function () {
               return animator.animationSequence([
                 animator.animateFunc(1, () => {
-                  for (let i = 1; i < ht.table.length; i++) {
+                  let index = 0;
+                  for (let i = 0; i < ht.table.length; i++) {
                     listOfActions.push({
-                      funcName: "check",
-                      othArgs: [ht.table[i], checkers[1], [2, 2]],
+                      func: function () {
+                        return animator.animationSequence([
+                          animator.animateFunc(1, () => {
+                            for (let j = 0; j < ht.table[i].count; j++) {
+                              listOfActions.push({
+                                funcName: "check",
+                                othArgs: [ht.table[i], checkers[1], [2, 2]],
+                              });
+                              listOfActions.push({
+                                funcName: "check",
+                                othArgs: [
+                                  arr[ht.table[i].count - 1],
+                                  checkers[0],
+                                  [5, 5],
+                                ],
+                              });
+                              listOfActions.push({
+                                func: function () {
+                                  return animator.animationSequence([
+                                    animator.animateFunc(1, () => {
+                                      arr[index++].val = i;
+                                    }),
+                                  ]);
+                                },
+                              });
+                              listOfActions.push({
+                                func: function () {
+                                  return animator.animationSequence([
+                                    animator.animateFunc(1, () => {
+                                      ht.table[i].count--;
+                                    }),
+                                  ]);
+                                },
+                              });
+                            }
+                          }),
+                        ]);
+                      },
                     });
-                    if (
-                      ht.table[i].count > 0 &&
-                      ht.table[i].count > ht.table[i - 1].count
-                    ) {
-                      listOfActions.push({
-                        funcName: "check",
-                        othArgs: [
-                          arr[ht.table[i].count - 1],
-                          checkers[0],
-                          [5, 5],
-                        ],
-                      });
-                      listOfActions.push({
-                        func: function () {
-                          return animator.animationSequence([
-                            animator.animateFunc(1, () => {
-                              arr[ht.table[i].count - 1].val = ht.table[i].val;
-                            }),
-                          ]);
-                        },
-                      });
-                    }
                   }
                   listOfActions.push({
                     func: function () {
