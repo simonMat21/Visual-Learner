@@ -187,9 +187,16 @@ export default function P5Sketch({
         //-----------------------------------------------------------------------------------------------
 
         function countSort(arr, ht) {
-          checkers[0] = new checker(arr[0].x, arr[0].y);
-          checkers[0].col = [0, 0, 255];
-          checkers[0].shape = [40, 40];
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(1, () => {
+                  checkers[0].x = arr[0].x;
+                  checkers[0].y = arr[0].y;
+                }),
+              ]);
+            },
+          });
           listOfActions.push({
             funcName: "insert",
             othArgs: [checkers[0]],
@@ -217,17 +224,21 @@ export default function P5Sketch({
                   checkers[0].col = [0, 255, 0];
                 }),
                 animator.animate(40, [[checkers[0], 0, 0, -255]]),
+              ]);
+            },
+          });
+
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
                 animator.animateFunc(1, () => {
-                  delete checkers[0];
+                  checkers[1].x = ht.table[0].x;
+                  checkers[1].y = ht.table[0].y;
                 }),
               ]);
             },
           });
 
-          checkers[1] = new checker(ht.table[0].x, ht.table[0].y);
-          checkers[1].col = [0, 0, 255];
-          checkers[1].shape = [30, 60];
-          console.log(checkers);
           listOfActions.push({
             funcName: "insert",
             othArgs: [checkers[1]],
@@ -251,68 +262,83 @@ export default function P5Sketch({
 
           listOfActions.push({
             func: function () {
-              console.log(checkers);
               return animator.animationSequence([
                 animator.animateFunc(10, () => {
                   checkers[1].col = [0, 255, 0];
                 }),
                 animator.animate(40, [[checkers[1], 0, 0, -255]]),
+              ]);
+            },
+          });
+
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
                 animator.animateFunc(1, () => {
-                  delete checkers[1];
+                  checkers[0].x = arr[0].x;
+                  checkers[0].y = arr[0].y;
+                  checkers[0].col = [0, 0, 255];
+
+                  checkers[1].x = ht.table[0].x;
+                  checkers[1].y = ht.table[0].y;
+                  checkers[1].col = [0, 0, 255];
                 }),
               ]);
             },
           });
 
-          checkers[2] = new checker(ht.table[0].x, ht.table[0].y);
-          checkers[2].col = [0, 0, 255];
-          checkers[2].shape = [30, 60];
-          console.log(checkers);
           listOfActions.push({
             funcName: "insert",
-            othArgs: [checkers[2]],
-          });
-          checkers[3] = new checker(arr[0].x, arr[0].y);
-          checkers[3].col = [0, 0, 255];
-          checkers[3].shape = [40, 40];
-          console.log(checkers);
-          listOfActions.push({
-            funcName: "insert",
-            othArgs: [checkers[3]],
+            othArgs: [checkers[0]],
           });
 
-          for (let i = 1; i < ht.table.length; i++) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [ht.table[i], checkers[2], [2, 2]],
-            });
-            if (ht.table[i].count > 0) {
-              listOfActions.push({
-                funcName: "check",
-                othArgs: [arr[ht.table[i].count - 1], checkers[3], [10, 10]],
-              });
-            }
-            listOfActions.push({
-              func: function () {
-                return animator.animationSequence([
-                  animator.animateFunc(1, () => {
-                    arr[ht.table[i].count - 1].val = ht.table[i].val;
-                  }),
-                ]);
-              },
-            });
-          }
+          listOfActions.push({
+            funcName: "insert",
+            othArgs: [checkers[1]],
+          });
 
           listOfActions.push({
             func: function () {
-              console.log(checkers);
               return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[2].col = [0, 255, 0];
-                }),
-                animator.animate(40, [[checkers[2], 0, 0, -255]]),
                 animator.animateFunc(1, () => {
-                  delete checkers[2];
+                  for (let i = 1; i < ht.table.length; i++) {
+                    listOfActions.push({
+                      funcName: "check",
+                      othArgs: [ht.table[i], checkers[1], [2, 2]],
+                    });
+                    if (
+                      ht.table[i].count > 0 &&
+                      ht.table[i].count > ht.table[i - 1].count
+                    ) {
+                      listOfActions.push({
+                        funcName: "check",
+                        othArgs: [
+                          arr[ht.table[i].count - 1],
+                          checkers[0],
+                          [5, 5],
+                        ],
+                      });
+                      listOfActions.push({
+                        func: function () {
+                          return animator.animationSequence([
+                            animator.animateFunc(1, () => {
+                              arr[ht.table[i].count - 1].val = ht.table[i].val;
+                            }),
+                          ]);
+                        },
+                      });
+                    }
+                  }
+                  listOfActions.push({
+                    func: function () {
+                      return animator.animationSequence([
+                        animator.animateFunc(10, () => {
+                          checkers[1].col = [0, 255, 0];
+                        }),
+                        animator.animate(40, [[checkers[1], 0, 0, -255]]),
+                      ]);
+                    },
+                  });
                 }),
               ]);
             },
@@ -351,6 +377,13 @@ export default function P5Sketch({
             check: check,
           };
           HT.setUp();
+
+          checkers[0] = new checker();
+          checkers[0].col = [0, 0, 255];
+          checkers[0].shape = [40, 40];
+          checkers[1] = new checker();
+          checkers[1].col = [0, 0, 255];
+          checkers[1].shape = [30, 60];
         };
 
         P.draw = () => {
