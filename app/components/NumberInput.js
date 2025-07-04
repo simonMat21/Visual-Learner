@@ -34,25 +34,29 @@ export default function NumberInput({ btnName = "button", onSubmit }) {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 m-44 space-y-4">
-      <Input
-        placeholder="Enter numbers separated by commas"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
+    <div className="max-w-lg flex gap-4">
       <Button
-        onClick={handleConvert}
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-      >
-        {btnName}
-      </Button>
-
-      <Button
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
+        className="bg-black w-30 text-[#e5e695] px-4 py-2 rounded-2xl border
+               hover:bg-black hover:bg-opacity-60 hover:cursor-pointer transition-transform duration-200 shadow-md hover:scale-105"
         onClick={generateRandomArray}
       >
         RandomArray
       </Button>
+
+      <Input
+        placeholder="Enter numbers separated by commas"
+        value={input}
+        className="w-65 bg-black text-red-600 rounded-2xl placeholder:text-white placeholder:opacity-20"
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <Button
+        onClick={handleConvert}
+        className="bg-black w-30 text-[#e5e695] px-4 py-2 rounded-2xl border
+               hover:bg-black hover:bg-opacity-60 hover:cursor-pointer transition-transform duration-200 mr-4 shadow-md hover:scale-105"
+      >
+        {btnName}
+      </Button>
+
       {/* <div className="text-muted-foreground">Output: [{output.join(", ")}]</div> */}
     </div>
   );

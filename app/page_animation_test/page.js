@@ -23,7 +23,9 @@ export default function Home() {
   };
   return (
     <main>
-      <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
+      <h1 className="text-6xl font-bold mb-6 mt-4 text-red-600 text-shadow">
+        Algo Visualisor
+      </h1>
       <NumberInput
         onSubmit={(arr) => {
           updateForm(1, "val", arr);
