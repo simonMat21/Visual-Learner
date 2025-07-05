@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-// import { Animator } from "../components/Animator";
+import { Animator } from "../components/Animator";
 import { Animator, a2o } from "../components/Tideon";
 
 export default function P5Sketch({
@@ -187,113 +187,156 @@ export default function P5Sketch({
         //-----------------------------------------------------------------------------------------------
 
         function countSort(arr, ht) {
-          animator.standAloneFunc(1, () => {
-            checkers[0].x = arr[0].x;
-            checkers[0].y = arr[0].y;
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(1, () => {
+                  checkers[0].x = arr[0].x;
+                  checkers[0].y = arr[0].y;
+                }),
+              ]);
+            },
           });
-
-          animator.addStage({
+          listOfActions.push({
             funcName: "insert",
-            Args: [checkers[0]],
+            othArgs: [checkers[0]],
           });
           for (let i = 0; i < arr.length; i++) {
-            animator.addStage({
+            listOfActions.push({
               funcName: "check",
-              Args: [arr[i], checkers[0], [10, 10]],
+              othArgs: [arr[i], checkers[0], [10, 10]],
             });
-            animator.standAloneFunc(1, () => {
-              ht.table[arr[i].val].count++;
+            listOfActions.push({
+              func: function () {
+                return animator.animationSequence([
+                  animator.animateFunc(1, () => {
+                    ht.table[arr[i].val].count++;
+                  }),
+                ]);
+              },
             });
           }
 
-          animator.addStage({
+          listOfActions.push({
             func: function () {
               return animator.animationSequence([
                 animator.animateFunc(10, () => {
                   checkers[0].col = [0, 255, 0];
                 }),
-                animator.animate(40, [a2o(checkers[0], 0, 0, -255)]),
+                animator.animate(40, [[checkers[0], 0, 0, -255]]),
               ]);
             },
           });
 
-          animator.standAloneFunc(1, () => {
-            checkers[0].x = arr[0].x;
-            checkers[0].y = arr[0].y;
-            checkers[0].col = [0, 0, 255];
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(1, () => {
+                  checkers[0].x = arr[0].x;
+                  checkers[0].y = arr[0].y;
+                  checkers[0].col = [0, 0, 255];
 
-            checkers[1].x = ht.table[0].x;
-            checkers[1].y = ht.table[0].y;
-            checkers[1].col = [0, 0, 255];
+                  checkers[1].x = ht.table[0].x;
+                  checkers[1].y = ht.table[0].y;
+                  checkers[1].col = [0, 0, 255];
+                }),
+              ]);
+            },
           });
 
-          animator.addStage({
+          listOfActions.push({
             funcName: "insert",
-            Args: [checkers[0]],
+            othArgs: [checkers[0]],
           });
 
-          animator.addStage({
+          listOfActions.push({
             funcName: "insert",
-            Args: [checkers[1]],
+            othArgs: [checkers[1]],
           });
 
-          animator.standAloneFunc(1, () => {
-            let index = 0;
-            for (let i = 0; i < ht.table.length; i++) {
-              animator.addStage({
-                funcName: "check",
-                Args: [ht.table[i], checkers[1], [2, 2]],
-              });
-              animator.standAloneFunc(1, () => {
-                arr[index++].val = i;
-                ht.table[i].count--;
-                for (let j = 0; j < ht.table[i].count; j++) {
-                  animator.addStage({
-                    funcName: "check",
-                    Args: [arr[ht.table[i].count - 1], checkers[0], [5, 5]],
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(1, () => {
+                  let index = 0;
+                  for (let i = 0; i < ht.table.length; i++) {
+                    listOfActions.push({
+                      funcName: "check",
+                      othArgs: [ht.table[i], checkers[1], [2, 2]],
+                    });
+                    listOfActions.push({
+                      func: function () {
+                        return animator.animationSequence([
+                          animator.animateFunc(1, () => {
+                            for (let j = 0; j < ht.table[i].count; j++) {
+                              listOfActions.push({
+                                funcName: "check",
+                                othArgs: [
+                                  arr[ht.table[i].count - 1],
+                                  checkers[0],
+                                  [5, 5],
+                                ],
+                              });
+                              listOfActions.push({
+                                func: function () {
+                                  return animator.animationSequence([
+                                    animator.animateFunc(1, () => {
+                                      arr[index++].val = i;
+                                    }),
+                                  ]);
+                                },
+                              });
+                              listOfActions.push({
+                                func: function () {
+                                  return animator.animationSequence([
+                                    animator.animateFunc(1, () => {
+                                      ht.table[i].count--;
+                                    }),
+                                  ]);
+                                },
+                              });
+                            }
+                          }),
+                        ]);
+                      },
+                    });
+                  }
+                  listOfActions.push({
+                    func: function () {
+                      return animator.animationSequence([
+                        animator.animateFunc(10, () => {
+                          checkers[1].col = [0, 255, 0];
+                        }),
+                        animator.animate(40, [[checkers[1], 0, 0, -255]]),
+                      ]);
+                    },
                   });
-                  animator.standAloneFunc(1, () => {
-                    arr[index++].val = i;
-                    ht.table[i].count--;
-                  });
-                }
-              });
-            }
-
-            animator.addStage({
-              func: function () {
-                return animator.animationSequence([
-                  animator.animateFunc(10, () => {
-                    checkers[1].col = [0, 255, 0];
-                  }),
-                  animator.animate(40, [a2o(checkers[1], 0, 0, -255)]),
-                ]);
-              },
-            });
+                }),
+              ]);
+            },
           });
         }
 
         //-----------------------------------------------------------------------------------------------
 
-        function check([a, ckr, du]) {
+        function check(_, [a, ckr, du]) {
           return animator.animationSequence([
             animator.delay(du[0]),
-            animator.to(du[1], [a2o(ckr, a.x, a.y, 255)]),
+            animator.to(du[1], [animator.a2o(ckr, a.x, a.y, 255)]),
           ]);
         }
 
-        function insert([a]) {
+        function insert(_, [a]) {
           return animator.animationSequence([
-            animator.animateFunc(1, () => {
-              a.y -= 50;
-            }),
-            animator.animate(20, [a2o(a, 0, 50, 255)]),
+            animator.animate(1, animator.a2o(a, 0, -50, 0)),
+            animator.animate(20, animator.a2o(a, 0, 50, 255)),
           ]);
         }
 
         //------------------------------------------------------------------------------------------------
 
         let HT = new HashTable();
+        let listOfActions = [];
         let boxes = [];
         let checkers = [];
 
@@ -319,7 +362,7 @@ export default function P5Sketch({
           P.frameRate(60);
           P.background(220, 34, 72);
 
-          animator.mainAnimationSequence();
+          animator.mainAnimationSequence(listOfActions);
           animator.setDelayMult(animSpdRef.current);
 
           if (animator.executing) {
@@ -337,11 +380,18 @@ export default function P5Sketch({
                 400,
                 liveInput[i]
               );
-              animator.addStage({ funcName: "insert", Args: [boxes[i]] });
+              animator.addStage({ funcName: "insert", othArgs: [boxes[i]] });
             }
 
-            animator.standAloneFunc(1, () => {
-              countSort(boxes, HT);
+            listOfActions.push({
+              func: function () {
+                return animator.animationSequence([
+                  animator.animateFunc(1, () => {
+                    console.log("po");
+                    countSort(boxes, HT);
+                  }),
+                ]);
+              },
             });
             addRef.current.start = false;
           }
