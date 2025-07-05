@@ -239,25 +239,23 @@ export default function P5Sketch({
 
           animator.standAloneFunc(1, () => {
             let index = 0;
+            let index_ = 0;
             for (let i = 0; i < ht.table.length; i++) {
               animator.addStage({
                 funcName: "check",
                 Args: [ht.table[i], checkers[1], [2, 2]],
               });
-              animator.standAloneFunc(1, () => {
-                arr[index++].val = i;
-                ht.table[i].count--;
-                for (let j = 0; j < ht.table[i].count; j++) {
-                  animator.addStage({
-                    funcName: "check",
-                    Args: [arr[ht.table[i].count - 1], checkers[0], [5, 5]],
-                  });
-                  animator.standAloneFunc(1, () => {
-                    arr[index++].val = i;
-                    ht.table[i].count--;
-                  });
-                }
-              });
+              for (let j = 0; j < ht.table[i].count; j++) {
+                animator.addStage({
+                  funcName: "check",
+                  Args: [arr[index_], checkers[0], [5, 5]],
+                });
+                index_++;
+                animator.standAloneFunc(1, () => {
+                  arr[index++].val = i;
+                  ht.table[i].count--;
+                });
+              }
             }
 
             animator.addStage({
@@ -265,8 +263,16 @@ export default function P5Sketch({
                 return animator.animationSequence([
                   animator.animateFunc(10, () => {
                     checkers[1].col = [0, 255, 0];
+                    checkers[0].col = [0, 255, 0];
                   }),
-                  animator.animate(40, [a2o(checkers[1], 0, 0, -255)]),
+                  animator.animate(40, [
+                    a2o(checkers[0], 0, 0, -255),
+                    a2o(checkers[1], 0, 0, -255),
+                  ]),
+                  animator.animateFunc(1, () => {
+                    checkers[1].col = [0, 0, 255];
+                    checkers[0].col = [0, 0, 255];
+                  }),
                 ]);
               },
             });
