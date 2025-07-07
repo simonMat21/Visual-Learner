@@ -41,6 +41,8 @@ export default function Home() {
         { href: "/page_heap", val: "heap" },
         { href: "/page_hashTable", val: "hash table" },
         { href: "/page_countSort", val: "count sort" },
+        { href: "/page_linearProbing", val: "Linear Probing" },
+        { href: "/page_quadraticProbing", val: "Quadratic Probing" },
       ],
     },
   ];
