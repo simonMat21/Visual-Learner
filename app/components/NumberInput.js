@@ -34,25 +34,21 @@ export default function NumberInput({ btnName = "button", onSubmit }) {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 m-44 space-y-4">
+    <div className="max-w-lg flex gap-4 mb-5">
+      <Button className="dobtn" onClick={generateRandomArray}>
+        RandomArray
+      </Button>
+
       <Input
         placeholder="Enter numbers separated by commas"
         value={input}
+        className="inpbox"
         onChange={(e) => setInput(e.target.value)}
       />
-      <Button
-        onClick={handleConvert}
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-      >
+      <Button onClick={handleConvert} className="dobtn">
         {btnName}
       </Button>
 
-      <Button
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-        onClick={generateRandomArray}
-      >
-        RandomArray
-      </Button>
       {/* <div className="text-muted-foreground">Output: [{output.join(", ")}]</div> */}
     </div>
   );

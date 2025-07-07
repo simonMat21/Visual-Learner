@@ -20,8 +20,8 @@ export default function Home() {
     }
   };
   return (
-    <main>
-      <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
+    <main className="main">
+      <h1 className="heading tshad">Algo Visualiser</h1>
       <NumberInput
         onSubmit={(arr) => {
           updateForm(1, "val", arr);

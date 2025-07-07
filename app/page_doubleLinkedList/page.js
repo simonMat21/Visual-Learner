@@ -31,62 +31,74 @@ export default function Home() {
     }
   };
   return (
-    <main>
-      <h1 className="text-3xl font-bold underline">Algo visuvalizor</h1>
+    <main className="main">
+      <h1 className="heading tshad">Algo Visualiser</h1>
       {/* <NumberInput onSubmit={(arr) => setData(arr)} /> */}
-      <Input
-        className="w-lg"
-        placeholder="Enter number to search"
-        // value={form.elem}
-        onChange={(e) => updateForm(1, "val", Number(e.target.value))}
-      />
-      <Input
-        className="w-lg"
-        placeholder="Enter position"
-        // value={form.pos}
-        onChange={(e) => updateForm(1, "pos", Number(e.target.value))}
-      />
-      <Button
-        onClick={() => {
-          updateForm(1, "start", true);
-          setTimeout(() => updateForm(1, "start", false), 10);
-        }}
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-      >
-        add
-      </Button>
+      <div className="flex gap-42">
+        <div>
+          <div className="flex">
+            <Input
+              className="inpbox"
+              placeholder="Enter number to search"
+              // value={form.elem}
+              onChange={(e) => updateForm(1, "val", Number(e.target.value))}
+            />
+            <Button
+              onClick={() => {
+                updateForm(1, "start", true);
+                setTimeout(() => updateForm(1, "start", false), 10);
+              }}
+              className="dobtn ml-3"
+            >
+              add
+            </Button>
+          </div>
+          <div className="mt-3">
+            <Input
+              className="inpbox"
+              placeholder="Enter position"
+              // value={form.pos}
+              onChange={(e) => updateForm(1, "pos", Number(e.target.value))}
+            />
+          </div>
+        </div>
 
-      <Input
-        className="w-lg"
-        placeholder="Enter position"
-        // value={form.pos}
-        onChange={(e) => updateForm(3, "val", Number(e.target.value))}
-      />
-      <Button
-        onClick={() => {
-          updateForm(3, "start", true);
-          setTimeout(() => updateForm(3, "start", false), 10);
-        }}
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-      >
-        search
-      </Button>
+        <div>
+          <Input
+            className="inpbox"
+            placeholder="Enter position"
+            // value={form.pos}
+            onChange={(e) => updateForm(3, "val", Number(e.target.value))}
+          />
+          <Button
+            onClick={() => {
+              updateForm(3, "start", true);
+              setTimeout(() => updateForm(3, "start", false), 10);
+            }}
+            className="dobtn mt-3"
+          >
+            search
+          </Button>
+        </div>
 
-      <Input
-        className="w-lg"
-        placeholder="Enter position"
-        // value={form.pos}
-        onChange={(e) => updateForm(2, "pos", Number(e.target.value))}
-      />
-      <Button
-        onClick={() => {
-          updateForm(2, "start", true);
-          setTimeout(() => updateForm(2, "start", false), 10);
-        }}
-        className="bg-blue-600 w-30 text-white px-4 py-2 rounded-xl border border-white hover:bg-blue-700 transition duration-200 shadow-md"
-      >
-        delete
-      </Button>
+        <div>
+          <Input
+            className="inpbox"
+            placeholder="Enter position"
+            // value={form.pos}
+            onChange={(e) => updateForm(2, "pos", Number(e.target.value))}
+          />
+          <Button
+            onClick={() => {
+              updateForm(2, "start", true);
+              setTimeout(() => updateForm(2, "start", false), 10);
+            }}
+            className="dobtn mt-3"
+          >
+            delete
+          </Button>
+        </div>
+      </div>
 
       <Slider
         defaultValue={[1]}
