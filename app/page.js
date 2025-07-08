@@ -43,6 +43,8 @@ export default function Home() {
         { href: "/page_countSort", val: "count sort" },
         { href: "/page_linearProbing", val: "Linear Probing" },
         { href: "/page_quadraticProbing", val: "Quadratic Probing" },
+        { href: "/page_hasgTableChaining", val: "HasgTable Chaining" },
+        { href: "/page_BucketSort", val: "Bucket Sort" },
       ],
     },
   ];
