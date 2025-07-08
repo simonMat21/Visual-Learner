@@ -1,41 +1,56 @@
 "use client";
 
-import React from "react";
-import { useReducer } from "react";
 import { useState } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
 import NumberInput from "../components/NumberInput";
-import P5Sketch_binarySearch from "./P5Sketch_binarySearch";
+
+import P5Sketch from "./P5Sketch";
 
 export default function Home() {
-  const [data, setData] = useState([]);
-  const [searchElem, setSearchElem] = useState();
-  const [startBool, setStartBool] = useState(false);
-  function handleClick(arr) {
-    setData(arr);
-  }
+  const [AEBool, setAEBool] = useState(true);
+  const [addForm, setAddForm] = useState({ val: [], pos: 0, start: false });
+  const [searchForm, setSearchForm] = useState({ val: 0, start: false });
   const [animSpd, setAnimSpd] = useState(1);
 
+  const updateForm = (n, key, value) => {
+    if (key !== "start" || AEBool) {
+      if (n == 1) {
+        setAddForm((prev) => ({ ...prev, [key]: value }));
+      } else if (n == 2) {
+        setSearchForm((prev) => ({ ...prev, [key]: value }));
+      }
+    }
+  };
   return (
     <main className="main">
-      <h1 className="heading tshad">Algo Visualiser</h1>
-      <div className="flex justify-center items-start  px-6 mt-2 gap-48">
-        <NumberInput onSubmit={(arr) => handleClick(arr)} />
-        <div className="flex">
-          <Input
-            className="inpbox"
-            placeholder="Enter number to search"
-            value={searchElem}
-            onChange={(e) => setSearchElem(Number(e.target.value))}
-          />
-          <Button onClick={() => setStartBool(true)} className="dobtn">
-            search
-          </Button>
-        </div>
+      <h1 className="heading tshad">Algo visuvalizor</h1>
+      <div key={1} className="flex items-center gap-2 mb-4 rounded-5">
+        <Input
+          className="inpbox"
+          placeholder="Enter number to search"
+          onChange={(e) => updateForm(2, "val", Number(e.target.value))}
+        />
+        <Button
+          onClick={() => {
+            updateForm(2, "start", true);
+            setTimeout(() => updateForm(2, "start", false), 10);
+          }}
+          className="dobtn"
+        >
+          search
+        </Button>
       </div>
+      <NumberInput
+        onSubmit={(arr) => {
+          updateForm(1, "val", arr);
+          updateForm(1, "start", true);
+          setTimeout(() => updateForm(1, "start", false), 10);
+        }}
+      />
       <Slider
         defaultValue={[1]}
         min={0.5}
@@ -44,11 +59,11 @@ export default function Home() {
         onValueChange={([val]) => setAnimSpd(val)}
         className="w-64 h-6 "
       />
-      <P5Sketch_binarySearch
+      <P5Sketch
+        add={addForm}
+        srch={searchForm}
         animSpd={animSpd}
-        inputArray={data}
-        searchElement={searchElem}
-        startBool={startBool}
+        actionExicutable={(b) => setAEBool(b)}
       />
     </main>
   );
