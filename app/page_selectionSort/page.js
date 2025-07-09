@@ -21,7 +21,7 @@ export default function Home() {
   };
   return (
     <main className="main">
-      <h1 className="heading tshad">Algo visuvalizor</h1>
+      {/* <h1 className="heading tshad">Algo visuvalizor</h1> */}
       <NumberInput
         onSubmit={(arr) => {
           updateForm(1, "val", arr);

@@ -55,7 +55,10 @@ export default function Home() {
 
       {linkers.map((item, index) => {
         return (
-          <div key={index} className="flex flex-col align-center mt-12">
+          <div
+            key={index}
+            className="flex flex-col align-center mt-12 border-2"
+          >
             <h1 className="titleval tshad">{item.title}</h1>
             <div className="flex w-200  p-4 rounded-3xl">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10 p-4 m[25px] max-w-6xl w-full">

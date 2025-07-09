@@ -1,0 +1,301 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 5%;
+  color: white;
+  font-family: var(--geist);
+  text-align: left;
+  z-index: 2;
+  background-color: transparent;
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+@media (max-width: 440px) {
+  .top {
+    gap: 10px;
+  }
+}
+
+.bottom {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+@media (max-width: 440px) {
+  .bottom {
+    margin-top: 10px;
+  }
+}
+
+.top-line {
+  border: 1px solid #5f2e7f;
+}
+
+.top-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  flex-wrap: wrap;
+  gap: 2rem 4rem;
+  width: 100%;
+}
+
+@media (min-width: 1270px) and (max-width: 1375px) {
+  .top-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .box {
+    width: auto;
+    min-width: 170px;
+  }
+
+  .box1 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1260px) and (min-width: 481px) {
+  .top-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 1260px) {
+  .footer {
+    padding: 20px 10%;
+  }
+  .top-content {
+    padding: 5px 0px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 20px 6%;
+  }
+}
+
+@media (width<=480px) {
+  .top-content {
+    gap: 3rem 0rem;
+  }
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 25px;
+  width: 100%;
+}
+
+@media (min-width: 481px) and (max-width: 1260px) {
+  .box {
+    width: auto;
+    min-width: 200px;
+    flex: 1 1 calc(33% - 2rem);
+  }
+}
+
+@media (width<=480px) {
+  .box {
+    gap: 15px;
+  }
+}
+
+/* .box1 {
+    width: 100%;
+    gap: 30px;
+}
+
+@media (min-width: 481px) and (max-width: 1260px) {
+    .box1 {
+        width: 100%;
+        grid-column: 1 / -1;
+    }
+}
+
+@media (min-width: 750px) and (max-width: 1260px) {
+    .box1 {
+        width: 700px;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 749px) {
+    .box1 {
+        width: 530px;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 599px) {
+    .box1 {
+        width: 420px;
+    }
+}
+@media (width<=480px) {
+    .box1 {
+        gap: 15px;
+    }
+    .box1-end {
+        margin-top: 1rem;
+    }
+} */
+
+.box1-span-title {
+  font-weight: 700;
+  font-size: 45px;
+  background: linear-gradient(90deg, #da78c0 0%, #559cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 440px) {
+  .box1-span-title {
+    font-size: 30px;
+  }
+}
+
+.box1-content {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+@media (max-width: 440px) {
+  .box1-content {
+    font-size: 12px;
+  }
+}
+
+.box1-end {
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px;
+}
+
+@media (max-width: 440px) {
+  .box1-end {
+    justify-content: center;
+  }
+}
+
+.box4-content {
+  flex-wrap: wrap;
+  height: 180px;
+}
+
+.box25-title {
+  font-size: 18px;
+}
+
+.box25-content {
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 18px;
+}
+
+.box a {
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  opacity: 0.9;
+}
+
+.box a:hover {
+  opacity: 1;
+}
+
+.bottom-line {
+  border: 1px solid #9c6572;
+}
+
+.bottom-content {
+  text-align: center;
+  margin-top: 20px;
+}
+@media (max-width: 440px) {
+  .box25-title {
+    font-size: 16px;
+  }
+  .box25-content {
+    font-size: 14px;
+  }
+}
+
+@media (width <= 385px) {
+  .footer {
+    padding: 15px 4%;
+  }
+
+  .top-content {
+    gap: 1rem 0;
+    padding: 0;
+  }
+
+  .box {
+    gap: 6px;
+  }
+
+  .box25-title {
+    font-size: 13px;
+    margin-top: 5px;
+  }
+
+  .box25-content {
+    font-size: 12px;
+    gap: 15px;
+  }
+
+  .box1-span-title {
+    font-size: 22px;
+  }
+
+  .box1-content {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .box1-end {
+    gap: 20px;
+  }
+
+  .box1 {
+    gap: 10px;
+  }
+
+  .bottom {
+    margin-top: 5px;
+  }
+
+  .bottom-content {
+    font-size: 11px;
+    margin-top: 8px;
+  }
+
+  .box a {
+    text-underline-offset: 1px;
+    font-size: 11px;
+  }
+}

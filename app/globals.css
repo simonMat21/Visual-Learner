@@ -4,7 +4,7 @@
 @layer base {
   html,
   body {
-    background: linear-gradient(to bottom right, black, #ff4a4a);
+    background: rgb(16, 33, 72);
     max-width: 100vw;
     overflow-x: hidden;
   }
@@ -12,6 +12,7 @@
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    padding-top: 64px;
   }
 
   * {
