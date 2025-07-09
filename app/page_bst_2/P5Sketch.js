@@ -220,6 +220,76 @@ export default function P5Sketch({
           return node;
         }
 
+        function getPredecessor(node) {
+          if (checkers[1] === undefined) {
+            checkers[1] = new checker(node.x, node.y);
+            checkers[1].col = [255, 200, 150]; // Orange-like color
+            listOfActions.push({
+              funcName: "insert",
+              othArgs: [checkers[1]],
+            });
+          }
+
+          let pred = null;
+
+          if (node.lchild != null) {
+            // Move to left subtree and go as far right as possible
+            node = node.lchild;
+            while (node.rchild != null) {
+              listOfActions.push({
+                funcName: "check",
+                othArgs: [node, checkers[1]],
+              });
+              node = node.rchild;
+            }
+            listOfActions.push({
+              funcName: "check",
+              othArgs: [node, checkers[1]],
+            });
+            pred = node;
+          } else {
+            // Go up using parent pointers (assumed to be present)
+            let ancestor = root;
+            while (ancestor != null) {
+              listOfActions.push({
+                funcName: "check",
+                othArgs: [ancestor, checkers[1]],
+              });
+
+              if (node.val > ancestor.val) {
+                pred = ancestor;
+                ancestor = ancestor.rchild;
+              } else {
+                ancestor = ancestor.lchild;
+              }
+            }
+          }
+
+          if (pred != null) {
+            listOfActions.push({
+              funcName: "check",
+              othArgs: [pred, checkers[1]],
+            });
+          }
+
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(10, () => {
+                  checkers[1].col = [255, 255, 0]; // Highlight found predecessor
+                }),
+                animator.animate(40, [[checkers[1], 0, 0, -255]]),
+                animator.animateFunc(1, () => {
+                  checkers.splice(1, 1);
+                }),
+              ]);
+            },
+            othArgs: [root, checkers[0]],
+          });
+
+          return pred;
+        }
+
         function addNodeN(val, rootN) {
           if (!rootN) {
             root = new Node(val, P.width / 2, 50, P.width / 2);
