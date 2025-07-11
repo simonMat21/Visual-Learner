@@ -1,28 +1,23 @@
 import React from "react";
 import styles from "./Header.module.css";
+import Link from "next/link";
 
 const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         {/* Logo */}
-        <div className={styles.logo}>
+        <Link className={styles.logo} href="/">
           <span>⚑</span>
-          <span className={styles.logoText}>AlgoVis</span>
-        </div>
+          <span className={styles.logoText}>AlgoVisualisor</span>
+        </Link>
 
         {/* Navigation */}
-        <nav className={styles.nav}>
-          <a href="#explore" className={styles.link}>
+        {/* <nav className={styles.nav}>
+          <Link href="/" className={styles.link}>
             Explore
-          </a>
-          <a href="#create" className={styles.link}>
-            Create
-          </a>
-          <a href="#teach" className={styles.link}>
-            Teach
-          </a>
-        </nav>
+          </Link>
+        </nav> */}
 
         {/* Sign In Button */}
         <button className={styles.signInBtn}>Sign In</button>
