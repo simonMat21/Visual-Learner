@@ -1,4 +1,10 @@
 // Animator.js
+export function a2o(obj, x, y, opacity) {
+  return {
+    obj: obj,
+    changes: { x: x, y: y, opacity: opacity },
+  };
+}
 
 export class Animator {
   constructor() {
@@ -193,9 +199,9 @@ export class Animator {
             obj.x += this.initialVal(x, obj.x, 1003 + ind * 3) / duration;
             obj.y += this.initialVal(y, obj.y, 1004 + ind * 3) / duration;
           } else if (tag === "animate") {
-            a.opacity += opacity / duration;
-            a.x += x / duration;
-            a.y += y / duration;
+            obj.opacity += opacity / duration;
+            obj.x += x / duration;
+            obj.y += y / duration;
           }
         });
       });

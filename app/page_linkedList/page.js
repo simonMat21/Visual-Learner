@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
-import P5Sketch_linkedList from "./P5Sketch_linkedList";
+import P5Sketch from "./P5Sketch";
 
 export default function Home() {
+  const [AEBool, setAEBool] = useState(true);
   const [addForm, setAddForm] = useState({ val: 0, pos: 0, start: false });
   const [searchForm, setSearchForm] = useState({
     val: 0,
@@ -106,11 +107,12 @@ export default function Home() {
         onValueChange={([val]) => setAnimSpd(val)}
         className="w-64 h-6 "
       />
-      <P5Sketch_linkedList
+      <P5Sketch
         add={addForm}
         dlt={deleteForm}
         srch={searchForm}
         animSpd={animSpd}
+        actionExicutable={(b) => setAEBool(b)}
       />
     </main>
   );
