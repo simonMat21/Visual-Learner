@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-// import { Animator } from "../components/Animator";
 import { Animator, a2o } from "../components/Tideon";
 
 export default function P5Sketch_mergeSort({
