@@ -7,12 +7,16 @@ export default function P5Sketch({
   dlt,
   add,
   srch,
+  prev,
+  succ,
   animSpd,
   actionExicutable,
 }) {
   const sketchRef = useRef(null);
   const deleteRef = useRef(dlt);
   const searchRef = useRef(srch);
+  const prevRef = useRef(prev);
+  const succRef = useRef(succ);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
 
@@ -41,32 +45,6 @@ export default function P5Sketch({
             P.pop();
           }
         }
-
-        class box {
-          constructor(val, x, y, op) {
-            this.val = val;
-            this.x = x;
-            this.y = y;
-            this.opacity = op;
-          }
-          show() {
-            P.push();
-            //---------rect---------
-            P.noStroke();
-            P.fill(68, 5, 97, this.opacity);
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
-            //---------text---------
-            P.fill(255, 105, 0, this.opacity);
-            P.strokeWeight(1);
-            P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(20);
-            P.noStroke();
-            P.text(this.val, this.x, this.y);
-            P.pop();
-          }
-        }
-
         class Node {
           constructor(
             val = P.floor(P.random(100)),
@@ -251,10 +229,10 @@ export default function P5Sketch({
             // Go up using parent pointers (assumed to be present)
             let ancestor = root;
             while (ancestor != null) {
-              listOfActions.push({
-                funcName: "check",
-                othArgs: [ancestor, checkers[1]],
-              });
+              // listOfActions.push({
+              //   funcName: "check",
+              //   othArgs: [ancestor, checkers[1]],
+              // });
 
               if (node.val > ancestor.val) {
                 pred = ancestor;
@@ -288,6 +266,76 @@ export default function P5Sketch({
           });
 
           return pred;
+        }
+
+        function getSuccessor(node) {
+          if (checkers[1] === undefined) {
+            checkers[1] = new checker(node.x, node.y);
+            checkers[1].col = [150, 200, 255]; // Light blue-like color
+            listOfActions.push({
+              funcName: "insert",
+              othArgs: [checkers[1]],
+            });
+          }
+
+          let succ = null;
+
+          if (node.rchild != null) {
+            // Move to right subtree and go as far left as possible
+            node = node.rchild;
+            while (node.lchild != null) {
+              listOfActions.push({
+                funcName: "check",
+                othArgs: [node, checkers[1]],
+              });
+              node = node.lchild;
+            }
+            listOfActions.push({
+              funcName: "check",
+              othArgs: [node, checkers[1]],
+            });
+            succ = node;
+          } else {
+            // Go up using parent pointers (assumed to be present)
+            let ancestor = root;
+            while (ancestor != null) {
+              // listOfActions.push({
+              //   funcName: "check",
+              //   othArgs: [ancestor, checkers[1]],
+              // });
+
+              if (node.val < ancestor.val) {
+                succ = ancestor;
+                ancestor = ancestor.lchild;
+              } else {
+                ancestor = ancestor.rchild;
+              }
+            }
+          }
+
+          if (succ != null) {
+            listOfActions.push({
+              funcName: "check",
+              othArgs: [succ, checkers[1]],
+            });
+          }
+
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(10, () => {
+                  checkers[1].col = [0, 255, 255]; // Highlight found successor
+                }),
+                animator.animate(40, [[checkers[1], 0, 0, -255]]),
+                animator.animateFunc(1, () => {
+                  checkers.splice(1, 1);
+                }),
+              ]);
+            },
+            othArgs: [root, checkers[0]],
+          });
+
+          return succ;
         }
 
         function addNodeN(val, rootN) {
@@ -340,6 +388,16 @@ export default function P5Sketch({
               }
             }
           }
+        }
+
+        //-----------------------------------------------------------------------------------------------
+        function getNode(val, rt) {
+          while (rt) {
+            if (rt.val === val) return rt;
+            else if (rt.val > val) return getNode(val, rt.lchild);
+            else return getNode(val, rt.rchild);
+          }
+          return null;
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -466,6 +524,22 @@ export default function P5Sketch({
             searchRef.current.start = false;
           }
 
+          if (prevRef.current.start) {
+            const nd = getNode(prevRef.current.val, root);
+            if (nd) {
+              getPredecessor(nd);
+            }
+            prevRef.current.start = false;
+          }
+
+          if (succRef.current.start) {
+            const nd = getNode(prevRef.current.val, root);
+            if (nd) {
+              getSuccessor(nd);
+            }
+            succRef.current.start = false;
+          }
+
           if (root) {
             root.show();
           }
@@ -487,7 +561,9 @@ export default function P5Sketch({
     deleteRef.current = dlt;
     searchRef.current = srch;
     animSpdRef.current = animSpd;
-  }, [dlt, add, srch, animSpd]);
+    prevRef.current = prev;
+    succRef.current = succ;
+  }, [dlt, add, srch, animSpd, prev, succ]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

@@ -42,13 +42,13 @@ export default function Home() {
       } else if (n == 4) {
         setGetpred((prev) => ({ ...prev, [key]: value }));
       } else if (n == 5) {
-        setGetMax((prev) => ({ ...prev, [key]: value }));
+        setGetsucc((prev) => ({ ...prev, [key]: value }));
       }
     }
   };
   return (
     <main className="main">
-      <h1 className="heading tshad">Algo Visualisor</h1>
+      {/* <h1 className="heading tshad">Algo Visualisor</h1> */}
       <div className="flex gap-96">
         <NumberInput
           btnName="add"
@@ -81,6 +81,42 @@ export default function Home() {
           </Button>
         </div>
       </div>
+      <div key={1} className=" items-center gap-2 mb-4 rounded-5">
+        <Input
+          className="inpbox"
+          placeholder={"val"}
+          onChange={(e) => {
+            updateForm(4, "val", Number(e.target.value));
+            updateForm(5, "val", Number(e.target.value));
+          }}
+        />
+
+        <Button
+          className="dobtn"
+          onClick={() => {
+            updateForm(4, "start", true);
+            setTimeout(() => updateForm(4, "start", false), 10);
+          }}
+        >
+          {"p"}
+        </Button>
+
+        {/* <Input
+          className="inpbox"
+          placeholder={"val"}
+          onChange={(e) => updateForm(5, "val", Number(e.target.value))}
+        /> */}
+
+        <Button
+          className="dobtn"
+          onClick={() => {
+            updateForm(5, "start", true);
+            setTimeout(() => updateForm(5, "start", false), 10);
+          }}
+        >
+          {"s"}
+        </Button>
+      </div>
 
       <Slider
         defaultValue={[1]}
@@ -94,6 +130,8 @@ export default function Home() {
         add={addForm}
         dlt={getMinForm}
         srch={getMaxform}
+        prev={getpredform}
+        succ={getsuccform}
         animSpd={animSpd}
         actionExicutable={(b) => setAEBool(b)}
       />
