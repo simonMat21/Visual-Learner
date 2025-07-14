@@ -11,16 +11,6 @@ const Header = () => {
           <span>⚑</span>
           <span className={styles.logoText}>AlgoVisualisor</span>
         </Link>
-
-        {/* Navigation */}
-        {/* <nav className={styles.nav}>
-          <Link href="/" className={styles.link}>
-            Explore
-          </Link>
-        </nav> */}
-
-        {/* Sign In Button */}
-        <button className={styles.signInBtn}>Sign In</button>
       </div>
     </header>
   );

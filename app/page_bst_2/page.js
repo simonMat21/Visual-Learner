@@ -12,11 +12,19 @@ import P5Sketch from "./P5Sketch";
 export default function Home() {
   const [AEBool, setAEBool] = useState(true);
   const [addForm, setAddForm] = useState({ val: [], start: false });
-  const [searchForm, setSearchForm] = useState({
+  const [getMaxform, setGetMax] = useState({
     val: 0,
     start: false,
   });
-  const [deleteForm, setDeleteForm] = useState({
+  const [getpredform, setGetpred] = useState({
+    val: 0,
+    start: false,
+  });
+  const [getsuccform, setGetsucc] = useState({
+    val: 0,
+    start: false,
+  });
+  const [getMinForm, setGetMin] = useState({
     pos: 0,
     start: false,
   });
@@ -28,9 +36,13 @@ export default function Home() {
       if (n == 1) {
         setAddForm((prev) => ({ ...prev, [key]: value }));
       } else if (n == 2) {
-        setDeleteForm((prev) => ({ ...prev, [key]: value }));
+        setGetMin((prev) => ({ ...prev, [key]: value }));
       } else if (n == 3) {
-        setSearchForm((prev) => ({ ...prev, [key]: value }));
+        setGetMax((prev) => ({ ...prev, [key]: value }));
+      } else if (n == 4) {
+        setGetpred((prev) => ({ ...prev, [key]: value }));
+      } else if (n == 5) {
+        setGetMax((prev) => ({ ...prev, [key]: value }));
       }
     }
   };
@@ -80,8 +92,8 @@ export default function Home() {
       />
       <P5Sketch
         add={addForm}
-        dlt={deleteForm}
-        srch={searchForm}
+        dlt={getMinForm}
+        srch={getMaxform}
         animSpd={animSpd}
         actionExicutable={(b) => setAEBool(b)}
       />

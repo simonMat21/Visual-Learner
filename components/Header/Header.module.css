@@ -1,7 +1,7 @@
 .header {
   background-color: #0d1117;
   padding: 12px 24px;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;

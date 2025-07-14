@@ -37,7 +37,6 @@ export default function Home() {
   return (
     <main className="main">
       <h1 className="heading tshad">Algo Visualisor</h1>
-      {/* <NumberInput onSubmit={(arr) => setData(arr)} /> */}
       <div className="flex gap-10">
         <div className="flex items-center gap-3">
           <Input
@@ -56,31 +55,7 @@ export default function Home() {
           </Button>
         </div>
 
-        {/* <div className="flex items-center gap-3">
-          <Input
-            className="inpbox"
-            placeholder="Enter position"
-            // value={form.pos}
-            onChange={(e) => updateForm(3, "val", Number(e.target.value))}
-          />
-          <Button
-            onClick={() => {
-              updateForm(3, "start", true);
-              setTimeout(() => updateForm(3, "start", false), 10);
-            }}
-            className="dobtn"
-          >
-            search
-          </Button>
-        </div> */}
-
         <div className="flex items-center gap-3">
-          {/* <Input
-            className="inpbox"
-            placeholder="Enter position"
-            // value={form.pos}
-            onChange={(e) => updateForm(2, "pos", Number(e.target.value))}
-          /> */}
           <Button
             onClick={() => {
               updateForm(2, "start", true);
