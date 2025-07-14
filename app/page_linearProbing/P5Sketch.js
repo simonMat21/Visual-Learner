@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { Animator } from "../components/Animator";
+import { Animator, a2o } from "../components/Tideon";
 
 export default function P5Sketch({
   dlt,
@@ -28,16 +28,16 @@ export default function P5Sketch({
             this.y = y;
             this.opacity = 0;
             this.hide = false;
-            this.col = [0, 0, 255];
+            this.col = [0, 255, 0];
           }
 
           show() {
             P.push();
-            P.noFill();
+            P.fill(this.col[0], this.col[1], this.col[2], this.opacity - 150);
             P.strokeWeight(3);
             P.stroke(this.col[0], this.col[1], this.col[2], this.opacity);
             P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
+            P.rect(this.x, this.y, 30, 60);
             P.pop();
           }
         }
@@ -45,7 +45,7 @@ export default function P5Sketch({
         class HT_box {
           constructor(val, x, y, op) {
             this.indexVal = val;
-            this.val = 0;
+            this.val = "null";
             this.x = x;
             this.y = y;
             this.opacity = op;
@@ -64,6 +64,9 @@ export default function P5Sketch({
             P.textSize(15);
             P.noStroke();
             P.text(this.indexVal, this.x, this.y - 10);
+            if (this.val >= 0) {
+              P.fill(0, 0, 255, this.opacity);
+            }
             P.text(this.val, this.x, this.y + 20);
             P.stroke(0, 0, 0, this.opacity);
             P.line(this.x - 15, this.y, this.x + 15, this.y);
@@ -76,8 +79,8 @@ export default function P5Sketch({
             this.size = 100;
             this.table = Array(this.size).fill(null);
             this.x = 40;
-            this.y = 50;
-            this.vgap = 70;
+            this.y = 100;
+            this.vgap = 90;
           }
 
           setUp() {
@@ -99,8 +102,14 @@ export default function P5Sketch({
             for (let i = 0; i < this.size; i++) {
               let probeIdx = (idx + i) % this.size;
               let box = this.table[probeIdx];
-              if (box.val === 0) {
-                box.val = val;
+              animator.addStage({
+                funcName: "insert",
+                Args: [box],
+              });
+              if (box.val === "null") {
+                animator.standAloneFunc(1, () => {
+                  box.val = val;
+                });
                 return;
               }
             }
@@ -112,12 +121,13 @@ export default function P5Sketch({
             for (let i = 0; i < this.size; i++) {
               let probeIdx = (idx + i) % this.size;
               let box = this.table[probeIdx];
-              if (box.val === val) {
-                return true;
-              }
-              if (box.val === 0) break; // not found
+              animator.addStage({
+                funcName: "insert",
+                Args: [box, box.val === "null"],
+              });
+              if (box.val === "null") break; // not found
+              if (box.val === val) break;
             }
-            return false;
           }
 
           delete(val) {
@@ -125,20 +135,37 @@ export default function P5Sketch({
             for (let i = 0; i < this.size; i++) {
               let probeIdx = (idx + i) % this.size;
               let box = this.table[probeIdx];
+              animator.addStage({
+                funcName: "insert",
+                Args: [box, box.val === "null"],
+              });
               if (
                 box.val === val &&
                 this.table[(idx + i + 1) % this.size].val !== val
               ) {
-                box.val = 0;
+                animator.addStage({
+                  funcName: "insert",
+                  Args: [
+                    this.table[(idx + i + 1) % this.size],
+                    this.table[(idx + i + 1) % this.size].val === "null",
+                  ],
+                });
+                animator.addStage({
+                  funcName: "insert",
+                  Args: [box, box.val === "null"],
+                });
+                animator.standAloneFunc(1, () => {
+                  box.val = "null";
+                });
                 return;
               }
-              if (box.val === 0) break;
+              if (box.val === "null") break;
             }
           }
 
           reset() {
             this.table.forEach((b) => {
-              b.val = 0;
+              b.val = "null";
             });
           }
 
@@ -149,26 +176,29 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
 
-        //-----------------------------------------------------------------------------------------------
-
-        function check(_, [a, ckr]) {
+        function insert([a, t]) {
           return animator.animationSequence([
+            animator.animateFunc(1, () => {
+              if (t) {
+                ckr.col = [255, 0, 0];
+              }
+            }),
+            animator.to(1, [a2o(ckr, a.x, a.y, 0)]),
+            animator.animate(15, [a2o(ckr, 0, 0, 255)]),
             animator.delay(10),
-            animator.to(40, [[ckr, a.x, a.y, 255]]),
-          ]);
-        }
-
-        function insert(_, [a]) {
-          return animator.animationSequence([
-            animator.animate(1, [[a, 0, -50, 0]]),
-            animator.animate(20, [[a, 0, 50, 255]]),
+            animator.animate(15, [a2o(ckr, 0, 0, -255)]),
+            animator.animateFunc(1, () => {
+              if (t) {
+                ckr.col = [0, 255, 0];
+              }
+            }),
           ]);
         }
 
         //------------------------------------------------------------------------------------------------
 
         let ht = new HashTable();
-        let listOfActions = [];
+        let ckr = new checker();
 
         let animator;
         P.setup = () => {
@@ -176,7 +206,6 @@ export default function P5Sketch({
           animator = new Animator();
           animator.functionsDictionary = {
             insert: insert,
-            check: check,
           };
           ht.setUp();
         };
@@ -185,7 +214,7 @@ export default function P5Sketch({
           P.frameRate(60);
           P.background(220, 34, 72);
 
-          animator.mainAnimationSequence(listOfActions);
+          animator.mainAnimationSequence();
           animator.setDelayMult(animSpdRef.current);
 
           if (animator.executing) {
@@ -195,7 +224,9 @@ export default function P5Sketch({
           }
 
           if (addRef.current.start) {
-            ht.insert(addRef.current.val);
+            if (addRef.current.val >= 0 && addRef.current.val < 100) {
+              ht.insert(addRef.current.val);
+            }
             addRef.current.start = false;
           }
 
@@ -206,11 +237,10 @@ export default function P5Sketch({
 
           if (searchRef.current.start) {
             console.log(ht.search(searchRef.current.val));
-            ht.search(deleteRef.current.val);
-
             searchRef.current.start = false;
           }
           ht.show();
+          ckr.show();
         };
       };
 

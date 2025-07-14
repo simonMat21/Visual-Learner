@@ -179,42 +179,53 @@ export default function P5Sketch({
           return node;
         }
 
-        function addNodeN(val, root) {
-          checkers.push(new checker(root.x, root.y));
+        function addNodeN(val, rt) {
+          if (rt === null) {
+            root = new Node(val, null, null);
+            root.setPosition(P.width / 2, 50, P.width / 2);
+            root.opacity = 0;
+            listOfActions.push({
+              funcName: "insert",
+              // func: insert,
+              othArgs: [root],
+            });
+            return;
+          }
+          checkers.push(new checker(rt.x, rt.y));
           listOfActions.push({
             funcName: "insert",
             // func: insert,
             othArgs: [checkers[0]],
           });
-          while (root != null) {
+          while (rt != null) {
             listOfActions.push({
               funcName: "check",
-              othArgs: [root, checkers[0]],
+              othArgs: [rt, checkers[0]],
             });
-            if (root.val > val) {
-              if (root.lchild != null) {
-                root = root.lchild;
+            if (rt.val > val) {
+              if (rt.lchild != null) {
+                rt = rt.lchild;
               } else {
                 listOfActions.push({
                   funcName: "addNode",
-                  othArgs: [root, "l", val],
+                  othArgs: [rt, "l", val],
                 });
-                console.log(listOfActions);
                 return;
               }
             } else {
-              if (root.rchild != null) {
-                root = root.rchild;
+              if (rt.rchild != null) {
+                rt = rt.rchild;
               } else {
                 listOfActions.push({
                   funcName: "addNode",
-                  othArgs: [root, "r", val],
+                  othArgs: [rt, "r", val],
                 });
                 return;
               }
             }
           }
         }
+
         function searchNodeN(val, root) {
           let curr = root;
           if (checkers[0] === undefined) {
@@ -285,10 +296,10 @@ export default function P5Sketch({
           return result;
         }
 
-        function deleteNode(val, root) {
-          let curr = root;
+        function deleteNode(val, rt) {
+          let curr = rt;
           if (checkers[0] === undefined) {
-            checkers[0] = new checker(root.x, root.y);
+            checkers[0] = new checker(rt.x, rt.y);
             listOfActions.push({
               funcName: "insert",
               othArgs: [checkers[0]],
@@ -300,16 +311,15 @@ export default function P5Sketch({
               funcName: "check",
               othArgs: [curr, checkers[0]],
             });
+
             if (curr.val === val) {
               // Case 1: No children
-
               if (curr.lchild == null && curr.rchild == null) {
                 listOfActions.push({
                   func: function () {
                     return animator.animationSequence([
                       animator.animateFunc(10, () => {
                         checkers[0].col = [0, 255, 0];
-                        console.log(curr);
                       }),
                       animator.animate(30, [
                         [curr, 0, 0, -255],
@@ -317,10 +327,14 @@ export default function P5Sketch({
                       ]),
                       animator.animateFunc(1, () => {
                         checkers.splice(0, 1);
-                        if (curr.parent.rchild === curr) {
-                          curr.parent.rchild = null;
+                        if (curr.parent) {
+                          if (curr.parent.rchild === curr) {
+                            curr.parent.rchild = null;
+                          } else {
+                            curr.parent.lchild = null;
+                          }
                         } else {
-                          curr.parent.lchild = null;
+                          root = null; // 🔧 deleted node was root
                         }
                       }),
                     ]);
@@ -328,7 +342,7 @@ export default function P5Sketch({
                 });
               }
 
-              // Case 2: Only one child
+              // Case 2: One child (right)
               else if (curr.lchild == null) {
                 listOfActions.push({
                   func: function () {
@@ -351,17 +365,26 @@ export default function P5Sketch({
                       ),
                       animator.animateFunc(1, () => {
                         checkers.splice(0, 1);
-                        if (curr.parent.lchild === curr) {
-                          curr.parent.lchild = curr.rchild;
+                        if (curr.parent) {
+                          if (curr.parent.lchild === curr) {
+                            curr.parent.lchild = curr.rchild;
+                          } else {
+                            curr.parent.rchild = curr.rchild;
+                          }
+                          curr.rchild.parent = curr.parent;
                         } else {
-                          curr.parent.rchild = curr.rchild;
+                          root = curr.rchild; // 🔧 deleted node was root
+                          root.parent = null;
+                          root.wd = 500;
                         }
-                        curr.rchild.parent = curr.parent;
                       }),
                     ]);
                   },
                 });
-              } else if (curr.rchild == null) {
+              }
+
+              // Case 2: One child (left)
+              else if (curr.rchild == null) {
                 listOfActions.push({
                   func: function () {
                     return animator.animationSequence([
@@ -383,20 +406,27 @@ export default function P5Sketch({
                       ),
                       animator.animateFunc(1, () => {
                         checkers.splice(0, 1);
-                        if (curr.parent.lchild === curr) {
-                          curr.parent.lchild = curr.lchild;
+                        if (curr.parent) {
+                          if (curr.parent.lchild === curr) {
+                            curr.parent.lchild = curr.lchild;
+                          } else {
+                            curr.parent.rchild = curr.lchild;
+                          }
+                          curr.lchild.parent = curr.parent;
                         } else {
-                          curr.parent.rchild = curr.lchild;
+                          root = curr.lchild; // 🔧 deleted node was root
+                          root.parent = null;
+                          root.wd = 500;
                         }
-                        curr.lchild.parent = curr.parent;
                       }),
                     ]);
                   },
                 });
-              } else {
-                // Case 3: Two children – find in-order successor
-                let minNode = getMin(curr.rchild);
+              }
 
+              // Case 3: Two children – swap with successor and delete recursively
+              else {
+                let minNode = getMin(curr.rchild);
                 listOfActions.push({
                   func: function () {
                     return animator.animationSequence([
@@ -432,11 +462,14 @@ export default function P5Sketch({
                   },
                 });
               }
+
               return curr;
             }
-            if (val < curr.val) curr = curr.lchild;
-            else curr = curr.rchild;
+
+            curr = val < curr.val ? curr.lchild : curr.rchild;
           }
+
+          // If node not found
           listOfActions.push({
             func: function () {
               return animator.animationSequence([
@@ -450,7 +483,8 @@ export default function P5Sketch({
               ]);
             },
           });
-          return null; // Not found
+
+          return null;
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -596,7 +630,9 @@ export default function P5Sketch({
             searchRef.current.start = false;
           }
 
-          root.show();
+          if (root) {
+            root.show();
+          }
           checkers.forEach((i) => i.show());
           boxes.forEach((i) => i.show());
         };

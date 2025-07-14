@@ -32,13 +32,19 @@ export default function Home() {
       links: [
         { href: "/page_linkedList", val: "linked List" },
         { href: "/page_doubleLinkedList", val: "Double linked list" },
-        { href: "/page_linkedList", val: "Cyclic linked list" },
+        // { href: "/page_linkedList", val: "Cyclic linked list" },
       ],
     },
     {
-      title: "Misc",
+      title: "heap",
       links: [
         { href: "/page_heap", val: "heap" },
+        { href: "/page_heapSort", val: "heap sort" },
+      ],
+    },
+    {
+      title: "hash",
+      links: [
         { href: "/page_hashTable", val: "hash table" },
         { href: "/page_countSort", val: "count sort" },
         { href: "/page_linearProbing", val: "Linear Probing" },
