@@ -56,7 +56,7 @@ export default function Home() {
           </Button>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <Input
             className="inpbox"
             placeholder="Enter position"
@@ -72,15 +72,15 @@ export default function Home() {
           >
             search
           </Button>
-        </div>
+        </div> */}
 
         <div className="flex items-center gap-3">
-          <Input
+          {/* <Input
             className="inpbox"
             placeholder="Enter position"
             // value={form.pos}
             onChange={(e) => updateForm(2, "pos", Number(e.target.value))}
-          />
+          /> */}
           <Button
             onClick={() => {
               updateForm(2, "start", true);
@@ -88,7 +88,7 @@ export default function Home() {
             }}
             className="dobtn"
           >
-            delete
+            pop
           </Button>
         </div>
       </div>

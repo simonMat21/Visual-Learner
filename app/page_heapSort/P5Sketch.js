@@ -403,10 +403,6 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           arr.forEach((item) => {
             if (item.parent) {
               arrows.push(new arrow(item, item.parent));
-              // animator_2.addStage({
-              //   funcName: "insert",
-              //   Args: [arrows[arrows.length - 1]],
-              // });
             }
           });
         }

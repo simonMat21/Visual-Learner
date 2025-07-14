@@ -64,10 +64,9 @@ export default function P5Sketch({
             this.wd = parent ? parent.wd / 2 : P.width / 2;
           }
 
-          setNode(lor = true) {
-            this.wd = this.parent.wd / 2;
-            this.x = lor ? this.parent.x - this.wd : this.parent.x + this.wd;
-            this.y = this.parent.y + 100;
+          setNode([x, y]) {
+            this.x = x;
+            this.y = y;
           }
 
           show() {
@@ -76,27 +75,6 @@ export default function P5Sketch({
               this.opacity
             );
             P.stroke(0, 0, 255, this.opacity);
-
-            if (this.parent) {
-              P.push();
-              if (!this.hide) {
-                P.noFill();
-                P.bezier(
-                  this.x,
-                  this.y - 20,
-                  this.x,
-                  this.parent.y + 20,
-                  this.parent.x,
-                  this.y - 20,
-                  this.parent.x,
-                  this.parent.y + 20
-                );
-                P.line(this.x, this.y - 21, this.x + 5, this.y - 21 - 5);
-                P.line(this.x, this.y - 21, this.x - 5, this.y - 21 - 5);
-                P.pop();
-              }
-            }
-
             P.noStroke();
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
@@ -137,13 +115,12 @@ export default function P5Sketch({
           add(val) {
             let item;
             if (this.heap.length > 0) {
-              console.log(this.heap[this.parent(this.heap.length)]);
               item = new Node(val, this.heap[this.parent(this.heap.length)]);
-              item.setNode(this.heap.length % 2 === 1);
+              item.setNode(positions[this.heap.length]);
             } else {
               item = new Node(val, null);
               item.x = P.width / 2;
-              item.y = 200;
+              item.y = 150;
             }
 
             Node.maxVal =
@@ -203,8 +180,7 @@ export default function P5Sketch({
                 ]);
               },
             });
-            // this.heap[0] = this.heap.pop();
-            // this.heapifyDown(0);
+
             return min;
           }
 
@@ -240,7 +216,7 @@ export default function P5Sketch({
 
           // Optional: print val list for debug
           printVals() {
-            console.log(this.heap.map((b) => b.val));
+            console.log(this.heap);
           }
         }
 
@@ -327,8 +303,6 @@ export default function P5Sketch({
                 ]);
               },
             });
-            // this.heap[0] = this.heap.pop();
-            // this.heapifyDown(0);
             return min;
           }
 
@@ -364,27 +338,7 @@ export default function P5Sketch({
 
           // Optional: print val list for debug
           printVals() {
-            console.log(this.heap.map((b) => b.val));
-          }
-        }
-
-        class checker {
-          constructor(x = 0, y = 0) {
-            this.x = x;
-            this.y = y;
-            this.opacity = 0;
-            this.hide = false;
-            this.col = [0, 0, 255];
-          }
-
-          show() {
-            P.push();
-            P.noFill();
-            P.strokeWeight(3);
-            P.stroke(this.col[0], this.col[1], this.col[2], this.opacity);
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
-            P.pop();
+            console.log(this.heap.map((b) => b));
           }
         }
 
@@ -425,23 +379,9 @@ export default function P5Sketch({
               P.pop();
             }
           }
-
-          setUp(a) {
-            this.head = a;
-            this.tail = a.parent || null;
-          }
         }
 
         //-----------------------------------------------------------------------------------------------
-
-        //-----------------------------------------------------------------------------------------------
-
-        function check(_, [a, ckr]) {
-          return animator_1.animationSequence([
-            animator_1.delay(10),
-            animator_1.to(40, [{ obj: ckr, x: a.x, y: a.y }]),
-          ]);
-        }
 
         function insert([a]) {
           return animator_1.animationSequence([
@@ -524,13 +464,121 @@ export default function P5Sketch({
 
         //------------------------------------------------------------------------------------------------
 
+        function setArrows(n) {
+          if (n === arrows.length) return;
+          arrows = [];
+          const wd = P.width;
+          const startH = 150;
+          if (n > 0) {
+            arrows[0] = new arrow(
+              { x: wd / 2 - wd / 4, y: startH + 100 * 1 },
+              { x: wd / 2, y: startH }
+            );
+          }
+          if (n > 1) {
+            arrows[1] = new arrow(
+              { x: wd / 2 + wd / 4, y: startH + 100 * 1 },
+              { x: wd / 2, y: startH }
+            );
+          }
+          if (n > 2) {
+            arrows[2] = new arrow(
+              { x: wd / 2 - wd / 4 - wd / 8, y: startH + 100 * 2 },
+              { x: wd / 2 - wd / 4, y: startH + 100 }
+            );
+          }
+          if (n > 3) {
+            arrows[3] = new arrow(
+              { x: wd / 2 - wd / 4 + wd / 8, y: startH + 100 * 2 },
+              { x: wd / 2 - wd / 4, y: startH + 100 }
+            );
+          }
+          if (n > 4) {
+            arrows[4] = new arrow(
+              { x: wd / 2 + wd / 4 - wd / 8, y: startH + 100 * 2 },
+              { x: wd / 2 + wd / 4, y: startH + 100 }
+            );
+          }
+          if (n > 5) {
+            arrows[5] = new arrow(
+              { x: wd / 2 + wd / 4 + wd / 8, y: startH + 100 * 2 },
+              { x: wd / 2 + wd / 4, y: startH + 100 }
+            );
+          }
+          if (n > 6) {
+            arrows[6] = new arrow(
+              { x: wd / 2 - wd / 4 - wd / 8 - wd / 16, y: startH + 100 * 3 },
+              { x: wd / 2 - wd / 4 - wd / 8, y: startH + 100 * 2 }
+            );
+          }
+          if (n > 7) {
+            arrows[7] = new arrow(
+              { x: wd / 2 - wd / 4 - wd / 8 + wd / 16, y: startH + 100 * 3 },
+              { x: wd / 2 - wd / 4 - wd / 8, y: startH + 100 * 2 }
+            );
+          }
+          if (n > 8) {
+            arrows[8] = new arrow(
+              { x: wd / 2 - wd / 4 + wd / 8 - wd / 16, y: startH + 100 * 3 },
+              { x: wd / 2 - wd / 4 + wd / 8, y: startH + 100 * 2 }
+            );
+          }
+          if (n > 9) {
+            arrows[9] = new arrow(
+              { x: wd / 2 - wd / 4 + wd / 8 + wd / 16, y: startH + 100 * 3 },
+              { x: wd / 2 - wd / 4 + wd / 8, y: startH + 100 * 2 }
+            );
+          }
+          if (n > 10) {
+            arrows[10] = new arrow(
+              { x: wd / 2 + wd / 4 - wd / 8 - wd / 16, y: startH + 100 * 3 },
+              { x: wd / 2 + wd / 4 - wd / 8, y: startH + 100 * 2 }
+            );
+          }
+          if (n > 11) {
+            arrows[11] = new arrow(
+              { x: wd / 2 + wd / 4 - wd / 8 + wd / 16, y: startH + 100 * 3 },
+              { x: wd / 2 + wd / 4 - wd / 8, y: startH + 100 * 2 }
+            );
+          }
+          if (n > 12) {
+            arrows[12] = new arrow(
+              { x: wd / 2 + wd / 4 + wd / 8 - wd / 16, y: startH + 100 * 3 },
+              { x: wd / 2 + wd / 4 + wd / 8, y: startH + 100 * 2 }
+            );
+          }
+          if (n > 13) {
+            arrows[13] = new arrow(
+              { x: wd / 2 + wd / 4 + wd / 8 + wd / 16, y: startH + 100 * 3 },
+              { x: wd / 2 + wd / 4 + wd / 8, y: startH + 100 * 2 }
+            );
+          }
+        }
+
         //------------------------------------------------------------------------------------------------
 
         let checkers = [];
         let animator_1;
         let animator_2;
 
-        let swapers = [];
+        let arrows = [];
+        const positions = [
+          [500, 150], //lvl 1
+          [250, 250], //lvl 2
+          [750, 250], //lvl 2
+          [125, 350], //lvl 3
+          [375, 350], //lvl 3
+          [625, 350], //lvl 3
+          [875, 350], //lvl 3
+          [62.5, 450], //lvl 4
+          [187.5, 450], //lvl 4
+          [312.5, 450], //lvl 4
+          [437.5, 450], //lvl 4
+          [562.5, 450], //lvl 4
+          [687.5, 450], //lvl 4
+          [812.5, 450], //lvl 4
+          [937.5, 450], //lvl 4
+        ];
 
         const heap = new BoxHeap();
         const nodeHeap = new NodeHeap();
@@ -548,18 +596,14 @@ export default function P5Sketch({
 
           animator_1.functionsDictionary = {
             insert: insert,
-            check: check,
             swap: swap,
             delete: delete_,
           };
 
-          // swapers[0] = new arrow();
-          // swapers[1] = new arrow();
-
-          heap.add(new Box(100, 100, 12));
-          heap.add(new Box(150, 100, 18));
-          heap.add(new Box(200, 100, 14));
-          heap.add(new Box(250, 100, 1));
+          heap.add(new Box(100, 60, 12));
+          heap.add(new Box(150, 60, 18));
+          heap.add(new Box(200, 60, 14));
+          heap.add(new Box(250, 60, 1));
           heap.delete();
 
           nodeHeap.add(12);
@@ -584,10 +628,12 @@ export default function P5Sketch({
             actionExicutable(true);
           }
 
+          setArrows(heap.heap.length - 1);
+
           //--
           if (addRef.current.start) {
             heap.add(
-              new Box(heap.heap.length * 50 + 100, 100, addRef.current.val)
+              new Box(heap.heap.length * 50 + 100, 60, addRef.current.val)
             );
             nodeHeap.add(addRef.current.val);
             addRef.current.start = false;
@@ -599,15 +645,8 @@ export default function P5Sketch({
             deleteRef.current.start = false;
           }
 
-          if (searchRef.current.start) {
-            heap.search(searchRef.current.val);
-            heap.printVals();
-
-            searchRef.current.start = false;
-          }
-
           checkers.forEach((i) => i.show());
-          // swapers.forEach((i) => i.show());
+          arrows.forEach((i) => i.show());
           heap.heap.forEach((i) => i.show());
           nodeHeap.heap.forEach((i) => i.show());
         };

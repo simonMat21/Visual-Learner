@@ -167,6 +167,13 @@ export class Animator {
     };
   }
 
+  standAloneFunc(duration, func) {
+    const anim = this.animateFunc(duration, func); // Create once
+    this.addStage({
+      func: () => this.animationSequence([anim]), // Reuse the same function
+    });
+  }
+
   mix(duration, A) {
     duration = duration <= 1 ? 1 : Math.floor(duration * this.delayMult);
     if (A.length == 0) {
