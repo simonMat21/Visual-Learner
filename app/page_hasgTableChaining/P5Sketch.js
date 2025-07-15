@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { Animator } from "../components/Animator";
+import { Animator, a2o } from "../components/Tideon";
 
 export default function P5Sketch({
   dlt,
@@ -33,12 +33,18 @@ export default function P5Sketch({
 
           show() {
             P.push();
-            P.noFill();
+            P.fill(this.col[0], this.col[1], this.col[2], this.opacity - 150);
             P.strokeWeight(3);
             P.stroke(this.col[0], this.col[1], this.col[2], this.opacity);
             P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
+            P.rect(this.x, this.y, 30);
             P.pop();
+          }
+
+          setUp(x, y, op) {
+            this.x = x;
+            this.y = y;
+            this.opacity = op;
           }
         }
 
@@ -114,28 +120,76 @@ export default function P5Sketch({
           }
 
           insert(val) {
+            let nbox = new HT_box(val, 100, 200, 0);
+            animator.addStage({
+              funcName: "insert",
+              Args: [nbox],
+            });
             let idx = this.hash(val);
             // Check if val already exists (optional)
             for (let box of this.table[idx]) {
               if (box.val === val) return; // avoid duplicates
             }
             let chainLen = this.table[idx].length;
-            this.table[idx].push(
-              new HT_box(val, 300 + chainLen * 50, 50 + 45 * idx, 255)
-            );
+            animator.addStage({
+              funcName: "add",
+              Args: [nbox, 310 + chainLen * 30, 50 + 45 * idx],
+            });
+            this.table[idx].push(nbox);
           }
 
           search(val) {
+            ckr.setUp(100, 200, 0);
+            animator.addStage({
+              funcName: "insert",
+              Args: [ckr],
+            });
             let idx = this.hash(val);
+            animator.addStage({
+              funcName: "check",
+              Args: [this.table[idx][0], ckr],
+            });
             for (let box of this.table[idx]) {
-              if (box.val === val) return true;
+              animator.addStage({
+                funcName: "check",
+                Args: [box, ckr],
+              });
+              if (box.val === val) {
+                animator.addStage({
+                  funcName: "found",
+                  Args: [ckr],
+                });
+                return box;
+              }
             }
-            return false;
+            animator.addStage({
+              funcName: "notfound",
+              Args: [ckr],
+            });
+            return null;
           }
 
           delete(val) {
             let idx = this.hash(val);
-            this.table[idx] = this.table[idx].filter((box) => box.val !== val);
+            let dBox = this.search(val);
+            animator.addStage({
+              funcName: "remove",
+              Args: [dBox],
+            });
+            animator.addStage({
+              funcName: "reset",
+              Args: [
+                this.table[idx].filter(
+                  (_, id) =>
+                    id > this.table[idx].findIndex((item) => item.val === val)
+                ),
+              ],
+            });
+            animator.standAloneFunc(1, () => {
+              this.table[idx] = this.table[idx].filter(
+                (box) => box.val !== val
+              );
+            });
           }
 
           reset() {
@@ -155,34 +209,85 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
 
-        //-----------------------------------------------------------------------------------------------
-
-        function check(_, [a, ckr]) {
+        function check([a, ckr]) {
           return animator.animationSequence([
             animator.delay(10),
-            animator.to(40, [[ckr, a.x, a.y, 255]]),
+            animator.to(30, [a2o(ckr, a.x, a.y, 255)]),
           ]);
         }
 
-        function insert(_, [a]) {
+        function insert([a]) {
           return animator.animationSequence([
-            animator.animate(1, [[a, 0, -50, 0]]),
-            animator.animate(20, [[a, 0, 50, 255]]),
+            animator.animate(1, [a2o(a, 0, -50, 0)]),
+            animator.animate(20, [a2o(a, 0, 50, 255)]),
+          ]);
+        }
+
+        function add([a, x, y]) {
+          return animator.animationSequence([
+            animator.delay(20),
+            animator.to(20, [a2o(a, a.x, y, 255)]),
+            animator.delay(20),
+            animator.to(50, [a2o(a, x, a.y, 255)]),
+          ]);
+        }
+
+        function reset([arr]) {
+          return animator.animationSequence([
+            animator.animate(
+              20,
+              arr.map((box) => a2o(box, -30, 0, 0))
+            ),
+          ]);
+        }
+
+        function remove([a]) {
+          return animator.animationSequence([
+            animator.animate(20, [a2o(a, 0, -50, -255)]),
+          ]);
+        }
+
+        function found([ckr]) {
+          return animator.animationSequence([
+            animator.animateFunc(1, () => {
+              ckr.col = [0, 255, 0];
+            }),
+            animator.animate(40, [a2o(ckr, 0, 0, -255)]),
+            animator.animateFunc(1, () => {
+              ckr.col = [0, 0, 255];
+            }),
+          ]);
+        }
+
+        function notfound([ckr]) {
+          return animator.animationSequence([
+            animator.animateFunc(1, () => {
+              ckr.col = [255, 0, 0];
+            }),
+            animator.animate(40, [a2o(ckr, 0, 0, -255)]),
+            animator.animateFunc(1, () => {
+              ckr.col = [0, 0, 255];
+            }),
           ]);
         }
 
         //------------------------------------------------------------------------------------------------
 
         let ht = new HashTable();
-        let listOfActions = [];
-
+        let ckr = new checker();
         let animator;
+
         P.setup = () => {
           P.createCanvas(1000, 500);
           animator = new Animator();
           animator.functionsDictionary = {
             insert: insert,
             check: check,
+            add: add,
+            reset: reset,
+            remove: remove,
+            found: found,
+            notfound: notfound,
           };
           ht.setUp();
         };
@@ -191,7 +296,7 @@ export default function P5Sketch({
           P.frameRate(60);
           P.background(220, 34, 72);
 
-          animator.mainAnimationSequence(listOfActions);
+          animator.mainAnimationSequence();
           animator.setDelayMult(animSpdRef.current);
 
           if (animator.executing) {
@@ -212,11 +317,10 @@ export default function P5Sketch({
 
           if (searchRef.current.start) {
             console.log(ht.search(searchRef.current.val));
-            ht.search(deleteRef.current.val);
-
             searchRef.current.start = false;
           }
           ht.show();
+          ckr.show();
         };
       };
 
