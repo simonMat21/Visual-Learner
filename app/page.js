@@ -58,7 +58,7 @@ export default function Home() {
   //  backdrop-blur-[1px] bg-white/10 -->ADD this for glass effect siree.
   return (
     <main className="main">
-      <h1 className="heading tshad">Algo Visualisor</h1>
+      <h1 className="heading tshad">Visual Learner</h1>
 
       {linkers.map((item, index) => {
         return (

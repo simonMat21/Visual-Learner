@@ -9,7 +9,7 @@ const Header = () => {
         {/* Logo */}
         <Link className={styles.logo} href="/">
           <span>⚑</span>
-          <span className={styles.logoText}>AlgoVisualisor</span>
+          <span className={styles.logoText}>Visual Learner</span>
         </Link>
       </div>
     </header>
