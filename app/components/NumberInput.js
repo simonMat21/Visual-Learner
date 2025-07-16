@@ -37,7 +37,7 @@ export default function NumberInput({
       .filter((num) => !isNaN(num));
 
     setOutput(arr);
-    onSubmit(arr.slice(0, 10));
+    onSubmit(arr.slice(0, 10).filter((a) => a >= 0 && a <= 100));
   };
 
   return (

@@ -17,6 +17,7 @@ export default function Home() {
         { href: "/page_quickSort", val: "quick sort" },
         { href: "/page_heapSort", val: "heap sort" },
         { href: "/page_countSort", val: "count sort" },
+        { href: "/page_BucketSort", val: "Bucket Sort" },
       ],
     },
     {

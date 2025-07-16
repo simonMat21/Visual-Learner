@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import NumberInput from "../components/NumberInput";
 
+import CodeBlock from "../components/CodeBlock";
 import P5Sketch from "./P5Sketch";
 
 export default function Home() {
@@ -12,6 +13,16 @@ export default function Home() {
   const [addForm, setAddForm] = useState({ val: [], pos: 0, start: false });
   const [animSpd, setAnimSpd] = useState(1);
 
+  const codeSnippets = {
+    javascript: `function greet(name) {
+  return "Hello, " + name;
+}`,
+    python: `def greet(name):
+    return "Hello, " + name`,
+    cpp: `std::string greet(std::string name) {
+    return "Hello, " + name;
+}`,
+  };
   const updateForm = (n, key, value) => {
     if (key !== "start" || AEBool) {
       if (n == 1) {
@@ -42,6 +53,7 @@ export default function Home() {
         animSpd={animSpd}
         actionExicutable={(b) => setAEBool(b)}
       />
+      <CodeBlock codeSnippets={codeSnippets} defaultLang="javascript" />
     </main>
   );
 }

@@ -139,6 +139,16 @@ export default function P5Sketch({
             this.x = x;
             this.y = y;
           }
+
+          update() {
+            if (this.parent) {
+              this.wd = this.parent.wd / 2;
+              if (this.parent.lchild === this) this.x = this.parent.x - this.wd;
+              if (this.parent.rchild === this) this.x = this.parent.x + this.wd;
+            }
+            if (this.rchild) this.rchild.update();
+            if (this.lchild) this.lchild.update();
+          }
         }
         //-----------------------------------------------------------------------------------------------
 
@@ -377,6 +387,7 @@ export default function P5Sketch({
                           root.parent = null;
                           root.wd = 500;
                         }
+                        root.update();
                       }),
                     ]);
                   },
@@ -418,6 +429,7 @@ export default function P5Sketch({
                           root.parent = null;
                           root.wd = 500;
                         }
+                        root.update();
                       }),
                     ]);
                   },
