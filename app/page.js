@@ -24,8 +24,15 @@ export default function Home() {
       title: "Search",
       links: [
         { href: "/page_binarySearch", val: "binary search" },
+        { href: "/page_linearSearch", val: "linear search" },
+      ],
+    },
+    {
+      title: "Binary Search Tree",
+      links: [
         { href: "/page_bst", val: "BST" },
         { href: "/page_bst_2", val: "BST 2" },
+        { href: "/page_bst_3", val: "BST 3" },
       ],
     },
     {
@@ -64,9 +71,9 @@ export default function Home() {
         return (
           <div
             key={index}
-            className="flex flex-col align-center mt-12 border-2"
+            className="flex flex-col align-center mt-12 border-2 rounded-lg"
           >
-            <h1 className="titleval tshad">{item.title}</h1>
+            <h1 className="titleval tshad m-auto">{item.title}</h1>
             <div className="flex w-200  p-4 rounded-3xl">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10 p-4 m[25px] max-w-6xl w-full">
                 {item.links.map((val, index) => {
