@@ -4,91 +4,151 @@ export default function Home() {
   const linkers = [
     {
       title: "Sorting",
+      icon: "🔄",
+      color: "from-purple-500 to-pink-500",
+      shadowColor: "shadow-purple-500/50",
       links: [
-        { href: "/page_bubbleSort", val: "bubbleSort" },
-        { href: "/page_selectionSort", val: "selectionSort" },
-        { href: "/page_insertionSort", val: "insertionSort" },
-        { href: "/page_mergeSort", val: "mergeSort" },
-        { href: "/page_quickSort", val: "quick sort" },
-        { href: "/page_heapSort", val: "heap sort" },
-        { href: "/page_countSort", val: "count sort" },
+        { href: "/page_bubbleSort", val: "Bubble Sort" },
+        { href: "/page_selectionSort", val: "Selection Sort" },
+        { href: "/page_insertionSort", val: "Insertion Sort" },
+        { href: "/page_mergeSort", val: "Merge Sort" },
+        { href: "/page_quickSort", val: "Quick Sort" },
+        { href: "/page_heapSort", val: "Heap Sort" },
+        { href: "/page_countSort", val: "Count Sort" },
         { href: "/page_BucketSort", val: "Bucket Sort" },
         { href: "/page_radixSort", val: "Radix Sort" },
       ],
     },
     {
       title: "Search",
+      icon: "🔍",
+      color: "from-blue-500 to-cyan-500",
+      shadowColor: "shadow-blue-500/50",
       links: [
-        { href: "/page_binarySearch", val: "binary search" },
-        { href: "/page_linearSearch", val: "linear search" },
+        { href: "/page_binarySearch", val: "Binary Search" },
+        { href: "/page_linearSearch", val: "Linear Search" },
       ],
     },
     {
       title: "Binary Search Tree",
+      icon: "🌳",
+      color: "from-green-500 to-emerald-500",
+      shadowColor: "shadow-green-500/50",
       links: [
-        { href: "/page_bst", val: "BST" },
-        { href: "/page_bst_2", val: "BST 2" },
-        { href: "/page_bst_3", val: "BST 3" },
+        { href: "/page_bst", val: "BST Basic" },
+        { href: "/page_bst_2", val: "BST Advanced" },
+        { href: "/page_bst_3", val: "BST Operations" },
       ],
     },
     {
       title: "Linked List",
+      icon: "🔗",
+      color: "from-orange-500 to-red-500",
+      shadowColor: "shadow-orange-500/50",
       links: [
-        { href: "/page_linkedList", val: "linked List" },
-        { href: "/page_doubleLinkedList", val: "Double linked list" },
-        // { href: "/page_linkedList", val: "Cyclic linked list" },
+        { href: "/page_linkedList", val: "Linked List" },
+        { href: "/page_doubleLinkedList", val: "Double Linked List" },
       ],
     },
     {
-      title: "heap",
+      title: "Heap",
+      icon: "📊",
+      color: "from-yellow-500 to-orange-500",
+      shadowColor: "shadow-yellow-500/50",
       links: [
-        { href: "/page_heap", val: "heap" },
-        { href: "/page_heapSort", val: "heap sort" },
+        { href: "/page_heap", val: "Heap Structure" },
+        { href: "/page_heapSort", val: "Heap Sort" },
       ],
     },
     {
-      title: "hash",
+      title: "Hash",
+      icon: "🗝️",
+      color: "from-indigo-500 to-purple-500",
+      shadowColor: "shadow-indigo-500/50",
       links: [
-        { href: "/page_hashTable", val: "hash table" },
-        { href: "/page_countSort", val: "count sort" },
+        { href: "/page_hashTable", val: "Hash Table" },
+        { href: "/page_countSort", val: "Count Sort" },
         { href: "/page_linearProbing", val: "Linear Probing" },
         { href: "/page_quadraticProbing", val: "Quadratic Probing" },
-        { href: "/page_hasgTableChaining", val: "HasgTable Chaining" },
+        { href: "/page_hasgTableChaining", val: "Hash Table Chaining" },
         { href: "/page_BucketSort", val: "Bucket Sort" },
       ],
     },
   ];
-  //  backdrop-blur-[1px] bg-white/10 -->ADD this for glass effect siree.
-  return (
-    <main className="main">
-      <h1 className="heading tshad">Visual Learner</h1>
 
-      {linkers.map((item, index) => {
-        return (
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black py-8 px-4 sm:px-6 lg:px-8">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+          Visual Learner
+        </h1>
+        <p className="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto">
+          Master data structures and algorithms through interactive
+          visualizations
+        </p>
+        <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
+      </div>
+
+      {/* Categories */}
+      <div className="max-w-7xl mx-auto space-y-12">
+        {linkers.map((category, categoryIndex) => (
           <div
-            key={index}
-            className="flex flex-col align-center mt-12 border-2 rounded-lg"
+            key={categoryIndex}
+            className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300"
           >
-            <h1 className="titleval tshad m-auto">{item.title}</h1>
-            <div className="flex w-200  p-4 rounded-3xl">
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10 p-4 m[25px] max-w-6xl w-full">
-                {item.links.map((val, index) => {
-                  return (
-                    <a href={val.href} key={index}>
-                      <div
-                        className="container bg-[#ff4a4a] shadow-[4px_4px_8px_rgba(255,74,74,0.8)]  w-full h-50 rounded-lg hover:cursor-pointer flex flex-col
-               items-center transition-transform duration-350 ease-in-out hover:scale-110 justify-end active:scale:100 p-4 text-black"
-                      >
-                        {val.val}
-                      </div>
-                    </a>
-                  );
-                })}
+            {/* Category Header */}
+            <div className="flex items-center justify-center mb-8">
+              <div className="flex items-center space-x-4">
+                <span className="text-3xl sm:text-4xl">{category.icon}</span>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+                  {category.title}
+                </h2>
               </div>
             </div>
+
+            {/* Links Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+              {category.links.map((link, linkIndex) => (
+                <a href={link.href} key={linkIndex} className="group">
+                  <div
+                    className={`
+                    relative overflow-hidden rounded-xl p-4 sm:p-6 h-28 sm:h-32 
+                    bg-gradient-to-br ${category.color} 
+                    shadow-lg ${category.shadowColor}
+                    transform transition-all duration-300 
+                    hover:scale-105 hover:shadow-2xl
+                    active:scale-95
+                    flex items-center justify-center
+                    border border-white/20
+                  `}
+                  >
+                    {/* Animated background effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+
+                    {/* Content */}
+                    <div className="relative z-10 text-center">
+                      <h3 className="text-white font-semibold text-sm sm:text-base lg:text-lg leading-tight">
+                        {link.val}
+                      </h3>
+                    </div>
+
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
-        );
-      })}
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div className="text-center mt-16 text-gray-500">
+        <p className="text-sm sm:text-base">
+          Click on any algorithm to start your visual learning journey
+        </p>
+      </div>
     </main>
   );
 }

@@ -46,18 +46,3 @@
 .link:hover {
   color: white;
 }
-
-.signInBtn {
-  background-color: #21262d;
-  color: #c9d1d9;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.signInBtn:hover {
-  background-color: #30363d;
-}

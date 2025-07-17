@@ -11,8 +11,6 @@ export default function NumberInput({
   lenRange = [5, 10],
 }) {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState([]);
-
   function generateRandomArray() {
     const length =
       Math.floor(Math.random() * (lenRange[1] - lenRange[0])) + lenRange[0]; // Random length between 7 and 10
@@ -25,7 +23,6 @@ export default function NumberInput({
     }
 
     setInput(array.join(", "));
-    // setOutput(array);
   }
 
   const handleConvert = () => {
@@ -36,7 +33,6 @@ export default function NumberInput({
       .map((val) => Number(val))
       .filter((num) => !isNaN(num));
 
-    // setOutput(arr);
     onSubmit(
       arr
         .slice(0, lenRange[1])
@@ -59,8 +55,6 @@ export default function NumberInput({
       <Button onClick={handleConvert} className="dobtn">
         {btnName}
       </Button>
-
-      {/* <div className="text-muted-foreground">Output: [{output.join(", ")}]</div> */}
     </div>
   );
 }

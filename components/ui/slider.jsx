@@ -24,7 +24,7 @@ function Slider({
   );
 
   return (
-    <div className="px-3 rounded-4xl  pt-3 bg-black  mb-3">
+    <div className="px-3 rounded-4xl  pt-3 bg-transparent  mb-3">
       <SliderPrimitive.Root
         data-slot="slider"
         defaultValue={defaultValue}
@@ -32,7 +32,7 @@ function Slider({
         min={min}
         max={max}
         className={cn(
-          "relative flex w-full touch-none items-center mb-4 bg-black rounded-4xl select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
+          "relative flex w-full touch-none items-center bg-transparent rounded-4xl select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
           className
         )}
         {...props}

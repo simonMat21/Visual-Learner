@@ -11,7 +11,7 @@ const PhoneScreenBlock = ({
   // Listen for window resize events and manage body scroll
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1000);
+      setIsMobile(window.innerWidth <= 768);
     };
 
     window.addEventListener("resize", handleResize);
