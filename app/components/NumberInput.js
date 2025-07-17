@@ -25,7 +25,7 @@ export default function NumberInput({
     }
 
     setInput(array.join(", "));
-    setOutput(array);
+    // setOutput(array);
   }
 
   const handleConvert = () => {
@@ -36,8 +36,12 @@ export default function NumberInput({
       .map((val) => Number(val))
       .filter((num) => !isNaN(num));
 
-    setOutput(arr);
-    onSubmit(arr.slice(0, 10).filter((a) => a >= 0 && a <= 100));
+    // setOutput(arr);
+    onSubmit(
+      arr
+        .slice(0, lenRange[1])
+        .filter((a) => a >= valRange[0] && a <= valRange[1])
+    );
   };
 
   return (

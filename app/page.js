@@ -1,11 +1,6 @@
-"use client";
-
-import { useState } from "react";
 import React from "react";
-import { useReducer } from "react";
 
 export default function Home() {
-  const [data, setData] = useState([]);
   const linkers = [
     {
       title: "Sorting",
@@ -18,6 +13,7 @@ export default function Home() {
         { href: "/page_heapSort", val: "heap sort" },
         { href: "/page_countSort", val: "count sort" },
         { href: "/page_BucketSort", val: "Bucket Sort" },
+        { href: "/page_radixSort", val: "Radix Sort" },
       ],
     },
     {
