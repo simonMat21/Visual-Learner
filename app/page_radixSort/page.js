@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Slider } from "@/components/ui/slider";
 import NumberInput from "../components/NumberInput";
+import PhoneScreenBlock from "../components/phoneScreenBlocker";
 
 import { CodeBlock, TextBox } from "../components/CodeBlock";
 import P5Sketch from "./P5Sketch";
@@ -55,6 +56,7 @@ Repeat n times:
   };
   return (
     <main className="main">
+      <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
       <h1 className="heading tshad">Algo visuvalizor</h1>
       <NumberInput
         valRange={[0, 1000]}

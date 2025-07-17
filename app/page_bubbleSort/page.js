@@ -6,6 +6,8 @@ import { Slider } from "@/components/ui/slider";
 import NumberInput from "../components/NumberInput";
 
 import { CodeBlock, TextBox } from "../components/CodeBlock";
+import PhoneScreenBlock from "../components/phoneScreenBlocker";
+
 import P5Sketch from "./P5Sketch";
 
 export default function Home() {
@@ -55,6 +57,7 @@ Repeat n times:
   };
   return (
     <main className="main">
+      <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
       <h1 className="heading tshad">Algo visuvalizor</h1>
       <NumberInput
         onSubmit={(arr) => {

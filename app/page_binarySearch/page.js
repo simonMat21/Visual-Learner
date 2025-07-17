@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import PhoneScreenBlock from "../components/phoneScreenBlocker";
 
 import NumberInput from "../components/NumberInput";
 
@@ -27,6 +28,7 @@ export default function Home() {
   };
   return (
     <main className="main">
+      <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
       <h1 className="heading tshad">Algo visuvalizor</h1>
       <div key={1} className="flex items-center gap-2 mb-4 rounded-5">
         <Input

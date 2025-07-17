@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import NumberInput from "../components/NumberInput";
-
+import PhoneScreenBlock from "../components/phoneScreenBlocker";
 import P5Sketch from "./P5Sketch";
 
 export default function Home() {
@@ -36,6 +36,7 @@ export default function Home() {
   };
   return (
     <main className="main">
+      <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
       <h1 className="heading tshad">Algo Visualisor</h1>
       <div className="flex gap-10">
         <div className="flex items-center gap-3">

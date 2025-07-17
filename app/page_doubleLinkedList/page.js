@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import PhoneScreenBlock from "../components/phoneScreenBlocker";
 
 import P5Sketch_linkedList from "./P5Sketch_linkedList";
 
@@ -32,6 +33,7 @@ export default function Home() {
   };
   return (
     <main className="main">
+      <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
       <h1 className="heading tshad">Algo Visualiser</h1>
       {/* <NumberInput onSubmit={(arr) => setData(arr)} /> */}
       <div className="flex gap-42">

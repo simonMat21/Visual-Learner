@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
 import NumberInput from "../components/NumberInput";
+import PhoneScreenBlock from "../components/phoneScreenBlocker";
 
 import P5Sketch from "./P5Sketch";
 
@@ -27,6 +28,7 @@ export default function Home() {
   };
   return (
     <main className="main">
+      <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
       <h1 className="heading tshad">Algo visuvalizor</h1>
       <div key={1} className="flex items-center gap-2 mb-4 rounded-5">
         <Input
