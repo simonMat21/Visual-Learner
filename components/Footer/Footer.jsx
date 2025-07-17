@@ -10,7 +10,7 @@ const Footer = () => {
         <div className={styles["top-content"]}>
           <div className={`${styles.box} ${styles.box1}`}>
             <div>
-              <span className={styles["box1-span-title"]}>Algo Visualiser</span>
+              <span className={styles["box1-span-title"]}>Visual Learner</span>
             </div>
             <div className={styles["box1-content"]}>
               <div>Thank you for visiting our website!</div>

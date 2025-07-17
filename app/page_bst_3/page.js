@@ -12,19 +12,19 @@ import P5Sketch from "./P5Sketch";
 export default function Home() {
   const [AEBool, setAEBool] = useState(true);
   const [addForm, setAddForm] = useState({ val: [], start: false });
-  const [getMaxform, setGetMax] = useState({
+  const [getPreorderForm, setPreorder] = useState({
     val: 0,
     start: false,
   });
-  const [getpredform, setGetpred] = useState({
+  const [getPostorderForm, setPostorder] = useState({
     val: 0,
     start: false,
   });
-  const [getsuccform, setGetsucc] = useState({
+  const [getLvlorderForm, setLvlorder] = useState({
     val: 0,
     start: false,
   });
-  const [getMinForm, setGetMin] = useState({
+  const [getInorderForm, setInorder] = useState({
     pos: 0,
     start: false,
   });
@@ -36,13 +36,13 @@ export default function Home() {
       if (n == 1) {
         setAddForm((prev) => ({ ...prev, [key]: value }));
       } else if (n == 2) {
-        setGetMin((prev) => ({ ...prev, [key]: value }));
+        setInorder((prev) => ({ ...prev, [key]: value }));
       } else if (n == 3) {
-        setGetMax((prev) => ({ ...prev, [key]: value }));
+        setPreorder((prev) => ({ ...prev, [key]: value }));
       } else if (n == 4) {
-        setGetpred((prev) => ({ ...prev, [key]: value }));
+        setPostorder((prev) => ({ ...prev, [key]: value }));
       } else if (n == 5) {
-        setGetsucc((prev) => ({ ...prev, [key]: value }));
+        setLvlorder((prev) => ({ ...prev, [key]: value }));
       }
     }
   };
@@ -62,6 +62,15 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <Button
             onClick={() => {
+              updateForm(2, "start", true);
+              setTimeout(() => updateForm(2, "start", false), 10);
+            }}
+            className="dobtn"
+          >
+            In order
+          </Button>
+          <Button
+            onClick={() => {
               updateForm(3, "start", true);
               setTimeout(() => updateForm(3, "start", false), 10);
             }}
@@ -72,17 +81,8 @@ export default function Home() {
 
           <Button
             onClick={() => {
-              updateForm(2, "start", true);
-              setTimeout(() => updateForm(2, "start", false), 10);
-            }}
-            className="dobtn"
-          >
-            In order
-          </Button>
-          <Button
-            onClick={() => {
-              updateForm(2, "start", true);
-              setTimeout(() => updateForm(2, "start", false), 10);
+              updateForm(4, "start", true);
+              setTimeout(() => updateForm(4, "start", false), 10);
             }}
             className="dobtn"
           >
@@ -90,8 +90,8 @@ export default function Home() {
           </Button>
           <Button
             onClick={() => {
-              updateForm(2, "start", true);
-              setTimeout(() => updateForm(2, "start", false), 10);
+              updateForm(5, "start", true);
+              setTimeout(() => updateForm(5, "start", false), 10);
             }}
             className="dobtn"
           >
@@ -110,10 +110,10 @@ export default function Home() {
       />
       <P5Sketch
         add={addForm}
-        dlt={getMinForm}
-        srch={getMaxform}
-        prev={getpredform}
-        succ={getsuccform}
+        inorder={getInorderForm}
+        preorder={getPreorderForm}
+        postorder={getPostorderForm}
+        lvlorder={getLvlorderForm}
         animSpd={animSpd}
         actionExicutable={(b) => setAEBool(b)}
       />

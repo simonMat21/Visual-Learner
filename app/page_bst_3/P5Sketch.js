@@ -4,19 +4,19 @@ import React, { useRef, useEffect } from "react";
 import { Animator } from "../components/Animator";
 
 export default function P5Sketch({
-  dlt,
   add,
-  srch,
-  prev,
-  succ,
+  inorder,
+  preorder,
+  postorder,
+  lvlorder,
   animSpd,
   actionExicutable,
 }) {
   const sketchRef = useRef(null);
-  const deleteRef = useRef(dlt);
-  const searchRef = useRef(srch);
-  const prevRef = useRef(prev);
-  const succRef = useRef(succ);
+  const inorderRef = useRef(inorder);
+  const preorderRef = useRef(preorder);
+  const postorderRef = useRef(postorder);
+  const lvlorderRef = useRef(lvlorder);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
 
@@ -147,224 +147,6 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
 
-        function getMin(node) {
-          if (checkers[1] === undefined) {
-            checkers[1] = new checker(node.x, node.y);
-            checkers[1].col = [200, 150, 255];
-            listOfActions.push({
-              funcName: "insert",
-              othArgs: [checkers[1]],
-            });
-          }
-          while (node.lchild != null) {
-            if (checkers[1].x !== node.x && checkers[1].y !== node.y) {
-              listOfActions.push({
-                funcName: "check",
-                othArgs: [node, checkers[1]],
-              });
-            }
-            node = node.lchild;
-          }
-          listOfActions.push({
-            funcName: "check",
-            othArgs: [node, checkers[1]],
-          });
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[1].col = [0, 255, 0];
-                }),
-                animator.animate(40, [[checkers[1], 0, 0, -255]]),
-                animator.animateFunc(1, () => {
-                  checkers.splice(1, 1);
-                }),
-              ]);
-            },
-            othArgs: [root, checkers[0]],
-          });
-          return node;
-        }
-
-        function getMax(node) {
-          if (checkers[1] === undefined) {
-            checkers[1] = new checker(node.x, node.y);
-            checkers[1].col = [200, 150, 255];
-            listOfActions.push({
-              funcName: "insert",
-              othArgs: [checkers[1]],
-            });
-          }
-          while (node.rchild != null) {
-            if (checkers[1].x !== node.x && checkers[1].y !== node.y) {
-              listOfActions.push({
-                funcName: "check",
-                othArgs: [node, checkers[1]],
-              });
-            }
-            node = node.rchild;
-          }
-          listOfActions.push({
-            funcName: "check",
-            othArgs: [node, checkers[1]],
-          });
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[1].col = [0, 255, 0];
-                }),
-                animator.animate(40, [[checkers[1], 0, 0, -255]]),
-                animator.animateFunc(1, () => {
-                  checkers.splice(1, 1);
-                }),
-              ]);
-            },
-            othArgs: [root, checkers[0]],
-          });
-          return node;
-        }
-
-        function getPredecessor(node) {
-          if (checkers[1] === undefined) {
-            checkers[1] = new checker(node.x, node.y);
-            checkers[1].col = [255, 200, 150]; // Orange-like color
-            listOfActions.push({
-              funcName: "insert",
-              othArgs: [checkers[1]],
-            });
-          }
-
-          let pred = null;
-
-          if (node.lchild != null) {
-            // Move to left subtree and go as far right as possible
-            node = node.lchild;
-            while (node.rchild != null) {
-              listOfActions.push({
-                funcName: "check",
-                othArgs: [node, checkers[1]],
-              });
-              node = node.rchild;
-            }
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [node, checkers[1]],
-            });
-            pred = node;
-          } else {
-            // Go up using parent pointers (assumed to be present)
-            let ancestor = root;
-            while (ancestor != null) {
-              // listOfActions.push({
-              //   funcName: "check",
-              //   othArgs: [ancestor, checkers[1]],
-              // });
-
-              if (node.val > ancestor.val) {
-                pred = ancestor;
-                ancestor = ancestor.rchild;
-              } else {
-                ancestor = ancestor.lchild;
-              }
-            }
-          }
-
-          if (pred != null) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [pred, checkers[1]],
-            });
-          }
-
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[1].col = [255, 255, 0]; // Highlight found predecessor
-                }),
-                animator.animate(40, [[checkers[1], 0, 0, -255]]),
-                animator.animateFunc(1, () => {
-                  checkers.splice(1, 1);
-                }),
-              ]);
-            },
-            othArgs: [root, checkers[0]],
-          });
-
-          return pred;
-        }
-
-        function getSuccessor(node) {
-          if (checkers[1] === undefined) {
-            checkers[1] = new checker(node.x, node.y);
-            checkers[1].col = [150, 200, 255]; // Light blue-like color
-            listOfActions.push({
-              funcName: "insert",
-              othArgs: [checkers[1]],
-            });
-          }
-
-          let succ = null;
-
-          if (node.rchild != null) {
-            // Move to right subtree and go as far left as possible
-            node = node.rchild;
-            while (node.lchild != null) {
-              listOfActions.push({
-                funcName: "check",
-                othArgs: [node, checkers[1]],
-              });
-              node = node.lchild;
-            }
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [node, checkers[1]],
-            });
-            succ = node;
-          } else {
-            // Go up using parent pointers (assumed to be present)
-            let ancestor = root;
-            while (ancestor != null) {
-              // listOfActions.push({
-              //   funcName: "check",
-              //   othArgs: [ancestor, checkers[1]],
-              // });
-
-              if (node.val < ancestor.val) {
-                succ = ancestor;
-                ancestor = ancestor.lchild;
-              } else {
-                ancestor = ancestor.rchild;
-              }
-            }
-          }
-
-          if (succ != null) {
-            listOfActions.push({
-              funcName: "check",
-              othArgs: [succ, checkers[1]],
-            });
-          }
-
-          listOfActions.push({
-            func: function () {
-              return animator.animationSequence([
-                animator.animateFunc(10, () => {
-                  checkers[1].col = [0, 255, 255]; // Highlight found successor
-                }),
-                animator.animate(40, [[checkers[1], 0, 0, -255]]),
-                animator.animateFunc(1, () => {
-                  checkers.splice(1, 1);
-                }),
-              ]);
-            },
-            othArgs: [root, checkers[0]],
-          });
-
-          return succ;
-        }
-
         function addNodeN(val, rootN) {
           if (!rootN) {
             root = new Node(val, P.width / 2, 50, P.width / 2);
@@ -426,9 +208,11 @@ export default function P5Sketch({
             othArgs: [checkers[id]],
           });
 
-          if (rt.lchild) getPreorder(rt.lchild);
-          console.log(rt);
-          if (rt.rchild) getPreorder(rt.rchild);
+          boxes.push(new Box(100 + boxes.length * 50, 400, rt.val));
+          listOfActions.push({
+            funcName: "insert",
+            othArgs: [boxes[boxes.length - 1]],
+          });
           listOfActions.push({
             func: function () {
               return animator.animationSequence([
@@ -436,15 +220,14 @@ export default function P5Sketch({
                   checkers[id].col = [0, 255, 0];
                 }),
                 animator.animate(40, [[checkers[id], 0, 0, -255]]),
-                // animator.animateFunc(1, () => {
-                //   checkers.splice(id, 1);
-                // }),
               ]);
             },
           });
+          if (rt.lchild) getPreorder(rt.lchild);
+          if (rt.rchild) getPreorder(rt.rchild);
         }
 
-        function getInoder(rt) {
+        function getPostorder(rt) {
           checkers.push(new checker(rt.x, rt.y));
           const id = checkers.length - 1;
           checkers[id].col = [200, 150, 255];
@@ -453,7 +236,14 @@ export default function P5Sketch({
             othArgs: [checkers[id]],
           });
 
-          if (rt.lchild) getPreorder(rt.lchild);
+          if (rt.lchild) getPostorder(rt.lchild);
+          if (rt.rchild) getPostorder(rt.rchild);
+
+          boxes.push(new Box(100 + boxes.length * 50, 400, rt.val));
+          listOfActions.push({
+            funcName: "insert",
+            othArgs: [boxes[boxes.length - 1]],
+          });
           listOfActions.push({
             func: function () {
               return animator.animationSequence([
@@ -464,16 +254,74 @@ export default function P5Sketch({
               ]);
             },
           });
-          if (rt.rchild) getPreorder(rt.rchild);
         }
-        //-----------------------------------------------------------------------------------------------
-        function getNode(val, rt) {
-          while (rt) {
-            if (rt.val === val) return rt;
-            else if (rt.val > val) return getNode(val, rt.lchild);
-            else return getNode(val, rt.rchild);
+
+        function getInorder(rt) {
+          checkers.push(new checker(rt.x, rt.y));
+          const id = checkers.length - 1;
+          checkers[id].col = [200, 150, 255];
+          listOfActions.push({
+            funcName: "insert",
+            othArgs: [checkers[id]],
+          });
+
+          if (rt.lchild) getInorder(rt.lchild);
+          boxes.push(new Box(100 + boxes.length * 50, 400, rt.val));
+          listOfActions.push({
+            funcName: "insert",
+            othArgs: [boxes[boxes.length - 1]],
+          });
+          listOfActions.push({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(1, () => {
+                  checkers[id].col = [0, 255, 0];
+                }),
+                animator.animate(40, [[checkers[id], 0, 0, -255]]),
+              ]);
+            },
+          });
+          if (rt.rchild) getInorder(rt.rchild);
+        }
+
+        function getLevelOrder(rt) {
+          if (!rt) return;
+
+          const queue = [rt];
+
+          while (queue.length > 0) {
+            const node = queue.shift();
+
+            // VISIT CURRENT NODE
+            checkers.push(new checker(node.x, node.y));
+            const id = checkers.length - 1;
+            checkers[id].col = [200, 150, 255];
+            listOfActions.push({
+              funcName: "insert",
+              othArgs: [checkers[id]],
+            });
+
+            boxes.push(new Box(100 + boxes.length * 50, 400, node.val));
+            listOfActions.push({
+              funcName: "insert",
+              othArgs: [boxes[boxes.length - 1]],
+            });
+
+            listOfActions.push({
+              func: function () {
+                return animator.animationSequence([
+                  animator.animateFunc(1, () => {
+                    checkers[id].col = [0, 255, 0];
+                  }),
+                  animator.animate(40, [[checkers[id], 0, 0, -255]]),
+                ]);
+              },
+            });
+
+            // Add children to queue
+            if (node.lchild) queue.push(node.lchild);
+            if (node.rchild) queue.push(node.rchild);
           }
-          return null;
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -494,50 +342,10 @@ export default function P5Sketch({
           ]);
         }
 
-        function check(_, [a, ckr]) {
-          return animator.animationSequence([
-            animator.delay(10),
-            animator.to(40, [[ckr, a.x, a.y, 255]]),
-          ]);
-        }
-
         function insert(_, [a]) {
           return animator.animationSequence([
             animator.animate(1, [[a, 0, -50, 0]]),
             animator.animate(20, [[a, 0, 50, 255]]),
-          ]);
-        }
-
-        function searchNode(_, [val]) {
-          let ckr = checkers[0];
-          const index = boxes.findIndex((obj) => obj.val === val);
-          const result =
-            index !== -1
-              ? boxes.slice(0, index)
-              : boxes.slice(0, boxes.length - 1);
-          return animator.animationSequence([
-            animator.animateFunc(1, () => {
-              checkers.push(new checker(boxes[0].x, boxes[0].y));
-              ckr = checkers[0];
-            }),
-            animator.animate(1, [[ckr, 0, -50, 0]]),
-            animator.animate(20, [[ckr, 0, 50, 255]]),
-            animator.delay(10),
-            ...result.flatMap(() => [
-              animator.animate(30, [[ckr, 80, 0, 0]]),
-              animator.delay(20),
-            ]),
-            animator.animateFunc(40, () => {
-              if (index !== -1) {
-                ckr.col = [0, 255, 0];
-              } else {
-                ckr.col = [255, 0, 0];
-              }
-            }),
-            animator.animate(20, [[ckr, 0, 0, -255]]),
-            animator.animateFunc(1, () => {
-              checkers = [];
-            }),
           ]);
         }
 
@@ -555,8 +363,6 @@ export default function P5Sketch({
           animator = new Animator();
           animator.functionsDictionary = {
             insert: insert,
-            search: searchNode,
-            check: check,
             qq: qq,
           };
         };
@@ -576,6 +382,8 @@ export default function P5Sketch({
 
           if (addRef.current.start) {
             root = null;
+            boxes = [];
+            checkers = [];
             addRef.current.val.forEach((val) => {
               listOfActions.push({
                 func: function () {
@@ -590,39 +398,32 @@ export default function P5Sketch({
             addRef.current.start = false;
           }
 
-          if (deleteRef.current.start) {
+          if (inorderRef.current.start) {
+            checkers = [];
+            boxes = [];
+            getInorder(root);
+            inorderRef.current.start = false;
+          }
+
+          if (preorderRef.current.start) {
+            checkers = [];
+            boxes = [];
             getPreorder(root);
-            listOfActions.push({
-              func: function () {
-                return animator.animationSequence([
-                  animator.animateFunc(1, () => {
-                    checkers = [];
-                  }),
-                ]);
-              },
-            });
-            deleteRef.current.start = false;
+            preorderRef.current.start = false;
           }
 
-          if (searchRef.current.start) {
-            getMax(root);
-            searchRef.current.start = false;
+          if (postorderRef.current.start) {
+            checkers = [];
+            boxes = [];
+            getPostorder(root);
+            postorderRef.current.start = false;
           }
 
-          if (prevRef.current.start) {
-            const nd = getNode(prevRef.current.val, root);
-            if (nd) {
-              getPredecessor(nd);
-            }
-            prevRef.current.start = false;
-          }
-
-          if (succRef.current.start) {
-            const nd = getNode(prevRef.current.val, root);
-            if (nd) {
-              getSuccessor(nd);
-            }
-            succRef.current.start = false;
+          if (lvlorderRef.current.start) {
+            checkers = [];
+            boxes = [];
+            getLevelOrder(root);
+            lvlorderRef.current.start = false;
           }
 
           if (root) {
@@ -643,12 +444,12 @@ export default function P5Sketch({
 
   useEffect(() => {
     addRef.current = add;
-    deleteRef.current = dlt;
-    searchRef.current = srch;
+    inorderRef.current = inorder;
+    preorderRef.current = preorder;
     animSpdRef.current = animSpd;
-    prevRef.current = prev;
-    succRef.current = succ;
-  }, [dlt, add, srch, animSpd, prev, succ]);
+    postorderRef.current = postorder;
+    lvlorderRef.current = lvlorder;
+  }, [inorder, add, preorder, animSpd, postorder, lvlorder]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }
