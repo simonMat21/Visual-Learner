@@ -150,11 +150,13 @@ Repeat n times:
               for the array to be sorted.
             </p>
             <p className="text-lg">
-              It's called{" "}
-              <span className="text-purple-400 font-semibold">"bubble"</span>{" "}
-              sort because smaller elements slowly "bubble up" to the top
-              (beginning) of the array with each pass, like bubbles rising in
-              water.
+              It&apos;s called{" "}
+              <span className="text-purple-400 font-semibold">
+                &quot;bubble&quot;
+              </span>{" "}
+              sort because smaller elements slowly &quot;bubble up&quot; to the
+              top (beginning) of the array with each pass, like bubbles rising
+              in water.
             </p>
           </div>
         </div>
@@ -207,8 +209,8 @@ Repeat n times:
             </h3>
             <p className="text-gray-300 leading-relaxed">
               Bubble Sort is sometimes used in embedded or very low-level
-              testing as a "canary" algorithm to validate a basic sorting
-              function.
+              testing as a &quot;canary&quot; algorithm to validate a basic
+              sorting function.
             </p>
           </div>
 

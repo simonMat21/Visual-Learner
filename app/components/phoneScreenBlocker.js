@@ -6,7 +6,19 @@ const PhoneScreenBlock = ({
   linkUrl = null,
 }) => {
   // State to track if device is mobile
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(false); // default to false (or true based on your preference)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Initialize on first client render
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Listen for window resize events and manage body scroll
   useEffect(() => {
