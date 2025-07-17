@@ -15,6 +15,7 @@ export default function P5Sketch_mergeSort({
   const searchRef = useRef(srch);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
+  const actionExicutableRef = useRef(actionExicutable);
 
   useEffect(() => {
     // Dynamically import p5 only on the client
@@ -167,9 +168,9 @@ export default function P5Sketch_mergeSort({
           animator.setDelayMult(animSpdRef.current);
 
           if (animator.executing) {
-            actionExicutable(false);
+            actionExicutableRef.current(false);
           } else {
-            actionExicutable(true);
+            actionExicutableRef.current(true);
           }
 
           if (addRef.current.start && addRef.current.val.length != 0) {
@@ -207,8 +208,9 @@ export default function P5Sketch_mergeSort({
     addRef.current = add;
     deleteRef.current = dlt;
     searchRef.current = srch;
+    actionExicutableRef.current = actionExicutable;
     animSpdRef.current = animSpd;
-  }, [dlt, add, srch, animSpd]);
+  }, [dlt, add, srch, animSpd, actionExicutable]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

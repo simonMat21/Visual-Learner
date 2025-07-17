@@ -7,6 +7,7 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
   const sketchRef = useRef(null);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
+  const actionExicutableRef = useRef(actionExicutable);
 
   useEffect(() => {
     // Dynamically import p5 only on the client
@@ -154,60 +155,6 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
             });
             this.table[idx].push(nbox);
           }
-
-          // search(val) {
-          //   ckr.setUp(100, 200, 0);
-          //   animator.addStage({
-          //     funcName: "insert",
-          //     Args: [ckr],
-          //   });
-          //   let idx = this.hash(val);
-          //   animator.addStage({
-          //     funcName: "check",
-          //     Args: [this.table[idx][0], ckr],
-          //   });
-          //   for (let box of this.table[idx]) {
-          //     animator.addStage({
-          //       funcName: "check",
-          //       Args: [box, ckr],
-          //     });
-          //     if (box.val === val) {
-          //       animator.addStage({
-          //         funcName: "found",
-          //         Args: [ckr],
-          //       });
-          //       return box;
-          //     }
-          //   }
-          //   animator.addStage({
-          //     funcName: "notfound",
-          //     Args: [ckr],
-          //   });
-          //   return null;
-          // }
-
-          // delete(val) {
-          //   let idx = this.hash(val);
-          //   let dBox = this.search(val);
-          //   animator.addStage({
-          //     funcName: "remove",
-          //     Args: [dBox],
-          //   });
-          //   animator.addStage({
-          //     funcName: "reset",
-          //     Args: [
-          //       this.table[idx].filter(
-          //         (_, id) =>
-          //           id > this.table[idx].findIndex((item) => item.val === val)
-          //       ),
-          //     ],
-          //   });
-          //   animator.standAloneFunc(1, () => {
-          //     this.table[idx] = this.table[idx].filter(
-          //       (box) => box.val !== val
-          //     );
-          //   });
-          // }
 
           sortHT() {
             ckr.setUp(100, 200, 0);
@@ -418,8 +365,9 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
 
   useEffect(() => {
     addRef.current = add;
+    actionExicutableRef.current = actionExicutable;
     animSpdRef.current = animSpd;
-  }, [add, animSpd]);
+  }, [add, animSpd, actionExicutable]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

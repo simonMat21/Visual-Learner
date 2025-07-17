@@ -19,6 +19,7 @@ export default function P5Sketch({
   const lvlorderRef = useRef(lvlorder);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
+  const actionExicutableRef = useRef(actionExicutable);
 
   useEffect(() => {
     // Dynamically import p5 only on the client
@@ -448,8 +449,9 @@ export default function P5Sketch({
     preorderRef.current = preorder;
     animSpdRef.current = animSpd;
     postorderRef.current = postorder;
+    actionExicutableRef.current = actionExicutable;
     lvlorderRef.current = lvlorder;
-  }, [inorder, add, preorder, animSpd, postorder, lvlorder]);
+  }, [inorder, add, preorder, animSpd, postorder, lvlorder, actionExicutable]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

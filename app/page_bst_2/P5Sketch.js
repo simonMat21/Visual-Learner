@@ -19,6 +19,7 @@ export default function P5Sketch({
   const succRef = useRef(succ);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
+  const actionExicutableRef = useRef(actionExicutable);
 
   useEffect(() => {
     // Dynamically import p5 only on the client
@@ -493,9 +494,9 @@ export default function P5Sketch({
           animator.setDelayMult(animSpdRef.current);
 
           if (animator.executing) {
-            actionExicutable(false);
+            actionExicutableRef.current(false);
           } else {
-            actionExicutable(true);
+            actionExicutableRef.current(true);
           }
 
           if (addRef.current.start) {
@@ -562,8 +563,9 @@ export default function P5Sketch({
     searchRef.current = srch;
     animSpdRef.current = animSpd;
     prevRef.current = prev;
+    actionExicutableRef.current = actionExicutable;
     succRef.current = succ;
-  }, [dlt, add, srch, animSpd, prev, succ]);
+  }, [dlt, add, srch, animSpd, prev, succ, actionExicutable]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }
