@@ -63,7 +63,7 @@ Repeat n times:
   }, []);
 
   return (
-    <main className="min-h-screen min-w-[1100px] bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
 
       {/* Visualization Section */}
