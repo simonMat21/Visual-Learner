@@ -330,9 +330,9 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           animator.setDelayMult(animSpdRef.current);
 
           if (animator.executing) {
-            actionExicutable(false);
+            actionExicutableRef.current(false);
           } else {
-            actionExicutable(true);
+            actionExicutableRef.current(true);
           }
 
           if (addRef.current.start) {

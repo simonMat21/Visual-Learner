@@ -84,7 +84,7 @@ Repeat n times:
                 min={0.5}
                 max={1.5}
                 step={0.01}
-                onValueChange={([val]) => setAnimSpd(val)}
+                onValueChange={([val]) => setAnimSpd(2 - val)}
                 className="w-64 h-6"
               />
             </div>

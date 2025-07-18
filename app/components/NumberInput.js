@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function NumberInput({
-  btnName = "button",
+  btnName = "Add",
   onSubmit,
   valRange = [0, 100],
   lenRange = [5, 10],
