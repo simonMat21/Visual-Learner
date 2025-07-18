@@ -119,6 +119,31 @@ export default function P5Sketch({
             this.y = y;
           }
         }
+
+        class Pointer {
+          constructor(x = 0, y = 0) {
+            this.x = x;
+            this.y = y;
+            this.opacity = 0;
+            this.hide = false;
+          }
+
+          show() {
+            P.push();
+            P.fill(0, 0, 255, this.opacity);
+            P.strokeWeight(3);
+            P.stroke(0, 0, 255, this.opacity);
+            P.triangle(
+              this.x + 25,
+              this.y,
+              this.x + 30,
+              this.y - 5,
+              this.x + 30,
+              this.y + 5
+            );
+            P.pop();
+          }
+        }
         //-----------------------------------------------------------------------------------------------
 
         function getMin(node) {
@@ -229,13 +254,31 @@ export default function P5Sketch({
           } else {
             // Go up using parent pointers (assumed to be present)
             let ancestor = root;
+            listOfActions.push({
+              func: function () {
+                return animator.animationSequence([
+                  animator.animateFunc(1, () => {
+                    pointer.x = root.x;
+                    pointer.y = root.y;
+                    pointer.opacity = 0;
+                  }),
+                ]);
+              },
+            });
+            listOfActions.push({
+              funcName: "insert",
+              othArgs: [pointer],
+            });
             while (ancestor != null) {
-              // listOfActions.push({
-              //   funcName: "check",
-              //   othArgs: [ancestor, checkers[1]],
-              // });
-
+              listOfActions.push({
+                funcName: "check",
+                othArgs: [ancestor, checkers[1]],
+              });
               if (node.val > ancestor.val) {
+                listOfActions.push({
+                  funcName: "check",
+                  othArgs: [ancestor, pointer],
+                });
                 pred = ancestor;
                 ancestor = ancestor.rchild;
               } else {
@@ -257,7 +300,10 @@ export default function P5Sketch({
                 animator.animateFunc(10, () => {
                   checkers[1].col = [255, 255, 0]; // Highlight found predecessor
                 }),
-                animator.animate(40, [[checkers[1], 0, 0, -255]]),
+                animator.animate(40, [
+                  [checkers[1], 0, 0, -255],
+                  [pointer, 0, 0, -255],
+                ]),
                 animator.animateFunc(1, () => {
                   checkers.splice(1, 1);
                 }),
@@ -299,13 +345,31 @@ export default function P5Sketch({
           } else {
             // Go up using parent pointers (assumed to be present)
             let ancestor = root;
+            listOfActions.push({
+              func: function () {
+                return animator.animationSequence([
+                  animator.animateFunc(1, () => {
+                    pointer.x = root.x;
+                    pointer.y = root.y;
+                    pointer.opacity = 0;
+                  }),
+                ]);
+              },
+            });
+            listOfActions.push({
+              funcName: "insert",
+              othArgs: [pointer],
+            });
             while (ancestor != null) {
-              // listOfActions.push({
-              //   funcName: "check",
-              //   othArgs: [ancestor, checkers[1]],
-              // });
-
+              listOfActions.push({
+                funcName: "check",
+                othArgs: [ancestor, checkers[1]],
+              });
               if (node.val < ancestor.val) {
+                listOfActions.push({
+                  funcName: "check",
+                  othArgs: [ancestor, pointer],
+                });
                 succ = ancestor;
                 ancestor = ancestor.lchild;
               } else {
@@ -327,7 +391,10 @@ export default function P5Sketch({
                 animator.animateFunc(10, () => {
                   checkers[1].col = [0, 255, 255]; // Highlight found successor
                 }),
-                animator.animate(40, [[checkers[1], 0, 0, -255]]),
+                animator.animate(40, [
+                  [checkers[1], 0, 0, -255],
+                  [pointer, 0, 0, -255],
+                ]),
                 animator.animateFunc(1, () => {
                   checkers.splice(1, 1);
                 }),
@@ -470,6 +537,7 @@ export default function P5Sketch({
 
         let boxes = [];
         let checkers = [];
+        let pointer;
         let root;
 
         let listOfActions = [];
@@ -478,6 +546,7 @@ export default function P5Sketch({
         P.setup = () => {
           P.createCanvas(1000, 500);
           animator = new Animator();
+          pointer = new Pointer(100, 100);
           animator.functionsDictionary = {
             insert: insert,
             search: searchNode,
@@ -546,6 +615,7 @@ export default function P5Sketch({
           }
           checkers.forEach((i) => i.show());
           boxes.forEach((i) => i.show());
+          pointer.show();
         };
       };
 
