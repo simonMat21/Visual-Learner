@@ -16,6 +16,7 @@ export default function Home() {
   const [animSpd, setAnimSpd] = useState(1);
 
   const codeSnippets = {
+    c: ``,
     js: `function bubbleSort(arr) {
   let n = arr.length;
   for (let i = 0; i < n - 1; i++) {
@@ -62,21 +63,8 @@ Repeat n times:
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="min-h-screen min-w-[1100px] bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
-
-      {/* Header Section */}
-      {/* <div className="text-center py-12 px-8">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
-          Algorithm Visualizer
-        </h1>
-        <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
-      </div> */}
-
-      {/* Controls Section */}
-      {/* <div className="max-w-6xl mx-auto px-8 mb-1">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6"></div>
-      </div> */}
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
