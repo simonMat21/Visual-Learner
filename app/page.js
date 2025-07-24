@@ -1,6 +1,8 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState("Algorithms");
   const linkers = [
     {
       title: "Sorting",
@@ -88,59 +90,121 @@ export default function Home() {
           visualizations
         </p>
         <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
+
+        {/* Navigation */}
+        <div className="flex justify-center mt-8">
+          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-2">
+            <div className="flex space-x-2">
+              {["Algorithms", "Math", "Physics", "Logic Design"].map(
+                (item, index) => (
+                  <button
+                    key={item}
+                    onClick={() => setActiveTab(item)}
+                    className={`
+                    px-6 py-3 rounded-xl font-semibold transition-all duration-300
+                    ${
+                      activeTab === item
+                        ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg"
+                        : "text-gray-300 hover:text-white hover:bg-white/10"
+                    }
+                    transform hover:scale-105 active:scale-95
+                  `}
+                  >
+                    {item}
+                  </button>
+                )
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Categories */}
       <div className="max-w-7xl mx-auto space-y-12">
-        {linkers.map((category, categoryIndex) => (
-          <div
-            key={categoryIndex}
-            className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300"
-          >
-            {/* Category Header */}
-            <div className="flex items-center justify-center mb-8">
-              <div className="flex items-center space-x-4">
-                <span className="text-3xl sm:text-4xl">{category.icon}</span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
-                  {category.title}
-                </h2>
+        {activeTab === "Algorithms" ? (
+          linkers.map((category, categoryIndex) => (
+            <div
+              key={categoryIndex}
+              className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300"
+            >
+              {/* Category Header */}
+              <div className="flex items-center justify-center mb-8">
+                <div className="flex items-center space-x-4">
+                  <span className="text-3xl sm:text-4xl">{category.icon}</span>
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+                    {category.title}
+                  </h2>
+                </div>
+              </div>
+
+              {/* Links Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+                {category.links.map((link, linkIndex) => (
+                  <a href={link.href} key={linkIndex} className="group">
+                    <div
+                      className={`
+                      relative overflow-hidden rounded-xl p-4 sm:p-6 h-28 sm:h-32 
+                      bg-gradient-to-br ${category.color} 
+                      shadow-lg ${category.shadowColor}
+                      transform transition-all duration-300 
+                      hover:scale-105 hover:shadow-2xl
+                      active:scale-95
+                      flex items-center justify-center
+                      border border-white/20
+                    `}
+                    >
+                      {/* Animated background effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+
+                      {/* Content */}
+                      <div className="relative z-10 text-center">
+                        <h3 className="text-white font-semibold text-sm sm:text-base lg:text-lg leading-tight">
+                          {link.val}
+                        </h3>
+                      </div>
+
+                      {/* Hover glow effect */}
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
+          ))
+        ) : (
+          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
+            <div className="relative">
+              {/* Animated dots */}
+              <div className="flex justify-center space-x-2 mb-6">
+                <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-bounce"></div>
+                <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-bounce delay-150"></div>
+                <div className="w-3 h-3 bg-gradient-to-r from-pink-500 to-blue-500 rounded-full animate-bounce delay-300"></div>
+              </div>
 
-            {/* Links Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
-              {category.links.map((link, linkIndex) => (
-                <a href={link.href} key={linkIndex} className="group">
-                  <div
-                    className={`
-                    relative overflow-hidden rounded-xl p-4 sm:p-6 h-28 sm:h-32 
-                    bg-gradient-to-br ${category.color} 
-                    shadow-lg ${category.shadowColor}
-                    transform transition-all duration-300 
-                    hover:scale-105 hover:shadow-2xl
-                    active:scale-95
-                    flex items-center justify-center
-                    border border-white/20
-                  `}
-                  >
-                    {/* Animated background effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+              {/* Coming Soon Text */}
+              <h2 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent mb-4 animate-pulse">
+                Coming Soon
+              </h2>
 
-                    {/* Content */}
-                    <div className="relative z-10 text-center">
-                      <h3 className="text-white font-semibold text-sm sm:text-base lg:text-lg leading-tight">
-                        {link.val}
-                      </h3>
-                    </div>
+              <p className="text-gray-400 text-lg mb-8">
+                {activeTab} visualizations are under development
+              </p>
 
-                    {/* Hover glow effect */}
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                </a>
-              ))}
+              {/* Animated progress bar */}
+              <div className="max-w-md mx-auto bg-gray-700 rounded-full h-2 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full animate-pulse w-1/3"></div>
+              </div>
+
+              {/* Floating particles */}
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-60 animate-ping top-1/4 left-1/4"></div>
+                <div className="absolute w-1 h-1 bg-purple-400 rounded-full opacity-60 animate-ping delay-700 top-3/4 right-1/4"></div>
+                <div className="absolute w-1 h-1 bg-pink-400 rounded-full opacity-60 animate-ping delay-1000 top-1/2 left-3/4"></div>
+                <div className="absolute w-1 h-1 bg-yellow-400 rounded-full opacity-60 animate-ping delay-300 top-1/3 right-1/3"></div>
+              </div>
             </div>
           </div>
-        ))}
+        )}
       </div>
 
       {/* Footer */}

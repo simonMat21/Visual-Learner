@@ -21,7 +21,7 @@ const Header = () => {
           {/* Right side - GitHub icon */}
           <div className="flex items-center space-x-4">
             <a
-              href="https://github.com"
+              href="https://github.com/simonMat21/Visual-Learner"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25"
