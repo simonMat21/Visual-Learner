@@ -92,16 +92,17 @@ export default function Home() {
         <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
 
         {/* Navigation */}
-        <div className="flex justify-center mt-8">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-2">
-            <div className="flex space-x-2">
+        <div className="flex justify-center mt-8 px-4">
+          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-2 w-full max-w-4xl">
+            <div className="grid grid-cols-4 gap-1 sm:gap-2">
               {["Algorithms", "Math", "Physics", "Logic Design"].map(
                 (item, index) => (
                   <button
                     key={item}
                     onClick={() => setActiveTab(item)}
                     className={`
-                    px-6 py-3 rounded-xl font-semibold transition-all duration-300
+                    px-1 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-300
+                    text-xs sm:text-base text-center
                     ${
                       activeTab === item
                         ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg"
@@ -110,7 +111,14 @@ export default function Home() {
                     transform hover:scale-105 active:scale-95
                   `}
                   >
-                    {item}
+                    <span className="block sm:hidden">
+                      {item === "Algorithms"
+                        ? "Algo"
+                        : item === "Logic Design"
+                        ? "Logic"
+                        : item}
+                    </span>
+                    <span className="hidden sm:block">{item}</span>
                   </button>
                 )
               )}
