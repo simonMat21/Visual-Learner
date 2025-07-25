@@ -1,6 +1,6 @@
 <div align="center">
 
-![Algorithm Visualizer Logo](https://via.placeholder.com/150x150/4F46E5/FFFFFF?text=AV)
+<img src="public/favicon.png" alt="Screenshot" width="300" height="300"/>
 
 # 🚀 Algorithm Visualizer
 
@@ -13,7 +13,7 @@ Perfect for students, educators, and developers who want to understand how algor
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
 
-[🌐 **Visit Live Site**](https://visuallearner.org) • [📖 **Documentation**](#-how-to-use) • [🤝 **Contribute**](#-contributing) • [🐛 **Report Bug**](https://github.com/yourusername/algorithm-visualizer/issues)
+[🌐 **Visit Live Site**](https://visuallearner.org) • [📖 **Documentation**](#-how-to-use) • [🤝 **Contribute**](#-contributing) • [🐛 **Report Bug**](https://github.com/simonMat21/algorithm-visualizer/issues)
 
 </div>
 
@@ -74,7 +74,7 @@ Perfect for students, educators, and developers who want to understand how algor
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/algorithm-visualizer.git
+   git clone https://github.com/simonMat21/algorithm-visualizer.git
    cd algorithm-visualizer
    ```
 
@@ -165,20 +165,6 @@ The visualization engine is highly customizable:
 - Safari
 - Edge
 
-## 📄 License
-
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
-
-**Key points about GPL v3:**
-
-- ✅ Commercial use allowed
-- ✅ Modification allowed
-- ✅ Distribution allowed
-- ✅ Patent use allowed
-- ❗ License and copyright notice required
-- ❗ Source code must be disclosed
-- ❗ Same license required for derivatives
-
 ## 🙏 Acknowledgments
 
 - Built with ❤️ using Next.js and React
@@ -190,8 +176,8 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 ## 🌐 Links
 
 - **Live Website**: [visuallearner.org](https://visuallearner.org)
-- **GitHub Repository**: [github.com/yourusername/algorithm-visualizer](https://github.com/yourusername/algorithm-visualizer)
-- **Issues**: [Report bugs or request features](https://github.com/yourusername/algorithm-visualizer/issues)
+- **GitHub Repository**: [github.com/yourusername/algorithm-visualizer](https://github.com/simonMat21/algorithm-visualizer)
+- **Issues**: [Report bugs or request features](https://github.com/simonMat21/algorithm-visualizer/issues)
 
 ## 📞 Support
 
