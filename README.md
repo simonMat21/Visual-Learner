@@ -31,7 +31,7 @@ Perfect for students, educators, and developers who want to understand how algor
 - **Heap Sort** - Understand heap-based sorting
 - **Count Sort** - See counting sort's linear time magic
 - **Bucket Sort** - Watch elements distributed into buckets
-- **Radix Sort** - Observe digit-by-digit sorting
+- **Radix Sort** - Observe digit by digit sorting
 
 ### 🔍 Search Algorithms
 
