@@ -16,7 +16,18 @@ export default function Home() {
   const [animSpd, setAnimSpd] = useState(1);
 
   const codeSnippets = {
-    c: ``,
+    c: `void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int swapped = 0; // Optimization: track if any swap was made
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                swapped = 1;
+            }
+        }`,
     js: `function bubbleSort(arr) {
   let n = arr.length;
   for (let i = 0; i < n - 1; i++) {
@@ -33,10 +44,28 @@ export default function Home() {
   return arr;
 }
 `,
-    py: `def greet(name):
-    return "Hello, " + name`,
-    cpp: `std::string greet(std::string name) {
-    return "Hello, " + name;
+    py: `def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        swapped = False
+        for j in range(n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        if not swapped:
+            break`,
+    cpp: `void bubbleSort(std::vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; ++i) {
+        bool swapped = false;
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                std::swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+        if (!swapped) break;
+    }
 }`,
     idea: `# first loop with i as element
     # second loop with j as element
