@@ -107,7 +107,7 @@ export default function P5Sketch({
                 funcName: "insert",
                 Args: [box],
               });
-              if (box.val === "null") {
+              if (box.val === "null" || box.val === "del") {
                 animator.standAloneFunc(1, () => {
                   box.val = val;
                 });
@@ -148,19 +148,19 @@ export default function P5Sketch({
                   funcName: "insert",
                   Args: [
                     this.table[(idx + i + 1) % this.size],
-                    this.table[(idx + i + 1) % this.size].val === "null",
+                    this.table[(idx + i + 1) % this.size].val === "del",
                   ],
                 });
                 animator.addStage({
                   funcName: "insert",
-                  Args: [box, box.val === "null"],
+                  Args: [box, box.val === "del"],
                 });
                 animator.standAloneFunc(1, () => {
-                  box.val = "null";
+                  box.val = "del";
                 });
                 return;
               }
-              if (box.val === "null") break;
+              if (box.val === "del") break;
             }
           }
 
