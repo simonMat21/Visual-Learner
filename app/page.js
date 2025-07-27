@@ -19,6 +19,8 @@ export default function Home() {
         { href: "/page_countSort", val: "Count Sort" },
         { href: "/page_BucketSort", val: "Bucket Sort" },
         { href: "/page_radixSort", val: "Radix Sort" },
+        { href: "/page_dampingFunc", val: "damping func" },
+        { href: "/page_vecRep", val: "vector" },
       ],
     },
     {

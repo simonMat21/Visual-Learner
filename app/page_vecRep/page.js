@@ -72,7 +72,7 @@ Repeat n times:
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-          <div className="flex flex-col items-center space-y-6">
+          {/* <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
                 updateForm(1, "val", arr);
@@ -121,7 +121,7 @@ Repeat n times:
                 showValue={true}
               />
             </div>
-          </div>
+          </div> */}
           <P5Sketch
             k1={sliderValue[0]}
             k2={sliderValue2[0]}
