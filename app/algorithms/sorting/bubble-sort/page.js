@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { Slider } from "@/components/ui/slider2";
+import { Slider } from "@/components/ui/slider";
 import NumberInput from "@/components/NumberInput";
 
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
@@ -14,12 +14,22 @@ export default function Home() {
   const [AEBool, setAEBool] = useState(true);
   const [addForm, setAddForm] = useState({ val: [], pos: 0, start: false });
   const [animSpd, setAnimSpd] = useState(1);
-  const [sliderValue, setSliderValue] = useState([1]); // Add this state
-  const [sliderValue2, setSliderValue2] = useState([1]); // Add this state
-  const [sliderValue3, setSliderValue3] = useState([0.1]); // Add this state
 
   const codeSnippets = {
-    c: ``,
+    c: `void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int swapped = 0; // Optimization: track if any swap was made
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                swapped = 1;
+            }
+        }
+    }
+}`,
     js: `function bubbleSort(arr) {
   let n = arr.length;
   for (let i = 0; i < n - 1; i++) {
@@ -36,10 +46,28 @@ export default function Home() {
   return arr;
 }
 `,
-    py: `def greet(name):
-    return "Hello, " + name`,
-    cpp: `std::string greet(std::string name) {
-    return "Hello, " + name;
+    py: `def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        swapped = False
+        for j in range(n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        if not swapped:
+            break`,
+    cpp: `void bubbleSort(std::vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; ++i) {
+        bool swapped = false;
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                std::swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+        if (!swapped) break;
+    }
 }`,
     idea: `# first loop with i as element
     # second loop with j as element
@@ -81,51 +109,21 @@ Repeat n times:
               }}
             />
             <div className="flex items-center space-x-4">
+              <span className="text-gray-300 text-sm">Speed:</span>
               <Slider
-                value={sliderValue} // Use controlled value
-                min={0.1}
-                max={2}
+                defaultValue={[1]}
+                min={0.5}
+                max={1.5}
                 step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K1"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue2} // Use controlled value
-                min={0.1}
-                max={2}
-                step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue2(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K2"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue3} // Use controlled value
-                min={0.01}
-                max={0.7}
-                step={0.001}
-                onValueChange={(value) => {
-                  setSliderValue3(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="t"
-                showValue={true}
+                onValueChange={([val]) => setAnimSpd(2 - val)}
+                className="w-64 h-6"
               />
             </div>
           </div>
           <P5Sketch
-            k1={sliderValue[0]}
-            k2={sliderValue2[0]}
-            t={sliderValue3[0]}
+            add={addForm}
+            animSpd={animSpd}
+            actionExicutable={(b) => setAEBool(b)}
           />
         </div>
       </div>

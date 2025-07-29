@@ -62,6 +62,43 @@ Perfect for students, educators, and developers who want to understand how algor
 - **Deployment**: Vercel
 - **Website**: [visuallearner.org](https://visuallearner.org)
 
+## Project Structure
+```bash
+.
+├── LICENSE
+├── README.md
+├── app
+│   ├── algorithms
+│   │   ├── bst
+│   │   ├── hash-table
+│   │   ├── heap
+│   │   ├── linked-list
+│   │   ├── search
+│   │   └── sorting
+│   ├── globals.css
+│   ├── layout.js
+│   └── page.js
+├── components
+│   ├── Animator.js
+│   ├── Animator2.js
+│   ├── CodeBlock.js
+│   ├── Footer/
+│   ├── Header/
+│   ├── NumberInput.js
+│   ├── Tideon.js
+│   ├── phoneScreenBlocker.js
+│   └── ui/
+├── components.json
+├── eslint.config.mjs
+├── jsconfig.json
+├── lib/
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+└── public/
+```
+
 ## 🚀 Getting Started
 
 ### Prerequisites

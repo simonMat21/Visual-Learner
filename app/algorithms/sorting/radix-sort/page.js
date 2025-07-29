@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { Slider } from "@/components/ui/slider2";
+import { Slider } from "@/components/ui/slider";
 import NumberInput from "@/components/NumberInput";
 
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
@@ -14,12 +14,8 @@ export default function Home() {
   const [AEBool, setAEBool] = useState(true);
   const [addForm, setAddForm] = useState({ val: [], pos: 0, start: false });
   const [animSpd, setAnimSpd] = useState(1);
-  const [sliderValue, setSliderValue] = useState([1]); // Add this state
-  const [sliderValue2, setSliderValue2] = useState([1]); // Add this state
-  const [sliderValue3, setSliderValue3] = useState([0.1]); // Add this state
 
   const codeSnippets = {
-    c: ``,
     js: `function bubbleSort(arr) {
   let n = arr.length;
   for (let i = 0; i < n - 1; i++) {
@@ -69,11 +65,25 @@ Repeat n times:
     <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
 
+      {/* Header Section */}
+      {/* <div className="text-center py-12 px-8">
+        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+          Algorithm Visualizer
+        </h1>
+        <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
+      </div> */}
+
+      {/* Controls Section */}
+      {/* <div className="max-w-6xl mx-auto px-8 mb-1">
+        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6"></div>
+      </div> */}
+
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
           <div className="flex flex-col items-center space-y-6">
             <NumberInput
+              valRange={[0, 1000]}
               onSubmit={(arr) => {
                 updateForm(1, "val", arr);
                 updateForm(1, "start", true);
@@ -81,51 +91,21 @@ Repeat n times:
               }}
             />
             <div className="flex items-center space-x-4">
+              <span className="text-gray-300 text-sm">Speed:</span>
               <Slider
-                value={sliderValue} // Use controlled value
-                min={0.1}
-                max={2}
+                defaultValue={[1]}
+                min={0.5}
+                max={1.5}
                 step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K1"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue2} // Use controlled value
-                min={0.1}
-                max={2}
-                step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue2(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K2"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue3} // Use controlled value
-                min={0.01}
-                max={0.7}
-                step={0.001}
-                onValueChange={(value) => {
-                  setSliderValue3(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="t"
-                showValue={true}
+                onValueChange={([val]) => setAnimSpd(val)}
+                className="w-64 h-6"
               />
             </div>
           </div>
           <P5Sketch
-            k1={sliderValue[0]}
-            k2={sliderValue2[0]}
-            t={sliderValue3[0]}
+            add={addForm}
+            animSpd={animSpd}
+            actionExicutable={(b) => setAEBool(b)}
           />
         </div>
       </div>

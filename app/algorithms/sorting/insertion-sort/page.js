@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { Slider } from "@/components/ui/slider2";
+import { Slider } from "@/components/ui/slider";
 import NumberInput from "@/components/NumberInput";
 
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
@@ -14,9 +14,6 @@ export default function Home() {
   const [AEBool, setAEBool] = useState(true);
   const [addForm, setAddForm] = useState({ val: [], pos: 0, start: false });
   const [animSpd, setAnimSpd] = useState(1);
-  const [sliderValue, setSliderValue] = useState([1]); // Add this state
-  const [sliderValue2, setSliderValue2] = useState([1]); // Add this state
-  const [sliderValue3, setSliderValue3] = useState([0.1]); // Add this state
 
   const codeSnippets = {
     c: ``,
@@ -81,51 +78,21 @@ Repeat n times:
               }}
             />
             <div className="flex items-center space-x-4">
+              <span className="text-gray-300 text-sm">Speed:</span>
               <Slider
-                value={sliderValue} // Use controlled value
-                min={0.1}
-                max={2}
+                defaultValue={[1]}
+                min={0.5}
+                max={1.5}
                 step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K1"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue2} // Use controlled value
-                min={0.1}
-                max={2}
-                step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue2(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K2"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue3} // Use controlled value
-                min={0.01}
-                max={0.7}
-                step={0.001}
-                onValueChange={(value) => {
-                  setSliderValue3(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="t"
-                showValue={true}
+                onValueChange={([val]) => setAnimSpd(2 - val)}
+                className="w-64 h-6"
               />
             </div>
           </div>
           <P5Sketch
-            k1={sliderValue[0]}
-            k2={sliderValue2[0]}
-            t={sliderValue3[0]}
+            add={addForm}
+            animSpd={animSpd}
+            actionExicutable={(b) => setAEBool(b)}
           />
         </div>
       </div>
