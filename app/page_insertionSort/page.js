@@ -16,7 +16,20 @@ export default function Home() {
   const [animSpd, setAnimSpd] = useState(1);
 
   const codeSnippets = {
-    c: ``,
+    c: `void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        arr[j + 1] = key;
+    }
+}
+`,
     js: `function bubbleSort(arr) {
   let n = arr.length;
   for (let i = 0; i < n - 1; i++) {
@@ -33,11 +46,33 @@ export default function Home() {
   return arr;
 }
 `,
-    py: `def greet(name):
-    return "Hello, " + name`,
-    cpp: `std::string greet(std::string name) {
-    return "Hello, " + name;
-}`,
+    py: `def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+
+        arr[j + 1] = key
+`,
+    cpp: `void insertionSort(std::vector<int>& arr) {
+    int n = arr.size();
+
+    for (int i = 1; i < n; ++i) {
+        int key = arr[i];
+        int j = i - 1;
+
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            --j;
+        }
+
+        arr[j + 1] = key;
+    }
+}
+`,
     idea: `# first loop with i as element
     # second loop with j as element
         if j>i:
