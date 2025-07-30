@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 
 @layer base {
+
   html,
   body {
     background: rgb(16, 33, 72);
@@ -113,18 +114,8 @@
 }
 
 .dobtn {
-  @apply rounded-3xl bg-black w-[120px] text-[#e5e695] px-4 py-2 border 
-           hover:bg-black/60 hover:cursor-pointer 
-           transition-transform duration-200 shadow-md hover:scale-105;
+  @apply rounded-3xl bg-black w-[120px] text-[#e5e695] px-4 py-2 border hover:bg-black/60 hover:cursor-pointer transition-transform duration-200 shadow-md hover:scale-105;
 }
-
-/* .main {
-  @apply flex flex-col items-center min-h-screen px-4;
-} */
-
-/* .heading {
-  @apply text-6xl font-bold mb-4 mt-4 text-[#ff4a4a];
-} */
 
 .inpbox {
   @apply w-65 bg-black text-[#ff4a4a] border-2 rounded-2xl placeholder:text-white placeholder:opacity-35;

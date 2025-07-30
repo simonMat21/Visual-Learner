@@ -10,17 +10,15 @@ export default function Home() {
       color: "from-purple-500 to-pink-500",
       shadowColor: "shadow-purple-500/50",
       links: [
-        { href: "/page_bubbleSort", val: "Bubble Sort" },
-        { href: "/page_selectionSort", val: "Selection Sort" },
-        { href: "/page_insertionSort", val: "Insertion Sort" },
-        { href: "/page_mergeSort", val: "Merge Sort" },
-        { href: "/page_quickSort", val: "Quick Sort" },
-        { href: "/page_heapSort", val: "Heap Sort" },
-        { href: "/page_countSort", val: "Count Sort" },
-        { href: "/page_BucketSort", val: "Bucket Sort" },
-        { href: "/page_radixSort", val: "Radix Sort" },
-        { href: "/page_dampingFunc", val: "damping func" },
-        { href: "/page_vecRep", val: "vector" },
+        { href: "algorithms/sorting/bubble-sort", val: "Bubble Sort" },
+        { href: "algorithms/sorting/selection-sort", val: "Selection Sort" },
+        { href: "algorithms/sorting/insertion-sort", val: "Insertion Sort" },
+        { href: "algorithms/sorting/merge-sort", val: "Merge Sort" },
+        { href: "algorithms/sorting/quick-sort", val: "Quick Sort" },
+        { href: "algorithms/sorting/heap-sort", val: "Heap Sort" },
+        { href: "algorithms/sorting/count-sort", val: "Count Sort" },
+        { href: "algorithms/sorting/bucket-sort", val: "Bucket Sort" },
+        { href: "algorithms/sorting/radix-sort", val: "Radix Sort" },
       ],
     },
     {
@@ -29,8 +27,8 @@ export default function Home() {
       color: "from-blue-500 to-cyan-500",
       shadowColor: "shadow-blue-500/50",
       links: [
-        { href: "/page_binarySearch", val: "Binary Search" },
-        { href: "/page_linearSearch", val: "Linear Search" },
+        { href: "algorithms/search/binary-search", val: "Binary Search" },
+        { href: "algorithms/search/linear-search", val: "Linear Search" },
       ],
     },
     {
@@ -39,9 +37,9 @@ export default function Home() {
       color: "from-green-500 to-emerald-500",
       shadowColor: "shadow-green-500/50",
       links: [
-        { href: "/page_bst", val: "BST Basic" },
-        { href: "/page_bst_2", val: "BST Advanced" },
-        { href: "/page_bst_3", val: "BST Operations" },
+        { href: "algorithms/bst/basic", val: "BST Basic" },
+        { href: "algorithms/bst/advanced", val: "BST Advanced" },
+        { href: "algorithms/bst/operations", val: "BST Operations" },
       ],
     },
     {
@@ -50,8 +48,8 @@ export default function Home() {
       color: "from-orange-500 to-red-500",
       shadowColor: "shadow-orange-500/50",
       links: [
-        { href: "/page_linkedList", val: "Linked List" },
-        { href: "/page_doubleLinkedList", val: "Double Linked List" },
+        { href: "algorithms/linked-list", val: "Linked List" },
+        { href: "algorithms/linked-list/double", val: "Double Linked List" },
       ],
     },
     {
@@ -60,8 +58,8 @@ export default function Home() {
       color: "from-yellow-500 to-orange-500",
       shadowColor: "shadow-yellow-500/50",
       links: [
-        { href: "/page_heap", val: "Heap Structure" },
-        { href: "/page_heapSort", val: "Heap Sort" },
+        { href: "algorithms/heap", val: "Heap Structure" },
+        { href: "algorithms/sorting/heap-sort", val: "Heap Sort" },
       ],
     },
     {
@@ -70,12 +68,15 @@ export default function Home() {
       color: "from-indigo-500 to-purple-500",
       shadowColor: "shadow-indigo-500/50",
       links: [
-        { href: "/page_hashTable", val: "Hash Table" },
-        { href: "/page_countSort", val: "Count Sort" },
-        { href: "/page_linearProbing", val: "Linear Probing" },
-        { href: "/page_quadraticProbing", val: "Quadratic Probing" },
-        { href: "/page_hasgTableChaining", val: "Hash Table Chaining" },
-        { href: "/page_BucketSort", val: "Bucket Sort" },
+        { href: "algorithms/hash-table", val: "Hash Table" },
+        { href: "algorithms/sorting/count-sort", val: "Count Sort" },
+        { href: "algorithms/hash-table/linear-probing", val: "Linear Probing" },
+        {
+          href: "algorithms/hash-table/quadratic-probing",
+          val: "Quadratic Probing",
+        },
+        { href: "algorithms/hash-table/chaining", val: "Hash Table Chaining" },
+        { href: "algorithms/sorting/bucket-sort", val: "Bucket Sort" },
       ],
     },
   ];
