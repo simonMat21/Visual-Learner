@@ -327,7 +327,7 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
 
-        function qq(_, [node]) {
+        function qq_func(_, [node]) {
           const parentX = node.parent ? node.parent.x : P.width / 2;
           const parentY = node.parent ? node.parent.y : 50;
           return animator.animationSequence([
@@ -364,7 +364,7 @@ export default function P5Sketch({
           animator = new Animator();
           animator.functionsDictionary = {
             insert: insert,
-            qq: qq,
+            qq: qq_func,
           };
         };
 
@@ -376,9 +376,9 @@ export default function P5Sketch({
           animator.setDelayMult(animSpdRef.current);
 
           if (animator.executing) {
-            actionExicutable(false);
+            actionExicutableRef.current(false);
           } else {
-            actionExicutable(true);
+            actionExicutableRef.current(true);
           }
 
           if (addRef.current.start) {
