@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 
 import { Slider } from "@/components/ui/slider2";
-import NumberInput from "../components/NumberInput";
+import NumberInput from "@/components/NumberInput";
 
-import { CodeBlock, TextBox } from "../components/CodeBlock";
-import PhoneScreenBlock from "../components/phoneScreenBlocker";
+import { CodeBlock, TextBox } from "@/components/CodeBlock";
+import PhoneScreenBlock from "@/components/phoneScreenBlocker";
 
 import P5Sketch from "./P5Sketch";
 
