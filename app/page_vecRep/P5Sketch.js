@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { Animator, a2o } from "../components/Tideon";
+import { Animator, a2o } from "@/components/Tideon";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
