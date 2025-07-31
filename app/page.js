@@ -19,6 +19,10 @@ export default function Home() {
         { href: "algorithms/sorting/count-sort", val: "Count Sort" },
         { href: "algorithms/sorting/bucket-sort", val: "Bucket Sort" },
         { href: "algorithms/sorting/radix-sort", val: "Radix Sort" },
+        { href: "math/vector-rep", val: "Vector rep" },
+        { href: "math/vector-subtraction", val: "Vector sub" },
+        { href: "math/vector-addition", val: "Vector add" },
+        { href: "math/vector-dot-product", val: "Vector dot" },
       ],
     },
     {
