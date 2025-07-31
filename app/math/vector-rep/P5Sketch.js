@@ -325,74 +325,161 @@ export default function P5Sketch({ k1, k2, t }) {
 
           Scale(scaleParameters, true);
           let pos = getMathPosition(mPos.x, mPos.y, scaleParameters);
+
+          // Draw main vector
           drawVector([[0, 0], pos], scaleParameters, [255, 255, 0], 3, 12);
 
-          // Display vector representations in top-left corner
-          P.push();
+          // Draw X component (horizontal projection)
+          if (pos[0] !== 0) {
+            drawVector(
+              [
+                [0, 0],
+                [pos[0], 0],
+              ],
+              scaleParameters,
+              [255, 100, 100],
+              2,
+              8
+            );
+          }
 
-          // Reset transformation to work in screen coordinates
+          // Draw Y component (vertical projection)
+          if (pos[1] !== 0) {
+            drawVector(
+              [
+                [0, 0],
+                [0, pos[1]],
+              ],
+              scaleParameters,
+              [100, 255, 100],
+              2,
+              8
+            );
+          }
+
+          // Draw dotted lines to show projections
+          P.push();
+          P.stroke(150, 150, 150, 150);
+          P.strokeWeight(1);
+          P.drawingContext.setLineDash([5, 5]);
+
+          // Convert to screen coordinates for dotted lines
+          const { position, scaleLenX, scaleLenY, origin, xVal, yVal, div } =
+            scaleParameters;
+          const [posX, posY] = position;
+          let xSpacing = (scaleLenX[1] - 20) / ((xVal[1] - origin) / div[0]);
+          let ySpacing = scaleLenY[0] / ((yVal[1] - origin) / div[1]);
+
+          let screenEndX = posX + ((pos[0] - origin) / div[0]) * xSpacing;
+          let screenEndY = posY - ((pos[1] - origin) / div[1]) * ySpacing;
+          let screenXProj = posX + ((pos[0] - origin) / div[0]) * xSpacing;
+          let screenYProj = posY - ((pos[1] - origin) / div[1]) * ySpacing;
+
+          // Vertical dotted line from x-axis to vector end
+          P.line(screenXProj, posY, screenEndX, screenEndY);
+          // Horizontal dotted line from y-axis to vector end
+          P.line(posX, screenYProj, screenEndX, screenEndY);
+
+          P.drawingContext.setLineDash([]);
+          P.pop();
+
+          // Draw angle arc
+          P.push();
+          P.stroke(255, 255, 255, 200);
+          P.strokeWeight(2);
+          P.noFill();
+
+          let angleFromXAxis = Math.atan2(pos[1], pos[0]);
+          let arcRadius = 40;
+
+          if (Math.abs(pos[0]) > 0.1 || Math.abs(pos[1]) > 0.1) {
+            // Convert mathematical angle to screen angle (p5.js uses different coordinate system)
+            let screenAngle = -angleFromXAxis; // Negative because screen Y is flipped
+
+            // Draw arc from 0 (positive X-axis) to the vector angle
+            if (screenAngle >= 0) {
+              // Counterclockwise from positive X-axis
+              P.arc(posX, posY, arcRadius * 2, arcRadius * 2, 0, screenAngle);
+            } else {
+              // Clockwise from positive X-axis
+              P.arc(posX, posY, arcRadius * 2, arcRadius * 2, screenAngle, 0);
+            }
+
+            // Angle label positioned at the middle of the arc
+            let labelAngle = screenAngle / 2;
+            let labelX = posX + Math.cos(labelAngle) * (arcRadius + 15);
+            let labelY = posY + Math.sin(labelAngle) * (arcRadius + 15);
+
+            P.fill(255, 255, 255);
+            P.noStroke();
+            P.textAlign(P.CENTER, P.CENTER);
+            P.textSize(12);
+            P.text(
+              `θ = ${((angleFromXAxis * 180) / Math.PI).toFixed(1)}°`,
+              labelX,
+              labelY
+            );
+          }
+          P.pop();
+
+          // Display vector representations
+          P.push();
           P.translate(-P.width / 2, -P.height / 2);
 
-          // Calculate vector components
           let x = pos[0];
           let y = pos[1];
           let magnitude = Math.sqrt(x * x + y * y);
-          let angle = (Math.atan2(y, x) * 180) / Math.PI; // Convert to degrees
+          let angleFromXAxisDeg = (Math.atan2(y, x) * 180) / Math.PI;
 
-          // Background for the text - shifted to the left side
-          P.fill(0, 0, 0, 180); // Semi-transparent black background
+          // Background for the text
+          P.fill(0, 0, 0, 180);
           P.noStroke();
+          P.rect(15, 20, 350, 200);
 
-          // Text styling - Yellow text
-          P.fill(255, 255, 0); // Yellow text
           P.textAlign(P.LEFT, P.TOP);
-
-          // Title
           P.textSize(16);
           P.textStyle(P.BOLD);
-          P.text("Vector Representations:", 20, 25); // Left aligned
+          P.fill(255, 255, 255);
+          P.text("Vector Components & Representation:", 20, 25);
 
           P.textStyle(P.NORMAL);
           P.textSize(14);
 
-          // Cartesian coordinates
+          // Main vector (yellow)
+          P.fill(255, 255, 0);
+          P.text(`Vector: (${x.toFixed(2)}, ${y.toFixed(2)})`, 20, 50);
+          P.text(`Magnitude: ${magnitude.toFixed(2)}`, 20, 70);
           P.text(
-            `Cartesian: (${x.toFixed(2)}, ${y.toFixed(2)})`,
-            20, // Left aligned
-            50
-          );
-
-          // Polar coordinates
-          P.text(
-            `Polar: (${magnitude.toFixed(2)}, ${angle.toFixed(1)}°)`,
-            20, // Left aligned
-            70
-          );
-
-          // Unit vector notation
-          P.text(
-            `Unit Vector: ${x.toFixed(2)}i + ${y.toFixed(2)}j`,
-            20, // Left aligned
+            `Angle from +X axis: ${angleFromXAxisDeg.toFixed(1)}°`,
+            20,
             90
           );
 
-          // Matrix representation
-          P.text("Matrix:", 20, 110); // Left aligned
-          P.text(`[${x.toFixed(2)}]`, 80, 125); // Positioned relative to left
-          P.text(`[${y.toFixed(2)}]`, 80, 140); // Positioned relative to left
+          // X component (red)
+          P.fill(255, 100, 100);
+          P.text(`X-component: ${x.toFixed(2)} (Red)`, 20, 115);
 
-          // Draw matrix brackets - positioned for left side
-          P.stroke(255, 255, 0); // Yellow brackets to match text
-          P.strokeWeight(2);
-          P.noFill();
-          // Left bracket
-          P.line(70, 120, 70, 150); // Positioned for left side
-          P.line(70, 120, 75, 120); // Positioned for left side
-          P.line(70, 150, 75, 150); // Positioned for left side
-          // Right bracket
-          P.line(130, 120, 130, 150); // Positioned for left side
-          P.line(130, 120, 125, 120); // Positioned for left side
-          P.line(130, 150, 125, 150); // Positioned for left side
+          // Y component (green)
+          P.fill(100, 255, 100);
+          P.text(`Y-component: ${y.toFixed(2)} (Green)`, 20, 135);
+
+          // Mathematical relationships
+          P.fill(255, 255, 255);
+          P.text("Relationships:", 20, 160);
+          P.text(
+            `x = r × cos(θ) = ${magnitude.toFixed(
+              2
+            )} × cos(${angleFromXAxisDeg.toFixed(1)}°) = ${x.toFixed(2)}`,
+            20,
+            180
+          );
+          P.text(
+            `y = r × sin(θ) = ${magnitude.toFixed(
+              2
+            )} × sin(${angleFromXAxisDeg.toFixed(1)}°) = ${y.toFixed(2)}`,
+            20,
+            200
+          );
 
           P.pop();
         };

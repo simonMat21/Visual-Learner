@@ -3,7 +3,8 @@ import React, { useState } from "react";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Algorithms");
-  const linkers = [
+
+  const algorithmLinkers = [
     {
       title: "Sorting",
       icon: "🔄",
@@ -19,12 +20,6 @@ export default function Home() {
         { href: "algorithms/sorting/count-sort", val: "Count Sort" },
         { href: "algorithms/sorting/bucket-sort", val: "Bucket Sort" },
         { href: "algorithms/sorting/radix-sort", val: "Radix Sort" },
-        { href: "math/vector-rep", val: "Vector rep" },
-        { href: "math/vector-subtraction", val: "Vector sub" },
-        { href: "math/vector-addition", val: "Vector add" },
-        { href: "math/vector-dot-product", val: "Vector dot" },
-        { href: "math/circle", val: "Circle" },
-        { href: "math/ellipse", val: "Ellipse" },
       ],
     },
     {
@@ -87,6 +82,54 @@ export default function Home() {
     },
   ];
 
+  const mathLinkers = [
+    {
+      title: "Vectors",
+      icon: "📐",
+      color: "from-blue-500 to-cyan-500",
+      shadowColor: "shadow-blue-500/50",
+      links: [
+        { href: "math/vector-rep", val: "Vector Representation" },
+        { href: "math/vector-addition", val: "Vector Addition" },
+        { href: "math/vector-subtraction", val: "Vector Subtraction" },
+        { href: "math/vector-dot-product", val: "Vector Dot Product" },
+      ],
+    },
+    {
+      title: "Coordinate Geometry",
+      icon: "📊",
+      color: "from-green-500 to-emerald-500",
+      shadowColor: "shadow-green-500/50",
+      links: [
+        { href: "math/circle", val: "Circle" },
+        { href: "math/ellipse", val: "Ellipse" },
+      ],
+    },
+  ];
+
+  const physicsLinkers = [
+    {
+      title: "Functions",
+      icon: "📈",
+      color: "from-orange-500 to-red-500",
+      shadowColor: "shadow-orange-500/50",
+      links: [{ href: "physics/damping-function", val: "Damping Function" }],
+    },
+  ];
+
+  const getCurrentLinkers = () => {
+    switch (activeTab) {
+      case "Algorithms":
+        return algorithmLinkers;
+      case "Math":
+        return mathLinkers;
+      case "Physics":
+        return physicsLinkers;
+      default:
+        return [];
+    }
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black py-8 px-4 sm:px-6 lg:px-8">
       {/* Header */}
@@ -138,8 +181,8 @@ export default function Home() {
 
       {/* Categories */}
       <div className="max-w-7xl mx-auto space-y-12">
-        {activeTab === "Algorithms" ? (
-          linkers.map((category, categoryIndex) => (
+        {getCurrentLinkers().length > 0 ? (
+          getCurrentLinkers().map((category, categoryIndex) => (
             <div
               key={categoryIndex}
               className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300"
