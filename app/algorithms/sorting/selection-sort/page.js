@@ -16,38 +16,71 @@ export default function Home() {
   const [animSpd, setAnimSpd] = useState(1);
 
   const codeSnippets = {
-    c: ``,
-    js: `function bubbleSort(arr) {
+    c: `void selectionSort(int arr[], int n) {
+  for (int i = 0; i < n - 1; i++) {
+    int min_idx = i;
+    
+    for (int j = i + 1; j < n; j++) {
+      if (arr[j] < arr[min_idx])
+        min_idx = j;
+    }
+    
+    // Swap the found minimum element with the first element
+    int temp = arr[min_idx];
+    arr[min_idx] = arr[i];
+    arr[i] = temp;
+  }
+}
+`,
+    js: `function selectionSort(arr) {
   let n = arr.length;
   for (let i = 0; i < n - 1; i++) {
-    let swapped = false;
-    for (let j = 0; j < n - 1 - i; j++) {
-      if (arr[j] > arr[j + 1]) {
-        // swap
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-        swapped = true;
+    let minIdx = i;
+    
+    for (let j = i + 1; j < n; j++) {
+      if (arr[j] < arr[minIdx]) {
+        minIdx = j;
       }
     }
-    if (!swapped) break;
+
+    // Swap the found minimum element with the first element
+    [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
   }
   return arr;
 }
 `,
-    py: `def greet(name):
-    return "Hello, " + name`,
-    cpp: `std::string greet(std::string name) {
-    return "Hello, " + name;
-}`,
-    idea: `# first loop with i as element
-    # second loop with j as element
-        if j>i:
-            swap their postions
-            
-or
-
-Repeat n times:
-    Compare each pair of adjacent items
-    Swap them if they are in the wrong order`,
+    py: `def selection_sort(arr):
+  n = len(arr)
+  for i in range(n - 1):
+    min_idx = i
+    
+    for j in range(i + 1, n):
+      if arr[j] < arr[min_idx]:
+        min_idx = j
+    
+    // Swap the found minimum element with the first element
+    arr[i], arr[min_idx] = arr[min_idx], arr[i]
+`,
+    cpp: `void selectionSort(std::vector<int>& arr) {
+  int n = arr.size();
+  for (int i = 0; i < n - 1; ++i) {
+    int min_idx = i;
+    
+    for (int j = i + 1; j < n; ++j) {
+      if (arr[j] < arr[min_idx])
+        min_idx = j;
+    }
+    
+    // Swap the found minimum element with the first element
+    std::swap(arr[i], arr[min_idx]);
+  }
+}
+`,
+    idea: `Repeat n times:
+  Find the minimum element in the unsorted part
+  Swap it with the first unsorted element
+  Move the boundary of the sorted part one step forward
+`,
   };
 
   const updateForm = (n, key, value) => {
