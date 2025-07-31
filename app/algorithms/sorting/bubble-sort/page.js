@@ -17,18 +17,22 @@ export default function Home() {
 
   const codeSnippets = {
     c: `void bubbleSort(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        int swapped = 0; // Optimization: track if any swap was made
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                // Swap
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-                swapped = 1;
-            }
-        }
+  for (int i = 0; i < n - 1; i++) {
+    // Optimization: Track if any swap was made
+    int swapped = 0; 
+    
+    for (int j = 0; j < n - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        // Swap
+        int temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+        swapped = 1;
+      }
     }
+
+    if (!swapped) break; // If no swaps were made, the array is sorted
+  }
 }`,
     js: `function bubbleSort(arr) {
   let n = arr.length;
@@ -69,16 +73,10 @@ export default function Home() {
         if (!swapped) break;
     }
 }`,
-    idea: `# first loop with i as element
-    # second loop with j as element
-        if j>i:
-            swap their postions
-            
-or
-
-Repeat n times:
-    Compare each pair of adjacent items
-    Swap them if they are in the wrong order`,
+    idea: `Repeat n times:
+  Compare each pair of adjacent items
+  Swap them if they are in the wrong order
+  If no swaps were made during a pass, break early (array is sorted)`,
   };
 
   const updateForm = (n, key, value) => {
