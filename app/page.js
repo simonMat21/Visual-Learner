@@ -23,6 +23,8 @@ export default function Home() {
         { href: "math/vector-subtraction", val: "Vector sub" },
         { href: "math/vector-addition", val: "Vector add" },
         { href: "math/vector-dot-product", val: "Vector dot" },
+        { href: "math/circle", val: "Circle" },
+        { href: "math/ellipse", val: "Ellipse" },
       ],
     },
     {
