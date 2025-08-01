@@ -41,8 +41,7 @@ export default function P5Sketch({
             P.noFill();
             P.strokeWeight(3);
             P.stroke(this.col[0], this.col[1], this.col[2], this.opacity);
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
+            P.ellipse(this.x, this.y, 40); //_-------------------------------
             P.pop();
           }
         }
@@ -66,7 +65,7 @@ export default function P5Sketch({
 
           show() {
             P.push();
-            P.stroke(0, 0, 255, this.opacity);
+            P.stroke(150, 30, 30, this.opacity); //_-----------------
             P.strokeWeight(3);
             P.noFill();
             if (this.parent != null) {
@@ -93,13 +92,12 @@ export default function P5Sketch({
 
             if (!this.hide) {
               P.push();
-              //---------rect---------
+              //---------circle---------
               P.noStroke();
-              P.fill(68, 5, 97, this.opacity);
-              P.rectMode(P.CENTER);
-              P.rect(this.x, this.y, 40);
+              P.fill(16, 33, 72, this.opacity); //_----------
+              P.ellipse(this.x, this.y, 40); //_-----------
               //---------text---------
-              P.fill(255, 105, 0, this.opacity);
+              P.fill(0, 0, 0, this.opacity); //_---------
               P.strokeWeight(1);
               P.textAlign(P.CENTER, P.CENTER);
               P.textSize(20);
@@ -130,9 +128,9 @@ export default function P5Sketch({
 
           show() {
             P.push();
-            P.fill(0, 0, 255, this.opacity);
+            P.fill(150, 30, 30, this.opacity); //_-------------
             P.strokeWeight(3);
-            P.stroke(0, 0, 255, this.opacity);
+            P.stroke(150, 30, 30, this.opacity); //_----------------
             P.triangle(
               this.x + 25,
               this.y,
@@ -557,7 +555,7 @@ export default function P5Sketch({
 
         P.draw = () => {
           P.frameRate(60);
-          P.background(220, 34, 72);
+          P.background(180, 50, 50); //_-------------
 
           animator.mainAnimationSequence(listOfActions);
           animator.setDelayMult(animSpdRef.current);
