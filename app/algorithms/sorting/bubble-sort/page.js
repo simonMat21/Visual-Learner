@@ -120,11 +120,13 @@ Repeat n times:
               />
             </div>
           </div>
-          <P5Sketch
-            add={addForm}
-            animSpd={animSpd}
-            actionExicutable={(b) => setAEBool(b)}
-          />
+          <div>
+            <P5Sketch
+              add={addForm}
+              animSpd={animSpd}
+              actionExicutable={(b) => setAEBool(b)}
+            />
+          </div>
         </div>
       </div>
 

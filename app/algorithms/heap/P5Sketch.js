@@ -35,13 +35,10 @@ export default function P5Sketch({
           }
 
           show() {
-            P.fill(
-              P.map(this.val, Box.minVal, Box.maxVal, 255, 50),
-              this.opacity
-            );
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
-            P.fill(255, 105, 0, this.opacity);
+            P.fill(220, 80, 80, this.opacity); //_-------------------------------
+            P.noStroke();
+            P.ellipse(this.x, this.y, 40); //_-------------------------------
+            P.fill(0, 0, 0, this.opacity); //_-------------------------------
             P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
             P.textSize(20);
@@ -71,15 +68,11 @@ export default function P5Sketch({
           }
 
           show() {
-            P.fill(
-              P.map(this.val, Node.minVal, Node.maxVal, 255, 50),
-              this.opacity
-            );
-            P.stroke(0, 0, 255, this.opacity);
+            P.fill(220, 80, 80, this.opacity); //_-------------------------------
+            P.stroke(150, 30, 30, this.opacity); //_-------------------------------
             P.noStroke();
-            P.rectMode(P.CENTER);
-            P.rect(this.x, this.y, 40);
-            P.fill(255, 105, 0, this.opacity);
+            P.ellipse(this.x, this.y, 40); //_-------------------------------
+            P.fill(0, 0, 0, this.opacity); //_-------------------------------
             P.textAlign(P.CENTER, P.CENTER);
             P.textSize(20);
             P.noStroke();
@@ -127,14 +120,14 @@ export default function P5Sketch({
             Node.maxVal =
               this.heap.length > 0
                 ? this.heap.reduce((max, obj) =>
-                  obj.val > max.val ? obj : max
-                ).val
+                    obj.val > max.val ? obj : max
+                  ).val
                 : 100;
             Node.minVal =
               this.heap.length > 0
                 ? this.heap.reduce((max, obj) =>
-                  obj.val < max.val ? obj : max
-                ).val
+                    obj.val < max.val ? obj : max
+                  ).val
                 : 0;
 
             animator_2.addStage({
@@ -255,14 +248,14 @@ export default function P5Sketch({
             Box.maxVal =
               this.heap.length > 0
                 ? this.heap.reduce((max, obj) =>
-                  obj.val > max.val ? obj : max
-                ).val
+                    obj.val > max.val ? obj : max
+                  ).val
                 : 100;
             Box.minVal =
               this.heap.length > 0
                 ? this.heap.reduce((max, obj) =>
-                  obj.val < max.val ? obj : max
-                ).val
+                    obj.val < max.val ? obj : max
+                  ).val
                 : 0;
             this.heap.push(item);
             this.heapifyUp(this.heap.length - 1);
@@ -352,7 +345,7 @@ export default function P5Sketch({
           show() {
             if (this.head && this.tail) {
               P.push();
-              P.stroke(0, 0, 255, this.opacity);
+              P.stroke(150, 30, 30, this.opacity); //_-------------------------------
               P.strokeWeight(3);
               P.noFill();
               P.bezier(
@@ -435,7 +428,7 @@ export default function P5Sketch({
 
         function swapNode([a, b]) {
           return animator_2.animationSequence([
-            animator_2.animateFunc(1, () => { }),
+            animator_2.animateFunc(1, () => {}),
             animator_2.to(40, [
               {
                 obj: a,
@@ -452,7 +445,7 @@ export default function P5Sketch({
                 },
               },
             ]),
-            animator_2.animateFunc(1, () => { }),
+            animator_2.animateFunc(1, () => {}),
             animator_2.delay(10),
           ]);
         }
@@ -616,7 +609,7 @@ export default function P5Sketch({
 
         P.draw = () => {
           P.frameRate(60);
-          P.background(220, 34, 72);
+          P.background(180, 50, 50); //_-------------------------------
 
           animator_1.mainAnimationSequence();
           animator_2.mainAnimationSequence();
