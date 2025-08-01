@@ -19,7 +19,6 @@ export default function Home() {
         { href: "algorithms/sorting/count-sort", val: "Count Sort" },
         { href: "algorithms/sorting/bucket-sort", val: "Bucket Sort" },
         { href: "algorithms/sorting/radix-sort", val: "Radix Sort" },
-        { href: "page_vecAdd", val: "vec" },
       ],
     },
     {
