@@ -103,6 +103,7 @@ export default function Home() {
       links: [
         { href: "math/circle", val: "Circle" },
         { href: "math/ellipse", val: "Ellipse" },
+        { href: "math/hyperbola", val: "Hyperbola" },
       ],
     },
   ];
