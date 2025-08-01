@@ -165,19 +165,15 @@ export default function Home() {
           </h2>
           <div className="space-y-4 text-gray-300 leading-relaxed">
             <p className="text-lg">
-              This sorting algorithm compares the adjacent elements and sorts
-              them if they are in the wrong order. It repeats this process{" "}
-              <span className="text-orange-400 font-semibold">n²</span> times
-              for the array to be sorted.
+              This sorting algorithm repeatedly finds the minimum element from the unsorted part of the array and puts it at the beginning. It does this{" "}
+              <span className="text-orange-400 font-semibold">n²</span> times until the array is sorted.
             </p>
             <p className="text-lg">
               It&apos;s called{" "}
               <span className="text-purple-400 font-semibold">
-                &quot;bubble&quot;
+                &quot;selection&quot;
               </span>{" "}
-              sort because smaller elements slowly &quot;bubble up&quot; to the
-              top (beginning) of the array with each pass, like bubbles rising
-              in water.
+              sort because it selects the smallest (or largest) element from the unsorted section and moves it to its correct position in each iteration.
             </p>
           </div>
         </div>
@@ -208,15 +204,7 @@ export default function Home() {
           <div className="space-y-6">
             <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
               <p className="text-gray-300 text-lg leading-relaxed">
-                If you take a broader look, it is like taking the biggest
-                element and placing it at the end of the array, then repeating
-                this process until the array is sorted. Bubble Sort is a{" "}
-                <span className="text-green-400 font-semibold">
-                  stable sort
-                </span>
-                , meaning that elements with equal values maintain their
-                relative order after sorting — important for multi-level sorting
-                (like sorting by grade, then by name).
+                Selection Sort works by dividing the array into a sorted and an unsorted region. It repeatedly selects the smallest element from the unsorted region and swaps it with the first unsorted element, growing the sorted region by one each time. Unlike Bubble Sort, Selection Sort makes fewer swaps, but it is still not efficient for large datasets.
               </p>
             </div>
           </div>
@@ -229,9 +217,7 @@ export default function Home() {
               🧪 <span className="ml-2">Stress Test</span>
             </h3>
             <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is sometimes used in embedded or very low-level
-              testing as a &quot;canary&quot; algorithm to validate a basic
-              sorting function.
+              Selection Sort is sometimes used in educational settings to demonstrate sorting concepts, as its logic is simple and easy to follow.
             </p>
           </div>
 
@@ -240,11 +226,7 @@ export default function Home() {
               🧙‍♂️ <span className="ml-2">Variants in Practice</span>
             </h3>
             <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is too slow for large datasets. But variants like{" "}
-              <span className="text-cyan-400 font-semibold">
-                Cocktail Shaker Sort
-              </span>
-              (a bidirectional version) are more efficient in some situations.
+              While Selection Sort is rarely used in practice due to its inefficiency, it forms the basis for more advanced algorithms and is useful for small datasets or when memory writes are costly.
             </p>
           </div>
         </div>
