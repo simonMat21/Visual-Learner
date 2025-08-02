@@ -90,10 +90,10 @@ export default function Home() {
       color: "from-blue-500 to-cyan-500",
       shadowColor: "shadow-blue-500/50",
       links: [
-        { href: "math/vector-rep", val: "Vector Representation" },
-        { href: "math/vector-addition", val: "Vector Addition" },
-        { href: "math/vector-subtraction", val: "Vector Subtraction" },
-        { href: "math/vector-dot-product", val: "Vector Dot Product" },
+        { href: "math/vector/vector-rep", val: "Vector Representation" },
+        { href: "math/vector/vector-addition", val: "Vector Addition" },
+        { href: "math/vector/vector-subtraction", val: "Vector Subtraction" },
+        { href: "math/vector/vector-dot-product", val: "Vector Dot Product" },
       ],
     },
     {
@@ -102,9 +102,11 @@ export default function Home() {
       color: "from-green-500 to-emerald-500",
       shadowColor: "shadow-green-500/50",
       links: [
-        { href: "math/circle", val: "Circle" },
-        { href: "math/ellipse", val: "Ellipse" },
-        { href: "math/hyperbola", val: "Hyperbola" },
+        { href: "math/coordGeometry/line", val: "Line" },
+        { href: "math/coordGeometry/circle", val: "Circle" },
+        { href: "math/coordGeometry/ellipse", val: "Ellipse" },
+        { href: "math/coordGeometry/hyperbola", val: "Hyperbola" },
+        { href: "math/coordGeometry/parabola", val: "Parabola" },
       ],
     },
   ];
