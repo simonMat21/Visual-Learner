@@ -59,7 +59,8 @@ export default function Home() {
       color: "from-yellow-500 to-orange-500",
       shadowColor: "shadow-yellow-500/50",
       links: [
-        { href: "algorithms/heap", val: "Heap Structure" },
+        { href: "algorithms/heap/min-heap", val: "Min Heap" },
+        { href: "algorithms/heap/max-heap", val: "Max Heap" },
         { href: "algorithms/sorting/heap-sort", val: "Heap Sort" },
       ],
     },
