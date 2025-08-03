@@ -2,7 +2,6 @@
 @import "tw-animate-css";
 
 @layer base {
-
   html,
   body {
     background: rgb(16, 33, 72);
@@ -118,7 +117,7 @@
 }
 
 .inpbox {
-  @apply w-65 bg-black text-[#ff4a4a] border-2 rounded-2xl placeholder:text-white placeholder:opacity-35;
+  @apply bg-black text-[#ff4a4a] border-2 rounded-2xl placeholder:text-white placeholder:opacity-35;
 }
 
 .titleval {

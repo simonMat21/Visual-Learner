@@ -603,7 +603,7 @@ export default function P5Sketch({
         let animator;
         P.setup = () => {
           P.createCanvas(1000, 500);
-          root = new Node();
+          root = new Node(50);
           root.setPosition(P.width / 2, 50, P.width / 2);
           root.show();
           animator = new Animator();
