@@ -71,45 +71,52 @@ export default function Home() {
   return (
     <main className="main">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
-      <div key={1} className="flex items-center gap-2 mb-4 rounded-5">
-        <Input
-          className="inpbox"
-          placeholder="Enter number to search"
-          onChange={(e) => updateForm(2, "val", Number(e.target.value))}
-        />
-        <Button
-          onClick={() => {
-            updateForm(2, "start", true);
-            setTimeout(() => updateForm(2, "start", false), 10);
-          }}
-          className="dobtn"
-        >
-          search
-        </Button>
+      <div className="max-w-6xl mx-auto px-8 mb-12">
+        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-4 mt-4">
+          <div className="flex flex-col items-center">
+            <div className="flex gap-12">
+              <NumberInput
+                onSubmit={(arr) => {
+                  updateForm(1, "val", arr);
+                  updateForm(1, "start", true);
+                  setTimeout(() => updateForm(1, "start", false), 10);
+                }}
+              />
+              <div key={1} className="flex items-center gap-2 mb-5 rounded-5">
+                <Input
+                  className="inpbox"
+                  placeholder="Enter number to search"
+                  onChange={(e) => updateForm(2, "val", Number(e.target.value))}
+                />
+                <Button
+                  onClick={() => {
+                    updateForm(2, "start", true);
+                    setTimeout(() => updateForm(2, "start", false), 10);
+                  }}
+                  className="dobtn"
+                >
+                  search
+                </Button>
+              </div>
+            </div>
+            <Slider
+              defaultValue={[1]}
+              min={0.5}
+              max={1.5}
+              step={0.01}
+              onValueChange={([val]) => setAnimSpd(val)}
+              className="w-64 h-6 "
+            />
+          </div>
+          <P5Sketch
+            add={addForm}
+            srch={searchForm}
+            animSpd={animSpd}
+            actionExicutable={(b) => setAEBool(b)}
+          />
+        </div>
       </div>
-      <NumberInput
-        onSubmit={(arr) => {
-          updateForm(1, "val", arr);
-          updateForm(1, "start", true);
-          setTimeout(() => updateForm(1, "start", false), 10);
-        }}
-      />
-      <Slider
-        defaultValue={[1]}
-        min={0.5}
-        max={1.5}
-        step={0.01}
-        onValueChange={([val]) => setAnimSpd(val)}
-        className="w-64 h-6 "
-      />
-      <P5Sketch
-        add={addForm}
-        srch={searchForm}
-        animSpd={animSpd}
-        actionExicutable={(b) => setAEBool(b)}
-      />
       {/*Contents*/}
-      &nbsp;
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         {/* Algorithm Info */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
