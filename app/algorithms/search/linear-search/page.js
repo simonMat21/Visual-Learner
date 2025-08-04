@@ -69,7 +69,7 @@ export default function Home() {
   };
 
   return (
-    <main className="main">
+    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
       <div className="max-w-6xl mx-auto px-8 mb-12">
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-4 mt-4">
