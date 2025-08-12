@@ -671,8 +671,8 @@ Case 2: No right subtree → nearest ancestor
             <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
               <p className="text-gray-300 text-lg leading-relaxed">
                 The predecessor of a node is the largest value smaller than the
-                node's value - essentially the previous element in sorted order.
-                There are two cases:
+                node&apos;s value - essentially the previous element in sorted
+                order. There are two cases:
                 <span className="text-purple-400 font-semibold">
                   Case 1:
                 </span>{" "}
@@ -681,8 +681,8 @@ Case 2: No right subtree → nearest ancestor
                 <span className="text-purple-400 font-semibold">
                   Case 2:
                 </span>{" "}
-                If there's no left subtree, we need to find the nearest ancestor
-                where our node lies in the right subtree.
+                If there&apos;s no left subtree, we need to find the nearest
+                ancestor where our node lies in the right subtree.
               </p>
             </div>
           </div>
@@ -708,14 +708,14 @@ Case 2: No right subtree → nearest ancestor
             <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-lg p-6">
               <p className="text-gray-300 text-lg leading-relaxed">
                 The successor of a node is the smallest value larger than the
-                node's value - the next element in sorted order. Similar to
+                node&apos;s value - the next element in sorted order. Similar to
                 predecessor, there are two cases:
                 <span className="text-red-400 font-semibold">Case 1:</span> If
                 the node has a right subtree, the successor is the minimum value
                 in that right subtree.
                 <span className="text-red-400 font-semibold">Case 2:</span> If
-                there's no right subtree, we find the nearest ancestor where our
-                node lies in the left subtree.
+                there&apos;s no right subtree, we find the nearest ancestor
+                where our node lies in the left subtree.
               </p>
             </div>
           </div>

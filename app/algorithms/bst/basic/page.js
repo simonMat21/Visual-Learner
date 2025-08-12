@@ -542,14 +542,14 @@ def _delete_node(self, node, data):
             <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-6">
               <p className="text-gray-300 text-lg leading-relaxed">
                 Insertion in a BST follows a recursive approach that maintains
-                the tree's ordering property. Starting from the root, we compare
-                the new value with the current node's value. If the new value is
-                smaller, we move to the left subtree; if larger, we move to the
-                right subtree. This continues until we reach a null position
-                where the new node can be inserted. The process ensures that all
-                values to the left of any node are smaller, and all values to
-                the right are larger, preserving the BST property. In a balanced
-                tree, insertion takes{" "}
+                the tree&apos;s ordering property. Starting from the root, we
+                compare the new value with the current node&apos;s value. If the
+                new value is smaller, we move to the left subtree; if larger, we
+                move to the right subtree. This continues until we reach a null
+                position where the new node can be inserted. The process ensures
+                that all values to the left of any node are smaller, and all
+                values to the right are larger, preserving the BST property. In
+                a balanced tree, insertion takes{" "}
                 <span className="text-green-400 font-semibold">O(log n)</span>{" "}
                 time.
               </p>
@@ -576,13 +576,13 @@ def _delete_node(self, node, data):
           <div className="mb-6">
             <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
               <p className="text-gray-300 text-lg leading-relaxed">
-                Search operation in BST leverages the tree's ordering property
-                to efficiently locate elements. Starting from the root, we
-                compare the target value with the current node's value. If the
-                target is smaller, we traverse to the left subtree; if larger,
-                we go to the right subtree. This process continues until we
-                either find the target value or reach a null node (indicating
-                the value doesn't exist). In a balanced BST, this approach
+                Search operation in BST leverages the tree&apos;s ordering
+                property to efficiently locate elements. Starting from the root,
+                we compare the target value with the current node&apos;s value.
+                If the target is smaller, we traverse to the left subtree; if
+                larger, we go to the right subtree. This process continues until
+                we either find the target value or reach a null node (indicating
+                the value doesn&apos;t exist). In a balanced BST, this approach
                 achieves{" "}
                 <span className="text-blue-400 font-semibold">O(log n)</span>{" "}
                 time complexity by eliminating half of the remaining nodes with
@@ -619,10 +619,10 @@ def _delete_node(self, node, data):
                 the node has one child, replace the node with its child.
                 <span className="text-red-400 font-semibold">Case 3:</span> If
                 the node has two children, find the inorder successor (smallest
-                value in the right subtree), replace the node's value with the
-                successor's value, then delete the successor. This maintains the
-                BST property while ensuring the tree structure remains valid
-                after deletion.
+                value in the right subtree), replace the node&apos;s value with
+                the successor&apos;s value, then delete the successor. This
+                maintains the BST property while ensuring the tree structure
+                remains valid after deletion.
               </p>
             </div>
           </div>
