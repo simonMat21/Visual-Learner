@@ -18,88 +18,6 @@ export default function P5Sketch({ k1, k2, t }) {
       const p5 = p5Module.default;
 
       const sketch = (P) => {
-        /*contains the class and the checkClick function*/
-        let taken = null;
-        function checkClicked(points) {
-          for (var p of points) {
-            if (taken == p || taken == null) {
-              // Adjust mouse coordinates to account for the translation
-              let adjustedMouseX = P.mouseX - P.width / 2;
-              let adjustedMouseY = P.mouseY - P.height / 2;
-
-              let dis = Math.sqrt(
-                (adjustedMouseX - p.x) ** 2 + (adjustedMouseY - p.y) ** 2
-              );
-
-              if (P.mouseIsPressed) {
-                if (dis < p.clickableR) {
-                  p.clicked = true;
-                  taken = p;
-                }
-              } else {
-                p.clicked = false;
-                taken = null;
-              }
-
-              if (p.clicked) {
-                p.setPos(adjustedMouseX, adjustedMouseY);
-              }
-            }
-          }
-        }
-
-        class MovablePoint {
-          constructor(
-            x = P.random(width / 2),
-            y = P.random(height / 2),
-            r = 10
-          ) {
-            this.x = x;
-            this.y = y;
-            this.xp = x;
-            this.yp = y;
-            this.r = r;
-            this.clickableR = this.r;
-            this.clicked = false;
-            this.color = [];
-            this.q = 0;
-          }
-
-          show(color = [0, 0, 0], r = this.r) {
-            this.color = color;
-            this.r = r;
-            P.noStroke();
-            P.fill(color);
-            P.circle(this.x, this.y, this.r * 2);
-            let o = this.color.push(100);
-          }
-
-          showFade(r = this.r * 2, color = this.color.concat(100)) {
-            this.clickableR = r;
-            P.noStroke();
-            P.fill(color);
-            P.circle(this.x, this.y, r * 2);
-          }
-
-          getPos(x, y) {
-            return [this.x, this.y];
-          }
-
-          setPos(x = this.x, y = this.y) {
-            this.x = x;
-            this.y = y;
-          }
-          setpPos(x = this.x, y = this.y) {
-            this.xp = x;
-            this.yp = y;
-          }
-          movealong(p) {
-            if (!this.clicked) {
-              this.setPos(p.x + (this.xp - p.xp), p.y + (this.yp - p.yp));
-            }
-          }
-        }
-
         function Scale(scaleParams, drawGrid = false) {
           const { position, scaleLenX, scaleLenY, origin, xVal, yVal, div } =
             scaleParams;
@@ -204,153 +122,6 @@ export default function P5Sketch({ k1, k2, t }) {
           P.pop();
         }
 
-        function drawVector(
-          vectorData, // [[startX, startY], [endX, endY]] or [[startX, startY], [directionX, directionY], true]
-          scaleParams,
-          color = [255, 255, 0, 255], // [r, g, b] color array - default yellow
-          strokeW = 2,
-          arrowSize = 10,
-          isDirection = false // if true, second array is direction vector, not end point
-        ) {
-          const { position, scaleLenX, scaleLenY, origin, xVal, yVal, div } =
-            scaleParams;
-          const [posX, posY] = position;
-
-          P.push();
-
-          // Use the same spacing logic as the Scale function
-          let xSpacing = (scaleLenX[1] - 20) / ((xVal[1] - origin) / div[0]);
-          let ySpacing = scaleLenY[0] / ((yVal[1] - origin) / div[1]);
-
-          let startX = vectorData[0][0];
-          let startY = vectorData[0][1];
-          let endX, endY;
-
-          if (isDirection) {
-            // Second array is direction vector, add to start point
-            endX = startX + vectorData[1][0];
-            endY = startY + vectorData[1][1];
-          } else {
-            // Second array is end point
-            endX = vectorData[1][0];
-            endY = vectorData[1][1];
-          }
-
-          // Convert to screen coordinates
-          let screenStartX = posX + ((startX - origin) / div[0]) * xSpacing;
-          let screenStartY = posY - ((startY - origin) / div[1]) * ySpacing;
-          let screenEndX = posX + ((endX - origin) / div[0]) * xSpacing;
-          let screenEndY = posY - ((endY - origin) / div[1]) * ySpacing;
-
-          P.stroke(color[0], color[1], color[2], color[3]);
-          P.strokeWeight(strokeW);
-          P.fill(color[0], color[1], color[2], color[3]);
-
-          // Draw the main line of the vector
-          P.line(screenStartX, screenStartY, screenEndX, screenEndY);
-
-          // Calculate arrow head
-          let angle = Math.atan2(
-            screenEndY - screenStartY,
-            screenEndX - screenStartX
-          );
-          let arrowLength = arrowSize;
-          let arrowAngle = P.PI / 6; // 30 degrees
-
-          // Calculate arrow head points
-          let arrowX1 = screenEndX - arrowLength * Math.cos(angle - arrowAngle);
-          let arrowY1 = screenEndY - arrowLength * Math.sin(angle - arrowAngle);
-          let arrowX2 = screenEndX - arrowLength * Math.cos(angle + arrowAngle);
-          let arrowY2 = screenEndY - arrowLength * Math.sin(angle + arrowAngle);
-
-          // Draw arrow head as a triangle
-          P.noStroke();
-          P.triangle(
-            screenEndX,
-            screenEndY,
-            arrowX1,
-            arrowY1,
-            arrowX2,
-            arrowY2
-          );
-
-          P.pop();
-        }
-
-        function getMathPosition(screenX, screenY, scaleParams) {
-          const { position, scaleLenX, scaleLenY, origin, xVal, yVal, div } =
-            scaleParams;
-          const [posX, posY] = position;
-
-          // Use the same spacing logic as other functions
-          let xSpacing = (scaleLenX[1] - 20) / ((xVal[1] - origin) / div[0]);
-          let ySpacing = scaleLenY[0] / ((yVal[1] - origin) / div[1]);
-
-          // Convert screen coordinates back to mathematical coordinates (inverse of getScreenPosition)
-          let mathX = origin + ((screenX - posX) / xSpacing) * div[0];
-          let mathY = origin - ((screenY - posY) / ySpacing) * div[1]; // Negative to match getScreenPosition
-
-          return [mathX, mathY];
-        }
-
-        function makeFunction(equationStr) {
-          // Whitelist of allowed Math functions
-          const mathFuncs = [
-            "abs",
-            "acos",
-            "acosh",
-            "asin",
-            "asinh",
-            "atan",
-            "atan2",
-            "atanh",
-            "cbrt",
-            "ceil",
-            "clz32",
-            "cos",
-            "cosh",
-            "exp",
-            "expm1",
-            "floor",
-            "fround",
-            "hypot",
-            "imul",
-            "log",
-            "log10",
-            "log1p",
-            "log2",
-            "max",
-            "min",
-            "pow",
-            "random",
-            "round",
-            "sign",
-            "sin",
-            "sinh",
-            "sqrt",
-            "tan",
-            "tanh",
-            "trunc",
-          ];
-
-          // Create a string like: const {sin, cos, log, ...} = Math;
-          const mathScope = `const { ${mathFuncs.join(", ")} } = Math;`;
-
-          // Construct a new function safely scoped to Math
-          const fnBody = `
-    "use strict";
-    ${mathScope}
-    return (${equationStr});
-  `;
-
-          try {
-            const fn = new Function("x", fnBody);
-            return fn;
-          } catch (e) {
-            throw new Error("Invalid equation: " + e.message);
-          }
-        }
-
         function plotPoints(
           coordinates,
           scaleParams,
@@ -405,31 +176,6 @@ export default function P5Sketch({ k1, k2, t }) {
           }
 
           P.pop();
-        }
-
-        function getFunCordinates(func, [start, stop], div) {
-          let points = [];
-          for (let x = start; x <= stop; x += div) {
-            let y = func(x);
-            // Check for NaN and skip invalid points
-            if (!isNaN(y) && isFinite(y)) {
-              points.push([x, y]);
-            }
-          }
-          return points;
-        }
-
-        // Circle equation: x² + y² = r²
-        // Parametric form: x = r*cos(t), y = r*sin(t)
-        function getCircleCoordinates(radius, steps = 100) {
-          let points = [];
-          for (let i = 0; i <= steps; i++) {
-            let t = (i / steps) * 2 * Math.PI;
-            let x = radius * Math.cos(t);
-            let y = radius * Math.sin(t);
-            points.push([x, y]);
-          }
-          return points;
         }
 
         // General circle equation: ax² + ay² + 2gx + 2fy + c = 0
@@ -558,7 +304,7 @@ export default function P5Sketch({ k1, k2, t }) {
             }
 
             // Reset
-            if (P.key === " ") {
+            if (P.key === "Shift" || P.keyCode === P.SHIFT) {
               circleCoeffs = { a: 1, g: 0, f: 0, c: -9 };
               changed = true;
             }
@@ -624,7 +370,7 @@ export default function P5Sketch({ k1, k2, t }) {
           P.translate(-P.width / 2, -P.height / 2);
           P.fill(0, 0, 0, 180);
           P.noStroke();
-          P.rect(15, 20, 380, 280);
+          P.rect(15, 20, 300, 200);
 
           P.fill(255, 255, 255);
           P.textAlign(P.LEFT, P.TOP);
@@ -638,10 +384,15 @@ export default function P5Sketch({ k1, k2, t }) {
 
           // Current coefficients
           P.fill(255, 255, 100);
-          P.text(`a = ${circleCoeffs.a.toFixed(2)}`, 20, 75);
-          P.text(`g = ${circleCoeffs.g.toFixed(2)}`, 20, 95);
-          P.text(`f = ${circleCoeffs.f.toFixed(2)}`, 20, 115);
-          P.text(`c = ${circleCoeffs.c.toFixed(2)}`, 20, 135);
+          P.text(
+            `a = ${circleCoeffs.a.toFixed(2)}\t\tg = ${circleCoeffs.g.toFixed(
+              2
+            )}\t\tf = ${circleCoeffs.f.toFixed(
+              2
+            )}\t\tc = ${circleCoeffs.c.toFixed(2)}`,
+            20,
+            75
+          );
 
           // Circle information
           let info = getCircleInfo(
@@ -654,16 +405,16 @@ export default function P5Sketch({ k1, k2, t }) {
 
           if (info.valid) {
             P.fill(100, 255, 100);
-            P.text("Circle Properties:", 20, 160);
+            P.text("Circle Properties:", 20, 100);
             P.fill(255, 255, 255);
             P.text(
               `Center: (${info.center[0].toFixed(2)}, ${info.center[1].toFixed(
                 2
               )})`,
               20,
-              180
+              120
             );
-            P.text(`Radius: ${info.radius.toFixed(2)}`, 20, 200);
+            P.text(`Radius: ${info.radius.toFixed(2)}`, 20, 140);
             P.text(
               `Standard form: (x${info.center[0] >= 0 ? "-" : "+"}${Math.abs(
                 info.center[0]
@@ -671,7 +422,7 @@ export default function P5Sketch({ k1, k2, t }) {
                 info.center[1]
               ).toFixed(2)})² = ${(info.radius * info.radius).toFixed(2)}`,
               20,
-              220
+              160
             );
           } else {
             P.fill(255, 100, 100);
@@ -679,13 +430,25 @@ export default function P5Sketch({ k1, k2, t }) {
           }
 
           // Controls
+          P.fill(0, 0, 0, 180);
+          P.noStroke();
+          P.rect(P.width - 320, P.height - 100, 300, 80);
+
           P.fill(200, 200, 255);
-          P.text("Controls:", 20, 250);
+          P.text("Controls:", P.width - 315, P.height - 95);
           P.fill(255, 255, 255);
           P.textSize(12);
-          P.text("Q/A: Change 'a'    W/S: Change 'g'", 20, 270);
-          P.text("E/D: Change 'f'    R/F: Change 'c'", 20, 285);
-          P.text("SPACE: Reset to default", 20, 300);
+          P.text(
+            "Q/A: Change 'a'    W/S: Change 'g'",
+            P.width - 315,
+            P.height - 80
+          );
+          P.text(
+            "E/D: Change 'f'    R/F: Change 'c'",
+            P.width - 315,
+            P.height - 65
+          );
+          P.text("SHIFT: Reset to default", P.width - 315, P.height - 50);
 
           P.pop();
         };
