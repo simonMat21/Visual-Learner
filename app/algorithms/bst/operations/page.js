@@ -621,10 +621,10 @@ Useful for: Tree printing, finding height`,
                 <span className="text-red-400 font-semibold">
                   queue data structure
                 </span>{" "}
-                instead of recursion or a stack. It's particularly useful for
-                tree printing, finding the shortest path, and determining tree
-                width at each level. Level-order traversal provides a natural
-                way to visualize tree structure.
+                instead of recursion or a stack. It&apos;s particularly useful
+                for tree printing, finding the shortest path, and determining
+                tree width at each level. Level-order traversal provides a
+                natural way to visualize tree structure.
               </p>
             </div>
           </div>

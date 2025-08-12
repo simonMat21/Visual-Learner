@@ -18,41 +18,6 @@ export default function Home() {
   const [sliderValue2, setSliderValue2] = useState([1]); // Add this state
   const [sliderValue3, setSliderValue3] = useState([0.1]); // Add this state
 
-  const codeSnippets = {
-    c: ``,
-    js: `function bubbleSort(arr) {
-  let n = arr.length;
-  for (let i = 0; i < n - 1; i++) {
-    let swapped = false;
-    for (let j = 0; j < n - 1 - i; j++) {
-      if (arr[j] > arr[j + 1]) {
-        // swap
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-        swapped = true;
-      }
-    }
-    if (!swapped) break;
-  }
-  return arr;
-}
-`,
-    py: `def greet(name):
-    return "Hello, " + name`,
-    cpp: `std::string greet(std::string name) {
-    return "Hello, " + name;
-}`,
-    idea: `# first loop with i as element
-    # second loop with j as element
-        if j>i:
-            swap their postions
-            
-or
-
-Repeat n times:
-    Compare each pair of adjacent items
-    Swap them if they are in the wrong order`,
-  };
-
   const updateForm = (n, key, value) => {
     if (key !== "start" || AEBool) {
       if (n == 1) {
@@ -72,56 +37,6 @@ Repeat n times:
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-          {/* <div className="flex flex-col items-center space-y-6">
-            <NumberInput
-              onSubmit={(arr) => {
-                updateForm(1, "val", arr);
-                updateForm(1, "start", true);
-                setTimeout(() => updateForm(1, "start", false), 10);
-              }}
-            />
-            <div className="flex items-center space-x-4">
-              <Slider
-                value={sliderValue} // Use controlled value
-                min={0.1}
-                max={2}
-                step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K1"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue2} // Use controlled value
-                min={0.2}
-                max={2}
-                step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue2(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K2"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue3} // Use controlled value
-                min={0.01}
-                max={0.7}
-                step={0.001}
-                onValueChange={(value) => {
-                  setSliderValue3(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="t"
-                showValue={true}
-              />
-            </div>
-          </div> */}
           <P5Sketch
             k1={sliderValue[0]}
             k2={sliderValue2[0]}
@@ -135,117 +50,319 @@ Repeat n times:
         {/* Algorithm Info */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Bubble Sort
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+              Line Equations in Coordinate Geometry
             </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Time: O(n²)
-              </span>
+            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-blue-400/20 to-cyan-400/20 rounded-full px-4 py-2 mt-3 border border-blue-400/30">
               <span className="flex items-center">
                 <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Space: O(1)
+                General Form: Ax + By + C = 0
               </span>
               <span className="flex items-center">
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Stable
+                Slope-Intercept: y = mx + b
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
+                Point-Slope: y - y₁ = m(x - x₁)
               </span>
             </div>
           </div>
         </div>
 
-        {/* Description */}
+        {/* General Form */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
             <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💡
+              📐
             </span>
-            How It Works
+            General Form of a Line
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
-            <p className="text-lg">
-              This sorting algorithm compares the adjacent elements and sorts
-              them if they are in the wrong order. It repeats this process{" "}
-              <span className="text-orange-400 font-semibold">n²</span> times
-              for the array to be sorted.
-            </p>
-            <p className="text-lg">
-              It&apos;s called{" "}
-              <span className="text-purple-400 font-semibold">
-                &quot;bubble&quot;
-              </span>{" "}
-              sort because smaller elements slowly &quot;bubble up&quot; to the
-              top (beginning) of the array with each pass, like bubbles rising
-              in water.
-            </p>
-          </div>
-        </div>
-
-        {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
-            Implementation
-          </h2>
-          <CodeBlock
-            codeSnippets={codeSnippets}
-            defaultLang="js"
-            height="500px"
-          />
-        </div>
-
-        {/* Detailed Explanation */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
-            Deeper Look
-          </h2>
-          <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
-                If you take a broader look, it is like taking the biggest
-                element and placing it at the end of the array, then repeating
-                this process until the array is sorted. Bubble Sort is a{" "}
-                <span className="text-green-400 font-semibold">
-                  stable sort
-                </span>
-                , meaning that elements with equal values maintain their
-                relative order after sorting — important for multi-level sorting
-                (like sorting by grade, then by name).
-              </p>
+          <div className="space-y-6 text-gray-300 leading-relaxed">
+            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
+              <div className="text-center mb-4">
+                <h3 className="text-2xl font-bold text-blue-400 mb-2">
+                  Ax + By + C = 0
+                </h3>
+                <p className="text-lg">
+                  where A, B, and C are real constants, and A and B are not both
+                  zero.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div className="text-center">
+                  <p className="font-semibold text-blue-300">A ≠ 0, B = 0</p>
+                  <p className="text-sm">Vertical Line</p>
+                  <p className="text-xs text-gray-400">x = -C/A</p>
+                </div>
+                <div className="text-center">
+                  <p className="font-semibold text-green-300">A = 0, B ≠ 0</p>
+                  <p className="text-sm">Horizontal Line</p>
+                  <p className="text-xs text-gray-400">y = -C/B</p>
+                </div>
+                <div className="text-center">
+                  <p className="font-semibold text-purple-300">A ≠ 0, B ≠ 0</p>
+                  <p className="text-sm">Oblique Line</p>
+                  <p className="text-xs text-gray-400">slope = -A/B</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Fun Facts */}
+        {/* Line Properties */}
+        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
+          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
+              🔍
+            </span>
+            Key Properties and Formulas
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-green-300 mb-4">
+                Slope and Intercepts
+              </h3>
+              <div className="space-y-3 text-gray-300">
+                <p>
+                  <span className="text-green-400 font-semibold">Slope:</span> m
+                  = -A/B (when B ≠ 0)
+                </p>
+                <p>
+                  <span className="text-green-400 font-semibold">
+                    X-intercept:
+                  </span>{" "}
+                  x = -C/A (when A ≠ 0)
+                </p>
+                <p>
+                  <span className="text-green-400 font-semibold">
+                    Y-intercept:
+                  </span>{" "}
+                  y = -C/B (when B ≠ 0)
+                </p>
+                <p>
+                  <span className="text-green-400 font-semibold">
+                    Angle with x-axis:
+                  </span>{" "}
+                  θ = arctan(-A/B)
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-purple-300 mb-4">
+                Distance and Normal
+              </h3>
+              <div className="space-y-3 text-gray-300">
+                <p>
+                  <span className="text-purple-400 font-semibold">
+                    Distance from origin:
+                  </span>
+                </p>
+                <p className="text-center text-lg">d = |C|/√(A² + B²)</p>
+                <p>
+                  <span className="text-purple-400 font-semibold">
+                    Normal vector:
+                  </span>{" "}
+                  (A, B)
+                </p>
+                <p>
+                  <span className="text-purple-400 font-semibold">
+                    Direction vector:
+                  </span>{" "}
+                  (-B, A)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Distance Between Point and Line */}
+        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
+          <h2 className="text-2xl font-semibold text-orange-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 text-sm">
+              📏
+            </span>
+            Distance from Point to Line
+          </h2>
+          <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-6">
+            <div className="text-center mb-4">
+              <h3 className="text-2xl font-bold text-orange-400 mb-2">
+                d = |Ax₀ + By₀ + C|/√(A² + B²)
+              </h3>
+              <p className="text-lg text-gray-300">
+                Distance from point (x₀, y₀) to line Ax + By + C = 0
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div>
+                <h4 className="text-lg font-semibold text-orange-300 mb-2">
+                  When to use:
+                </h4>
+                <ul className="space-y-2 text-gray-300">
+                  <li>• Finding shortest distance to a line</li>
+                  <li>• Checking if points are equidistant from a line</li>
+                  <li>• Determining position relative to a line</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold text-orange-300 mb-2">
+                  Sign interpretation:
+                </h4>
+                <ul className="space-y-2 text-gray-300">
+                  <li>
+                    • <span className="text-green-400">Positive:</span> Point on
+                    one side
+                  </li>
+                  <li>
+                    • <span className="text-red-400">Negative:</span> Point on
+                    other side
+                  </li>
+                  <li>
+                    • <span className="text-yellow-400">Zero:</span> Point on
+                    the line
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Parallel and Perpendicular Lines */}
+        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
+          <h2 className="text-2xl font-semibold text-cyan-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center mr-3 text-sm">
+              ⟂
+            </span>
+            Parallel and Perpendicular Lines
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-cyan-300 mb-4">
+                Parallel Lines
+              </h3>
+              <div className="space-y-3 text-gray-300">
+                <p className="text-lg font-semibold">A₁x + B₁y + C₁ = 0</p>
+                <p className="text-lg font-semibold">A₂x + B₂y + C₂ = 0</p>
+                <div className="mt-4 p-3 bg-cyan-900/20 rounded">
+                  <p className="text-cyan-400 font-semibold">
+                    Condition for parallel:
+                  </p>
+                  <p className="text-center text-lg">A₁/A₂ = B₁/B₂ ≠ C₁/C₂</p>
+                  <p className="text-sm text-gray-400 mt-2">
+                    Same slope, different intercepts
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/20 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-red-300 mb-4">
+                Perpendicular Lines
+              </h3>
+              <div className="space-y-3 text-gray-300">
+                <p className="text-lg font-semibold">A₁x + B₁y + C₁ = 0</p>
+                <p className="text-lg font-semibold">A₂x + B₂y + C₂ = 0</p>
+                <div className="mt-4 p-3 bg-red-900/20 rounded">
+                  <p className="text-red-400 font-semibold">
+                    Condition for perpendicular:
+                  </p>
+                  <p className="text-center text-lg">A₁A₂ + B₁B₂ = 0</p>
+                  <p className="text-sm text-gray-400 mt-2">
+                    Product of slopes = -1
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Different Forms */}
+        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
+          <h2 className="text-2xl font-semibold text-yellow-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center mr-3 text-sm">
+              📝
+            </span>
+            Different Forms of Line Equations
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-yellow-300 mb-3">
+                Slope-Intercept Form
+              </h3>
+              <p className="text-xl font-bold text-center mb-2">y = mx + b</p>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• m = slope</li>
+                <li>• b = y-intercept</li>
+                <li>• Most common form</li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-blue-300 mb-3">
+                Point-Slope Form
+              </h3>
+              <p className="text-xl font-bold text-center mb-2">
+                y - y₁ = m(x - x₁)
+              </p>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• (x₁, y₁) = known point</li>
+                <li>• m = slope</li>
+                <li>• Useful for construction</li>
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/20 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-green-300 mb-3">
+                Two-Point Form
+              </h3>
+              <p className="text-lg font-bold text-center mb-2">
+                (y - y₁)/(y₂ - y₁) = (x - x₁)/(x₂ - x₁)
+              </p>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• Two points: (x₁, y₁), (x₂, y₂)</li>
+                <li>• Direct from coordinates</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Applications */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-yellow-300 mb-4 flex items-center">
-              🧪 <span className="ml-2">Stress Test</span>
+            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
+              🔬 <span className="ml-2">Real-World Applications</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is sometimes used in embedded or very low-level
-              testing as a &quot;canary&quot; algorithm to validate a basic
-              sorting function.
-            </p>
+            <ul className="text-gray-300 leading-relaxed space-y-2">
+              <li>
+                • <span className="text-emerald-400">Engineering:</span>{" "}
+                Structural analysis and design
+              </li>
+              <li>
+                • <span className="text-emerald-400">Physics:</span> Motion in
+                straight lines
+              </li>
+              <li>
+                • <span className="text-emerald-400">Economics:</span> Linear
+                regression and trends
+              </li>
+              <li>
+                • <span className="text-emerald-400">Computer Graphics:</span>{" "}
+                Line rendering
+              </li>
+            </ul>
           </div>
 
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-cyan-300 mb-4 flex items-center">
-              🧙‍♂️ <span className="ml-2">Variants in Practice</span>
+            <h3 className="text-xl font-semibold text-violet-300 mb-4 flex items-center">
+              🧮 <span className="ml-2">Problem-Solving Tips</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is too slow for large datasets. But variants like{" "}
-              <span className="text-cyan-400 font-semibold">
-                Cocktail Shaker Sort
-              </span>
-              (a bidirectional version) are more efficient in some situations.
-            </p>
+            <ul className="text-gray-300 leading-relaxed space-y-2">
+              <li>• Always check if A and B are both zero</li>
+              <li>• Use general form for easier calculations</li>
+              <li>• Remember: slope = -A/B (when B ≠ 0)</li>
+              <li>• Distance formula works for any point-line pair</li>
+            </ul>
           </div>
         </div>
 

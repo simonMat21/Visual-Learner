@@ -298,7 +298,7 @@ export default function P5Sketch({ k1, k2, t }) {
           P.frameRate(60);
           P.background(80);
 
-          // Handle keyboard input for coefficient changes
+          // Handle keyboard input for coefficient changes (continuous)
           if (P.keyIsPressed) {
             let changed = false;
 
@@ -350,25 +350,6 @@ export default function P5Sketch({ k1, k2, t }) {
               changed = true;
             }
 
-            // Toggle perpendicular line
-            if (P.key === "p") {
-              showPerpendicular = !showPerpendicular;
-            }
-
-            // Toggle parallel line
-            if (P.key === "l") {
-              showParallel = !showParallel;
-            }
-
-            // Reset
-            if (P.key === " ") {
-              lineCoeffs = { A: 1, B: -1, C: 0 };
-              testPoint = [2, 1];
-              showPerpendicular = false;
-              showParallel = false;
-              changed = true;
-            }
-
             if (changed) {
               linePoints = getLineCoordinates(
                 lineCoeffs.A,
@@ -378,6 +359,33 @@ export default function P5Sketch({ k1, k2, t }) {
               );
             }
           }
+
+          // Handle single key presses for toggles
+          P.keyPressed = () => {
+            // Toggle perpendicular line
+            if (P.key === "p" || P.key === "P") {
+              showPerpendicular = !showPerpendicular;
+            }
+
+            // Toggle parallel line
+            if (P.key === "l" || P.key === "L") {
+              showParallel = !showParallel;
+            }
+
+            // Reset
+            if (P.key === " ") {
+              lineCoeffs = { A: 1, B: -1, C: 0 };
+              testPoint = [2, 1];
+              showPerpendicular = false;
+              showParallel = false;
+              linePoints = getLineCoordinates(
+                lineCoeffs.A,
+                lineCoeffs.B,
+                lineCoeffs.C,
+                [scaleParameters.xVal[0], scaleParameters.xVal[1]]
+              );
+            }
+          };
 
           P.translate(P.width / 2, P.height / 2);
           Scale(scaleParameters, true);
@@ -474,7 +482,7 @@ export default function P5Sketch({ k1, k2, t }) {
           P.translate(-P.width / 2, -P.height / 2);
           P.fill(0, 0, 0, 180);
           P.noStroke();
-          P.rect(15, 20, 400, 380);
+          P.rect(5, 5, 280, 230);
 
           P.fill(255, 255, 255);
           P.textAlign(P.LEFT, P.TOP);
@@ -488,9 +496,13 @@ export default function P5Sketch({ k1, k2, t }) {
 
           // Current coefficients
           P.fill(255, 255, 100);
-          P.text(`A = ${lineCoeffs.A.toFixed(2)}`, 20, 75);
-          P.text(`B = ${lineCoeffs.B.toFixed(2)}`, 20, 95);
-          P.text(`C = ${lineCoeffs.C.toFixed(2)}`, 20, 115);
+          P.text(
+            `A = ${lineCoeffs.A.toFixed(2)}\t\t B = ${lineCoeffs.B.toFixed(
+              2
+            )}\t\t C = ${lineCoeffs.C.toFixed(2)}`,
+            20,
+            75
+          );
 
           // Test point
           P.fill(255, 255, 100);
@@ -499,7 +511,7 @@ export default function P5Sketch({ k1, k2, t }) {
               2
             )})`,
             20,
-            140
+            100
           );
 
           // Line information
@@ -507,61 +519,91 @@ export default function P5Sketch({ k1, k2, t }) {
 
           if (info.valid) {
             P.fill(100, 255, 100);
-            P.text("Line Properties:", 20, 165);
+            P.text("Line Properties:", 20, 135);
             P.fill(255, 255, 255);
 
             if (info.isVertical) {
               P.text(
                 `Vertical line: x = ${info.xIntercept.toFixed(2)}`,
                 20,
-                185
+                155
               );
             } else if (info.isHorizontal) {
               P.text(
                 `Horizontal line: y = ${info.yIntercept.toFixed(2)}`,
                 20,
-                185
+                155
               );
             } else {
-              P.text(`Slope: ${info.slope.toFixed(3)}`, 20, 185);
-              P.text(`Y-intercept: ${info.yIntercept.toFixed(2)}`, 20, 205);
-              P.text(`X-intercept: ${info.xIntercept.toFixed(2)}`, 20, 225);
-              P.text(`Angle: ${info.angle.toFixed(1)}°`, 20, 245);
+              P.text(
+                `Slope: ${info.slope.toFixed(3)}\t\tAngle: ${info.angle.toFixed(
+                  1
+                )}°`,
+                20,
+                155
+              );
+              P.text(
+                `Y-intercept: ${info.yIntercept.toFixed(
+                  2
+                )}\t\tX-intercept: ${info.xIntercept.toFixed(2)}\t`,
+                20,
+                175
+              );
             }
 
             P.text(
               `Distance from origin: ${info.distanceFromOrigin.toFixed(3)}`,
               20,
-              265
+              195
             );
 
-            // Show which lines are displayed
-            P.fill(100, 255, 100);
-            P.text("Green: Main line", 20, 290);
-            if (showPerpendicular) {
-              P.fill(255, 100, 100);
-              P.text("Red: Perpendicular line", 20, 305);
-            }
-            if (showParallel) {
-              P.fill(100, 100, 255);
-              P.text("Blue: Parallel line", 20, 320);
-            }
-            P.fill(255, 255, 100);
-            P.text("Yellow: Test point", 20, 335);
+            // // Show which lines are displayed
+            // P.fill(100, 255, 100);
+            // P.text("Green: Main line", 20, 290);
+            // if (showPerpendicular) {
+            //   P.fill(255, 100, 100);
+            //   P.text("Red: Perpendicular line", 20, 305);
+            // }
+            // if (showParallel) {
+            //   P.fill(100, 100, 255);
+            //   P.text("Blue: Parallel line", 20, 320);
+            // }
+            // P.fill(255, 255, 100);
+            // P.text("Yellow: Test point", 20, 335);
           } else {
             P.fill(255, 100, 100);
             P.text(info.message, 20, 165);
           }
 
           // Controls
+          P.fill(0, 0, 0, 180);
+          P.noStroke();
+          P.rect(P.width - 320, P.height - 120, 300, 100);
+
           P.fill(200, 200, 255);
-          P.text("Controls:", 20, 360);
+          P.text("Controls:", P.width - 315, P.height - 115);
           P.fill(255, 255, 255);
           P.textSize(12);
-          P.text("Q/A: Change 'A'    W/S: Change 'B'", 20, 375);
-          P.text("E/D: Change 'C'    R/F: Test point X", 20, 390);
-          P.text("T/G: Test point Y  P: Toggle perpendicular", 20, 405);
-          P.text("L: Toggle parallel  SPACE: Reset", 20, 420);
+          P.text(
+            "Q/A: Change 'A'    W/S: Change 'B'",
+            P.width - 315,
+            P.height - 100
+          );
+          P.text(
+            "E/D: Change 'C'    R/F: Test point X",
+            P.width - 315,
+            P.height - 85
+          );
+          P.text(
+            "T/G: Test point Y  P: Toggle perpendicular",
+            P.width - 315,
+            P.height - 70
+          );
+          P.text(
+            "L: Toggle parallel  SPACE: Reset",
+            P.width - 315,
+            P.height - 55
+          );
 
           P.pop();
         };
