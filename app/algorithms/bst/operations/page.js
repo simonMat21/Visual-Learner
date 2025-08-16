@@ -290,6 +290,21 @@ Useful for: Tree printing, finding height`,
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+<<<<<<< HEAD
+=======
+      {/* <h1 className="heading tshad">Algo Visualisor</h1> */}
+      <div className="flex items-center gap-36 justify-center">
+        <div className="mt-5">
+          <NumberInput
+            btnName="add"
+            onSubmit={(arr) => {
+              updateForm(1, "val", arr);
+              updateForm(1, "start", true);
+              setTimeout(() => updateForm(1, "start", false), 10);
+            }}
+          />
+        </div>
+>>>>>>> da64264 (done quick sort content)
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
@@ -367,6 +382,7 @@ Useful for: Tree printing, finding height`,
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         {/* Algorithm Info */}
@@ -638,6 +654,27 @@ Useful for: Tree printing, finding height`,
         {/* Bottom Spacer */}
         <div className="h-12"></div>
       </div>
+=======
+      <div className="flex justify-center">
+        <Slider
+          defaultValue={[1]}
+          min={0.5}
+          max={1.5}
+          step={0.01}
+          onValueChange={([val]) => setAnimSpd(val)}
+          className="w-64 h-6 "
+        />
+      </div>
+      <P5Sketch
+        add={addForm}
+        inorder={getInorderForm}
+        preorder={getPreorderForm}
+        postorder={getPostorderForm}
+        lvlorder={getLvlorderForm}
+        animSpd={animSpd}
+        actionExicutable={(b) => setAEBool(b)}
+      />
+>>>>>>> da64264 (done quick sort content)
     </main>
   );
 }

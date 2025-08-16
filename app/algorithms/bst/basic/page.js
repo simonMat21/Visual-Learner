@@ -332,6 +332,21 @@ def _delete_node(self, node, data):
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+<<<<<<< HEAD
+=======
+      {/* <NumberInput onSubmit={(arr) => setData(arr)} /> */}
+      <div className="flex flex-row gap-10 mt-2">
+        {inputs.map((item, index) => {
+          return (
+            <div key={index} className="flex items-center gap-2 mb-4 rounded-5">
+              <Input
+                className="inpbox"
+                placeholder={item.inp}
+                onChange={(e) =>
+                  updateForm(item.x1, item.x2, Number(e.target.value))
+                }
+              />
+>>>>>>> da64264 (done quick sort content)
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
@@ -385,6 +400,7 @@ def _delete_node(self, node, data):
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         {/* Algorithm Info */}
@@ -636,6 +652,25 @@ def _delete_node(self, node, data):
         {/* Bottom Spacer */}
         <div className="h-12"></div>
       </div>
+=======
+      <div className="flex justify-center">
+        <Slider
+          defaultValue={[1]}
+          min={0.5}
+          max={1.5}
+          step={0.01}
+          onValueChange={([val]) => setAnimSpd(val)}
+          className="w-64 h-6 "
+        />
+      </div>
+      <P5Sketch
+        add={addForm}
+        dlt={deleteForm}
+        srch={searchForm}
+        animSpd={animSpd}
+        actionExicutable={(b) => setAEBool(b)}
+      />
+>>>>>>> da64264 (done quick sort content)
     </main>
   );
 }
