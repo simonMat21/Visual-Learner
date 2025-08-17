@@ -388,6 +388,7 @@ Case 2: No right subtree → nearest ancestor
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+<<<<<<< HEAD
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
@@ -401,6 +402,30 @@ Case 2: No right subtree → nearest ancestor
                 setTimeout(() => updateForm(1, "start", false), 10);
               }}
             />
+=======
+      {/* <h1 className="heading tshad">Algo Visualisor</h1> */}
+      <div className="flex mt-2 justify-center">
+        <NumberInput
+          btnName="add"
+          onSubmit={(arr) => {
+            updateForm(1, "val", arr);
+            updateForm(1, "start", true);
+            setTimeout(() => updateForm(1, "start", false), 10);
+          }}
+        />
+      </div>
+      <div className="flex gap-96 justify-center">
+        <div className="flex items-center gap-4">
+          <Button
+            onClick={() => {
+              updateForm(3, "start", true);
+              setTimeout(() => updateForm(3, "start", false), 10);
+            }}
+            className="dobtn"
+          >
+            Get Max
+          </Button>
+>>>>>>> da64264 (done quick sort content)
 
             <div className="flex gap-4">
               <Button
@@ -477,6 +502,7 @@ Case 2: No right subtree → nearest ancestor
             actionExicutable={(b) => setAEBool(b)}
           />
         </div>
+<<<<<<< HEAD
       </div>
 
       {/* Content Section */}
@@ -729,6 +755,65 @@ Case 2: No right subtree → nearest ancestor
         {/* Bottom Spacer */}
         <div className="h-12"></div>
       </div>
+=======
+        <div key={1} className=" items-center gap-2 rounded-5 flex">
+          <Button
+            className="dobtn"
+            onClick={() => {
+              updateForm(4, "start", true);
+              setTimeout(() => updateForm(4, "start", false), 10);
+            }}
+          >
+            {"p"}
+          </Button>
+
+          <Input
+            className="inpbox"
+            placeholder={"val"}
+            onChange={(e) => {
+              updateForm(4, "val", Number(e.target.value));
+              updateForm(5, "val", Number(e.target.value));
+            }}
+          />
+
+          {/* <Input
+          className="inpbox"
+          placeholder={"val"}
+          onChange={(e) => updateForm(5, "val", Number(e.target.value))}
+        /> */}
+
+          <Button
+            className="dobtn"
+            onClick={() => {
+              updateForm(5, "start", true);
+              setTimeout(() => updateForm(5, "start", false), 10);
+            }}
+          >
+            {"s"}
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex justify-center">
+        <Slider
+          defaultValue={[1]}
+          min={0.5}
+          max={1.5}
+          step={0.01}
+          onValueChange={([val]) => setAnimSpd(val)}
+          className="w-64 h-6 "
+        />
+      </div>
+      <P5Sketch
+        add={addForm}
+        dlt={getMinForm}
+        srch={getMaxform}
+        prev={getpredform}
+        succ={getsuccform}
+        animSpd={animSpd}
+        actionExicutable={(b) => setAEBool(b)}
+      />
+>>>>>>> da64264 (done quick sort content)
     </main>
   );
 }
