@@ -396,7 +396,7 @@ Not stable but consistent performance`,
             </h3>
             <ul className="text-gray-300 leading-relaxed space-y-2">
               <li>
-                • <span className="text-red-400">Not stable</span> (doesn't
+                • <span className="text-red-400">Not stable</span> (doesn&apos;t
                 preserve order)
               </li>
               <li>
