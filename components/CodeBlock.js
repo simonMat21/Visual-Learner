@@ -31,7 +31,6 @@ export function CodeBlock({ codeSnippets, defaultLang, height = "500px" }) {
         backgroundColor: "#1e1e1e",
         boxShadow: "0 0 10px rgba(0,0,0,0.3)",
         height: height, // fixed height
-        overflowY: "auto",
       }}
     >
       {/* Language Tabs */}
@@ -85,7 +84,7 @@ export function CodeBlock({ codeSnippets, defaultLang, height = "500px" }) {
       {/* Fixed-height scrollable code display */}
       <div
         style={{
-          maxHeight: height,
+          height: `calc(${height} - 48px)`, // Subtract tab height
           overflowY: "auto",
         }}
       >

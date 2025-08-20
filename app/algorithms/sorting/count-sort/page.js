@@ -16,38 +16,79 @@ export default function Home() {
   const [animSpd, setAnimSpd] = useState(1);
 
   const codeSnippets = {
-    c: ``,
-    js: `function bubbleSort(arr) {
-  let n = arr.length;
-  for (let i = 0; i < n - 1; i++) {
-    let swapped = false;
-    for (let j = 0; j < n - 1 - i; j++) {
-      if (arr[j] > arr[j + 1]) {
-        // swap
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-        swapped = true;
-      }
-    }
-    if (!swapped) break;
+    js: `// Count Sort (for non-negative integers)
+function countSort(arr) {
+  if (arr.length === 0) return arr;
+  
+  // Find the maximum element
+  const max = Math.max(...arr);
+  const count = new Array(max + 1).fill(0);
+  
+  // Count occurrences of each element
+  for (let i = 0; i < arr.length; i++) {
+    count[arr[i]]++;
   }
-  return arr;
-}
-`,
-    py: `def greet(name):
-    return "Hello, " + name`,
-    cpp: `std::string greet(std::string name) {
-    return "Hello, " + name;
+  
+  // Reconstruct the sorted array
+  const result = [];
+  for (let i = 0; i <= max; i++) {
+    while (count[i] > 0) {
+      result.push(i);
+      count[i]--;
+    }
+  }
+  return result;
 }`,
-    idea: `# first loop with i as element
-    # second loop with j as element
-        if j>i:
-            swap their postions
-            
-or
+    py: `def count_sort(arr):
+    if not arr:
+        return arr
+    
+    max_val = max(arr)
+    count = [0] * (max_val + 1)
+    
+    # Count occurrences
+    for num in arr:
+        count[num] += 1
+    
+    # Reconstruct sorted array
+    result = []
+    for i in range(len(count)):
+        result.extend([i] * count[i])
+    
+    return result`,
+    cpp: `// Count Sort for non-negative integers
+#include <vector>
+#include <algorithm>
+std::vector<int> countSort(const std::vector<int>& arr) {
+    if (arr.empty()) return arr;
+    
+    int maxVal = *std::max_element(arr.begin(), arr.end());
+    std::vector<int> count(maxVal + 1, 0);
+    
+    // Count occurrences
+    for (int num : arr) {
+        count[num]++;
+    }
+    
+    // Reconstruct sorted array
+    std::vector<int> result;
+    for (int i = 0; i <= maxVal; i++) {
+        while (count[i] > 0) {
+            result.push_back(i);
+            count[i]--;
+        }
+    }
+    return result;
+}`,
+    idea: `Count Sort Steps:
+1. Find max element to determine range
+2. Create count array of size max+1
+3. Count occurrences of each element
+4. Reconstruct sorted array from counts
 
-Repeat n times:
-    Compare each pair of adjacent items
-    Swap them if they are in the wrong order`,
+Time: O(n + k) where k is range
+Space: O(k)
+Works only for non-negative integers`,
   };
 
   const updateForm = (n, key, value) => {
@@ -102,17 +143,17 @@ Repeat n times:
         {/* Algorithm Info */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Bubble Sort
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent mb-2">
+              Count Sort
             </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
+            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-purple-400/20 to-indigo-400/20 rounded-full px-4 py-2 mt-3 border border-purple-400/30">
               <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Time: O(n²)
+                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
+                Time: O(n + k)
               </span>
               <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Space: O(1)
+                <span className="w-2 h-2 bg-indigo-400 rounded-full mr-2"></span>
+                Space: O(k)
               </span>
               <span className="flex items-center">
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
@@ -124,35 +165,37 @@ Repeat n times:
 
         {/* Description */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💡
+          <h2 className="text-2xl font-semibold text-purple-300 mb-4 flex items-center">
+            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
+              📊
             </span>
-            How It Works
+            How Count Sort Works
           </h2>
           <div className="space-y-4 text-gray-300 leading-relaxed">
             <p className="text-lg">
-              This sorting algorithm compares the adjacent elements and sorts
-              them if they are in the wrong order. It repeats this process{" "}
-              <span className="text-orange-400 font-semibold">n²</span> times
-              for the array to be sorted.
+              Count Sort is a non-comparison based sorting algorithm that counts
+              the occurrences of each distinct element in the array. It works by
+              determining the range of input data and counting how many times
+              each value appears.
             </p>
             <p className="text-lg">
-              It&apos;s called{" "}
-              <span className="text-purple-400 font-semibold">
-                &quot;bubble&quot;
-              </span>{" "}
-              sort because smaller elements slowly &quot;bubble up&quot; to the
-              top (beginning) of the array with each pass, like bubbles rising
-              in water.
+              The algorithm is particularly efficient when the range of input
+              data (k) is not significantly larger than the number of elements
+              (n). The steps are:
             </p>
+            <ul className="list-disc ml-6 space-y-2">
+              <li>Find the maximum element to determine the range.</li>
+              <li>Create a count array to store frequencies.</li>
+              <li>Count occurrences of each element.</li>
+              <li>Reconstruct the sorted array using the count information.</li>
+            </ul>
           </div>
         </div>
 
         {/* Code Block */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
+          <h2 className="text-2xl font-semibold text-indigo-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center mr-3 text-sm">
               💻
             </span>
             Implementation
@@ -160,59 +203,100 @@ Repeat n times:
           <CodeBlock
             codeSnippets={codeSnippets}
             defaultLang="js"
-            height="500px"
+            height="650px"
           />
         </div>
 
-        {/* Detailed Explanation */}
+        {/* Properties & Analysis */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
+          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
               🔍
             </span>
-            Deeper Look
+            Algorithm Analysis
           </h2>
-          <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
-                If you take a broader look, it is like taking the biggest
-                element and placing it at the end of the array, then repeating
-                this process until the array is sorted. Bubble Sort is a{" "}
-                <span className="text-green-400 font-semibold">
-                  stable sort
-                </span>
-                , meaning that elements with equal values maintain their
-                relative order after sorting — important for multi-level sorting
-                (like sorting by grade, then by name).
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gradient-to-r from-purple-500/10 to-indigo-500/10 border border-purple-500/20 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-purple-300 mb-2">
+                Time Complexity
+              </h3>
+              <ul className="text-gray-300 space-y-2">
+                <li>
+                  • <span className="text-purple-400 font-semibold">Best:</span>{" "}
+                  O(n + k)
+                </li>
+                <li>
+                  •{" "}
+                  <span className="text-purple-400 font-semibold">
+                    Average:
+                  </span>{" "}
+                  O(n + k)
+                </li>
+                <li>
+                  •{" "}
+                  <span className="text-purple-400 font-semibold">Worst:</span>{" "}
+                  O(n + k)
+                </li>
+                <li>• where k is the range of input</li>
+              </ul>
+            </div>
+            <div className="bg-gradient-to-r from-indigo-500/10 to-blue-500/10 border border-indigo-500/20 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-indigo-300 mb-2">
+                Key Properties
+              </h3>
+              <ul className="text-gray-300 space-y-2">
+                <li>• Non-comparison based algorithm</li>
+                <li>• Stable sorting (maintains relative order)</li>
+                <li>• Works only with non-negative integers</li>
+                <li>• Efficient when k is not much larger than n</li>
+              </ul>
             </div>
           </div>
         </div>
 
-        {/* Fun Facts */}
+        {/* Applications & Limitations */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-yellow-300 mb-4 flex items-center">
-              🧪 <span className="ml-2">Stress Test</span>
+            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
+              🎯 <span className="ml-2">Best Use Cases</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is sometimes used in embedded or very low-level
-              testing as a &quot;canary&quot; algorithm to validate a basic
-              sorting function.
-            </p>
+            <ul className="text-gray-300 leading-relaxed space-y-2">
+              <li>
+                •{" "}
+                <span className="text-emerald-400">
+                  Small range of integers
+                </span>
+              </li>
+              <li>
+                •{" "}
+                <span className="text-emerald-400">
+                  Frequency counting problems
+                </span>
+              </li>
+              <li>
+                •{" "}
+                <span className="text-emerald-400">
+                  As subroutine in radix sort
+                </span>
+              </li>
+              <li>
+                •{" "}
+                <span className="text-emerald-400">
+                  When stability is required
+                </span>
+              </li>
+            </ul>
           </div>
-
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-cyan-300 mb-4 flex items-center">
-              🧙‍♂️ <span className="ml-2">Variants in Practice</span>
+            <h3 className="text-xl font-semibold text-red-300 mb-4 flex items-center">
+              ⚠️ <span className="ml-2">Limitations</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is too slow for large datasets. But variants like{" "}
-              <span className="text-cyan-400 font-semibold">
-                Cocktail Shaker Sort
-              </span>
-              (a bidirectional version) are more efficient in some situations.
-            </p>
+            <ul className="text-gray-300 leading-relaxed space-y-2">
+              <li>• Only works with non-negative integers</li>
+              <li>• Space complexity increases with range</li>
+              <li>• Inefficient when range is much larger than n</li>
+              <li>• Cannot handle floating-point numbers directly</li>
+            </ul>
           </div>
         </div>
 
