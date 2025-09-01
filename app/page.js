@@ -81,6 +81,22 @@ export default function Home() {
         { href: "algorithms/sorting/bucket-sort", val: "Bucket Sort" },
       ],
     },
+    {
+      title: "Graph",
+      icon: "🌐",
+      color: "from-green-500 to-emerald-500",
+      shadowColor: "shadow-green-500/50",
+      links: [
+        {
+          href: "algorithms/graphs/adjm-undirected",
+          val: "Adjacency Matrix (undirected)",
+        },
+        {
+          href: "algorithms/graphs/adjm-directed",
+          val: "Adjacency Matrix (directed)",
+        },
+      ],
+    },
   ];
 
   const mathLinkers = [
