@@ -95,6 +95,10 @@ export default function Home() {
           href: "algorithms/graphs/adjm-directed",
           val: "Adjacency Matrix (directed)",
         },
+        {
+          href: "algorithms/graphs/adjl-directed",
+          val: "Adjacency List (directed)",
+        },
       ],
     },
   ];
