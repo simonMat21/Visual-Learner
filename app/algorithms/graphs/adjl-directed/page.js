@@ -169,7 +169,7 @@ Use cases:
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-6">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Adjacency List for Directed/Undirected Graphs
+              Adjacency List for Directed Graphs
             </h1>
             <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-orange-400/20 to-red-400/20 rounded-full px-4 py-2 mt-3 border border-orange-400/30">
               <span className="flex items-center">
@@ -360,7 +360,7 @@ Use cases:
               </li>
               <li>
                 • <span className="text-amber-400">No direct indexing:</span>{" "}
-                Can't directly access edge weights
+                Can&apos;t directly access edge weights
               </li>
               <li>
                 • <span className="text-amber-400">Memory fragmentation:</span>{" "}
