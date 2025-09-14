@@ -18,7 +18,7 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* Right side - GitHub icon */}
+          {/* Right side - GitHub and About buttons */}
           <div className="flex items-center space-x-4">
             <a
               href="https://github.com/simonMat21/Visual-Learner"
@@ -41,6 +41,22 @@ const Header = () => {
               {/* Animated ring */}
               <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-purple-500/50 group-hover:animate-pulse"></div>
             </a>
+
+            {/* About Button */}
+            <Link
+              href="/about"
+              className="group relative px-4 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
+            >
+              <span className="text-gray-300 group-hover:text-white transition-colors duration-300 text-sm font-medium">
+                About
+              </span>
+
+              {/* Hover glow effect */}
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-blue-500/20 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+              {/* Animated ring */}
+              <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-blue-500/50 group-hover:animate-pulse"></div>
+            </Link>
           </div>
         </div>
       </div>
