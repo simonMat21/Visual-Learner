@@ -2,11 +2,8 @@
 
 import React, { useRef, useEffect } from "react";
 
-export default function P5Sketch({ k1, k2, t }) {
+export default function P5Sketch() {
   const sketchRef = useRef(null);
-  const k1reff = useRef(k1);
-  const k2reff = useRef(k2);
-  const tref = useRef(t);
 
   useEffect(() => {
     // Dynamically import p5 only on the client
@@ -20,6 +17,8 @@ export default function P5Sketch({ k1, k2, t }) {
         let sizeInput;
         let generateButton;
         let randomButton;
+        let toggleButton;
+        let isDirected = true;
         let nodes = [];
 
         function generateGraph() {
@@ -49,14 +48,56 @@ export default function P5Sketch({ k1, k2, t }) {
           }
 
           // Generate random edges
-          for (let i = 0; i < graphSize; i++) {
-            for (let j = 0; j < graphSize; j++) {
-              if (i !== j && P.random() < 0.3) {
-                adjacencyList[i].push(j);
+          if (isDirected) {
+            for (let i = 0; i < graphSize; i++) {
+              for (let j = 0; j < graphSize; j++) {
+                if (i !== j && P.random() < 0.3) {
+                  adjacencyList[i].push(j);
+                }
+              }
+            }
+          } else {
+            // For undirected graphs, only generate edges once
+            for (let i = 0; i < graphSize; i++) {
+              for (let j = i + 1; j < graphSize; j++) {
+                if (P.random() < 0.3) {
+                  adjacencyList[i].push(j);
+                  adjacencyList[j].push(i);
+                }
               }
             }
           }
           updateListDisplay();
+        }
+
+        function toggleGraphType() {
+          isDirected = !isDirected;
+          updateToggleButtonText();
+
+          // If switching to undirected, make adjacency list symmetric
+          if (!isDirected) {
+            makeGraphUndirected();
+          }
+          updateListDisplay();
+        }
+
+        function makeGraphUndirected() {
+          // Make the adjacency list symmetric
+          for (let i = 0; i < graphSize; i++) {
+            for (let neighbor of adjacencyList[i]) {
+              if (!adjacencyList[neighbor].includes(i)) {
+                adjacencyList[neighbor].push(i);
+              }
+            }
+          }
+        }
+
+        function updateToggleButtonText() {
+          if (toggleButton) {
+            toggleButton.html(
+              isDirected ? "Switch to Undirected" : "Switch to Directed"
+            );
+          }
         }
 
         function generateNodePositions() {
@@ -85,7 +126,7 @@ export default function P5Sketch({ k1, k2, t }) {
         function createAdjacencyListDisplay() {
           listElements = [];
           let startX = 50;
-          let startY = 160;
+          let startY = 180;
           let lineHeight = 25;
 
           for (let i = 0; i < graphSize; i++) {
@@ -116,6 +157,7 @@ export default function P5Sketch({ k1, k2, t }) {
         function createInputHandler(vertex) {
           return function () {
             let input = this.value();
+            let oldNeighbors = [...adjacencyList[vertex]]; // Store old neighbors
             adjacencyList[vertex] = [];
 
             if (input.trim() !== "") {
@@ -129,6 +171,27 @@ export default function P5Sketch({ k1, k2, t }) {
                   adjacencyList[vertex].push(n);
                 }
               }
+            }
+
+            // If undirected graph, update the reverse connections
+            if (!isDirected) {
+              // Remove old reverse connections
+              for (let oldNeighbor of oldNeighbors) {
+                let index = adjacencyList[oldNeighbor].indexOf(vertex);
+                if (index > -1) {
+                  adjacencyList[oldNeighbor].splice(index, 1);
+                }
+              }
+
+              // Add new reverse connections
+              for (let neighbor of adjacencyList[vertex]) {
+                if (!adjacencyList[neighbor].includes(vertex)) {
+                  adjacencyList[neighbor].push(vertex);
+                }
+              }
+
+              // Update all displays
+              updateListDisplay();
             }
           };
         }
@@ -152,6 +215,8 @@ export default function P5Sketch({ k1, k2, t }) {
           P.text("Graph Visualization", 700, 80);
 
           // Draw edges based on adjacency list
+          let drawnEdges = new Set(); // To avoid drawing duplicate edges for undirected graphs
+
           for (let vertex in adjacencyList) {
             let from = parseInt(vertex);
             for (let to of adjacencyList[vertex]) {
@@ -159,13 +224,27 @@ export default function P5Sketch({ k1, k2, t }) {
                 // Draw self-loop
                 drawSelfLoop(nodes[from].x, nodes[from].y, from);
               } else if (to < graphSize) {
-                // Draw regular arrow
-                drawArrow(
-                  nodes[from].x,
-                  nodes[from].y,
-                  nodes[to].x,
-                  nodes[to].y
-                );
+                // For undirected graphs, avoid drawing the same edge twice
+                if (!isDirected) {
+                  let edgeId = from < to ? `${from}-${to}` : `${to}-${from}`;
+                  if (drawnEdges.has(edgeId)) continue;
+                  drawnEdges.add(edgeId);
+                  // Draw undirected edge (line without arrow)
+                  drawUndirectedEdge(
+                    nodes[from].x,
+                    nodes[from].y,
+                    nodes[to].x,
+                    nodes[to].y
+                  );
+                } else {
+                  // Draw directed arrow
+                  drawArrow(
+                    nodes[from].x,
+                    nodes[from].y,
+                    nodes[to].x,
+                    nodes[to].y
+                  );
+                }
               }
             }
           }
@@ -194,15 +273,23 @@ export default function P5Sketch({ k1, k2, t }) {
             edgeCount += adjacencyList[vertex].length;
           }
 
+          // For undirected graphs, each edge is counted twice, so divide by 2
+          if (!isDirected) {
+            edgeCount = edgeCount / 2;
+          }
+
           P.text("Nodes: " + graphSize, 600, 420);
           P.text("Edges: " + edgeCount, 600, 440);
-          P.text("Directed Graph", 600, 460);
+          P.text(isDirected ? "Directed Graph" : "Undirected Graph", 600, 460);
 
           // Draw adjacency list structure
           P.fill(0);
           P.textSize(12);
           P.text("Format: vertex1, vertex2, vertex3...", 50, 100);
           P.text("(Enter comma-separated neighbor vertices)", 50, 115);
+          if (!isDirected) {
+            P.text("Note: Adding edge A→B automatically adds B→A", 50, 130);
+          }
         }
 
         function drawArrow(x1, y1, x2, y2) {
@@ -241,6 +328,27 @@ export default function P5Sketch({ k1, k2, t }) {
               -arrowSize / 2
             );
             P.pop();
+          }
+        }
+
+        function drawUndirectedEdge(x1, y1, x2, y2) {
+          let nodeRadius = P.min(17, 125 / graphSize);
+          let dx = x2 - x1;
+          let dy = y2 - y1;
+          let length = P.sqrt(dx * dx + dy * dy);
+
+          if (length > nodeRadius * 2) {
+            dx /= length;
+            dy /= length;
+
+            let startX = x1 + dx * nodeRadius;
+            let startY = y1 + dy * nodeRadius;
+            let endX = x2 - dx * nodeRadius;
+            let endY = y2 - dy * nodeRadius;
+
+            P.stroke(100);
+            P.strokeWeight(2);
+            P.line(startX, startY, endX, endY);
           }
         }
 
@@ -337,6 +445,18 @@ export default function P5Sketch({ k1, k2, t }) {
           randomButton.style("font-weight", "bold");
           randomButton.mousePressed(generateRandomGraph);
           randomButton.position(cnv.position().x + 320, cnv.position().y + 18);
+
+          toggleButton = P.createButton("Switch to Undirected");
+          toggleButton.style("font-size", "14px");
+          toggleButton.style("padding", "8px 16px");
+          toggleButton.style("color", "white");
+          toggleButton.style("background-color", "#dc3545");
+          toggleButton.style("border", "2px solid #dc3545");
+          toggleButton.style("border-radius", "6px");
+          toggleButton.style("cursor", "pointer");
+          toggleButton.style("font-weight", "bold");
+          toggleButton.mousePressed(toggleGraphType);
+          toggleButton.position(cnv.position().x + 480, cnv.position().y + 18);
 
           generateGraph();
           generateNodePositions();

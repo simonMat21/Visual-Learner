@@ -97,7 +97,7 @@ export default function Home() {
         },
         {
           href: "algorithms/graphs/adjl-directed",
-          val: "Adjacency List (directed)",
+          val: "Adjacency List (undirected/directed)",
         },
       ],
     },

@@ -19,310 +19,121 @@ export default function Home() {
   const [sliderValue3, setSliderValue3] = useState([0.1]);
 
   const codeSnippets = {
-    js: `// Adjacency Matrix for Directed Graph
-class DirectedGraph {
-  constructor(numVertices) {
+    js: `// Adjacency List for Directed/Undirected Graph
+class Graph {
+  constructor(numVertices, isDirected = true) {
     this.numVertices = numVertices;
-    this.adjMatrix = Array(numVertices).fill(null)
-      .map(() => Array(numVertices).fill(0));
-  }
-  
-  // Add an edge from source to destination
-  addEdge(src, dest) {
-    if (src >= 0 && src < this.numVertices && 
-        dest >= 0 && dest < this.numVertices) {
-      this.adjMatrix[src][dest] = 1;
+    this.isDirected = isDirected;
+    this.adjList = {};
+    
+    // Initialize adjacency list
+    for (let i = 0; i < numVertices; i++) {
+      this.adjList[i] = [];
     }
   }
   
-  // Remove an edge from source to destination
-  removeEdge(src, dest) {
-    if (src >= 0 && src < this.numVertices && 
-        dest >= 0 && dest < this.numVertices) {
-      this.adjMatrix[src][dest] = 0;
+  // Add an edge between vertices
+  addEdge(vertex1, vertex2) {
+    if (vertex1 >= 0 && vertex1 < this.numVertices && 
+        vertex2 >= 0 && vertex2 < this.numVertices) {
+      
+      // Add edge from vertex1 to vertex2
+      if (!this.adjList[vertex1].includes(vertex2)) {
+        this.adjList[vertex1].push(vertex2);
+      }
+      
+      // For undirected graphs, add reverse edge
+      if (!this.isDirected && vertex1 !== vertex2) {
+        if (!this.adjList[vertex2].includes(vertex1)) {
+          this.adjList[vertex2].push(vertex1);
+        }
+      }
+    }
+  }
+  
+  // Remove an edge between vertices
+  removeEdge(vertex1, vertex2) {
+    if (vertex1 >= 0 && vertex1 < this.numVertices && 
+        vertex2 >= 0 && vertex2 < this.numVertices) {
+      
+      // Remove edge from vertex1 to vertex2
+      this.adjList[vertex1] = this.adjList[vertex1].filter(v => v !== vertex2);
+      
+      // For undirected graphs, remove reverse edge
+      if (!this.isDirected && vertex1 !== vertex2) {
+        this.adjList[vertex2] = this.adjList[vertex2].filter(v => v !== vertex1);
+      }
     }
   }
   
   // Check if edge exists
-  hasEdge(src, dest) {
-    if (src >= 0 && src < this.numVertices && 
-        dest >= 0 && dest < this.numVertices) {
-      return this.adjMatrix[src][dest] === 1;
+  hasEdge(vertex1, vertex2) {
+    if (vertex1 >= 0 && vertex1 < this.numVertices && 
+        vertex2 >= 0 && vertex2 < this.numVertices) {
+      return this.adjList[vertex1].includes(vertex2);
     }
     return false;
   }
   
   // Get all neighbors of a vertex
   getNeighbors(vertex) {
-    let neighbors = [];
-    for (let i = 0; i < this.numVertices; i++) {
-      if (this.adjMatrix[vertex][i] === 1) {
-        neighbors.push(i);
-      }
-    }
-    return neighbors;
+    return this.adjList[vertex] || [];
+  }
+  
+  // Get degree of a vertex
+  getDegree(vertex) {
+    return this.getNeighbors(vertex).length;
   }
   
   // Create from edge list
-  static fromEdgeList(numVertices, edges) {
-    let graph = new DirectedGraph(numVertices);
-    edges.forEach(([src, dest]) => {
-      graph.addEdge(src, dest);
+  static fromEdgeList(numVertices, edges, isDirected = true) {
+    let graph = new Graph(numVertices, isDirected);
+    edges.forEach(([vertex1, vertex2]) => {
+      graph.addEdge(vertex1, vertex2);
     });
     return graph;
   }
   
-  // Display matrix
-  printMatrix() {
-    console.log("Adjacency Matrix:");
-    for (let i = 0; i < this.numVertices; i++) {
-      console.log(this.adjMatrix[i].join(" "));
+  // Display adjacency list
+  printAdjList() {
+    console.log(\`Adjacency List (\${this.isDirected ? 'Directed' : 'Undirected'}):\`);
+    for (let vertex in this.adjList) {
+      console.log(\`\${vertex}: [\${this.adjList[vertex].join(', ')}]\`);
     }
   }
 }
 
 // Example usage
-let graph = new DirectedGraph(5);
-graph.addEdge(0, 1);
-graph.addEdge(0, 2);
-graph.addEdge(1, 3);
-graph.addEdge(2, 4);
-graph.addEdge(3, 4);
-graph.printMatrix();`,
-    c: `#include <stdio.h>
-#include <stdlib.h>
+let directedGraph = new Graph(5, true);
+directedGraph.addEdge(0, 1);
+directedGraph.addEdge(0, 2);
+directedGraph.addEdge(1, 3);
+directedGraph.printAdjList();
 
-typedef struct {
-    int** matrix;
-    int numVertices;
-} DirectedGraph;
+let undirectedGraph = new Graph(5, false);
+undirectedGraph.addEdge(0, 1);
+undirectedGraph.addEdge(0, 2);
+undirectedGraph.addEdge(1, 3);
+undirectedGraph.printAdjList();`,
 
-// Create a new directed graph
-DirectedGraph* createGraph(int numVertices) {
-    DirectedGraph* graph = malloc(sizeof(DirectedGraph));
-    graph->numVertices = numVertices;
-    
-    // Allocate memory for adjacency matrix
-    graph->matrix = malloc(numVertices * sizeof(int*));
-    for (int i = 0; i < numVertices; i++) {
-        graph->matrix[i] = calloc(numVertices, sizeof(int));
-    }
-    
-    return graph;
-}
+    idea: `Adjacency List for Directed/Undirected Graphs:
 
-// Add edge from src to dest
-void addEdge(DirectedGraph* graph, int src, int dest) {
-    if (src >= 0 && src < graph->numVertices && 
-        dest >= 0 && dest < graph->numVertices) {
-        graph->matrix[src][dest] = 1;
-    }
-}
-
-// Remove edge from src to dest
-void removeEdge(DirectedGraph* graph, int src, int dest) {
-    if (src >= 0 && src < graph->numVertices && 
-        dest >= 0 && dest < graph->numVertices) {
-        graph->matrix[src][dest] = 0;
-    }
-}
-
-// Check if edge exists
-int hasEdge(DirectedGraph* graph, int src, int dest) {
-    if (src >= 0 && src < graph->numVertices && 
-        dest >= 0 && dest < graph->numVertices) {
-        return graph->matrix[src][dest];
-    }
-    return 0;
-}
-
-// Print adjacency matrix
-void printMatrix(DirectedGraph* graph) {
-    printf("Adjacency Matrix:\\n");
-    for (int i = 0; i < graph->numVertices; i++) {
-        for (int j = 0; j < graph->numVertices; j++) {
-            printf("%d ", graph->matrix[i][j]);
-        }
-        printf("\\n");
-    }
-}
-
-// Create graph from edge list
-DirectedGraph* createFromEdges(int numVertices, int edges[][2], int numEdges) {
-    DirectedGraph* graph = createGraph(numVertices);
-    for (int i = 0; i < numEdges; i++) {
-        addEdge(graph, edges[i][0], edges[i][1]);
-    }
-    return graph;
-}
-
-// Free memory
-void freeGraph(DirectedGraph* graph) {
-    for (int i = 0; i < graph->numVertices; i++) {
-        free(graph->matrix[i]);
-    }
-    free(graph->matrix);
-    free(graph);
-}`,
-    py: `class DirectedGraph:
-    def __init__(self, num_vertices):
-        self.num_vertices = num_vertices
-        self.adj_matrix = [[0 for _ in range(num_vertices)] 
-                          for _ in range(num_vertices)]
-    
-    def add_edge(self, src, dest):
-        """Add an edge from source to destination"""
-        if (0 <= src < self.num_vertices and 
-            0 <= dest < self.num_vertices):
-            self.adj_matrix[src][dest] = 1
-    
-    def remove_edge(self, src, dest):
-        """Remove an edge from source to destination"""
-        if (0 <= src < self.num_vertices and 
-            0 <= dest < self.num_vertices):
-            self.adj_matrix[src][dest] = 0
-    
-    def has_edge(self, src, dest):
-        """Check if edge exists"""
-        if (0 <= src < self.num_vertices and 
-            0 <= dest < self.num_vertices):
-            return self.adj_matrix[src][dest] == 1
-        return False
-    
-    def get_neighbors(self, vertex):
-        """Get all neighbors of a vertex"""
-        neighbors = []
-        for i in range(self.num_vertices):
-            if self.adj_matrix[vertex][i] == 1:
-                neighbors.append(i)
-        return neighbors
-    
-    @classmethod
-    def from_edge_list(cls, num_vertices, edges):
-        """Create graph from list of edges"""
-        graph = cls(num_vertices)
-        for src, dest in edges:
-            graph.add_edge(src, dest)
-        return graph
-    
-    def print_matrix(self):
-        """Print the adjacency matrix"""
-        print("Adjacency Matrix:")
-        for row in self.adj_matrix:
-            print(" ".join(map(str, row)))
-    
-    def get_in_degree(self, vertex):
-        """Get in-degree of a vertex"""
-        return sum(self.adj_matrix[i][vertex] 
-                  for i in range(self.num_vertices))
-    
-    def get_out_degree(self, vertex):
-        """Get out-degree of a vertex"""
-        return sum(self.adj_matrix[vertex])
-
-# Example usage
-if __name__ == "__main__":
-    # Create a graph with 5 vertices
-    graph = DirectedGraph(5)
-    
-    # Add edges
-    edges = [(0, 1), (0, 2), (1, 3), (2, 4), (3, 4)]
-    for src, dest in edges:
-        graph.add_edge(src, dest)
-    
-    graph.print_matrix()`,
-    cpp: `#include <vector>
-#include <iostream>
-
-class DirectedGraph {
-private:
-    std::vector<std::vector<int>> adjMatrix;
-    int numVertices;
-
-public:
-    DirectedGraph(int vertices) : numVertices(vertices) {
-        adjMatrix.resize(vertices, std::vector<int>(vertices, 0));
-    }
-    
-    // Add edge from src to dest
-    void addEdge(int src, int dest) {
-        if (src >= 0 && src < numVertices && 
-            dest >= 0 && dest < numVertices) {
-            adjMatrix[src][dest] = 1;
-        }
-    }
-    
-    // Remove edge from src to dest
-    void removeEdge(int src, int dest) {
-        if (src >= 0 && src < numVertices && 
-            dest >= 0 && dest < numVertices) {
-            adjMatrix[src][dest] = 0;
-        }
-    }
-    
-    // Check if edge exists
-    bool hasEdge(int src, int dest) const {
-        if (src >= 0 && src < numVertices && 
-            dest >= 0 && dest < numVertices) {
-            return adjMatrix[src][dest] == 1;
-        }
-        return false;
-    }
-    
-    // Get neighbors of a vertex
-    std::vector<int> getNeighbors(int vertex) const {
-        std::vector<int> neighbors;
-        for (int i = 0; i < numVertices; i++) {
-            if (adjMatrix[vertex][i] == 1) {
-                neighbors.push_back(i);
-            }
-        }
-        return neighbors;
-    }
-    
-    // Create from edge list
-    static DirectedGraph fromEdgeList(int vertices, 
-                                     const std::vector<std::pair<int, int>>& edges) {
-        DirectedGraph graph(vertices);
-        for (const auto& edge : edges) {
-            graph.addEdge(edge.first, edge.second);
-        }
-        return graph;
-    }
-    
-    // Print adjacency matrix
-    void printMatrix() const {
-        std::cout << "Adjacency Matrix:\\n";
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                std::cout << adjMatrix[i][j] << " ";
-            }
-            std::cout << "\\n";
-        }
-    }
-    
-    // Get matrix reference
-    const std::vector<std::vector<int>>& getMatrix() const {
-        return adjMatrix;
-    }
-};`,
-    idea: `Adjacency Matrix for Directed Graph:
-
-1. Create n×n matrix where n = number of vertices
-2. matrix[i][j] = 1 if edge exists from vertex i to vertex j
-3. matrix[i][j] = 0 if no edge exists
-4. For directed graphs: matrix[i][j] ≠ matrix[j][i] (not symmetric)
+1. Array of lists where each index represents a vertex
+2. adjList[i] contains all vertices connected to vertex i  
+3. For directed graphs: only outgoing edges stored
+4. For undirected graphs: both directions stored (symmetric)
 
 Properties:
-- Space complexity: O(n²)
-- Edge lookup: O(1)
-- Add/Remove edge: O(1)
-- Get all neighbors: O(n)
+- Space complexity: O(V + E) where V=vertices, E=edges
+- Add edge: O(1) 
+- Remove edge: O(degree of vertex)
+- Check edge: O(degree of vertex)
+- Get neighbors: O(1) to access list
 
 Use cases:
-- Dense graphs (many edges)
-- Fast edge queries needed
-- Matrix operations on graphs`,
+- Sparse graphs (few edges relative to vertices)
+- When you need to iterate over neighbors frequently
+- Social networks, web graphs, transportation networks`,
   };
 
   const updateForm = (n, key, value) => {
@@ -357,21 +168,21 @@ Use cases:
         {/* Algorithm Info */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
-              Adjacency Matrix for Directed Graphs
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
+              Adjacency List for Directed/Undirected Graphs
             </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full px-4 py-2 mt-3 border border-purple-400/30">
+            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-orange-400/20 to-red-400/20 rounded-full px-4 py-2 mt-3 border border-orange-400/30">
               <span className="flex items-center">
-                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
-                Space: O(n²)
+                <span className="w-2 h-2 bg-orange-400 rounded-full mr-2"></span>
+                Space: O(V + E)
               </span>
               <span className="flex items-center">
-                <span className="w-2 h-2 bg-pink-400 rounded-full mr-2"></span>
-                Edge Query: O(1)
+                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
+                Add Edge: O(1)
               </span>
               <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Matrix-based
+                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                Dynamic Size
               </span>
             </div>
           </div>
@@ -379,32 +190,28 @@ Use cases:
 
         {/* Description */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
+          <h2 className="text-2xl font-semibold text-orange-300 mb-4 flex items-center">
+            <span className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 text-sm">
+              📋
             </span>
-            Understanding Adjacency Matrices
+            Understanding Adjacency Lists
           </h2>
           <div className="space-y-4 text-gray-300 leading-relaxed">
             <p className="text-lg">
-              An adjacency matrix is a square matrix used to represent a
-              directed graph. For a graph with{" "}
-              <span className="text-purple-400 font-semibold">n vertices</span>,
-              the adjacency matrix is an{" "}
-              <span className="text-purple-400 font-semibold">n×n matrix</span>
-              where each cell [i][j] indicates whether there is an edge from
-              vertex i to vertex j.
+              An adjacency list is a collection of lists used to represent a
+              graph. Each vertex has a list containing all vertices it is
+              connected to. This representation is particularly efficient for
+              sparse graphs where the number of edges is much smaller than the
+              maximum possible number of edges.
             </p>
             <p className="text-lg">
-              In a directed graph, the matrix is typically{" "}
-              <span className="text-pink-400 font-semibold">not symmetric</span>
-              because an edge from vertex A to vertex B doesn&apos;t necessarily
-              mean there&apos;s an edge from B to A.
+              The key advantage is that it only stores existing edges, making it
+              space-efficient for graphs with few connections relative to the
+              total number of possible edges.
             </p>
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-4 my-4">
-              <p className="text-center text-lg font-bold text-purple-400">
-                matrix[i][j] = 1 if edge exists from vertex i to vertex j, 0
-                otherwise
+            <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-4 my-4">
+              <p className="text-center text-lg font-bold text-orange-400">
+                Space Usage: O(V + E) instead of O(V²) for adjacency matrix
               </p>
             </div>
           </div>
@@ -412,8 +219,8 @@ Use cases:
 
         {/* Code Block */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-pink-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center mr-3 text-sm">
+          <h2 className="text-2xl font-semibold text-red-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 text-sm">
               💻
             </span>
             Implementation
@@ -425,137 +232,181 @@ Use cases:
           />
         </div>
 
-        {/* Properties Analysis */}
+        {/* Performance Analysis */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
             <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
+              📊
             </span>
-            Properties & Complexity
+            Performance Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-purple-300 mb-2">
+            <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-orange-300 mb-2">
                 Time Complexity
               </h3>
               <ul className="text-gray-300 space-y-2">
                 <li>
                   •{" "}
                   <span className="text-green-400 font-semibold">
-                    Edge lookup:
-                  </span>{" "}
-                  O(1)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-green-400 font-semibold">
-                    Add edge:
-                  </span>{" "}
-                  O(1)
-                </li>
-                <li>
-                  •{" "}
-                  <span className="text-green-400 font-semibold">
-                    Remove edge:
+                    Add Edge:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
                   <span className="text-yellow-400 font-semibold">
-                    Get neighbors:
+                    Remove Edge:
                   </span>{" "}
-                  O(n)
+                  O(degree)
+                </li>
+                <li>
+                  •{" "}
+                  <span className="text-yellow-400 font-semibold">
+                    Check Edge:
+                  </span>{" "}
+                  O(degree)
+                </li>
+                <li>
+                  •{" "}
+                  <span className="text-green-400 font-semibold">
+                    Get Neighbors:
+                  </span>{" "}
+                  O(1)
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
+            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-blue-300 mb-2">
-                Space & Properties
+                Space Complexity
               </h3>
               <ul className="text-gray-300 space-y-2">
                 <li>
-                  • <span className="text-blue-400 font-semibold">Space:</span>{" "}
-                  O(n²) always
-                </li>
-                <li>
-                  • <span className="text-blue-400 font-semibold">Memory:</span>{" "}
-                  Fixed regardless of edge count
+                  •{" "}
+                  <span className="text-blue-400 font-semibold">
+                    Total Space:
+                  </span>{" "}
+                  O(V + E)
                 </li>
                 <li>
                   •{" "}
                   <span className="text-blue-400 font-semibold">
-                    Representation:
+                    Per Vertex:
                   </span>{" "}
-                  Dense storage
+                  O(degree)
                 </li>
                 <li>
                   •{" "}
                   <span className="text-blue-400 font-semibold">
-                    Matrix ops:
+                    Sparse Graphs:
                   </span>{" "}
-                  Easy to perform
+                  Much better than O(V²)
+                </li>
+                <li>
+                  •{" "}
+                  <span className="text-blue-400 font-semibold">Dynamic:</span>{" "}
+                  Grows with actual edges
                 </li>
               </ul>
             </div>
           </div>
         </div>
 
-        {/* Use Cases & Comparisons */}
+        {/* Comparisons */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
             <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              ✅ <span className="ml-2">Best Use Cases</span>
+              ✅ <span className="ml-2">Advantages</span>
             </h3>
             <ul className="text-gray-300 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Dense graphs:</span> Many
-                edges relative to vertices
+                • <span className="text-emerald-400">Space efficient:</span>{" "}
+                Only stores existing edges
               </li>
               <li>
-                • <span className="text-emerald-400">Fast edge queries:</span>{" "}
-                Frequent &quot;is there an edge?&quot; checks
+                •{" "}
+                <span className="text-emerald-400">
+                  Fast neighbor iteration:
+                </span>{" "}
+                Direct access to adjacency list
               </li>
               <li>
-                • <span className="text-emerald-400">Matrix operations:</span>{" "}
-                Graph algorithms using linear algebra
+                • <span className="text-emerald-400">Dynamic size:</span> Adapts
+                to actual graph density
               </li>
               <li>
-                • <span className="text-emerald-400">Small graphs:</span> When
-                n² space is acceptable
+                • <span className="text-emerald-400">Memory locality:</span>{" "}
+                Better cache performance for sparse graphs
               </li>
               <li>
-                • <span className="text-emerald-400">Complete graphs:</span>{" "}
-                Nearly all possible edges exist
+                •{" "}
+                <span className="text-emerald-400">Easy to add vertices:</span>{" "}
+                Just add new list
               </li>
             </ul>
           </div>
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
             <h3 className="text-xl font-semibold text-amber-300 mb-4 flex items-center">
-              ⚠️ <span className="ml-2">Limitations</span>
+              ⚠️ <span className="ml-2">Disadvantages</span>
             </h3>
             <ul className="text-gray-300 leading-relaxed space-y-2">
               <li>
-                • <span className="text-amber-400">Space inefficient:</span>{" "}
-                Wastes memory for sparse graphs
+                • <span className="text-amber-400">Slower edge queries:</span>{" "}
+                O(degree) vs O(1) for matrix
               </li>
               <li>
-                • <span className="text-amber-400">Fixed size:</span> Difficult
-                to add/remove vertices
+                • <span className="text-amber-400">Complex deletion:</span> Need
+                to search through lists
               </li>
               <li>
-                • <span className="text-amber-400">Large graphs:</span> O(n²)
-                space becomes prohibitive
+                • <span className="text-amber-400">No direct indexing:</span>{" "}
+                Can't directly access edge weights
               </li>
               <li>
-                • <span className="text-amber-400">Iteration:</span> O(n) to
-                find all neighbors
+                • <span className="text-amber-400">Memory fragmentation:</span>{" "}
+                Dynamic allocation overhead
               </li>
               <li>
-                • <span className="text-amber-400">Cache performance:</span>{" "}
-                Poor for very large matrices
+                • <span className="text-amber-400">Dense graphs:</span> May use
+                more space than matrix
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Use Cases */}
+        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
+          <h2 className="text-2xl font-semibold text-violet-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-violet-500 rounded-full flex items-center justify-center mr-3 text-sm">
+              🎯
+            </span>
+            Best Use Cases
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-lg p-4">
+              <h4 className="text-md font-semibold text-violet-300 mb-2">
+                Sparse Graphs
+              </h4>
+              <p className="text-sm text-gray-300">
+                When edges &lt;&lt; V², adjacency lists save significant space
+              </p>
+            </div>
+            <div className="bg-gradient-to-r from-indigo-500/10 to-blue-500/10 border border-indigo-500/20 rounded-lg p-4">
+              <h4 className="text-md font-semibold text-indigo-300 mb-2">
+                Graph Traversal
+              </h4>
+              <p className="text-sm text-gray-300">
+                DFS, BFS benefit from fast neighbor iteration
+              </p>
+            </div>
+            <div className="bg-gradient-to-r from-teal-500/10 to-green-500/10 border border-teal-500/20 rounded-lg p-4">
+              <h4 className="text-md font-semibold text-teal-300 mb-2">
+                Dynamic Graphs
+              </h4>
+              <p className="text-sm text-gray-300">
+                When vertices/edges are frequently added/removed
+              </p>
+            </div>
           </div>
         </div>
 
