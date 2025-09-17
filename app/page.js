@@ -49,7 +49,7 @@ export default function Home() {
       color: "from-orange-500 to-red-500",
       shadowColor: "shadow-orange-500/50",
       links: [
-        { href: "algorithms/linked-list", val: "Linked List" },
+        { href: "algorithms/linked-list/single", val: "Linked List" },
         { href: "algorithms/linked-list/double", val: "Double Linked List" },
       ],
     },

@@ -303,9 +303,9 @@ export default function P5Sketch_linkedList({ dlt, add, srch, animSpd }) {
               [ckr, 0, 0, -255],
               ...(pos !== boxes.length - 1
                 ? [
-                  [arrowsF[pos], 0, 0, -255],
-                  [arrowsR[pos], 0, 0, -255],
-                ]
+                    [arrowsF[pos], 0, 0, -255],
+                    [arrowsR[pos], 0, 0, -255],
+                  ]
                 : []),
             ]),
             animator.animateFunc(1, () => {
@@ -322,38 +322,38 @@ export default function P5Sketch_linkedList({ dlt, add, srch, animSpd }) {
             }),
             ...(pos !== lastPos
               ? [
-                animator.to(
-                  30,
-                  pos !== 0 && pos !== lastPos
-                    ? [
-                      [
-                        arrowsF[pos - 1],
-                        arrowsF[pos - 1].head.x,
-                        arrowsF[pos - 1].head.y,
-                        255,
-                      ],
-                      [
-                        arrowsR[pos - 1],
-                        arrowsR[pos - 1].head.x,
-                        arrowsR[pos - 1].head.y,
-                        255,
-                      ],
-                    ]
-                    : []
-                ),
-                animator.animateFunc(1, () => {
-                  if (pos !== 0) {
-                    arrowsF[pos - 1].lockToHead = true;
-                    arrowsR[pos - 1].lockToHead = true;
-                  }
-                }),
-              ]
+                  animator.to(
+                    30,
+                    pos !== 0 && pos !== lastPos
+                      ? [
+                          [
+                            arrowsF[pos - 1],
+                            arrowsF[pos - 1].head.x,
+                            arrowsF[pos - 1].head.y,
+                            255,
+                          ],
+                          [
+                            arrowsR[pos - 1],
+                            arrowsR[pos - 1].head.x,
+                            arrowsR[pos - 1].head.y,
+                            255,
+                          ],
+                        ]
+                      : []
+                  ),
+                  animator.animateFunc(1, () => {
+                    if (pos !== 0) {
+                      arrowsF[pos - 1].lockToHead = true;
+                      arrowsR[pos - 1].lockToHead = true;
+                    }
+                  }),
+                ]
               : [
-                animator.animate(20, [
-                  [arrowsF[pos - 1], 0, 0, -255],
-                  [arrowsR[pos - 1], 0, 0, -255],
+                  animator.animate(20, [
+                    [arrowsF[pos - 1], 0, 0, -255],
+                    [arrowsR[pos - 1], 0, 0, -255],
+                  ]),
                 ]),
-              ]),
             animator.animate(10, [[boxes[pos], 0, 0, -255]]),
             animator.animate(
               50,
