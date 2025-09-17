@@ -153,12 +153,18 @@ export default function AboutPage() {
             there's a place for you in our community.
           </p>
           <div className="flex justify-center space-x-4">
-            <span className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full text-white font-semibold">
+            <a
+              href="https://github.com/simonMat21/Visual-Learner"
+              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full text-white font-semibold"
+            >
               🎯 Learn & Explore
-            </span>
-            <span className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white font-semibold">
+            </a>
+            <a
+              href="https://github.com/simonMat21/Visual-Learner/discussions"
+              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white font-semibold"
+            >
               💡 Contribute Ideas
-            </span>
+            </a>
           </div>
         </div>
       </div>

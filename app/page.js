@@ -103,6 +103,10 @@ export default function Home() {
           href: "algorithms/graphs/adjm-weighted",
           val: "Adjacency Matrix (weighted)",
         },
+        {
+          href: "algorithms/graphs/adjm-input",
+          val: "Adjacency Matrix (input)",
+        },
       ],
     },
   ];

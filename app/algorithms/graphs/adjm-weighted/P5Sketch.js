@@ -123,7 +123,11 @@ export default function P5Sketch() {
 
         function createInputHandler(row, col) {
           return function () {
-            let value = parseFloat(this.value()) || 0;
+            let value = parseFloat(this.value());
+            // Allow negative values, only default to 0 if NaN
+            if (isNaN(value)) {
+              value = 0;
+            }
             matrix[row][col] = value;
             updateInputAppearance(row, col);
           };
@@ -136,8 +140,11 @@ export default function P5Sketch() {
           if (weight === 0) {
             input.style("background-color", "#ffffff");
             input.style("color", "#000");
+          } else if (weight < 0) {
+            input.style("background-color", "#ff6b6b"); // Red for negative weights
+            input.style("color", "white");
           } else {
-            input.style("background-color", "#4CAF50");
+            input.style("background-color", "#4CAF50"); // Green for positive weights
             input.style("color", "white");
           }
           input.value(weight.toString());
@@ -161,16 +168,17 @@ export default function P5Sketch() {
           P.textAlign(P.CENTER);
           P.text("Weighted Graph Visualization", 700, 80);
 
-          // Draw edges with weights
+          // Draw edges with weights (including negative weights)
           for (let i = 0; i < matrixSize; i++) {
             for (let j = 0; j < matrixSize; j++) {
-              if (matrix[i][j] > 0) {
+              if (matrix[i][j] !== 0) {
+                // Changed from > 0 to !== 0 to include negative weights
                 if (i === j) {
                   // Draw self-loop with weight
                   drawSelfLoop(nodes[i].x, nodes[i].y, i, matrix[i][j]);
                 } else {
                   // Check if there's a reverse edge
-                  let hasReverse = matrix[j][i] > 0;
+                  let hasReverse = matrix[j][i] !== 0; // Changed from > 0 to !== 0
 
                   if (hasReverse) {
                     // Draw curved edge for this direction
@@ -224,7 +232,8 @@ export default function P5Sketch() {
           let totalWeight = 0;
           for (let i = 0; i < matrixSize; i++) {
             for (let j = 0; j < matrixSize; j++) {
-              if (matrix[i][j] > 0) {
+              if (matrix[i][j] !== 0) {
+                // Changed from > 0 to !== 0
                 edgeCount++;
                 totalWeight += matrix[i][j];
               }
@@ -233,7 +242,7 @@ export default function P5Sketch() {
 
           P.text("Nodes: " + matrixSize, 600, 420);
           P.text("Edges: " + edgeCount, 600, 440);
-          P.text("Total Weight: " + totalWeight, 600, 460);
+          P.text("Total Weight: " + totalWeight.toFixed(2), 600, 460); // Added toFixed for better display
           P.text("Weighted Directed Graph", 600, 480);
 
           // Draw matrix labels
@@ -317,7 +326,9 @@ export default function P5Sketch() {
             let endX = x2 - dx * nodeRadius;
             let endY = y2 - dy * nodeRadius;
 
-            P.stroke(100);
+            // Use different colors for negative weights
+            let edgeColor = weight < 0 ? [255, 100, 100] : [100, 100, 100]; // Red for negative, gray for positive
+            P.stroke(edgeColor[0], edgeColor[1], edgeColor[2]);
             P.strokeWeight(2);
             P.noFill();
 
@@ -424,8 +435,12 @@ export default function P5Sketch() {
               P.strokeWeight(1);
               P.circle(labelX, labelY, 18);
 
-              // Weight text with different colors for each direction
-              P.fill(isReverse ? 200 : 0, isReverse ? 0 : 100, 200);
+              // Weight text with different colors for negative weights
+              P.fill(
+                weight < 0 ? 255 : isReverse ? 200 : 0,
+                weight < 0 ? 100 : isReverse ? 0 : 100,
+                weight < 0 ? 100 : 200
+              );
               P.noStroke();
               P.textAlign(P.CENTER, P.CENTER);
               P.textSize(10);
@@ -434,12 +449,12 @@ export default function P5Sketch() {
               // Draw straight line for single direction
               P.line(startX, startY, endX, endY);
 
-              // Draw arrowhead
+              // Draw arrowhead with appropriate color
               let arrowAngle = P.atan2(dy, dx);
               P.push();
               P.translate(endX, endY);
               P.rotate(arrowAngle);
-              P.fill(100);
+              P.fill(edgeColor[0], edgeColor[1], edgeColor[2]);
               P.noStroke();
               let arrowSize = 8;
               P.triangle(
@@ -462,8 +477,12 @@ export default function P5Sketch() {
               P.strokeWeight(1);
               P.circle(labelX, labelY, 16);
 
-              // Weight text
-              P.fill(0, 100, 200);
+              // Weight text with color based on sign
+              P.fill(
+                weight < 0 ? 255 : 0,
+                weight < 0 ? 100 : 100,
+                weight < 0 ? 100 : 200
+              );
               P.noStroke();
               P.textAlign(P.CENTER, P.CENTER);
               P.textSize(10);
