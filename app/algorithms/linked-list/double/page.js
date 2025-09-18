@@ -369,7 +369,7 @@ SearchResult search(int data) {
 }`,
       idea: `Linear search through list:
 1. Start from head (or tail)
-2. Compare each node's data
+2. Compare each node&apos;s data
 3. Return position if found
 4. Advantage: Can search backwards
    using prev pointers`,
@@ -799,16 +799,17 @@ pointers of adjacent nodes`,
                 management due to the bidirectional nature. There are three main
                 scenarios: inserting at the beginning, at the end, or at a
                 specific position. When inserting at the beginning, we update
-                the head pointer and set the new node's next to the current
-                head, while updating the old head's prev pointer. For end
+                the head pointer and set the new node&apos;s next to the current
+                head, while updating the old head&apos;s prev pointer. For end
                 insertion, we use the tail pointer for direct access. Middle
                 insertion requires traversing to the position and updating up to
                 <span className="text-green-400 font-semibold">
                   {" "}
                   four pointers
                 </span>
-                : the new node's next and prev, plus the adjacent nodes'
-                connecting pointers. This complexity provides the benefit of{" "}
+                : the new node&apos;s next and prev, plus the adjacent
+                nodes&apos; connecting pointers. This complexity provides the
+                benefit of{" "}
                 <span className="text-green-400 font-semibold">O(1)</span>{" "}
                 insertion at both ends.
               </p>
@@ -874,11 +875,11 @@ pointers of adjacent nodes`,
                 Deletion in a doubly linked list requires updating multiple
                 pointers to maintain the bidirectional integrity. Three
                 scenarios exist: deleting the first node (update head and the
-                new first node's prev pointer), deleting the last node (update
-                tail and the new last node's next pointer), and deleting a
-                middle node (update both adjacent nodes' pointers). The key
-                advantage is that once you have a reference to the node to
-                delete, removal is{" "}
+                new first node&apos;s prev pointer), deleting the last node
+                (update tail and the new last node&apos;s next pointer), and
+                deleting a middle node (update both adjacent nodes' pointers).
+                The key advantage is that once you have a reference to the node
+                to delete, removal is{" "}
                 <span className="text-red-400 font-semibold">O(1)</span> since
                 you can directly access both neighboring nodes through the prev
                 and next pointers. This eliminates the need to traverse from the

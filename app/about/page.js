@@ -148,9 +148,9 @@ export default function AboutPage() {
         <div className="text-center bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
           <h2 className="text-3xl font-bold mb-4">Join Our Mission</h2>
           <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
-            Whether you're a student exploring algorithms, an educator seeking
-            interactive tools, or a developer passionate about open source -
-            there's a place for you in our community.
+            Whether you&apos;re a student exploring algorithms, an educator
+            seeking interactive tools, or a developer passionate about open
+            source - there&apos;s a place for you in our community.
           </p>
           <div className="flex justify-center space-x-4">
             <a

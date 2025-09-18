@@ -96,7 +96,7 @@ export default function Home() {
               Refraction occurs when light travels from one medium to another
               with a different optical density. The light ray bends due to the
               change in speed as it enters the new medium. This phenomenon is
-              governed by Snell's Law.
+              governed by Snell&apos;s Law.
             </p>
             <p className="text-lg">
               When light enters a denser medium (higher refractive index), it
@@ -108,16 +108,16 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Snell's Law */}
+        {/* Snell&apos;s Law */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
             <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
               📐
             </span>
-            Snell's Law of Refraction
+            Snell&apos;s Law of Refraction
           </h2>
 
-          {/* Snell's Law Equation */}
+          {/* Snell&apos;s Law Equation */}
           <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6 mb-6">
             <h3 className="text-lg font-semibold text-blue-300 mb-4 text-center">
               Mathematical Relationship

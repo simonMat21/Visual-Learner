@@ -377,7 +377,7 @@ SearchResult search(int data) {
 }`,
       idea: `Linear search through list:
 1. Start from head only
-2. Compare each node's data
+2. Compare each node&apos;s data
 3. Return position if found
 4. No backward traversal
    (unlike doubly linked list)`,
@@ -802,14 +802,14 @@ Must traverse to find predecessor
                 scenarios: inserting at the beginning and inserting at a
                 specific position. Beginning insertion is
                 <span className="text-green-400 font-semibold"> O(1)</span> as
-                it only requires updating the new node's next pointer to the
-                current head and updating the head reference. For middle
+                it only requires updating the new node&apos;s next pointer to
+                the current head and updating the head reference. For middle
                 insertion, we must traverse to the position before the insertion
                 point, then update only
                 <span className="text-green-400 font-semibold">
                   two pointers
                 </span>
-                : the new node's next and the predecessor's next. This
+                : the new node&apos;s next and the predecessor&apos;s next. This
                 simplicity comes at the cost of requiring traversal for non-head
                 insertions, making it less efficient than doubly linked lists
                 for frequent middle insertions.
@@ -841,7 +841,7 @@ Must traverse to find predecessor
                 straightforward linear traversal from the head node. Unlike
                 doubly linked lists, there's no option for backward traversal,
                 so all searches must start from the beginning. The algorithm
-                compares each node's data with the target value, continuing
+                compares each node&apos;s data with the target value, continuing
                 until either the value is found or the end of the list is
                 reached. While this results in{" "}
                 <span className="text-blue-400 font-semibold">O(n)</span> time
