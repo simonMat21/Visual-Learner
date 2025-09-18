@@ -145,7 +145,12 @@ export default function Home() {
       icon: "📈",
       color: "from-orange-500 to-red-500",
       shadowColor: "shadow-orange-500/50",
-      links: [{ href: "physics/damping-function", val: "Damping Function" }],
+      links: [
+        { href: "physics/damping-function", val: "Damping Function" },
+        { href: "physics/color-mixing-light", val: "Color Mixing Light" },
+        { href: "physics/color-mixing-pigment", val: "Color Mixing Pigment" },
+        { href: "physics/light-refraction", val: "Light Refraction" },
+      ],
     },
   ];
 
