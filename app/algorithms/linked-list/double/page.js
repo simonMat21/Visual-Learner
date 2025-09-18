@@ -877,9 +877,9 @@ pointers of adjacent nodes`,
                 scenarios exist: deleting the first node (update head and the
                 new first node&apos;s prev pointer), deleting the last node
                 (update tail and the new last node&apos;s next pointer), and
-                deleting a middle node (update both adjacent nodes' pointers).
-                The key advantage is that once you have a reference to the node
-                to delete, removal is{" "}
+                deleting a middle node (update both adjacent nodes&apos;
+                pointers). The key advantage is that once you have a reference
+                to the node to delete, removal is{" "}
                 <span className="text-red-400 font-semibold">O(1)</span> since
                 you can directly access both neighboring nodes through the prev
                 and next pointers. This eliminates the need to traverse from the

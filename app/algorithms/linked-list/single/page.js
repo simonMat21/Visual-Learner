@@ -519,7 +519,7 @@ def delete_by_value(self, data):
       idea: `Two cases for deletion:
 1. First node: Update head
 2. Other nodes: Find predecessor
-Must traverse to find predecessor
+Must traverse to find predecessor node
 (easier in doubly linked list)`,
     },
   };
@@ -839,11 +839,11 @@ Must traverse to find predecessor
               <p className="text-gray-300 text-lg leading-relaxed">
                 Search operation in a singly linked list follows a
                 straightforward linear traversal from the head node. Unlike
-                doubly linked lists, there's no option for backward traversal,
-                so all searches must start from the beginning. The algorithm
-                compares each node&apos;s data with the target value, continuing
-                until either the value is found or the end of the list is
-                reached. While this results in{" "}
+                doubly linked lists, there&apos;s no option for backward
+                traversal, so all searches must start from the beginning. The
+                algorithm compares each node&apos;s data with the target value,
+                continuing until either the value is found or the end of the
+                list is reached. While this results in{" "}
                 <span className="text-blue-400 font-semibold">O(n)</span> time
                 complexity in the worst case, the unidirectional nature makes it
                 suitable for applications with primarily sequential access
