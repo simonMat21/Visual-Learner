@@ -303,13 +303,6 @@ export default function Home() {
           </div>
         )}
       </div>
-
-      {/* Footer */}
-      <div className="text-center mt-16 text-gray-500">
-        <p className="text-sm sm:text-base">
-          Click on any algorithm to start your visual learning journey
-        </p>
-      </div>
     </main>
   );
 }
