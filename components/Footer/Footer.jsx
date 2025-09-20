@@ -19,7 +19,7 @@ const Footer = () => {
                 <a href="about" className={styles.foottext}>About</a>
               </div>
 
-              <div className="flex ml-32 gap-10">
+              <div className="flex gap-10">
                  <a href="https://instagram.com" target="_blank" rel="noopener">
                 <Image
                   src="https://cdn.jsdelivr.net/npm/simple-icons@9.21.0/icons/instagram.svg"
