@@ -94,7 +94,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white p-8">
+    <main id="about" className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white p-8">
       {/* About Section */}
       <div className="max-w-6xl mx-auto mb-16">
         {/* Hero Section */}
