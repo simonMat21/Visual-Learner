@@ -7,6 +7,8 @@ import NumberInput from "@/components/NumberInput";
 
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
 import PhoneScreenBlock from "@/components/phoneScreenBlocker";
+import AdSense from "@/components/AdSense";
+import AdBanner from "@/components/AdBanner";
 
 import P5Sketch from "./P5Sketch";
 
@@ -126,6 +128,16 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Top Banner Ad */}
+      <div className="max-w-6xl mx-auto px-8 mb-12">
+        <AdBanner
+          position="top"
+          size="responsive"
+          adSlot="1234567890"
+          adTest="on"
+        />
+      </div>
+
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         {/* Algorithm Info */}
@@ -193,6 +205,16 @@ export default function Home() {
           />
         </div>
 
+        {/* Mid-content Ad */}
+        {/* <AdSense
+          adSlot="0987654321"
+          adFormat="rectangle"
+          adTest="on"
+          className="my-8"
+          adStyle={{ width: "336px", height: "280px" }}
+          responsive={false}
+        /> */}
+
         {/* Detailed Explanation */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
@@ -244,6 +266,14 @@ export default function Home() {
             </p>
           </div>
         </div>
+
+        {/* Bottom Banner Ad */}
+        {/* <AdBanner
+          position="bottom"
+          size="large"
+          adSlot="5678901234"
+          adTest="on"
+        /> */}
 
         {/* Bottom Spacer */}
         <div className="h-12"></div>
