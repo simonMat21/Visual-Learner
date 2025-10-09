@@ -129,14 +129,14 @@ export default function Home() {
       </div>
 
       {/* Top Banner Ad */}
-      <div className="max-w-6xl mx-auto px-8 mb-12">
+      {/* <div className="max-w-6xl mx-auto px-8 mb-12">
         <AdBanner
           position="top"
           size="responsive"
           adSlot="1234567890"
           adTest="on"
         />
-      </div>
+      </div> */}
 
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
