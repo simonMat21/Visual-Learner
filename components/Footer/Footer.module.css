@@ -7,11 +7,38 @@
   font-family: var(--geist);
   text-align: left;
   z-index: 2;
-  background-color: transparent;
+  background-color: rgba(3,3,11,0.4);
   position: absolute;
   width: 100%;
   box-sizing: border-box;
 }
+
+.imgs{
+  transition: transform 0.18s ease-in-out;
+  filter: invert(0.7);
+}
+.imgs:hover{
+  transform: scale(1.10);
+  filter: invert(1);
+}
+.foottext{
+  text-decoration: none !important;
+  font-family: sans-serif;
+  font-weight: 500;
+  color: #bbbbbb !important; 
+}
+
+.love{
+  display: flex;
+  color: #bbbbbb;
+  font-weight: 500;
+  font-family: sans-serif;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
 
 .top {
   display: flex;
@@ -123,7 +150,7 @@
 .box1-span-title {
   font-weight: 700;
   font-size: 45px;
-  background: wheat;
+  background: whitesmoke;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -138,6 +165,10 @@
 .box1-content {
   font-size: 18px;
   font-weight: 300;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 @media (max-width: 440px) {
@@ -148,8 +179,7 @@
 
 .box1-end {
   display: flex;
-  justify-content: flex-start;
-  gap: 40px;
+  justify-content: space-between;
 }
 
 @media (max-width: 440px) {
