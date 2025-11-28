@@ -25,6 +25,7 @@ export default function P5Sketch({ k1, k2, t }) {
         let transpose = null;
         let adjoint = null;
         let determinant = null;
+        let trace = null;
         let inverse = null;
 
         // Matrix operations functions
@@ -76,6 +77,15 @@ export default function P5Sketch({ k1, k2, t }) {
           return trans;
         }
 
+        function calculateTrace(mat) {
+          const n = mat.length;
+          let tr = 0;
+          for (let i = 0; i < n; i++) {
+            tr += mat[i][i];
+          }
+          return tr;
+        }
+
         function calculateAdjoint(mat) {
           const n = mat.length;
           const adj = [];
@@ -123,6 +133,7 @@ export default function P5Sketch({ k1, k2, t }) {
           // Calculate all operations
           transpose = calculateTranspose(matrix);
           determinant = calculateDeterminant(matrix);
+          trace = calculateTrace(matrix);
           adjoint = calculateAdjoint(matrix);
           inverse = calculateInverse(matrix, determinant);
         }
@@ -141,6 +152,7 @@ export default function P5Sketch({ k1, k2, t }) {
           transpose = null;
           adjoint = null;
           determinant = null;
+          trace = null;
           inverse = null;
 
           matrix = [];
@@ -169,8 +181,8 @@ export default function P5Sketch({ k1, k2, t }) {
           matrixInputs = [];
 
           let inputSize = P.min(50, 250 / matrixSize);
-          let startX = 80;
-          let startY = 130;
+          let startX = 125;
+          let startY = 150;
 
           for (let i = 0; i < matrixSize; i++) {
             matrixInputs[i] = [];
@@ -254,7 +266,7 @@ export default function P5Sketch({ k1, k2, t }) {
           P.textSize(16);
           P.textAlign(P.LEFT);
           P.noStroke();
-          P.text("Input Matrix:", 20, 70);
+          P.text("Input Matrix (A):", 20, 80);
 
           // Draw input matrix labels
           P.fill(0);
@@ -279,48 +291,74 @@ export default function P5Sketch({ k1, k2, t }) {
             let resultStartY = 130;
             let spacing = matrixSize * P.min(45, 180 / matrixSize) + 40;
 
-            // Transpose
-            drawMatrixDisplay(transpose, 450, resultStartY, "Transpose:", 2);
+            // Transpose - with proper notation
+            P.fill(0);
+            P.textSize(16);
+            P.textAlign(P.LEFT);
+            P.text("Transpose (A", 450, resultStartY - 20);
+            P.textSize(11);
+            P.text("T", 552, resultStartY - 26);
+            P.textSize(16);
+            P.text("):", 560, resultStartY - 20);
+            drawMatrixDisplay(transpose, 450, resultStartY, "", 2);
 
             // Adjoint
-            drawMatrixDisplay(
-              adjoint,
-              450 + spacing,
-              resultStartY,
-              "Adjoint:",
-              2
-            );
-
-            // Determinant
             P.fill(0);
-            P.textSize(14);
+            P.textSize(16);
             P.textAlign(P.LEFT);
-            P.text("Determinant:", 450, resultStartY + spacing);
+            P.text("Adjoint (adj(A)):", 450 + spacing, resultStartY - 20);
+            drawMatrixDisplay(adjoint, 450 + spacing, resultStartY, "", 2);
+
+            // Determinant and Trace on same line
+            P.fill(0);
+            P.textSize(16);
+            P.textAlign(P.LEFT);
+            P.text("Determinant (|A|) =", 450, resultStartY + spacing);
             P.textSize(18);
             P.fill(determinant === 0 ? [255, 0, 0] : [0, 150, 0]);
-            P.text(determinant.toFixed(4), 450, resultStartY + spacing + 25);
+            P.text(determinant.toFixed(2), 610, resultStartY + spacing);
 
-            // Inverse
+            // Trace
+            P.fill(0);
+            P.textSize(16);
+            P.text("Trace (tr(A)) =", 450, resultStartY + spacing + 30);
+            P.textSize(18);
+            P.fill(0, 100, 200);
+            P.text(trace.toFixed(2), 590, resultStartY + spacing + 30);
+
+            // Inverse - with proper notation
             if (inverse) {
+              P.fill(0);
+              P.textSize(16);
+              P.textAlign(P.LEFT);
+              P.text("Inverse (A", 450, resultStartY + spacing + 65);
+              P.textSize(11);
+              P.text("-1", 528, resultStartY + spacing + 59);
+              P.textSize(16);
+              P.text("):", 540, resultStartY + spacing + 65);
               drawMatrixDisplay(
                 inverse,
                 450,
-                resultStartY + spacing + 60,
-                "Inverse:",
-                4
+                resultStartY + spacing + 75,
+                "",
+                2
               );
             } else {
+              P.fill(0);
+              P.textSize(16);
+              P.textAlign(P.LEFT);
+              P.text("Inverse (A", 450, resultStartY + spacing + 65);
+              P.textSize(11);
+              P.text("-1", 548, resultStartY + spacing + 59);
+              P.textSize(16);
+              P.text("):", 564, resultStartY + spacing + 65);
               P.fill(255, 0, 0);
               P.textSize(14);
               P.textAlign(P.LEFT);
-              P.text(
-                "Inverse: Does not exist",
-                450,
-                resultStartY + spacing + 60
-              );
+              P.text("Does not exist", 450, resultStartY + spacing + 85);
               P.textSize(12);
               P.fill(100);
-              P.text("(Determinant = 0)", 450, resultStartY + spacing + 80);
+              P.text("(Determinant = 0)", 450, resultStartY + spacing + 103);
             }
           }
         }
@@ -340,7 +378,7 @@ export default function P5Sketch({ k1, k2, t }) {
           sizeInput.style("border", "2px solid #666");
           sizeInput.style("background-color", "#ffffff");
           sizeInput.style("color", "#000");
-          sizeInput.position(cnv.position().x + 140, cnv.position().y + 30);
+          sizeInput.position(cnv.position().x + 160, cnv.position().y + 30);
 
           generateButton = P.createButton("Generate Matrix");
           generateButton.style("font-size", "14px");
@@ -353,7 +391,7 @@ export default function P5Sketch({ k1, k2, t }) {
           generateButton.style("font-weight", "bold");
           generateButton.mousePressed(generateMatrix);
           generateButton.position(
-            cnv.position().x + 210,
+            cnv.position().x + 210 + 50,
             cnv.position().y + 18
           );
 
@@ -368,7 +406,7 @@ export default function P5Sketch({ k1, k2, t }) {
           calculateButton.style("font-weight", "bold");
           calculateButton.mousePressed(calculateAll);
           calculateButton.position(
-            cnv.position().x + 380,
+            cnv.position().x + 380 + 50,
             cnv.position().y + 18
           );
 
