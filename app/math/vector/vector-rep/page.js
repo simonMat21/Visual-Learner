@@ -175,7 +175,9 @@ Repeat n times:
             <p className="text-lg">
               In the visualization above, you can drag the yellow point to see
               how the vector changes. The vector is represented by the{" "}
-              <span className="text-yellow-400 font-semibold">yellow arrow</span>{" "}
+              <span className="text-yellow-400 font-semibold">
+                yellow arrow
+              </span>{" "}
               from the origin (0,0) to your point.
             </p>
           </div>
@@ -195,9 +197,11 @@ Repeat n times:
                 X-Component (Horizontal)
               </h3>
               <p className="text-gray-300 text-lg leading-relaxed">
-                The <span className="text-red-400 font-semibold">red arrow</span> shows
-                the horizontal component of the vector. This represents how far
-                the vector extends along the X-axis. It&apos;s calculated as{" "}
+                The{" "}
+                <span className="text-red-400 font-semibold">red arrow</span>{" "}
+                shows the horizontal component of the vector. This represents
+                how far the vector extends along the X-axis. It&apos;s
+                calculated as{" "}
                 <span className="font-mono bg-black/30 px-2 py-1 rounded">
                   x = r × cos(θ)
                 </span>
@@ -210,9 +214,12 @@ Repeat n times:
                 Y-Component (Vertical)
               </h3>
               <p className="text-gray-300 text-lg leading-relaxed">
-                The <span className="text-green-400 font-semibold">green arrow</span> shows
-                the vertical component of the vector. This represents how far
-                the vector extends along the Y-axis. It&apos;s calculated as{" "}
+                The{" "}
+                <span className="text-green-400 font-semibold">
+                  green arrow
+                </span>{" "}
+                shows the vertical component of the vector. This represents how
+                far the vector extends along the Y-axis. It&apos;s calculated as{" "}
                 <span className="font-mono bg-black/30 px-2 py-1 rounded">
                   y = r × sin(θ)
                 </span>
@@ -250,13 +257,15 @@ Repeat n times:
               </h3>
               <p className="text-gray-300 text-lg leading-relaxed mb-3">
                 The angle θ (theta) is measured counterclockwise from the
-                positive X-axis. It&apos;s calculated using the arctangent function:
+                positive X-axis. It&apos;s calculated using the arctangent
+                function:
               </p>
               <div className="font-mono bg-black/30 px-4 py-3 rounded text-center text-lg">
                 θ = arctan(y / x)
               </div>
               <p className="text-gray-400 text-sm mt-3">
-                The white arc in the visualization shows this angle from the X-axis
+                The white arc in the visualization shows this angle from the
+                X-axis
               </p>
             </div>
           </div>
@@ -272,9 +281,27 @@ Repeat n times:
               Vectors can be written in multiple ways:
             </p>
             <ul className="space-y-2 text-gray-300">
-              <li>• <span className="font-mono bg-black/30 px-2 py-1 rounded">(x, y)</span> - Component form</li>
-              <li>• <span className="font-mono bg-black/30 px-2 py-1 rounded">xi + yj</span> - Unit vector notation</li>
-              <li>• <span className="font-mono bg-black/30 px-2 py-1 rounded">r∠θ</span> - Polar form</li>
+              <li>
+                •{" "}
+                <span className="font-mono bg-black/30 px-2 py-1 rounded">
+                  (x, y)
+                </span>{" "}
+                - Component form
+              </li>
+              <li>
+                •{" "}
+                <span className="font-mono bg-black/30 px-2 py-1 rounded">
+                  xi + yj
+                </span>{" "}
+                - Unit vector notation
+              </li>
+              <li>
+                •{" "}
+                <span className="font-mono bg-black/30 px-2 py-1 rounded">
+                  r∠θ
+                </span>{" "}
+                - Polar form
+              </li>
             </ul>
           </div>
 
@@ -287,12 +314,12 @@ Repeat n times:
             </p>
             <div className="mt-3 space-y-2 text-sm text-gray-300">
               <div className="font-mono bg-black/30 px-2 py-1 rounded">
-                Cartesian → Polar:<br/>
-                r = √(x² + y²), θ = arctan(y/x)
+                Cartesian → Polar:
+                <br />r = √(x² + y²), θ = arctan(y/x)
               </div>
               <div className="font-mono bg-black/30 px-2 py-1 rounded">
-                Polar → Cartesian:<br/>
-                x = r×cos(θ), y = r×sin(θ)
+                Polar → Cartesian:
+                <br />x = r×cos(θ), y = r×sin(θ)
               </div>
             </div>
           </div>
