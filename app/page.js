@@ -137,6 +137,16 @@ export default function Home() {
         { href: "math/coordGeometry/parabola", val: "Parabola" },
       ],
     },
+    {
+      title: "Matrix",
+      icon: "🔢",
+      color: "from-purple-500 to-pink-500",
+      shadowColor: "shadow-purple-500/50",
+      links: [
+        { href: "math/matrix/adjm-directed", val: "Matrix Operations" },
+        { href: "math/matrix/eigen-values", val: "Eigenvalues & Eigenvectors" },
+      ],
+    },
   ];
 
   const physicsLinkers = [

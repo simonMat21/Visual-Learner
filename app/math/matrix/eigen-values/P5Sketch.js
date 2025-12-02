@@ -459,6 +459,9 @@ export default function P5Sketch({ k1, k2, t }) {
           trace = calculateTrace(matrix);
           eigenvalues = calculateEigenvalues(matrix);
           characteristicPoly = getCharacteristicPolynomial(matrix);
+
+          // Force redraw to show new results
+          P.redraw();
         }
 
         function generateMatrix() {

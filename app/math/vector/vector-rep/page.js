@@ -132,120 +132,169 @@ Repeat n times:
 
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
-        {/* Algorithm Info */}
+        {/* Title */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Bubble Sort
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent mb-2">
+              Vector Representation
             </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
+            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-full px-4 py-2 mt-3 border border-yellow-400/30">
               <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Time: O(n²)
+                <span className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>
+                Position
               </span>
               <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Space: O(1)
+                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
+                X-Component
               </span>
               <span className="flex items-center">
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Stable
+                Y-Component
               </span>
             </div>
           </div>
         </div>
 
-        {/* Description */}
+        {/* What is a Vector */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
             <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💡
+              📐
             </span>
-            How It Works
+            What is a Vector?
           </h2>
           <div className="space-y-4 text-gray-300 leading-relaxed">
             <p className="text-lg">
-              This sorting algorithm compares the adjacent elements and sorts
-              them if they are in the wrong order. It repeats this process{" "}
-              <span className="text-orange-400 font-semibold">n²</span> times
-              for the array to be sorted.
+              A vector is a mathematical object that has both{" "}
+              <span className="text-yellow-400 font-semibold">magnitude</span>{" "}
+              (length) and{" "}
+              <span className="text-orange-400 font-semibold">direction</span>.
+              Unlike a scalar which only has magnitude, vectors represent
+              quantities like velocity, force, and displacement.
             </p>
             <p className="text-lg">
-              It&apos;s called{" "}
-              <span className="text-purple-400 font-semibold">
-                &quot;bubble&quot;
-              </span>{" "}
-              sort because smaller elements slowly &quot;bubble up&quot; to the
-              top (beginning) of the array with each pass, like bubbles rising
-              in water.
+              In the visualization above, you can drag the yellow point to see
+              how the vector changes. The vector is represented by the{" "}
+              <span className="text-yellow-400 font-semibold">yellow arrow</span>{" "}
+              from the origin (0,0) to your point.
             </p>
           </div>
         </div>
 
-        {/* Code Block */}
+        {/* Component Representation */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
             <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
+              🧩
             </span>
-            Implementation
-          </h2>
-          <CodeBlock
-            codeSnippets={codeSnippets}
-            defaultLang="js"
-            height="500px"
-          />
-        </div>
-
-        {/* Detailed Explanation */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
-            Deeper Look
+            Breaking Down Components
           </h2>
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
+            <div className="bg-gradient-to-r from-red-500/10 to-red-500/10 border border-red-500/20 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-red-300 mb-3">
+                X-Component (Horizontal)
+              </h3>
               <p className="text-gray-300 text-lg leading-relaxed">
-                If you take a broader look, it is like taking the biggest
-                element and placing it at the end of the array, then repeating
-                this process until the array is sorted. Bubble Sort is a{" "}
-                <span className="text-green-400 font-semibold">
-                  stable sort
+                The <span className="text-red-400 font-semibold">red arrow</span> shows
+                the horizontal component of the vector. This represents how far
+                the vector extends along the X-axis. It&apos;s calculated as{" "}
+                <span className="font-mono bg-black/30 px-2 py-1 rounded">
+                  x = r × cos(θ)
                 </span>
-                , meaning that elements with equal values maintain their
-                relative order after sorting — important for multi-level sorting
-                (like sorting by grade, then by name).
+                , where r is the magnitude and θ is the angle.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-r from-green-500/10 to-green-500/10 border border-green-500/20 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-green-300 mb-3">
+                Y-Component (Vertical)
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                The <span className="text-green-400 font-semibold">green arrow</span> shows
+                the vertical component of the vector. This represents how far
+                the vector extends along the Y-axis. It&apos;s calculated as{" "}
+                <span className="font-mono bg-black/30 px-2 py-1 rounded">
+                  y = r × sin(θ)
+                </span>
+                , where r is the magnitude and θ is the angle.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Fun Facts */}
+        {/* Magnitude and Angle */}
+        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
+          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
+            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
+              📏
+            </span>
+            Magnitude and Direction
+          </h2>
+          <div className="space-y-6">
+            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-purple-300 mb-3">
+                Magnitude (Length)
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed mb-3">
+                The magnitude of a vector is its length, calculated using the
+                Pythagorean theorem:
+              </p>
+              <div className="font-mono bg-black/30 px-4 py-3 rounded text-center text-lg">
+                |v| = √(x² + y²)
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-cyan-300 mb-3">
+                Direction (Angle)
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed mb-3">
+                The angle θ (theta) is measured counterclockwise from the
+                positive X-axis. It&apos;s calculated using the arctangent function:
+              </p>
+              <div className="font-mono bg-black/30 px-4 py-3 rounded text-center text-lg">
+                θ = arctan(y / x)
+              </div>
+              <p className="text-gray-400 text-sm mt-3">
+                The white arc in the visualization shows this angle from the X-axis
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Key Concepts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
             <h3 className="text-xl font-semibold text-yellow-300 mb-4 flex items-center">
-              🧪 <span className="ml-2">Stress Test</span>
+              🎯 <span className="ml-2">Vector Notation</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is sometimes used in embedded or very low-level
-              testing as a &quot;canary&quot; algorithm to validate a basic
-              sorting function.
+            <p className="text-gray-300 leading-relaxed mb-3">
+              Vectors can be written in multiple ways:
             </p>
+            <ul className="space-y-2 text-gray-300">
+              <li>• <span className="font-mono bg-black/30 px-2 py-1 rounded">(x, y)</span> - Component form</li>
+              <li>• <span className="font-mono bg-black/30 px-2 py-1 rounded">xi + yj</span> - Unit vector notation</li>
+              <li>• <span className="font-mono bg-black/30 px-2 py-1 rounded">r∠θ</span> - Polar form</li>
+            </ul>
           </div>
 
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
             <h3 className="text-xl font-semibold text-cyan-300 mb-4 flex items-center">
-              🧙‍♂️ <span className="ml-2">Variants in Practice</span>
+              🔄 <span className="ml-2">Conversion</span>
             </h3>
             <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is too slow for large datasets. But variants like{" "}
-              <span className="text-cyan-400 font-semibold">
-                Cocktail Shaker Sort
-              </span>
-              (a bidirectional version) are more efficient in some situations.
+              You can convert between component form and polar form:
             </p>
+            <div className="mt-3 space-y-2 text-sm text-gray-300">
+              <div className="font-mono bg-black/30 px-2 py-1 rounded">
+                Cartesian → Polar:<br/>
+                r = √(x² + y²), θ = arctan(y/x)
+              </div>
+              <div className="font-mono bg-black/30 px-2 py-1 rounded">
+                Polar → Cartesian:<br/>
+                x = r×cos(θ), y = r×sin(θ)
+              </div>
+            </div>
           </div>
         </div>
 
