@@ -31,7 +31,7 @@ const AdBanner = ({
         return {
           width: "100%",
           height: "auto",
-          minHeight: "90px",
+          minHeight: "50px",
         };
     }
   };
