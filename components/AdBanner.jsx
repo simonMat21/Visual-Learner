@@ -4,10 +4,10 @@ import { useEffect } from "react";
 
 const AdBanner = ({
   position = "top", // top, bottom, sidebar
-  size = "large", // small, medium, large, responsive
+  size = "responsive", // small, medium, large, responsive
   className = "",
   adSlot,
-  adTest = "off", // Set to "on" for testing
+  adTest = "off", // Set to "on" for testing during development
 }) => {
   const getSizeStyles = () => {
     switch (size) {
@@ -61,7 +61,14 @@ const AdBanner = ({
     } catch (error) {
       console.error("AdBanner error:", error);
     }
-  }, []);
+  }, [adSlot]); // Re-initialize if ad slot changes
+
+  // Warn if ad slot is not provided
+  if (!adSlot) {
+    console.warn(
+      "AdBanner component: No adSlot provided. Please add a valid ad slot ID."
+    );
+  }
 
   return (
     <div className={`${getContainerStyles()} ${className}`}>
@@ -71,18 +78,23 @@ const AdBanner = ({
             Advertisement
           </span>
         </div>
-        <ins
-          className="adsbygoogle"
-          style={{
-            display: "block",
-            ...getSizeStyles(),
-          }}
-          data-ad-client="ca-pub-9246867260344606" // Replace with your publisher ID
-          data-ad-slot={adSlot}
-          data-ad-format={size === "responsive" ? "auto" : "rectangle"}
-          data-full-width-responsive={size === "responsive" ? "true" : "false"}
-          data-adtest={adTest}
-        ></ins>
+        <div className="flex justify-center">
+          <ins
+            className="adsbygoogle"
+            style={{
+              display: "block",
+              textAlign: "center",
+              ...getSizeStyles(),
+            }}
+            data-ad-client="ca-pub-9246867260344606"
+            data-ad-slot={adSlot}
+            data-ad-format={size === "responsive" ? "auto" : "rectangle"}
+            data-full-width-responsive={
+              size === "responsive" ? "true" : "false"
+            }
+            data-adtest={adTest}
+          ></ins>
+        </div>
       </div>
     </div>
   );

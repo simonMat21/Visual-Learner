@@ -133,8 +133,8 @@ export default function Home() {
         <AdBanner
           position="top"
           size="responsive"
-          adSlot="1234567890"
-          adTest="on"
+          adSlot="YOUR_AD_SLOT_ID_1"
+          adTest="off"
         />
       </div>
 
@@ -205,12 +205,12 @@ export default function Home() {
           />
         </div>
 
-        {/* Mid-content Ad */}
-        {/* <AdSense
-          adSlot="0987654321"
+        {/* Mid-content Ad
+        <AdSense
+          adSlot="YOUR_AD_SLOT_ID_2"
           adFormat="rectangle"
-          adTest="on"
-          className="my-8"
+          adTest="off"
+          className="my-8 flex justify-center"
           adStyle={{ width: "336px", height: "280px" }}
           responsive={false}
         /> */}
@@ -268,12 +268,12 @@ export default function Home() {
         </div>
 
         {/* Bottom Banner Ad */}
-        {/* <AdBanner
+        <AdBanner
           position="bottom"
-          size="large"
-          adSlot="5678901234"
-          adTest="on"
-        /> */}
+          size="responsive"
+          adSlot="YOUR_AD_SLOT_ID_3"
+          adTest="off"
+        />
 
         {/* Bottom Spacer */}
         <div className="h-12"></div>
