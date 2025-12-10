@@ -29,12 +29,16 @@ const AdSense = ({
   }
 
   return (
-    <div className={`adsense-container ${className}`}>
+    <div
+      className={`adsense-container w-full ${className}`}
+      style={{ minWidth: "300px" }}
+    >
       <ins
         className="adsbygoogle"
         style={{
           display: "block",
           textAlign: "center",
+          width: adFormat === "auto" ? "100%" : "auto",
           ...adStyle,
         }}
         data-ad-client="ca-pub-9246867260344606"

@@ -72,18 +72,22 @@ const AdBanner = ({
 
   return (
     <div className={`${getContainerStyles()} ${className}`}>
-      <div className="backdrop-blur-sm bg-white/5 border border-white/20 rounded-xl p-4 w-full max-w-full overflow-hidden">
+      <div
+        className="backdrop-blur-sm bg-white/5 border border-white/20 rounded-xl p-4 w-full overflow-hidden"
+        style={{ minWidth: "300px" }}
+      >
         <div className="text-center mb-2">
           <span className="text-xs text-gray-400 uppercase tracking-wider">
             Advertisement
           </span>
         </div>
-        <div className="flex justify-center">
+        <div className="w-full flex justify-center">
           <ins
             className="adsbygoogle"
             style={{
               display: "block",
               textAlign: "center",
+              width: size === "responsive" ? "100%" : "auto",
               ...getSizeStyles(),
             }}
             data-ad-client="ca-pub-9246867260344606"
