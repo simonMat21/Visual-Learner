@@ -9,6 +9,7 @@ import { CodeBlock, TextBox } from "@/components/CodeBlock";
 import PhoneScreenBlock from "@/components/phoneScreenBlocker";
 
 import P5Sketch_linkedList from "./P5Sketch_linkedList";
+import AdBanner from "@/components/AdBanner";
 
 export default function Home() {
   const [AEBool, setAEBool] = useState(true);
@@ -627,6 +628,7 @@ pointers of adjacent nodes`,
 
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
+        <AdBanner position="bottom" size="responsive" adTest="off" />
         {/* Algorithm Info */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-5">

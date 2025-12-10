@@ -6,7 +6,7 @@ const AdBanner = ({
   position = "top", // top, bottom, sidebar
   size = "responsive", // small, medium, large, responsive
   className = "",
-  adSlot,
+  adSlot = "5174363643",
   adTest = "off", // Set to "on" for testing during development
 }) => {
   const getSizeStyles = () => {

@@ -128,18 +128,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Top Banner Ad */}
-      <div className="max-w-6xl mx-auto px-8 mb-12">
-        <AdBanner
-          position="top"
-          size="responsive"
-          adSlot="5174363643"
-          adTest="off"
-        />
-      </div>
-
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
+        <AdBanner position="bottom" size="responsive" adTest="off" />
+
         {/* Algorithm Info */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-6">
@@ -267,12 +259,7 @@ export default function Home() {
         </div>
 
         {/* Bottom Banner Ad */}
-        <AdBanner
-          position="bottom"
-          size="responsive"
-          adSlot="5174363643"
-          adTest="off"
-        />
+        <AdBanner position="bottom" size="responsive" adTest="off" />
 
         {/* Bottom Spacer */}
         <div className="h-12"></div>
