@@ -31,14 +31,15 @@ const AdBanner = ({
         return {
           width: "100%",
           height: "auto",
-          minHeight: "50px",
+          minHeight: "100px",
+          maxHeight: "280px", // Limit maximum height
         };
     }
   };
 
   const getContainerStyles = () => {
     const baseStyles =
-      "ad-banner-container flex justify-center items-center my-4";
+      "ad-banner-container flex justify-center items-center my-4 w-full";
 
     switch (position) {
       case "top":
@@ -73,26 +74,29 @@ const AdBanner = ({
   return (
     <div className={`${getContainerStyles()} ${className}`}>
       <div
-        className="backdrop-blur-sm bg-white/5 border border-white/20 rounded-xl p-4 w-full overflow-hidden"
-        style={{ minWidth: "300px" }}
+        className="relative w-full flex justify-center items-center overflow-hidden"
+        style={{ minHeight: size === "responsive" ? "100px" : "auto" }}
       >
-        <div className="text-center mb-2">
-          <span className="text-xs text-gray-400 uppercase tracking-wider">
-            Advertisement
+        {/* Placeholder text shown behind ad */}
+        <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
+          <span className="text-gray-500 text-sm font-light opacity-30 uppercase tracking-widest border border-gray-500/30 px-2 py-1 rounded">
+            Ad
           </span>
         </div>
-        <div className="w-full flex justify-center">
+
+        {/* Ad container */}
+        <div className="w-full flex justify-center z-10">
           <ins
             className="adsbygoogle"
             style={{
               display: "block",
               textAlign: "center",
-              width: size === "responsive" ? "100%" : "auto",
+              width: "100%",
               ...getSizeStyles(),
             }}
             data-ad-client="ca-pub-9246867260344606"
             data-ad-slot={adSlot}
-            data-ad-format={size === "responsive" ? "auto" : "rectangle"}
+            data-ad-format={size === "responsive" ? "horizontal" : "rectangle"}
             data-full-width-responsive={
               size === "responsive" ? "true" : "false"
             }
