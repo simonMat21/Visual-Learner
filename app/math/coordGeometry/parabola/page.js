@@ -7,6 +7,7 @@ import NumberInput from "@/components/NumberInput";
 
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
 import PhoneScreenBlock from "@/components/phoneScreenBlocker";
+import AdBanner from "@/components/AdBanner";
 
 import P5Sketch from "./P5Sketch";
 
@@ -37,56 +38,6 @@ export default function Home() {
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-          {/* <div className="flex flex-col items-center space-y-6">
-            <NumberInput
-              onSubmit={(arr) => {
-                updateForm(1, "val", arr);
-                updateForm(1, "start", true);
-                setTimeout(() => updateForm(1, "start", false), 10);
-              }}
-            />
-            <div className="flex items-center space-x-4">
-              <Slider
-                value={sliderValue} // Use controlled value
-                min={0.1}
-                max={2}
-                step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K1"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue2} // Use controlled value
-                min={0.2}
-                max={2}
-                step={0.01}
-                onValueChange={(value) => {
-                  setSliderValue2(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="K2"
-                showValue={true}
-              />
-              <Slider
-                value={sliderValue3} // Use controlled value
-                min={0.01}
-                max={0.7}
-                step={0.001}
-                onValueChange={(value) => {
-                  setSliderValue3(value); // Update slider state
-                  setAnimSpd(2 - value[0]); // Update animation speed
-                }}
-                width="w-50"
-                label="t"
-                showValue={true}
-              />
-            </div>
-          </div> */}
           <P5Sketch
             k1={sliderValue[0]}
             k2={sliderValue2[0]}
@@ -97,6 +48,9 @@ export default function Home() {
 
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
+        <AdBanner position="bottom" size="responsive" adTest="off" />
+        <AdBanner position="bottom" size="responsive" adTest="off" />
+
         {/* Algorithm Info */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-6">
@@ -131,7 +85,7 @@ export default function Home() {
                   y = ax² + bx + c
                 </h3>
                 <p className="text-lg">
-                  where a ≠ 0 (if a = 0, it's a line, not a parabola)
+                  where a ≠ 0 (if a = 0, it&apos;s a line, not a parabola)
                 </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -289,7 +243,7 @@ export default function Home() {
                 </p>
                 <p className="text-sm">Perpendicular to axis</p>
                 <p className="text-xs text-gray-400">
-                  Measures "width" at focus
+                  Measures &quot;width&quot; at focus
                 </p>
               </div>
             </div>
@@ -321,7 +275,7 @@ export default function Home() {
                   <ul className="space-y-1 text-sm">
                     <li>• a &gt; 0: opens upward</li>
                     <li>• a &lt; 0: opens downward</li>
-                    <li>• |a| affects "width"</li>
+                    <li>• |a| affects &quot;width&quot;</li>
                     <li>• Relationship: a = 1/(4p)</li>
                   </ul>
                 </div>
@@ -555,6 +509,13 @@ export default function Home() {
             </ul>
           </div>
         </div>
+        {/* Banner Ad */}
+        <AdBanner
+          position="bottom"
+          size="responsive"
+          adTest="off"
+          adSlot="9575932649"
+        />
 
         {/* Bottom Spacer */}
         <div className="h-12"></div>

@@ -7,6 +7,7 @@ import NumberInput from "@/components/NumberInput";
 
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
 import PhoneScreenBlock from "@/components/phoneScreenBlocker";
+import AdBanner from "@/components/AdBanner";
 
 import P5Sketch from "./P5Sketch";
 
@@ -97,6 +98,7 @@ export default function Home() {
 
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
+        <AdBanner position="bottom" size="responsive" adTest="off" />
         {/* Title */}
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
           <div className="text-center mb-6">
@@ -221,7 +223,7 @@ export default function Home() {
               </h3>
               <div className="space-y-3 text-gray-300">
                 <p className="text-center text-lg font-bold">a + b = b + a</p>
-                <p className="text-sm">Order doesn't matter</p>
+                <p className="text-sm">Order doesn&apos;t matter</p>
                 <p className="text-xs text-gray-400">
                   Forms same parallelogram
                 </p>
@@ -236,7 +238,7 @@ export default function Home() {
                 <p className="text-center text-lg font-bold">
                   (a + b) + c = a + (b + c)
                 </p>
-                <p className="text-sm">Grouping doesn't matter</p>
+                <p className="text-sm">Grouping doesn&apos;t matter</p>
                 <p className="text-xs text-gray-400">
                   Can add multiple vectors
                 </p>
@@ -498,6 +500,13 @@ export default function Home() {
             </ul>
           </div>
         </div>
+        {/*Banner Ad */}
+        <AdBanner
+          position="bottom"
+          size="responsive"
+          adTest="off"
+          adSlot="9575932649"
+        />
 
         {/* Bottom Spacer */}
         <div className="h-12"></div>
