@@ -276,6 +276,14 @@ Worst: O(n^2) if all in one bucket
           </div>
         </div>
 
+        {/* Bottom Banner Ad */}
+        <AdBanner
+          position="bottom"
+          size="responsive"
+          adTest="off"
+          adSlot="9575932649"
+        />
+
         {/* Bottom Spacer */}
         <div className="h-12"></div>
       </div>
