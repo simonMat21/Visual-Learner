@@ -170,7 +170,10 @@ export default function Home() {
               </h3>
               <div className="space-y-3 text-gray-300">
                 <p className="text-sm mb-3">
-                  Place the tail of vector <span className="text-purple-400 font-semibold">b</span> at the head of vector <span className="text-purple-400 font-semibold">a</span>
+                  Place the tail of vector{" "}
+                  <span className="text-purple-400 font-semibold">b</span> at
+                  the head of vector{" "}
+                  <span className="text-purple-400 font-semibold">a</span>
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li>• Draw vector a from origin</li>
@@ -187,7 +190,10 @@ export default function Home() {
               </h3>
               <div className="space-y-3 text-gray-300">
                 <p className="text-sm mb-3">
-                  Place both vectors at the <span className="text-cyan-400 font-semibold">same origin</span>
+                  Place both vectors at the{" "}
+                  <span className="text-cyan-400 font-semibold">
+                    same origin
+                  </span>
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li>• Draw both vectors from origin</li>
@@ -227,7 +233,9 @@ export default function Home() {
                 Associative
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">(a + b) + c = a + (b + c)</p>
+                <p className="text-center text-lg font-bold">
+                  (a + b) + c = a + (b + c)
+                </p>
                 <p className="text-sm">Grouping doesn't matter</p>
                 <p className="text-xs text-gray-400">
                   Can add multiple vectors
@@ -242,9 +250,7 @@ export default function Home() {
               <div className="space-y-3 text-gray-300">
                 <p className="text-center text-lg font-bold">a + 0 = a</p>
                 <p className="text-sm">Zero vector is identity</p>
-                <p className="text-xs text-gray-400">
-                  0 = (0, 0, 0, ...)
-                </p>
+                <p className="text-xs text-gray-400">0 = (0, 0, 0, ...)</p>
               </div>
             </div>
           </div>
@@ -285,7 +291,8 @@ export default function Home() {
                 </h3>
                 <div className="space-y-3 text-gray-300">
                   <p className="text-sm">
-                    <span className="text-pink-400 font-semibold">a - b:</span> Vector from b to a
+                    <span className="text-pink-400 font-semibold">a - b:</span>{" "}
+                    Vector from b to a
                   </p>
                   <p className="text-sm">Points from second to first</p>
                   <p className="text-xs text-gray-400">Reverse of b - a</p>
@@ -309,7 +316,9 @@ export default function Home() {
                 Definition
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">ca = (ca₁, ca₂, ca₃)</p>
+                <p className="text-center text-lg font-bold">
+                  ca = (ca₁, ca₂, ca₃)
+                </p>
                 <p>
                   <span className="text-green-400 font-semibold">Effect:</span>{" "}
                   Scales magnitude
@@ -374,13 +383,16 @@ export default function Home() {
                 </h3>
                 <div className="space-y-3 text-gray-300">
                   <p className="text-sm">
-                    <span className="text-orange-400 font-semibold">i</span> = (1, 0, 0)
+                    <span className="text-orange-400 font-semibold">i</span> =
+                    (1, 0, 0)
                   </p>
                   <p className="text-sm">
-                    <span className="text-orange-400 font-semibold">j</span> = (0, 1, 0)
+                    <span className="text-orange-400 font-semibold">j</span> =
+                    (0, 1, 0)
                   </p>
                   <p className="text-sm">
-                    <span className="text-orange-400 font-semibold">k</span> = (0, 0, 1)
+                    <span className="text-orange-400 font-semibold">k</span> =
+                    (0, 0, 1)
                   </p>
                   <p className="text-sm mt-3">v = v₁i + v₂j + v₃k</p>
                 </div>
@@ -453,16 +465,16 @@ export default function Home() {
                 corrections and displacement
               </li>
               <li>
-                • <span className="text-emerald-400">Computer Graphics:</span> Object
-                transformations and movement
+                • <span className="text-emerald-400">Computer Graphics:</span>{" "}
+                Object transformations and movement
               </li>
               <li>
-                • <span className="text-emerald-400">Game Development:</span> Character
-                movement and velocity
+                • <span className="text-emerald-400">Game Development:</span>{" "}
+                Character movement and velocity
               </li>
               <li>
-                • <span className="text-emerald-400">Robotics:</span> Path planning
-                and motion control
+                • <span className="text-emerald-400">Robotics:</span> Path
+                planning and motion control
               </li>
               <li>
                 • <span className="text-emerald-400">Engineering:</span> Load

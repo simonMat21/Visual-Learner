@@ -146,9 +146,13 @@ export default function Home() {
                   <p className="text-xs text-gray-400">a &lt; 0: opens down</p>
                 </div>
                 <div className="text-center">
-                  <p className="font-semibold text-green-300">Axis of Symmetry</p>
+                  <p className="font-semibold text-green-300">
+                    Axis of Symmetry
+                  </p>
                   <p className="text-sm">x = -b/(2a)</p>
-                  <p className="text-xs text-gray-400">Vertical line through vertex</p>
+                  <p className="text-xs text-gray-400">
+                    Vertical line through vertex
+                  </p>
                 </div>
               </div>
             </div>
@@ -179,13 +183,18 @@ export default function Home() {
                   (h, k)
                 </p>
                 <p>
-                  <span className="text-cyan-400 font-semibold">Focus:</span> (h, k+p)
+                  <span className="text-cyan-400 font-semibold">Focus:</span>{" "}
+                  (h, k+p)
                 </p>
                 <p>
-                  <span className="text-cyan-400 font-semibold">Directrix:</span> y = k-p
+                  <span className="text-cyan-400 font-semibold">
+                    Directrix:
+                  </span>{" "}
+                  y = k-p
                 </p>
                 <p className="text-sm">
-                  <span className="text-cyan-400">Opens:</span> Up if p &gt; 0, Down if p &lt; 0
+                  <span className="text-cyan-400">Opens:</span> Up if p &gt; 0,
+                  Down if p &lt; 0
                 </p>
               </div>
             </div>
@@ -205,13 +214,18 @@ export default function Home() {
                   (h, k)
                 </p>
                 <p>
-                  <span className="text-green-400 font-semibold">Focus:</span> (h+p, k)
+                  <span className="text-green-400 font-semibold">Focus:</span>{" "}
+                  (h+p, k)
                 </p>
                 <p>
-                  <span className="text-green-400 font-semibold">Directrix:</span> x = h-p
+                  <span className="text-green-400 font-semibold">
+                    Directrix:
+                  </span>{" "}
+                  x = h-p
                 </p>
                 <p className="text-sm">
-                  <span className="text-green-400">Opens:</span> Right if p &gt; 0, Left if p &lt; 0
+                  <span className="text-green-400">Opens:</span> Right if p &gt;
+                  0, Left if p &lt; 0
                 </p>
               </div>
             </div>
@@ -234,10 +248,14 @@ export default function Home() {
               <div className="space-y-3 text-gray-300">
                 <p className="text-center text-lg font-bold">d₁ = d₂</p>
                 <p>
-                  <span className="text-purple-400 font-semibold">Property:</span>{" "}
+                  <span className="text-purple-400 font-semibold">
+                    Property:
+                  </span>{" "}
                   Equal distances
                 </p>
-                <p className="text-sm">Any point on parabola is equidistant from focus and directrix</p>
+                <p className="text-sm">
+                  Any point on parabola is equidistant from focus and directrix
+                </p>
                 <p className="text-xs text-gray-400">Defining property</p>
               </div>
             </div>
@@ -264,11 +282,15 @@ export default function Home() {
               <div className="space-y-3 text-gray-300">
                 <p className="text-center text-lg font-bold">Length = 4|p|</p>
                 <p>
-                  <span className="text-yellow-400 font-semibold">Definition:</span>{" "}
+                  <span className="text-yellow-400 font-semibold">
+                    Definition:
+                  </span>{" "}
                   Chord through focus
                 </p>
                 <p className="text-sm">Perpendicular to axis</p>
-                <p className="text-xs text-gray-400">Measures "width" at focus</p>
+                <p className="text-xs text-gray-400">
+                  Measures "width" at focus
+                </p>
               </div>
             </div>
           </div>
@@ -293,9 +315,7 @@ export default function Home() {
                     y = a(x - h)² + k
                   </p>
                   <p>
-                    <span className="text-pink-400 font-semibold">
-                      Vertex:
-                    </span>{" "}
+                    <span className="text-pink-400 font-semibold">Vertex:</span>{" "}
                     (h, k)
                   </p>
                   <ul className="space-y-1 text-sm">
@@ -363,7 +383,9 @@ export default function Home() {
               <div className="space-y-3 text-gray-300">
                 <p className="text-center text-lg font-bold">y = x²</p>
                 <p>
-                  <span className="text-blue-400 font-semibold">Properties:</span>{" "}
+                  <span className="text-blue-400 font-semibold">
+                    Properties:
+                  </span>{" "}
                   a = 1, p = 1/4
                 </p>
                 <p className="text-sm">Focus: (0, 1/4)</p>
@@ -376,9 +398,13 @@ export default function Home() {
                 General Conic
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">Ax² + Bxy + Cy²...</p>
+                <p className="text-center text-lg font-bold">
+                  Ax² + Bxy + Cy²...
+                </p>
                 <p>
-                  <span className="text-green-400 font-semibold">Parabola if:</span>{" "}
+                  <span className="text-green-400 font-semibold">
+                    Parabola if:
+                  </span>{" "}
                   B² = 4AC
                 </p>
                 <p className="text-sm">Discriminant test</p>
@@ -492,8 +518,8 @@ export default function Home() {
                 motion trajectories
               </li>
               <li>
-                • <span className="text-emerald-400">Engineering:</span> Satellite
-                dishes and antennas
+                • <span className="text-emerald-400">Engineering:</span>{" "}
+                Satellite dishes and antennas
               </li>
               <li>
                 • <span className="text-emerald-400">Architecture:</span> Arches
@@ -504,8 +530,8 @@ export default function Home() {
                 mirrors and reflectors
               </li>
               <li>
-                • <span className="text-emerald-400">Automotive:</span> Headlight
-                reflectors
+                • <span className="text-emerald-400">Automotive:</span>{" "}
+                Headlight reflectors
               </li>
               <li>
                 • <span className="text-emerald-400">Sports:</span> Basketball

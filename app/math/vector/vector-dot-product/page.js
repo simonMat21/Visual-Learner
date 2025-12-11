@@ -181,11 +181,14 @@ export default function Home() {
                   </span>
                 </p>
                 <p>
-                  <span className="text-emerald-400 font-semibold">Meaning:</span>{" "}
+                  <span className="text-emerald-400 font-semibold">
+                    Meaning:
+                  </span>{" "}
                   Magnitude of a times the component of b in direction of a
                 </p>
                 <p className="text-sm">
-                  The dot product measures how much two vectors "point in the same direction"
+                  The dot product measures how much two vectors "point in the
+                  same direction"
                 </p>
               </div>
             </div>
@@ -201,7 +204,9 @@ export default function Home() {
                   </span>
                 </p>
                 <p>
-                  <span className="text-blue-400 font-semibold">Finding angle:</span>
+                  <span className="text-blue-400 font-semibold">
+                    Finding angle:
+                  </span>
                 </p>
                 <p className="text-sm">θ = arccos((a · b) / (|a| |b|))</p>
                 <p className="text-xs text-gray-400">
@@ -228,9 +233,7 @@ export default function Home() {
               <div className="space-y-3 text-gray-300">
                 <p className="text-center text-lg font-bold">a · b = b · a</p>
                 <p className="text-sm">Order doesn't matter</p>
-                <p className="text-xs text-gray-400">
-                  Unlike cross product
-                </p>
+                <p className="text-xs text-gray-400">Unlike cross product</p>
               </div>
             </div>
 
@@ -239,11 +242,11 @@ export default function Home() {
                 Distributive
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">a · (b + c) = a · b + a · c</p>
-                <p className="text-sm">Distributes over addition</p>
-                <p className="text-xs text-gray-400">
-                  Very useful property
+                <p className="text-center text-lg font-bold">
+                  a · (b + c) = a · b + a · c
                 </p>
+                <p className="text-sm">Distributes over addition</p>
+                <p className="text-xs text-gray-400">Very useful property</p>
               </div>
             </div>
 
@@ -252,7 +255,9 @@ export default function Home() {
                 Scalar Multiplication
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">(ca) · b = c(a · b)</p>
+                <p className="text-center text-lg font-bold">
+                  (ca) · b = c(a · b)
+                </p>
                 <p className="text-sm">Scalar can be factored out</p>
                 <p className="text-xs text-gray-400">
                   Also: a · (cb) = c(a · b)
@@ -278,8 +283,8 @@ export default function Home() {
               <div className="space-y-3 text-gray-300">
                 <p className="text-center text-lg font-bold">a · b = 0</p>
                 <p>
-                  <span className="text-yellow-400 font-semibold">When:</span>{" "}
-                  θ = 90°
+                  <span className="text-yellow-400 font-semibold">When:</span> θ
+                  = 90°
                 </p>
                 <p className="text-sm">Orthogonal vectors</p>
                 <p className="text-xs text-gray-400">cos(90°) = 0</p>
@@ -291,13 +296,17 @@ export default function Home() {
                 Parallel Vectors
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">a · b = ±|a| |b|</p>
+                <p className="text-center text-lg font-bold">
+                  a · b = ±|a| |b|
+                </p>
                 <p>
-                  <span className="text-green-400 font-semibold">When:</span>{" "}
-                  θ = 0° or 180°
+                  <span className="text-green-400 font-semibold">When:</span> θ
+                  = 0° or 180°
                 </p>
                 <p className="text-sm">+ for same direction</p>
-                <p className="text-xs text-gray-400">− for opposite direction</p>
+                <p className="text-xs text-gray-400">
+                  − for opposite direction
+                </p>
               </div>
             </div>
 
@@ -352,9 +361,7 @@ export default function Home() {
                 </h3>
                 <div className="space-y-3 text-gray-300">
                   <p>
-                    <span className="text-pink-400 font-semibold">
-                      Test:
-                    </span>
+                    <span className="text-pink-400 font-semibold">Test:</span>
                   </p>
                   <p className="text-sm">If a · b = 0, then perpendicular</p>
                   <ul className="space-y-1 text-sm mt-3">
@@ -389,12 +396,16 @@ export default function Home() {
               <div className="text-center">
                 <p className="font-semibold text-red-300">θ = 0°</p>
                 <p className="text-sm">Maximum work</p>
-                <p className="text-xs text-gray-400">Force in direction of motion</p>
+                <p className="text-xs text-gray-400">
+                  Force in direction of motion
+                </p>
               </div>
               <div className="text-center">
                 <p className="font-semibold text-orange-300">θ = 90°</p>
                 <p className="text-sm">Zero work</p>
-                <p className="text-xs text-gray-400">Force perpendicular to motion</p>
+                <p className="text-xs text-gray-400">
+                  Force perpendicular to motion
+                </p>
               </div>
               <div className="text-center">
                 <p className="font-semibold text-yellow-300">θ = 180°</p>
@@ -413,24 +424,24 @@ export default function Home() {
             </h3>
             <ul className="text-gray-300 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Computer Graphics:</span> Lighting
-                and shading calculations
+                • <span className="text-emerald-400">Computer Graphics:</span>{" "}
+                Lighting and shading calculations
               </li>
               <li>
-                • <span className="text-emerald-400">Physics:</span> Work, energy,
-                and power calculations
+                • <span className="text-emerald-400">Physics:</span> Work,
+                energy, and power calculations
               </li>
               <li>
-                • <span className="text-emerald-400">Machine Learning:</span> Similarity
-                measures, cosine similarity
+                • <span className="text-emerald-400">Machine Learning:</span>{" "}
+                Similarity measures, cosine similarity
               </li>
               <li>
-                • <span className="text-emerald-400">Game Development:</span> Collision
-                detection, AI behavior
+                • <span className="text-emerald-400">Game Development:</span>{" "}
+                Collision detection, AI behavior
               </li>
               <li>
-                • <span className="text-emerald-400">Signal Processing:</span> Correlation
-                and filtering
+                • <span className="text-emerald-400">Signal Processing:</span>{" "}
+                Correlation and filtering
               </li>
             </ul>
           </div>

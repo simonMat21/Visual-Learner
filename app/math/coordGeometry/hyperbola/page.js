@@ -131,14 +131,17 @@ export default function Home() {
                   Ax² - Cy² + Dx + Ey + F = 0
                 </h3>
                 <p className="text-lg">
-                  where A ≠ 0, C ≠ 0, and A and C have opposite signs for a real hyperbola.
+                  where A ≠ 0, C ≠ 0, and A and C have opposite signs for a real
+                  hyperbola.
                 </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div className="text-center">
                   <p className="font-semibold text-red-300">Center</p>
                   <p className="text-sm">(-D/(2A), -E/(2C))</p>
-                  <p className="text-xs text-gray-400">h = -D/(2A), k = -E/(2C)</p>
+                  <p className="text-xs text-gray-400">
+                    h = -D/(2A), k = -E/(2C)
+                  </p>
                 </div>
                 <div className="text-center">
                   <p className="font-semibold text-orange-300">Semi-axes</p>
@@ -179,11 +182,14 @@ export default function Home() {
                   (h, k)
                 </p>
                 <p>
-                  <span className="text-orange-400 font-semibold">Vertices:</span>{" "}
+                  <span className="text-orange-400 font-semibold">
+                    Vertices:
+                  </span>{" "}
                   (h±a, k)
                 </p>
                 <p>
-                  <span className="text-orange-400 font-semibold">Foci:</span> (h±c, k)
+                  <span className="text-orange-400 font-semibold">Foci:</span>{" "}
+                  (h±c, k)
                 </p>
                 <p className="text-sm text-gray-400">where c² = a² + b²</p>
               </div>
@@ -208,7 +214,8 @@ export default function Home() {
                   (h, k±a)
                 </p>
                 <p>
-                  <span className="text-blue-400 font-semibold">Foci:</span> (h, k±c)
+                  <span className="text-blue-400 font-semibold">Foci:</span> (h,
+                  k±c)
                 </p>
                 <p className="text-sm text-gray-400">where c² = a² + b²</p>
               </div>
@@ -230,11 +237,13 @@ export default function Home() {
                 Eccentricity (e)
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">e = √(1 + b²/a²)</p>
+                <p className="text-center text-lg font-bold">
+                  e = √(1 + b²/a²)
+                </p>
                 <p className="text-sm">or e = c/a</p>
                 <p>
-                  <span className="text-green-400 font-semibold">Range:</span>{" "}
-                  e &gt; 1
+                  <span className="text-green-400 font-semibold">Range:</span> e
+                  &gt; 1
                 </p>
                 <p className="text-xs text-gray-400">
                   Always greater than 1 for hyperbolas
@@ -250,10 +259,12 @@ export default function Home() {
                 <p className="text-center text-lg font-bold">c = √(a² + b²)</p>
                 <p className="text-sm">Distance from center to focus</p>
                 <p>
-                  <span className="text-yellow-400 font-semibold">Note:</span>{" "}
-                  c &gt; a always
+                  <span className="text-yellow-400 font-semibold">Note:</span> c
+                  &gt; a always
                 </p>
-                <p className="text-xs text-gray-400">Unlike ellipse where c &lt; a</p>
+                <p className="text-xs text-gray-400">
+                  Unlike ellipse where c &lt; a
+                </p>
               </div>
             </div>
 
@@ -357,7 +368,9 @@ export default function Home() {
                 Centered at Origin
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">x²/a² - y²/b² = 1</p>
+                <p className="text-center text-lg font-bold">
+                  x²/a² - y²/b² = 1
+                </p>
                 <p>
                   <span className="text-green-400 font-semibold">Center:</span>{" "}
                   (0, 0)
@@ -372,13 +385,19 @@ export default function Home() {
                 Conjugate Hyperbola
               </h3>
               <div className="space-y-3 text-gray-300">
-                <p className="text-center text-lg font-bold">-x²/a² + y²/b² = 1</p>
+                <p className="text-center text-lg font-bold">
+                  -x²/a² + y²/b² = 1
+                </p>
                 <p>
-                  <span className="text-yellow-400 font-semibold">Property:</span>{" "}
+                  <span className="text-yellow-400 font-semibold">
+                    Property:
+                  </span>{" "}
                   Swapped axes
                 </p>
                 <p className="text-sm">Same asymptotes</p>
-                <p className="text-xs text-gray-400">Perpendicular transverse axes</p>
+                <p className="text-xs text-gray-400">
+                  Perpendicular transverse axes
+                </p>
               </div>
             </div>
           </div>
@@ -433,16 +452,16 @@ export default function Home() {
             </h3>
             <ul className="text-gray-300 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Navigation:</span> LORAN and GPS
-                positioning systems
+                • <span className="text-emerald-400">Navigation:</span> LORAN
+                and GPS positioning systems
               </li>
               <li>
                 • <span className="text-emerald-400">Physics:</span> Particle
                 trajectories and orbits
               </li>
               <li>
-                • <span className="text-emerald-400">Architecture:</span> Cooling
-                towers and structural design
+                • <span className="text-emerald-400">Architecture:</span>{" "}
+                Cooling towers and structural design
               </li>
               <li>
                 • <span className="text-emerald-400">Optics:</span> Hyperbolic
