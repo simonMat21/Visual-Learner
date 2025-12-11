@@ -2,8 +2,9 @@
 
 import React, { useRef, useEffect } from "react";
 
-export default function P5Sketch() {
+export default function P5Sketch({ functionStr }) {
   const sketchRef = useRef(null);
+  const myP5Ref = useRef(null);
 
   useEffect(() => {
     // Dynamically import p5 only on the client
@@ -29,11 +30,41 @@ export default function P5Sketch() {
         function makeFunction(equationStr) {
           // Whitelist of allowed Math functions
           const mathFuncs = [
-            "abs", "acos", "acosh", "asin", "asinh", "atan", "atan2", "atanh",
-            "cbrt", "ceil", "clz32", "cos", "cosh", "exp", "expm1", "floor",
-            "fround", "hypot", "imul", "log", "log10", "log1p", "log2", "max",
-            "min", "pow", "random", "round", "sign", "sin", "sinh", "sqrt",
-            "tan", "tanh", "trunc",
+            "abs",
+            "acos",
+            "acosh",
+            "asin",
+            "asinh",
+            "atan",
+            "atan2",
+            "atanh",
+            "cbrt",
+            "ceil",
+            "clz32",
+            "cos",
+            "cosh",
+            "exp",
+            "expm1",
+            "floor",
+            "fround",
+            "hypot",
+            "imul",
+            "log",
+            "log10",
+            "log1p",
+            "log2",
+            "max",
+            "min",
+            "pow",
+            "random",
+            "round",
+            "sign",
+            "sin",
+            "sinh",
+            "sqrt",
+            "tan",
+            "tanh",
+            "trunc",
           ];
 
           // Create a string like: const {sin, cos, log, ...} = Math;
@@ -73,7 +104,8 @@ export default function P5Sketch() {
             P.strokeWeight(1);
 
             // Vertical grid lines (parallel to y-axis)
-            let gridSpacingX = (scaleLenX[1] - 20) / ((xVal[1] - origin) / div[0]);
+            let gridSpacingX =
+              (scaleLenX[1] - 20) / ((xVal[1] - origin) / div[0]);
             for (let i = 1; i <= P.floor((xVal[1] - origin) / div[0]); i++) {
               let x = posX + i * gridSpacingX;
               P.line(x, posY - scaleLenY[0], x, posY + scaleLenY[1]);
@@ -207,12 +239,20 @@ export default function P5Sketch() {
             P.noFill();
 
             for (let i = 0; i < screenPoints.length - 1; i++) {
-              P.line(
-                screenPoints[i][0],
-                screenPoints[i][1],
-                screenPoints[i + 1][0],
-                screenPoints[i + 1][1]
-              );
+              // Check for NaN values before drawing
+              if (
+                Number.isFinite(screenPoints[i][0]) &&
+                Number.isFinite(screenPoints[i][1]) &&
+                Number.isFinite(screenPoints[i + 1][0]) &&
+                Number.isFinite(screenPoints[i + 1][1])
+              ) {
+                P.line(
+                  screenPoints[i][0],
+                  screenPoints[i][1],
+                  screenPoints[i + 1][0],
+                  screenPoints[i + 1][1]
+                );
+              }
             }
           }
 
@@ -221,7 +261,13 @@ export default function P5Sketch() {
             P.noStroke();
             P.fill(color[0], color[1], color[2]);
             for (let i = 0; i < screenPoints.length; i++) {
-              P.circle(screenPoints[i][0], screenPoints[i][1], pointSize);
+              // Check for NaN values before drawing
+              if (
+                Number.isFinite(screenPoints[i][0]) &&
+                Number.isFinite(screenPoints[i][1])
+              ) {
+                P.circle(screenPoints[i][0], screenPoints[i][1], pointSize);
+              }
             }
           }
 
@@ -274,7 +320,10 @@ export default function P5Sketch() {
           P.line(screenStartX, screenStartY, screenEndX, screenEndY);
 
           // Calculate arrow head
-          let angle = P.atan2(screenEndY - screenStartY, screenEndX - screenStartX);
+          let angle = P.atan2(
+            screenEndY - screenStartY,
+            screenEndX - screenStartX
+          );
           let arrowLength = arrowSize;
           let arrowAngle = P.PI / 6; // 30 degrees
 
@@ -286,7 +335,14 @@ export default function P5Sketch() {
 
           // Draw arrow head as a triangle
           P.noStroke();
-          P.triangle(screenEndX, screenEndY, arrowX1, arrowY1, arrowX2, arrowY2);
+          P.triangle(
+            screenEndX,
+            screenEndY,
+            arrowX1,
+            arrowY1,
+            arrowX2,
+            arrowY2
+          );
 
           P.pop();
         }
@@ -345,13 +401,48 @@ export default function P5Sketch() {
           return [mathX, mathY];
         }
 
-        function getSatisfyingCoordinates(equationStr, xRange, yRange, step = 1) {
+        function getSatisfyingCoordinates(
+          equationStr,
+          xRange,
+          yRange,
+          step = 1
+        ) {
           const mathFuncs = [
-            "abs", "acos", "acosh", "asin", "asinh", "atan", "atan2", "atanh",
-            "cbrt", "ceil", "clz32", "cos", "cosh", "exp", "expm1", "floor",
-            "fround", "hypot", "imul", "log", "log10", "log1p", "log2", "max",
-            "min", "pow", "random", "round", "sign", "sin", "sinh", "sqrt",
-            "tan", "tanh", "trunc",
+            "abs",
+            "acos",
+            "acosh",
+            "asin",
+            "asinh",
+            "atan",
+            "atan2",
+            "atanh",
+            "cbrt",
+            "ceil",
+            "clz32",
+            "cos",
+            "cosh",
+            "exp",
+            "expm1",
+            "floor",
+            "fround",
+            "hypot",
+            "imul",
+            "log",
+            "log10",
+            "log1p",
+            "log2",
+            "max",
+            "min",
+            "pow",
+            "random",
+            "round",
+            "sign",
+            "sin",
+            "sinh",
+            "sqrt",
+            "tan",
+            "tanh",
+            "trunc",
           ];
 
           const mathScope = `const { ${mathFuncs.join(", ")} } = Math;`;
@@ -388,10 +479,30 @@ export default function P5Sketch() {
           let points = [];
           for (let x = start; x <= stop; x += div) {
             let y = func(x);
-            points.push([x, y]);
+            // Only add points with valid y values
+            if (Number.isFinite(y)) {
+              points.push([x, y]);
+            }
           }
           return points;
         }
+
+        P.updateFunction = (newStr) => {
+          try {
+            f1 = makeFunction(newStr);
+            p = getFunCordinates(
+              f1,
+              [scaleParameters.xVal[0], scaleParameters.xVal[1]],
+              0.01
+            );
+          } catch (e) {
+            // Silently handle invalid function input
+            // Clear points array to prevent drawing with invalid data
+            p = [];
+            // Set f1 to a safe default function
+            f1 = () => NaN;
+          }
+        };
 
         P.setup = () => {
           P.createCanvas(1000, 500);
@@ -399,13 +510,14 @@ export default function P5Sketch() {
           scaleParameters.scaleLenX = [P.width / 2, P.width / 2];
           scaleParameters.scaleLenY = [P.height / 2, P.height / 2];
 
-          f1 = makeFunction("floor(x)"); // Example function: f(x) = 5^x - 2x + 3
+          // Initial function
+          f1 = makeFunction("sin(x)");
 
           p = getFunCordinates(
             f1,
             [scaleParameters.xVal[0], scaleParameters.xVal[1]],
             0.01
-          ); // Generate points for the function
+          );
         };
 
         P.draw = () => {
@@ -418,44 +530,94 @@ export default function P5Sketch() {
           // Plot the sine function
           plotPoints(p, scaleParameters, "line", [255, 100, 100], 2, 4);
 
-          // Draw example vector
-          drawVector(
-            [
-              [0, 0],
-              [2, 3],
-            ],
-            scaleParameters,
-            [255, 255, 0],
-            3,
-            12
-          );
+          // Hover effect
+          let adjustedMouseX = P.mouseX - P.width / 2;
+          let adjustedMouseY = P.mouseY - P.height / 2;
 
-          // Example: Place a circle at mathematical coordinate (3, 2)
-          let [screenX, screenY] = getScreenPosition(3, 2, scaleParameters);
-          P.push();
-          P.fill(0, 255, 255); // Cyan color
-          P.noStroke();
-          P.circle(screenX, screenY, 8);
-          P.pop();
+          // Check if mouse is inside canvas roughly
+          if (
+            P.mouseX >= 0 &&
+            P.mouseX <= P.width &&
+            P.mouseY >= 0 &&
+            P.mouseY <= P.height
+          ) {
+            let [mathX, _] = getMathPosition(
+              adjustedMouseX,
+              adjustedMouseY,
+              scaleParameters
+            );
 
-          // Example: Place text at mathematical coordinate (-3, -2)
-          let [textX, textY] = getScreenPosition(-3, -2, scaleParameters);
-          P.push();
-          P.fill(255, 255, 255);
-          P.textAlign(P.CENTER, P.CENTER);
-          P.textSize(12);
-          P.text("(-3, -2)", textX, textY);
-          P.pop();
+            try {
+              let mathY = f1(mathX);
+              if (Number.isFinite(mathY)) {
+                let [screenX, screenY] = getScreenPosition(
+                  mathX,
+                  mathY,
+                  scaleParameters
+                );
+
+                // Verify screen coordinates are valid before drawing
+                if (Number.isFinite(screenX) && Number.isFinite(screenY)) {
+                  // Draw point on graph
+                  P.push();
+                  P.stroke(255);
+                  P.strokeWeight(2);
+                  P.fill(255, 0, 0);
+                  P.circle(screenX, screenY, 8);
+
+                  // Draw dashed line to x-axis
+                  P.stroke(255, 255, 255, 100);
+                  P.strokeWeight(1);
+                  P.drawingContext.setLineDash([5, 5]);
+                  let [xAxisX, xAxisY] = getScreenPosition(
+                    mathX,
+                    0,
+                    scaleParameters
+                  );
+                  if (Number.isFinite(xAxisX) && Number.isFinite(xAxisY)) {
+                    P.line(screenX, screenY, xAxisX, xAxisY);
+                  }
+                  P.drawingContext.setLineDash([]);
+
+                  // Draw text
+                  P.noStroke();
+                  P.fill(255);
+                  P.textAlign(P.LEFT, P.BOTTOM);
+                  P.textSize(12);
+                  P.text(
+                    `(${mathX.toFixed(2)}, ${mathY.toFixed(2)})`,
+                    screenX + 10,
+                    screenY - 10
+                  );
+                  P.pop();
+                }
+              }
+            } catch (e) {
+              // ignore errors during hover calculation
+            }
+          }
         };
       };
 
       const myp5 = new p5(sketch, sketchRef.current);
+      myP5Ref.current = myp5;
+
+      // Initial update if prop is provided
+      if (functionStr && myp5.updateFunction) {
+        myp5.updateFunction(functionStr);
+      }
 
       return () => {
         myp5.remove();
       };
     });
   }, []);
+
+  useEffect(() => {
+    if (myP5Ref.current && myP5Ref.current.updateFunction && functionStr) {
+      myP5Ref.current.updateFunction(functionStr);
+    }
+  }, [functionStr]);
 
   return <div ref={sketchRef} />;
 }

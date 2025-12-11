@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 
 import { Slider } from "@/components/ui/slider2";
 import NumberInput from "@/components/NumberInput";
+import { Input } from "@/components/ui/input";
+import { Info } from "lucide-react";
 
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
 import PhoneScreenBlock from "@/components/phoneScreenBlocker";
@@ -18,6 +20,7 @@ export default function Home() {
   const [sliderValue, setSliderValue] = useState([1]); // Add this state
   const [sliderValue2, setSliderValue2] = useState([1]); // Add this state
   const [sliderValue3, setSliderValue3] = useState([0.1]); // Add this state
+  const [functionStr, setFunctionStr] = useState("sin(x)");
 
   const updateForm = (n, key, value) => {
     if (key !== "start" || AEBool) {
@@ -38,7 +41,37 @@ export default function Home() {
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
         <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <label className="block text-sm font-medium text-gray-300">
+                Function Equation (in terms of x)
+              </label>
+              <div className="relative group">
+                <Info className="w-4 h-4 text-gray-400 cursor-help" />
+                <div className="absolute left-0 top-full mt-2 hidden group-hover:block w-64 p-3 bg-gray-900 border border-gray-700 rounded-lg shadow-xl z-50 text-xs text-gray-300">
+                  <p className="font-semibold mb-2 text-blue-300">
+                    Allowed Math Functions:
+                  </p>
+                  <p className="leading-relaxed">
+                    abs, acos, asin, atan, ceil, cos, exp, floor, log, max, min,
+                    pow, random, round, sign, sin, sqrt, tan, trunc
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-300 font-mono text-lg">y =</span>
+              <Input
+                type="text"
+                value={functionStr}
+                onChange={(e) => setFunctionStr(e.target.value)}
+                className="bg-gray-800 border-gray-700 text-white font-mono"
+                placeholder="e.g. sin(x), x*x, floor(x)"
+              />
+            </div>
+          </div>
           <P5Sketch
+            functionStr={functionStr}
             k1={sliderValue[0]}
             k2={sliderValue2[0]}
             t={sliderValue3[0]}
