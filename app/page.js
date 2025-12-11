@@ -143,8 +143,11 @@ export default function Home() {
       color: "from-purple-500 to-pink-500",
       shadowColor: "shadow-purple-500/50",
       links: [
-        { href: "math/matrix/adjm-directed", val: "Matrix Operations" },
+        { href: "math/matrix/basic-calc", val: "Matrix Operations" },
+        { href: "math/matrix/matrix-mult", val: "Matrix Multiplication" },
         { href: "math/matrix/eigen-values", val: "Eigenvalues & Eigenvectors" },
+        { href: "math/matrix/psudo-inverse", val: "Pseudo Inverse" },
+        { href: "math/matrix/SVD", val: "Singular Value Decomposition" },
       ],
     },
   ];
