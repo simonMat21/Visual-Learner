@@ -1,8 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Algorithms");
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const savedTab = localStorage.getItem("activeTab");
+    if (savedTab) {
+      setActiveTab(savedTab);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("activeTab", activeTab);
+    }
+  }, [activeTab, isLoaded]);
 
   const algorithmLinkers = [
     {
@@ -158,8 +173,14 @@ export default function Home() {
       icon: "📈",
       color: "from-orange-500 to-red-500",
       shadowColor: "shadow-orange-500/50",
+      links: [{ href: "physics/damping-function", val: "Damping Function" }],
+    },
+    {
+      title: "Light",
+      icon: "💡",
+      color: "from-yellow-500 to-orange-500",
+      shadowColor: "shadow-yellow-500/50",
       links: [
-        { href: "physics/damping-function", val: "Damping Function" },
         { href: "physics/color-mixing-light", val: "Color Mixing Light" },
         { href: "physics/color-mixing-pigment", val: "Color Mixing Pigment" },
         { href: "physics/light-refraction", val: "Light Refraction" },
