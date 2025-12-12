@@ -3,11 +3,12 @@
 import React, { useRef, useEffect } from "react";
 import { Animator } from "@/components/Animator";
 
-export default function P5Sketch({ dlt, add, srch, animSpd }) {
+export default function P5Sketch({ dlt, add, srch, insert, animSpd }) {
   const sketchRef = useRef(null);
   const deleteRef = useRef(dlt);
   const searchRef = useRef(srch);
   const addRef = useRef(add);
+  const insertRef = useRef(insert);
   const animSpdRef = useRef(animSpd);
 
   useEffect(() => {
@@ -252,25 +253,25 @@ export default function P5Sketch({ dlt, add, srch, animSpd }) {
             }),
             ...(pos !== lastPos
               ? [
-                animator.to(
-                  30,
-                  pos !== 0 && pos !== lastPos
-                    ? [
-                      [
-                        arrows[pos - 1],
-                        arrows[pos - 1].head.x,
-                        arrows[pos - 1].head.y,
-                        255,
-                      ],
-                    ]
-                    : []
-                ),
-                animator.animateFunc(1, () => {
-                  if (pos !== 0) {
-                    arrows[pos - 1].lockToHead = true;
-                  }
-                }),
-              ]
+                  animator.to(
+                    30,
+                    pos !== 0 && pos !== lastPos
+                      ? [
+                          [
+                            arrows[pos - 1],
+                            arrows[pos - 1].head.x,
+                            arrows[pos - 1].head.y,
+                            255,
+                          ],
+                        ]
+                      : []
+                  ),
+                  animator.animateFunc(1, () => {
+                    if (pos !== 0) {
+                      arrows[pos - 1].lockToHead = true;
+                    }
+                  }),
+                ]
               : [animator.animate(20, [[arrows[pos - 1], 0, 0, -255]])]),
             animator.animate(10, [[boxes[pos], 0, 0, -255]]),
             animator.animate(
@@ -323,12 +324,21 @@ export default function P5Sketch({ dlt, add, srch, animSpd }) {
             addRef.current.start = false;
           }
 
+          if (insertRef.current.start) {
+            listOfActions.push({
+              funcName: "add",
+              objArgs: boxes.map((_, i) => i),
+              othArgs: [boxes, [insertRef.current.pos, insertRef.current.val]],
+            });
+            insertRef.current.start = false;
+          }
+
           if (deleteRef.current.start) {
             listOfActions.push({
               funcName: "delete",
               othArgs: [deleteRef.current.pos],
             });
-            addRef.current.start = false;
+            deleteRef.current.start = false;
           }
 
           if (searchRef.current.start) {
@@ -336,7 +346,7 @@ export default function P5Sketch({ dlt, add, srch, animSpd }) {
               funcName: "search",
               othArgs: [searchRef.current.val],
             });
-            addRef.current.start = false;
+            searchRef.current.start = false;
           }
 
           const liveInput = [5, 7, 2, 6, 9]; //inputRef.current;
@@ -391,8 +401,9 @@ export default function P5Sketch({ dlt, add, srch, animSpd }) {
     addRef.current = add;
     deleteRef.current = dlt;
     searchRef.current = srch;
+    insertRef.current = insert;
     animSpdRef.current = animSpd;
-  }, [dlt, add, srch, animSpd]);
+  }, [dlt, add, srch, insert, animSpd]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

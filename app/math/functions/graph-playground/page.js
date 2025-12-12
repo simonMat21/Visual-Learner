@@ -113,11 +113,13 @@ export default function Home() {
                   </h3>
                   <ul className="space-y-2">
                     <li>
-                      • <span className="font-semibold text-white">X-Axis:</span>{" "}
+                      •{" "}
+                      <span className="font-semibold text-white">X-Axis:</span>{" "}
                       The horizontal number line.
                     </li>
                     <li>
-                      • <span className="font-semibold text-white">Y-Axis:</span>{" "}
+                      •{" "}
+                      <span className="font-semibold text-white">Y-Axis:</span>{" "}
                       The vertical number line.
                     </li>
                     <li>

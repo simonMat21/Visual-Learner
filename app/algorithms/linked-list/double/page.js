@@ -44,18 +44,6 @@ export default function Home() {
     }
   };
 
-  const handleArrayInput = (value) => {
-    try {
-      const arr = value
-        .split(",")
-        .map((num) => parseInt(num.trim()))
-        .filter((num) => !isNaN(num));
-      updateForm(1, "val", arr);
-    } catch (error) {
-      console.error("Invalid array input");
-    }
-  };
-
   const codeSnippets = {
     setup: {
       js: `class Node {
@@ -523,13 +511,6 @@ pointers of adjacent nodes`,
   };
 
   const inputs = [
-    {
-      inp: "Enter numbers (e.g., 10,20,30)",
-      btn: "Initialize",
-      x1: 1,
-      x2: "val",
-      isArray: true,
-    },
     { inp: "Enter value to insert", btn: "Insert", x1: 4, x2: "val" },
     { inp: "Enter value to search", btn: "Search", x1: 3, x2: "val" },
     { inp: "Enter position to delete", btn: "Delete", x1: 2, x2: "pos" },
@@ -550,11 +531,7 @@ pointers of adjacent nodes`,
                     className="w-52 inpbox"
                     placeholder={item.inp}
                     onChange={(e) => {
-                      if (item.isArray) {
-                        handleArrayInput(e.target.value);
-                      } else {
-                        updateForm(item.x1, item.x2, Number(e.target.value));
-                      }
+                      updateForm(item.x1, item.x2, Number(e.target.value));
                     }}
                   />
                   <Button
