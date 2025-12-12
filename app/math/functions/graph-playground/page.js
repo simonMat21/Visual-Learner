@@ -277,7 +277,7 @@ export default function Home() {
               walls.
             </p>
             <p className="text-gray-400 italic text-sm">
-              "I think, therefore I am." - René Descartes
+              &quot;I think, therefore I am.&quot; - René Descartes
             </p>
           </div>
         </div>

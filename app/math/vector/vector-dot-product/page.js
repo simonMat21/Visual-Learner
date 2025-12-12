@@ -187,8 +187,8 @@ export default function Home() {
                   Magnitude of a times the component of b in direction of a
                 </p>
                 <p className="text-sm">
-                  The dot product measures how much two vectors "point in the
-                  same direction"
+                  The dot product measures how much two vectors &quot;point in
+                  the same direction&quot;.
                 </p>
               </div>
             </div>
@@ -231,7 +231,7 @@ export default function Home() {
               </h3>
               <div className="space-y-3 text-gray-300">
                 <p className="text-center text-lg font-bold">a · b = b · a</p>
-                <p className="text-sm">Order doesn't matter</p>
+                <p className="text-sm">Order doesn&apos;t matter</p>
                 <p className="text-xs text-gray-400">Unlike cross product</p>
               </div>
             </div>

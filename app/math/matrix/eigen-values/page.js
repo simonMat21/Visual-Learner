@@ -45,7 +45,7 @@ export default function Home() {
               Eigenvalues & Eigenvectors
             </h1>
             <p className="text-gray-300 text-lg">
-              Vectors that don't change direction under transformation.
+              Vectors that don&apos;t change direction under transformation.
             </p>
           </div>
         </div>
