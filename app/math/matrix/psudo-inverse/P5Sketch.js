@@ -266,7 +266,7 @@ export default function P5Sketch({ k1, k2, t }) {
           let maxDim = P.max(rowsA, colsA);
           let inputSize = P.min(50, 280 / maxDim);
 
-          let startXA = 20;
+          let startXA = 50;
           let startY = 120;
 
           for (let i = 0; i < rowsA; i++) {
@@ -407,6 +407,22 @@ export default function P5Sketch({ k1, k2, t }) {
           }
         }
 
+        function HTMLNumberInput(
+          P,
+          defaultValue,
+          [x, y],
+          classN = "w-[35px] text-xs font-bold border-2 border-[#666] bg-white text-black text-center",
+          range = [1, 5]
+        ) {
+          let input = P.createInput(String(defaultValue));
+          input.attribute("type", "number");
+          input.attribute("min", String(range[0]));
+          input.attribute("max", String(range[1]));
+          input.position(x, y);
+          input.class(classN);
+          return input;
+        }
+
         P.setup = () => {
           let cnv = P.createCanvas(1000, 600);
 
@@ -414,39 +430,17 @@ export default function P5Sketch({ k1, k2, t }) {
           labelRowsA.style("color", "white");
           labelRowsA.style("font-weight", "bold");
           labelRowsA.style("font-size", "12px");
-          labelRowsA.position(cnv.position().x + 10, cnv.position().y + 25);
+          labelRowsA.position(40, 20);
 
-          rowsAInput = P.createInput("3");
-          rowsAInput.attribute("type", "number");
-          rowsAInput.attribute("min", "1");
-          rowsAInput.attribute("max", "5");
-          rowsAInput.style("width", "35px");
-          rowsAInput.style("font-size", "12px");
-          rowsAInput.style("font-weight", "bold");
-          rowsAInput.style("border", "2px solid #666");
-          rowsAInput.style("background-color", "#ffffff");
-          rowsAInput.style("color", "#000");
-          rowsAInput.style("text-align", "center");
-          rowsAInput.position(cnv.position().x + 50, cnv.position().y + 20);
+          rowsAInput = HTMLNumberInput(P, 3, [80, 20]);
 
           let labelColsA = P.createDiv("Cols:");
           labelColsA.style("color", "white");
           labelColsA.style("font-weight", "bold");
           labelColsA.style("font-size", "12px");
-          labelColsA.position(cnv.position().x + 95, cnv.position().y + 25);
+          labelColsA.position(125, 20);
 
-          colsAInput = P.createInput("2");
-          colsAInput.attribute("type", "number");
-          colsAInput.attribute("min", "1");
-          colsAInput.attribute("max", "5");
-          colsAInput.style("width", "35px");
-          colsAInput.style("font-size", "12px");
-          colsAInput.style("font-weight", "bold");
-          colsAInput.style("border", "2px solid #666");
-          colsAInput.style("background-color", "#ffffff");
-          colsAInput.style("color", "#000");
-          colsAInput.style("text-align", "center");
-          colsAInput.position(cnv.position().x + 145, cnv.position().y + 20);
+          colsAInput = HTMLNumberInput(P, 2, [165, 20]);
 
           generateButton = P.createButton("Generate Matrix");
           generateButton.style("font-size", "12px");
@@ -459,7 +453,7 @@ export default function P5Sketch({ k1, k2, t }) {
           generateButton.style("font-weight", "bold");
           generateButton.mousePressed(generateMatrices);
           generateButton.position(
-            cnv.position().x + 200,
+            cnv.position().x + 250,
             cnv.position().y + 15
           );
 
@@ -474,7 +468,7 @@ export default function P5Sketch({ k1, k2, t }) {
           calculateButton.style("font-weight", "bold");
           calculateButton.mousePressed(calculatePseudoInverse);
           calculateButton.position(
-            cnv.position().x + 410,
+            cnv.position().x + 400,
             cnv.position().y + 15
           );
 
@@ -502,5 +496,5 @@ export default function P5Sketch({ k1, k2, t }) {
     tref.current = t;
   }, [k1, k2, t]);
 
-  return <div ref={sketchRef} className="canvas-wrapper"></div>;
+  return <div ref={sketchRef} className="canvas-wrapper relative"></div>;
 }

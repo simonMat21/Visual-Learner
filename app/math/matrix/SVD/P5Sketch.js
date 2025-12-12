@@ -34,20 +34,20 @@ export default function P5Sketch({ k1, k2, t }) {
         function computeSVD(mat) {
           const m = mat.length; // rows
           const n = mat[0].length; // cols
-          
+
           // Create A^T A (Gram matrix)
           const AT = transposeMatrix(mat);
           const ATA = multiplyMatrices(AT, mat);
-          
+
           // Find eigenvalues and eigenvectors of A^T A
           const eigenpairs = findEigendecomposition(ATA, n);
-          
+
           // Singular values are sqrt of eigenvalues
-          const singularValues = eigenpairs.map(pair => ({
+          const singularValues = eigenpairs.map((pair) => ({
             value: Math.sqrt(Math.max(0, pair.value)),
-            vector: pair.vector
+            vector: pair.vector,
           }));
-          
+
           // V matrix (eigenvectors of A^T A)
           const V = [];
           for (let j = 0; j < n; j++) {
@@ -56,7 +56,7 @@ export default function P5Sketch({ k1, k2, t }) {
               V[j][i] = singularValues[i].vector[j][0];
             }
           }
-          
+
           // U matrix (computed from A = U Σ V^T)
           const U = [];
           for (let i = 0; i < m; i++) {
@@ -73,7 +73,7 @@ export default function P5Sketch({ k1, k2, t }) {
               }
             }
           }
-          
+
           // Σ matrix (diagonal matrix with singular values)
           const Sigma = [];
           for (let i = 0; i < m; i++) {
@@ -86,12 +86,12 @@ export default function P5Sketch({ k1, k2, t }) {
               }
             }
           }
-          
+
           return {
             U: U.slice(0, m),
             Sigma: Sigma,
             V: V,
-            singularValues: singularValues.map(p => p.value)
+            singularValues: singularValues.map((p) => p.value),
           };
         }
 
@@ -104,11 +104,11 @@ export default function P5Sketch({ k1, k2, t }) {
               matCopy[i][j] = mat[i][j];
             }
           }
-          
+
           for (let k = 0; k < n; k++) {
             const pair = powerIteration(matCopy, n, 50);
             eigenpairs.push(pair);
-            
+
             // Deflate matrix
             if (pair.value > 0.0001) {
               for (let i = 0; i < n; i++) {
@@ -122,7 +122,7 @@ export default function P5Sketch({ k1, k2, t }) {
               }
             }
           }
-          
+
           return eigenpairs;
         }
 
@@ -131,7 +131,7 @@ export default function P5Sketch({ k1, k2, t }) {
           for (let i = 0; i < n; i++) {
             v[i] = [Math.random() + 0.1];
           }
-          
+
           let eigenvalue = 0;
           for (let iter = 0; iter < iterations; iter++) {
             // Av
@@ -142,26 +142,26 @@ export default function P5Sketch({ k1, k2, t }) {
                 Av[i] += mat[i][j] * v[j][0];
               }
             }
-            
+
             // Find norm
             let norm = 0;
             for (let i = 0; i < n; i++) {
               norm += Av[i] * Av[i];
             }
             norm = Math.sqrt(norm);
-            
+
             if (norm < 0.0001) {
               norm = 0.0001;
             }
-            
+
             // Normalize
             for (let i = 0; i < n; i++) {
               v[i][0] = Av[i] / norm;
             }
-            
+
             eigenvalue = norm;
           }
-          
+
           return { value: eigenvalue, vector: v };
         }
 
@@ -223,12 +223,7 @@ export default function P5Sketch({ k1, k2, t }) {
           let newRowsA = parseInt(rowsAInput.value());
           let newColsA = parseInt(colsAInput.value());
 
-          if (
-            newRowsA < 1 ||
-            newRowsA > 5 ||
-            newColsA < 1 ||
-            newColsA > 5
-          ) {
+          if (newRowsA < 1 || newRowsA > 5 || newColsA < 1 || newColsA > 5) {
             alert("Please enter dimensions between 1 and 5");
             return;
           }
@@ -271,7 +266,7 @@ export default function P5Sketch({ k1, k2, t }) {
           let maxDim = P.max(rowsA, colsA);
           let inputSize = P.min(40, 140 / maxDim);
 
-          let startXA = 10;
+          let startXA = 50;
           let startY = 130;
 
           for (let i = 0; i < rowsA; i++) {
@@ -370,12 +365,12 @@ export default function P5Sketch({ k1, k2, t }) {
           } else if (svdResults) {
             // Layout: U | Σ | V^T
             // with A = U Σ V^T shown at bottom
-            
+
             let cellSize = P.min(40, 140 / P.max(rowsA, colsA));
-            
+
             // U matrix position
-            let uX = 10;
-            let uY = 130;
+            let uX = 400;
+            let uY = 230;
             drawMatrixDisplay(
               svdResults.U,
               uX,
@@ -385,7 +380,7 @@ export default function P5Sketch({ k1, k2, t }) {
               Math.min(rowsA, colsA),
               1
             );
-            
+
             // Σ matrix position
             let sigmaX = uX + Math.min(rowsA, colsA) * cellSize + 40;
             let sigmaY = uY;
@@ -398,7 +393,7 @@ export default function P5Sketch({ k1, k2, t }) {
               colsA,
               1
             );
-            
+
             // V^T matrix position (transpose of V for display)
             let vT = transposeMatrix(svdResults.V);
             let vtX = sigmaX + colsA * cellSize + 40;
@@ -412,17 +407,13 @@ export default function P5Sketch({ k1, k2, t }) {
               colsA,
               2
             );
-            
+
             // Show equation at bottom
             P.fill(200, 255, 200);
             P.textSize(10);
             P.textAlign(P.CENTER);
-            P.text(
-              `A = U Σ V^T`,
-              P.width / 2,
-              P.height - 20
-            );
-            
+            P.text(`A = U Σ V^T`, P.width / 2, P.height - 20);
+
             // Show singular values
             P.fill(255, 220, 150);
             P.textSize(8);
@@ -435,15 +426,19 @@ export default function P5Sketch({ k1, k2, t }) {
           }
         }
 
+        function createHTMLText(P, text, x, y) {
+          let label = P.createDiv(text);
+          label.style("color", "white");
+          label.style("font-weight", "bold");
+          label.style("font-size", "12px");
+          label.position(x, y);
+          return label;
+        }
+
         P.setup = () => {
-          let cnv = P.createCanvas(1000, 600);
+          P.createCanvas(1000, 600);
 
-          let labelRowsA = P.createDiv("Rows:");
-          labelRowsA.style("color", "white");
-          labelRowsA.style("font-weight", "bold");
-          labelRowsA.style("font-size", "12px");
-          labelRowsA.position(cnv.position().x + 10, cnv.position().y + 25);
-
+          createHTMLText(P, "Rows:", 30, 20);
           rowsAInput = P.createInput("3");
           rowsAInput.attribute("type", "number");
           rowsAInput.attribute("min", "1");
@@ -455,14 +450,9 @@ export default function P5Sketch({ k1, k2, t }) {
           rowsAInput.style("background-color", "#ffffff");
           rowsAInput.style("color", "#000");
           rowsAInput.style("text-align", "center");
-          rowsAInput.position(cnv.position().x + 50, cnv.position().y + 20);
+          rowsAInput.position(65, 20);
 
-          let labelColsA = P.createDiv("Cols:");
-          labelColsA.style("color", "white");
-          labelColsA.style("font-weight", "bold");
-          labelColsA.style("font-size", "12px");
-          labelColsA.position(cnv.position().x + 95, cnv.position().y + 25);
-
+          createHTMLText(P, "Cols:", 105, 20);
           colsAInput = P.createInput("2");
           colsAInput.attribute("type", "number");
           colsAInput.attribute("min", "1");
@@ -474,7 +464,7 @@ export default function P5Sketch({ k1, k2, t }) {
           colsAInput.style("background-color", "#ffffff");
           colsAInput.style("color", "#000");
           colsAInput.style("text-align", "center");
-          colsAInput.position(cnv.position().x + 145, cnv.position().y + 20);
+          colsAInput.position(140, 20);
 
           generateButton = P.createButton("Generate Matrix");
           generateButton.style("font-size", "12px");
@@ -486,7 +476,7 @@ export default function P5Sketch({ k1, k2, t }) {
           generateButton.style("cursor", "pointer");
           generateButton.style("font-weight", "bold");
           generateButton.mousePressed(generateMatrices);
-          generateButton.position(cnv.position().x + 200, cnv.position().y + 15);
+          generateButton.position(200, 15);
 
           calculateButton = P.createButton("Compute SVD");
           calculateButton.style("font-size", "12px");
@@ -498,7 +488,7 @@ export default function P5Sketch({ k1, k2, t }) {
           calculateButton.style("cursor", "pointer");
           calculateButton.style("font-weight", "bold");
           calculateButton.mousePressed(calculateSVD);
-          calculateButton.position(cnv.position().x + 370, cnv.position().y + 15);
+          calculateButton.position(370, 15);
 
           generateMatrices();
         };
@@ -524,5 +514,5 @@ export default function P5Sketch({ k1, k2, t }) {
     tref.current = t;
   }, [k1, k2, t]);
 
-  return <div ref={sketchRef} className="canvas-wrapper"></div>;
+  return <div ref={sketchRef} className="canvas-wrapper relative"></div>;
 }

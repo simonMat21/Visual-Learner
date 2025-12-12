@@ -215,7 +215,7 @@ export default function P5Sketch({ k1, k2, t }) {
           }
 
           // Create Matrix B inputs
-          let startXB = startXA + colsA * (inputSize + 4) + 100;
+          let startXB = 350;
 
           for (let i = 0; i < rowsB; i++) {
             matrixInputsB[i] = [];
@@ -339,7 +339,7 @@ export default function P5Sketch({ k1, k2, t }) {
           // Matrix B label
           P.textSize(14);
           P.textAlign(P.LEFT);
-          let startXB = 50 + colsA * (inputSize + 4) + 100;
+          let startXB = 50 + colsA * (inputSize + 4) + 150;
           P.fill(255);
           P.text(`Matrix B (${rowsB}×${colsB}):`, startXB - 30, 100);
 
@@ -368,7 +368,7 @@ export default function P5Sketch({ k1, k2, t }) {
             P.text("=", equalsX, equalsY);
 
             // Draw result matrix
-            let resultX = equalsX + 60;
+            let resultX = equalsX + 120;
             let resultY = 150;
             drawMatrixDisplay(
               productMatrix,
@@ -391,85 +391,46 @@ export default function P5Sketch({ k1, k2, t }) {
           }
         }
 
+        function createHTMLText(P, cnv, text, x, y) {
+          let label = P.createDiv(text);
+          label.style("color", "white");
+          label.style("font-weight", "bold");
+          label.style("font-size", "12px");
+          label.position(cnv.position().x + x, cnv.position().y + y);
+          return label;
+        }
+
+        function createHTMLInput(P, cnv, defaultValue, x, y, range = [1, 5]) {
+          let input = P.createInput(defaultValue);
+          input.style("border", "2px solid #666");
+          input.style("background-color", "#ffffff");
+          input.style("color", "#000");
+          input.style("width", "35px");
+          input.style("font-size", "12px");
+          input.style("font-weight", "bold");
+          input.attribute("type", "number");
+          input.attribute("min", String(range[0]));
+          input.attribute("max", String(range[1]));
+          input.style("text-align", "center");
+          input.position(cnv.position().x + x, cnv.position().y + y);
+          return input;
+        }
+
         P.setup = () => {
           let cnv = P.createCanvas(1000, 600);
 
           // Labels for inputs
-          let labelRowsA = P.createDiv("Rows A:");
-          labelRowsA.style("color", "white");
-          labelRowsA.style("font-weight", "bold");
-          labelRowsA.style("font-size", "12px");
-          labelRowsA.position(cnv.position().x + 10, cnv.position().y + 25);
+          createHTMLText(P, cnv, "Rows A:", 30, 20);
+          rowsAInput = createHTMLInput(P, cnv, "2", 75, 20);
 
-          rowsAInput = P.createInput("2");
-          rowsAInput.attribute("type", "number");
-          rowsAInput.attribute("min", "1");
-          rowsAInput.attribute("max", "5");
-          rowsAInput.style("width", "35px");
-          rowsAInput.style("font-size", "12px");
-          rowsAInput.style("font-weight", "bold");
-          rowsAInput.style("border", "2px solid #666");
-          rowsAInput.style("background-color", "#ffffff");
-          rowsAInput.style("color", "#000");
-          rowsAInput.style("text-align", "center");
-          rowsAInput.position(cnv.position().x + 60, cnv.position().y + 20);
+          createHTMLText(P, cnv, "Cols A:", 130, 20);
+          colsAInput = createHTMLInput(P, cnv, "3", 175, 20);
 
-          let labelColsA = P.createDiv("Cols A:");
-          labelColsA.style("color", "white");
-          labelColsA.style("font-weight", "bold");
-          labelColsA.style("font-size", "12px");
-          labelColsA.position(cnv.position().x + 105, cnv.position().y + 25);
+          createHTMLText(P, cnv, "Rows B:", 310, 20);
+          rowsBInput = createHTMLInput(P, cnv, "3", 355, 20);
 
-          colsAInput = P.createInput("3");
-          colsAInput.attribute("type", "number");
-          colsAInput.attribute("min", "1");
-          colsAInput.attribute("max", "5");
-          colsAInput.style("width", "35px");
-          colsAInput.style("font-size", "12px");
-          colsAInput.style("font-weight", "bold");
-          colsAInput.style("border", "2px solid #666");
-          colsAInput.style("background-color", "#ffffff");
-          colsAInput.style("color", "#000");
-          colsAInput.style("text-align", "center");
-          colsAInput.position(cnv.position().x + 160, cnv.position().y + 20);
-
-          let labelRowsB = P.createDiv("Rows B:");
-          labelRowsB.style("color", "white");
-          labelRowsB.style("font-weight", "bold");
-          labelRowsB.style("font-size", "12px");
-          labelRowsB.position(cnv.position().x + 210, cnv.position().y + 25);
-
-          rowsBInput = P.createInput("3");
-          rowsBInput.attribute("type", "number");
-          rowsBInput.attribute("min", "1");
-          rowsBInput.attribute("max", "5");
-          rowsBInput.style("width", "35px");
-          rowsBInput.style("font-size", "12px");
-          rowsBInput.style("font-weight", "bold");
-          rowsBInput.style("border", "2px solid #666");
-          rowsBInput.style("background-color", "#ffffff");
-          rowsBInput.style("color", "#000");
-          rowsBInput.style("text-align", "center");
-          rowsBInput.position(cnv.position().x + 260, cnv.position().y + 20);
-
-          let labelColsB = P.createDiv("Cols B:");
-          labelColsB.style("color", "white");
-          labelColsB.style("font-weight", "bold");
-          labelColsB.style("font-size", "12px");
-          labelColsB.position(cnv.position().x + 305, cnv.position().y + 25);
-
-          colsBInput = P.createInput("2");
-          colsBInput.attribute("type", "number");
-          colsBInput.attribute("min", "1");
-          colsBInput.attribute("max", "5");
-          colsBInput.style("width", "35px");
-          colsBInput.style("font-size", "12px");
-          colsBInput.style("font-weight", "bold");
-          colsBInput.style("border", "2px solid #666");
-          colsBInput.style("background-color", "#ffffff");
-          colsBInput.style("color", "#000");
-          colsBInput.style("text-align", "center");
-          colsBInput.position(cnv.position().x + 360, cnv.position().y + 20);
+          createHTMLText(P, cnv, "Cols B:", 405, 20);
+          colsBInput = createHTMLInput(P, cnv, "2", 460, 20);
 
           generateButton = P.createButton("Generate Matrices");
           generateButton.style("font-size", "12px");
@@ -482,7 +443,7 @@ export default function P5Sketch({ k1, k2, t }) {
           generateButton.style("font-weight", "bold");
           generateButton.mousePressed(generateMatrices);
           generateButton.position(
-            cnv.position().x + 420,
+            cnv.position().x + P.width - 300,
             cnv.position().y + 15
           );
 
@@ -497,7 +458,7 @@ export default function P5Sketch({ k1, k2, t }) {
           multiplyButton.style("font-weight", "bold");
           multiplyButton.mousePressed(calculateMultiplication);
           multiplyButton.position(
-            cnv.position().x + 630,
+            cnv.position().x + P.width - 150,
             cnv.position().y + 15
           );
 
@@ -534,5 +495,5 @@ export default function P5Sketch({ k1, k2, t }) {
     tref.current = t;
   }, [k1, k2, t]);
 
-  return <div ref={sketchRef} className="canvas-wrapper"></div>;
+  return <div ref={sketchRef} className="canvas-wrapper relative"></div>;
 }

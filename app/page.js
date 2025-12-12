@@ -165,6 +165,15 @@ export default function Home() {
         { href: "math/matrix/SVD", val: "Singular Value Decomposition" },
       ],
     },
+    {
+      title: "Functions",
+      icon: "📈",
+      color: "from-red-500 to-orange-500",
+      shadowColor: "shadow-red-500/50",
+      links: [
+        { href: "math/functions/graph-playground", val: "Graph Playground" },
+      ],
+    },
   ];
 
   const physicsLinkers = [
