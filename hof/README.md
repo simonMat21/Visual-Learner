@@ -1,5 +1,3 @@
-<div align="center">
-
 # 🚀 Algorithm Visualizer
 
 **A modern, interactive web application that brings data structures and algorithms to life through stunning visualizations.**
@@ -7,8 +5,6 @@
 Perfect for students, educators, and developers who want to understand how algorithms work under the hood.
 
 [🌐 **Visit Live Site**](https://visuallearner.org) • [📖 **Documentation**](#-how-to-use) • [🤝 **Contribute**](#-contributing) • [🐛 **Report Bug**](https://github.com/simonMat21/algorithm-visualizer/issues)
-
-</div>
 
 ---
 
