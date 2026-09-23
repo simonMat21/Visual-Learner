@@ -13,9 +13,7 @@ const AdSense = ({
   useEffect(() => {
     try {
       // Initialize AdSense ads - this pushes the ad to be rendered
-      if (typeof window !== "undefined" && window.adsbygoogle) {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (error) {
       console.error("AdSense error:", error);
     }

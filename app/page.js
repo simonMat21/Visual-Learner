@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Algorithms");
@@ -280,7 +281,7 @@ export default function Home() {
               {/* Links Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                 {category.links.map((link, linkIndex) => (
-                  <a href={link.href} key={linkIndex} className="group">
+                  <Link href={`/${link.href}`} key={linkIndex} className="group">
                     <div
                       className={`
                       relative overflow-hidden rounded-xl p-4 sm:p-6 h-28 sm:h-32 
@@ -306,7 +307,7 @@ export default function Home() {
                       {/* Hover glow effect */}
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

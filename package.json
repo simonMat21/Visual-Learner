@@ -11,6 +11,7 @@
   "dependencies": {
     "@radix-ui/react-slider": "^1.3.5",
     "@radix-ui/react-slot": "^1.2.0",
+    "@simonmat21/tideon.js": "^1.0.2",
     "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -19,7 +20,6 @@
     "p5": "^2.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.7.1",
     "react-syntax-highlighter": "^16.1.0",
     "tailwind-merge": "^3.2.0"
   },

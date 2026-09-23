@@ -169,7 +169,7 @@ Repeat log₂(n) times:
           </h2>
           <div className="space-y-4 text-gray-300 leading-relaxed">
             <p className="text-lg">
-              This search algorithm repeatedly reduces the search are by half on
+              This search algorithm repeatedly reduces the search area by half on
               each iteration. Binary search only works on a sorted list. It
               repeats this process{" "}
               <span className="text-orange-400 font-semibold">log₂(n)</span>{" "}

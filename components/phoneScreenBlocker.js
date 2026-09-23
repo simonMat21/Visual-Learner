@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 
 const PhoneScreenBlock = ({
@@ -20,14 +22,8 @@ const PhoneScreenBlock = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Listen for window resize events and manage body scroll
+  // Lock body scroll while the mobile overlay is shown
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-
     // Prevent scrolling when mobile overlay is active
     if (isMobile) {
       document.body.style.overflow = "hidden";
@@ -41,9 +37,8 @@ const PhoneScreenBlock = ({
       document.body.style.height = "";
     }
 
-    // Cleanup event listener and body styles on component unmount
+    // Restore body styles on unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
       document.body.style.overflow = "";
       document.body.style.position = "";
       document.body.style.width = "";

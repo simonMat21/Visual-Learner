@@ -20,38 +20,51 @@ export default function Home() {
   const [sliderValue3, setSliderValue3] = useState([0.1]); // Add this state
 
   const codeSnippets = {
-    c: ``,
-    js: `function bubbleSort(arr) {
-  let n = arr.length;
-  for (let i = 0; i < n - 1; i++) {
-    let swapped = false;
-    for (let j = 0; j < n - 1 - i; j++) {
-      if (arr[j] > arr[j + 1]) {
-        // swap
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-        swapped = true;
-      }
-    }
-    if (!swapped) break;
+    c: `// Subtract vector b from vector a (both of length n)
+void vectorSubtract(const double a[], const double b[], double result[], int n) {
+  for (int i = 0; i < n; i++) {
+    result[i] = a[i] - b[i];
   }
-  return arr;
-}
-`,
-    py: `def greet(name):
-    return "Hello, " + name`,
-    cpp: `std::string greet(std::string name) {
-    return "Hello, " + name;
 }`,
-    idea: `# first loop with i as element
-    # second loop with j as element
-        if j>i:
-            swap their postions
-            
-or
+    js: `// a - b, component by component
+function vectorSubtract(a, b) {
+  if (a.length !== b.length) {
+    throw new Error("Vectors must have the same dimension");
+  }
+  return a.map((ai, i) => ai - b[i]);
+}
 
-Repeat n times:
-    Compare each pair of adjacent items
-    Swap them if they are in the wrong order`,
+// Example: (5, 3) - (2, 4) = (3, -1)
+console.log(vectorSubtract([5, 3], [2, 4]));
+`,
+    py: `def vector_subtract(a, b):
+    if len(a) != len(b):
+        raise ValueError("Vectors must have the same dimension")
+    return [ai - bi for ai, bi in zip(a, b)]
+
+# Example: (5, 3) - (2, 4) = (3, -1)
+print(vector_subtract([5, 3], [2, 4]))`,
+    cpp: `#include <vector>
+#include <stdexcept>
+
+std::vector<double> vectorSubtract(const std::vector<double>& a,
+                                   const std::vector<double>& b) {
+    if (a.size() != b.size())
+        throw std::invalid_argument("Vectors must have the same dimension");
+    std::vector<double> result(a.size());
+    for (size_t i = 0; i < a.size(); i++)
+        result[i] = a[i] - b[i];
+    return result;
+}`,
+    idea: `a - b = a + (-b)
+
+1. Negate b: flip its direction, keep its length
+2. Add -b to a using the head-to-tail rule
+   or, component-wise:
+   (a1 - b1, a2 - b2, ..., an - bn)
+
+Geometrically, a - b is the vector that goes
+from the tip of b to the tip of a.`,
   };
 
   const updateForm = (n, key, value) => {
@@ -166,19 +179,20 @@ Repeat n times:
           </h2>
           <div className="space-y-4 text-gray-300 leading-relaxed">
             <p className="text-lg">
-              This sorting algorithm compares the adjacent elements and sorts
-              them if they are in the wrong order. It repeats this process{" "}
-              <span className="text-orange-400 font-semibold">n²</span> times
-              for the array to be sorted.
+              Subtracting one vector from another is the same as adding its
+              opposite:{" "}
+              <span className="text-orange-400 font-semibold">
+                a − b = a + (−b)
+              </span>
+              . The vector −b has the same length as b but points the other
+              way.
             </p>
             <p className="text-lg">
-              It&apos;s called{" "}
+              In components, you subtract matching entries:{" "}
               <span className="text-purple-400 font-semibold">
-                &quot;bubble&quot;
-              </span>{" "}
-              sort because smaller elements slowly &quot;bubble up&quot; to the
-              top (beginning) of the array with each pass, like bubbles rising
-              in water.
+                (a₁ − b₁, a₂ − b₂, …, aₙ − bₙ)
+              </span>
+              . Both vectors must have the same number of components.
             </p>
           </div>
         </div>
@@ -207,15 +221,14 @@ Repeat n times:
           <div className="space-y-6">
             <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
               <p className="text-gray-300 text-lg leading-relaxed">
-                If you take a broader look, it is like taking the biggest
-                element and placing it at the end of the array, then repeating
-                this process until the array is sorted. Bubble Sort is a{" "}
+                Place a and b tail to tail. The difference{" "}
+                <span className="text-green-400 font-semibold">a − b</span> is
+                the arrow that runs from the tip of b to the tip of a — so
+                b + (a − b) = a. Unlike addition, subtraction is{" "}
                 <span className="text-green-400 font-semibold">
-                  stable sort
+                  not commutative
                 </span>
-                , meaning that elements with equal values maintain their
-                relative order after sorting — important for multi-level sorting
-                (like sorting by grade, then by name).
+                : b − a points the opposite way to a − b, with the same length.
               </p>
             </div>
           </div>
@@ -224,25 +237,27 @@ Repeat n times:
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
             <h3 className="text-xl font-semibold text-yellow-300 mb-4 flex items-center">
-              🧪 <span className="ml-2">Stress Test</span>
+              📍 <span className="ml-2">Displacement</span>
             </h3>
             <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is sometimes used in embedded or very low-level
-              testing as a &quot;canary&quot; algorithm to validate a basic
-              sorting function.
+              If a and b are position vectors of two points, a − b is the
+              displacement from point B to point A, and its length{" "}
+              <span className="text-yellow-400 font-semibold">|a − b|</span> is
+              the distance between them.
             </p>
           </div>
 
           <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
             <h3 className="text-xl font-semibold text-cyan-300 mb-4 flex items-center">
-              🧙‍♂️ <span className="ml-2">Variants in Practice</span>
+              🏃 <span className="ml-2">Relative Velocity</span>
             </h3>
             <p className="text-gray-300 leading-relaxed">
-              Bubble Sort is too slow for large datasets. But variants like{" "}
+              Physics uses subtraction for relative motion: the velocity of A as
+              seen from B is{" "}
               <span className="text-cyan-400 font-semibold">
-                Cocktail Shaker Sort
+                v<sub>A</sub> − v<sub>B</sub>
               </span>
-              (a bidirectional version) are more efficient in some situations.
+              .
             </p>
           </div>
         </div>{" "}

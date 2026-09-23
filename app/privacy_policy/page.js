@@ -4,12 +4,8 @@ import React from "react";
 import Link from "next/link";
 
 const PrivacyPolicy = () => {
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  // Update this whenever the policy text changes.
+  const formattedDate = "December 10, 2025";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 py-12 px-4">

@@ -56,9 +56,7 @@ const AdBanner = ({
   useEffect(() => {
     try {
       // Initialize AdSense ads
-      if (typeof window !== "undefined" && window.adsbygoogle) {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (error) {
       console.error("AdBanner error:", error);
     }

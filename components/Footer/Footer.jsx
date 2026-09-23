@@ -16,34 +16,36 @@ const Footer = () => {
             </div>
             <div className={styles["box1-end"]}>
               <div className={styles["box1-content"]}>
-                <a href="about" className={styles.foottext}>
+                <Link href="/about" className={styles.foottext}>
                   About
-                </a>
+                </Link>
               </div>
 
               <div className={styles["box1-content"]}>
-                <a href="privacy_policy" className={styles.foottext}>
+                <Link href="/privacy_policy" className={styles.foottext}>
                   Privacy Policy
-                </a>
+                </Link>
               </div>
 
               <div className="flex gap-10">
-                <a href="https://instagram.com" target="_blank" rel="noopener">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
                   <Image
                     src="https://cdn.jsdelivr.net/npm/simple-icons@9.21.0/icons/instagram.svg"
-                    alt="icon"
+                    alt="Instagram"
                     width={35}
                     height={30.8}
                     className={styles.imgs}
+                    unoptimized
                   />
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
                   <Image
                     src="https://cdn.jsdelivr.net/npm/simple-icons@9.21.0/icons/linkedin.svg"
-                    alt="icon"
+                    alt="LinkedIn"
                     width={35}
                     height={30.8}
                     className={styles.imgs}
+                    unoptimized
                   />
                 </a>
               </div>

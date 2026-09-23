@@ -9,14 +9,6 @@ export function WebsiteSchema() {
     url: "https://visuallearner.org", // UPDATE with your domain
     description:
       "Interactive visualizations for learning algorithms, data structures, mathematics, and physics.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://visuallearner.org/?search={search_term_string}",
-      },
-      "query-input": "required name=search_term_string",
-    },
   };
 
   return (

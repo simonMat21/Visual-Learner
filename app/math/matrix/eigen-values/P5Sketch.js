@@ -10,7 +10,10 @@ export default function P5Sketch({ k1, k2, t }) {
 
   useEffect(() => {
     // Dynamically import p5 only on the client
+    let p5Instance = null;
+    let cancelled = false;
     import("p5").then((p5Module) => {
+      if (cancelled) return;
       const p5 = p5Module.default;
 
       const sketch = (P) => {
@@ -900,11 +903,12 @@ export default function P5Sketch({ k1, k2, t }) {
       };
 
       const myP5 = new p5(sketch, sketchRef.current);
-
-      return () => {
-        myP5.remove();
-      };
+      p5Instance = myP5;
     });
+    return () => {
+      cancelled = true;
+      p5Instance?.remove();
+    };
   }, []);
 
   useEffect(() => {

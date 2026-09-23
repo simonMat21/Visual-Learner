@@ -77,7 +77,7 @@ export const metadata = {
       "Learn algorithms, data structures, math, and physics through interactive visualizations. Master sorting, searching, graphs, trees, vectors, and more.",
     images: [
       {
-        url: "/og-image.png", // Create this image (1200x630px recommended)
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Visual Learner - Algorithm Visualizations",
