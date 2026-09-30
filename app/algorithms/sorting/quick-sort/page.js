@@ -261,12 +261,37 @@ In-place but not stable`,
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Quick Sort
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Average: O(n log n)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Worst: O(n²)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Space: O(log n)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
@@ -276,7 +301,7 @@ In-place but not stable`,
               }}
             />
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -298,38 +323,13 @@ In-place but not stable`,
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent mb-2">
-              Quick Sort
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-red-400/20 to-orange-400/20 rounded-full px-4 py-2 mt-3 border border-red-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Average: O(n log n)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Worst: O(n²)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-orange-400 rounded-full mr-2"></span>
-                Space: O(log n)
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-red-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              ⚡
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How Quick Sort Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               Quick Sort is a highly efficient divide-and-conquer algorithm that
               works by selecting a &apos;pivot&apos; element and partitioning
@@ -339,22 +339,22 @@ In-place but not stable`,
             <p className="text-lg">The algorithm follows these key steps:</p>
             <ul className="list-disc ml-6 space-y-2">
               <li>
-                <span className="text-red-400 font-semibold">
+                <span className="text-pen-rust font-semibold">
                   Choose Pivot:
                 </span>{" "}
                 Select an element as the pivot (often the last element)
               </li>
               <li>
-                <span className="text-red-400 font-semibold">Partition:</span>{" "}
+                <span className="text-pen-rust font-semibold">Partition:</span>{" "}
                 Rearrange array so elements &lt; pivot are before it, elements
                 &gt; pivot are after
               </li>
               <li>
-                <span className="text-red-400 font-semibold">Recursion:</span>{" "}
+                <span className="text-pen-rust font-semibold">Recursion:</span>{" "}
                 Apply quick sort to the sub-arrays on both sides of the pivot
               </li>
               <li>
-                <span className="text-red-400 font-semibold">Base Case:</span>{" "}
+                <span className="text-pen-rust font-semibold">Base Case:</span>{" "}
                 Single elements or empty arrays are already sorted
               </li>
             </ul>
@@ -362,11 +362,8 @@ In-place but not stable`,
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-orange-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -377,69 +374,66 @@ In-place but not stable`,
         </div>
 
         {/* Performance Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Performance Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-red-300 mb-2">
+            <div className="vl-note vl-note-rust p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
-                  • <span className="text-green-400 font-semibold">Best:</span>{" "}
+                  • <span className="text-pen-green font-semibold">Best:</span>{" "}
                   O(n log n) - balanced partitions
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-yellow-400 font-semibold">
+                  <span className="text-pen-gold font-semibold">
                     Average:
                   </span>{" "}
                   O(n log n)
                 </li>
                 <li>
-                  • <span className="text-red-400 font-semibold">Worst:</span>{" "}
+                  • <span className="text-pen-rust font-semibold">Worst:</span>{" "}
                   O(n²) - already sorted with bad pivot
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Recurrence:
                   </span>{" "}
                   T(n) = T(k) + T(n-k-1) + O(n)
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-green-300 mb-2">
+            <div className="vl-note vl-note-green p-6">
+              <h3 className="vl-h3 mb-2">
                 Space & Properties
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
-                  • <span className="text-green-400 font-semibold">Space:</span>{" "}
+                  • <span className="text-pen-green font-semibold">Space:</span>{" "}
                   O(log n) recursion stack
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-red-400 font-semibold">
+                  <span className="text-pen-rust font-semibold">
                     Not stable:
                   </span>{" "}
                   relative order not preserved
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     In-place:
                   </span>{" "}
                   sorts within original array
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-yellow-400 font-semibold">
+                  <span className="text-pen-gold font-semibold">
                     Cache-friendly:
                   </span>{" "}
                   good locality of reference
@@ -451,48 +445,48 @@ In-place but not stable`,
 
         {/* Pivot Strategies & Optimizations */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-amber-300 mb-4 flex items-center">
-              🎯 <span className="ml-2">Pivot Selection Strategies</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Pivot Selection Strategies</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-amber-400">First/Last element:</span>{" "}
+                • <span className="text-pen-gold">First/Last element:</span>{" "}
                 Simple but can be O(n²)
               </li>
               <li>
-                • <span className="text-amber-400">Random pivot:</span> Avoids
+                • <span className="text-pen-gold">Random pivot:</span> Avoids
                 worst case on sorted data
               </li>
               <li>
-                • <span className="text-amber-400">Median-of-three:</span>{" "}
+                • <span className="text-pen-gold">Median-of-three:</span>{" "}
                 Better performance, less variance
               </li>
               <li>
-                • <span className="text-amber-400">Median-of-medians:</span>{" "}
+                • <span className="text-pen-gold">Median-of-medians:</span>{" "}
                 Guarantees O(n log n) but complex
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-cyan-300 mb-4 flex items-center">
-              🚀 <span className="ml-2">Why Quick Sort is Popular</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Why Quick Sort is Popular</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-cyan-400">Fast in practice:</span> Low
+                • <span className="text-pen-blue">Fast in practice:</span> Low
                 constant factors
               </li>
               <li>
-                • <span className="text-cyan-400">Cache efficient:</span> Good
+                • <span className="text-pen-blue">Cache efficient:</span> Good
                 memory access patterns
               </li>
               <li>
-                • <span className="text-cyan-400">In-place sorting:</span>{" "}
+                • <span className="text-pen-blue">In-place sorting:</span>{" "}
                 Minimal extra memory
               </li>
               <li>
-                • <span className="text-cyan-400">Widely implemented:</span>{" "}
+                • <span className="text-pen-blue">Widely implemented:</span>{" "}
                 Standard library choice
               </li>
             </ul>

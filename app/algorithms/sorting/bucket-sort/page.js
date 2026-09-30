@@ -94,12 +94,37 @@ Worst: O(n^2) if all in one bucket
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Bucket Sort
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Time: O(n + k)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Space: O(n + k)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Stable (if stable sort used in buckets)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
@@ -109,7 +134,7 @@ Worst: O(n^2) if all in one bucket
               }}
             />
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -131,38 +156,13 @@ Worst: O(n^2) if all in one bucket
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent mb-2">
-              Bucket Sort
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-cyan-400/20 to-blue-400/20 rounded-full px-4 py-2 mt-3 border border-cyan-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2"></span>
-                Time: O(n + k)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Space: O(n + k)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Stable (if stable sort used in buckets)
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-cyan-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🪣
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How Bucket Sort Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               Bucket Sort distributes the elements of an array into a number of
               buckets. Each bucket is then sorted individually, either using a
@@ -182,11 +182,8 @@ Worst: O(n^2) if all in one bucket
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -197,32 +194,29 @@ Worst: O(n^2) if all in one bucket
         </div>
 
         {/* Properties & Insights */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📏
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Key Properties & Insights
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-cyan-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Bucket Index Formula
               </h3>
-              <p className="text-lg text-center text-cyan-400 font-bold mb-2">
+              <p className="text-lg text-center text-pen-blue font-bold mb-2">
                 index = ⌊ k × (A[i] - min) / (max - min + 1) ⌋
               </p>
-              <ul className="text-sm text-gray-300 space-y-1">
+              <ul className="text-sm text-ink-2 space-y-1">
                 <li>• k = number of buckets</li>
                 <li>• min, max = range of input</li>
                 <li>• A[i] = element value</li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>• Best: O(n + k) (uniform distribution)</li>
                 <li>• Worst: O(n²) (all elements in one bucket)</li>
                 <li>• Space: O(n + k)</li>
@@ -234,40 +228,40 @@ Worst: O(n^2) if all in one bucket
 
         {/* Applications */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              🔬 <span className="ml-2">Applications</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Applications</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
                 •{" "}
-                <span className="text-emerald-400">Floating point sorting</span>
+                <span className="text-pen-green">Floating point sorting</span>
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Uniformly distributed data
                 </span>
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Histogram-based algorithms
                 </span>
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   External sorting (large datasets)
                 </span>
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-violet-300 mb-4 flex items-center">
-              🧮 <span className="ml-2">Tips & Insights</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Tips & Insights</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>• Choose bucket count based on data distribution</li>
               <li>• Use insertion sort for small buckets</li>
               <li>• Not comparison-based: exploits distribution</li>

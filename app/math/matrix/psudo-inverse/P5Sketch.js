@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import { BOARD } from "@/lib/boardPalette";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
@@ -281,8 +282,8 @@ export default function P5Sketch({ k1, k2, t }) {
               input.style("height", inputSize + "px");
               input.style("font-size", P.min(12, inputSize / 3) + "px");
               input.style("font-weight", "bold");
-              input.style("border", "2px solid #666");
-              input.style("background-color", "#ffffff");
+              input.style("border", "2px solid #7d9088");
+              input.style("background-color", "#f6f2e9");
               input.style("color", "#000");
               input.style("text-align", "center");
               input.style("margin", "0");
@@ -375,7 +376,7 @@ export default function P5Sketch({ k1, k2, t }) {
             let arrowY = 120 + (rowsA * (inputSize + 4)) / 2;
 
             // Draw arrow
-            P.fill(220, 34, 72);
+            P.fill(...BOARD);
             P.textSize(28);
             P.textAlign(P.CENTER, P.CENTER);
             P.text("→", arrowX, arrowY);
@@ -430,7 +431,7 @@ export default function P5Sketch({ k1, k2, t }) {
           let cnv = P.createCanvas(1000, 600);
 
           let labelRowsA = P.createDiv("Rows:");
-          labelRowsA.style("color", "white");
+          labelRowsA.style("color", "#f1ede2");
           labelRowsA.style("font-weight", "bold");
           labelRowsA.style("font-size", "12px");
           labelRowsA.position(40, 20);
@@ -438,7 +439,7 @@ export default function P5Sketch({ k1, k2, t }) {
           rowsAInput = HTMLNumberInput(P, 3, [80, 20]);
 
           let labelColsA = P.createDiv("Cols:");
-          labelColsA.style("color", "white");
+          labelColsA.style("color", "#f1ede2");
           labelColsA.style("font-weight", "bold");
           labelColsA.style("font-size", "12px");
           labelColsA.position(125, 20);
@@ -448,9 +449,9 @@ export default function P5Sketch({ k1, k2, t }) {
           generateButton = P.createButton("Generate Matrix");
           generateButton.style("font-size", "12px");
           generateButton.style("padding", "6px 12px");
-          generateButton.style("color", "white");
-          generateButton.style("background-color", "#007bff");
-          generateButton.style("border", "2px solid #007bff");
+          generateButton.style("color", "#1d2320");
+          generateButton.style("background-color", "#f1ede2");
+          generateButton.style("border", "2px solid #f1ede2");
           generateButton.style("border-radius", "6px");
           generateButton.style("cursor", "pointer");
           generateButton.style("font-weight", "bold");
@@ -463,9 +464,9 @@ export default function P5Sketch({ k1, k2, t }) {
           calculateButton = P.createButton("Compute Pseudo-Inverse");
           calculateButton.style("font-size", "12px");
           calculateButton.style("padding", "6px 12px");
-          calculateButton.style("color", "white");
-          calculateButton.style("background-color", "#28a745");
-          calculateButton.style("border", "2px solid #28a745");
+          calculateButton.style("color", "#f1ede2");
+          calculateButton.style("background-color", "transparent");
+          calculateButton.style("border", "2px solid #7d9088");
           calculateButton.style("border-radius", "6px");
           calculateButton.style("cursor", "pointer");
           calculateButton.style("font-weight", "bold");
@@ -479,7 +480,7 @@ export default function P5Sketch({ k1, k2, t }) {
         };
 
         P.draw = () => {
-          P.background(220, 34, 72);
+          P.background(...BOARD);
 
           drawResults();
         };

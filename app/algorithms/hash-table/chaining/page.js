@@ -399,12 +399,37 @@ Good performance even with many collisions`,
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Chaining Hash Table
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Average: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Worst: O(n)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Space: O(n)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <div className="flex gap-6">
               <div className="flex items-center gap-2">
@@ -460,7 +485,7 @@ Good performance even with many collisions`,
             </div>
 
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -484,38 +509,13 @@ Good performance even with many collisions`,
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent mb-2">
-              Chaining Hash Table
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-emerald-400/20 to-teal-400/20 rounded-full px-4 py-2 mt-3 border border-emerald-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-emerald-400 rounded-full mr-2"></span>
-                Average: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
-                Worst: O(n)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Space: O(n)
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-emerald-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔗
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How Chaining Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               Chaining is a collision resolution technique for hash tables that
               handles collisions by storing multiple elements at the same index
@@ -525,31 +525,31 @@ Good performance even with many collisions`,
             <p className="text-lg">The key advantages of chaining:</p>
             <ul className="list-disc ml-6 space-y-2">
               <li>
-                <span className="text-emerald-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   Simple implementation:
                 </span>{" "}
                 Easy to understand and implement
               </li>
               <li>
-                <span className="text-emerald-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   No clustering:
                 </span>{" "}
                 Collisions don&apos;t affect neighboring slots
               </li>
               <li>
-                <span className="text-emerald-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   Dynamic size:
                 </span>{" "}
                 Chains can grow as needed
               </li>
               <li>
-                <span className="text-emerald-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   Load factor flexibility:
                 </span>{" "}
                 Can exceed 1.0 without major issues
               </li>
               <li>
-                <span className="text-emerald-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   Easy deletion:
                 </span>{" "}
                 No tombstone mechanism needed
@@ -559,11 +559,8 @@ Good performance even with many collisions`,
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-teal-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -574,72 +571,69 @@ Good performance even with many collisions`,
         </div>
 
         {/* Algorithm Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Performance Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-emerald-300 mb-2">
+            <div className="vl-note vl-note-green p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Average Insert:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Average Search:
                   </span>{" "}
                   O(1 + α)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Average Delete:
                   </span>{" "}
                   O(1 + α)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-red-400 font-semibold">
+                  <span className="text-pen-rust font-semibold">
                     Worst case:
                   </span>{" "}
                   O(n) when all keys hash to same slot
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Load Factor Impact
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">α = n/m:</span>{" "}
+                  <span className="text-pen-blue font-semibold">α = n/m:</span>{" "}
                   average chain length
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">α = 0.75:</span>{" "}
+                  <span className="text-pen-blue font-semibold">α = 0.75:</span>{" "}
                   good performance
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">α = 1.0:</span>{" "}
+                  <span className="text-pen-blue font-semibold">α = 1.0:</span>{" "}
                   still acceptable
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     α &gt; 2.0:
                   </span>{" "}
                   consider resizing
@@ -651,57 +645,57 @@ Good performance even with many collisions`,
 
         {/* Advantages & Disadvantages */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              ✅ <span className="ml-2">Advantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Advantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Simple to implement:</span>{" "}
+                • <span className="text-pen-green">Simple to implement:</span>{" "}
                 Straightforward collision handling
               </li>
               <li>
-                • <span className="text-emerald-400">No clustering:</span> Each
+                • <span className="text-pen-green">No clustering:</span> Each
                 slot is independent
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">Flexible load factor:</span>{" "}
+                <span className="text-pen-green">Flexible load factor:</span>{" "}
                 Can exceed 1.0
               </li>
               <li>
-                • <span className="text-emerald-400">Easy deletion:</span> No
+                • <span className="text-pen-green">Easy deletion:</span> No
                 special handling needed
               </li>
               <li>
-                • <span className="text-emerald-400">Memory efficient:</span>{" "}
+                • <span className="text-pen-green">Memory efficient:</span>{" "}
                 Only allocates what&apos;s needed
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-red-300 mb-4 flex items-center">
-              ❌ <span className="ml-2">Disadvantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Disadvantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-red-400">Memory overhead:</span> Extra
+                • <span className="text-pen-rust">Memory overhead:</span> Extra
                 space for pointers
               </li>
               <li>
-                • <span className="text-red-400">Cache performance:</span> Poor
+                • <span className="text-pen-rust">Cache performance:</span> Poor
                 memory locality
               </li>
               <li>
-                • <span className="text-red-400">Dynamic allocation:</span>{" "}
+                • <span className="text-pen-rust">Dynamic allocation:</span>{" "}
                 Runtime memory management
               </li>
               <li>
-                • <span className="text-red-400">Poor worst case:</span> All
+                • <span className="text-pen-rust">Poor worst case:</span> All
                 elements in one chain
               </li>
               <li>
-                • <span className="text-red-400">Pointer dereferencing:</span>{" "}
+                • <span className="text-pen-rust">Pointer dereferencing:</span>{" "}
                 Extra indirection overhead
               </li>
             </ul>

@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
+import { BOARD, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
 
 export default function P5Sketch({ add, srch, animSpd, actionExicutable }) {
   const sketchRef = useRef(null);
@@ -31,12 +32,9 @@ export default function P5Sketch({ add, srch, animSpd, actionExicutable }) {
           }
 
           show() {
-            P.fill(
-              P.map(this.val, box.minVal, box.maxVal, 255, 50),
-              this.opacity
-            );
+            P.fill(tileColor(P, P.map(this.val, box.minVal, box.maxVal, 0, 1), this.opacity));
             P.rect(this.x, this.y, 60);
-            P.fill(255, 105, 0, this.opacity);
+            P.fill(...INK, this.opacity);
             P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
             P.textSize(20);
@@ -57,7 +55,7 @@ export default function P5Sketch({ add, srch, animSpd, actionExicutable }) {
             P.push();
             P.noFill();
             P.strokeWeight(3);
-            P.stroke(0, 0, 255, this.opacity);
+            P.stroke(...HIGHLIGHT, this.opacity);
             P.rect(this.x, this.y, 60);
             P.pop();
           }
@@ -186,7 +184,7 @@ export default function P5Sketch({ add, srch, animSpd, actionExicutable }) {
         let start = false;
         P.draw = () => {
           P.frameRate(60);
-          P.background(220, 34, 72);
+          P.background(...BOARD);
           animator.mainAnimationSequence();
           animator.setDelayMult(animSpdRef.current);
 

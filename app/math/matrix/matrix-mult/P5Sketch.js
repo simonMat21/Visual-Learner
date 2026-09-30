@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import { BOARD } from "@/lib/boardPalette";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
@@ -201,8 +202,8 @@ export default function P5Sketch({ k1, k2, t }) {
               input.style("height", inputSize + "px");
               input.style("font-size", P.min(12, inputSize / 3) + "px");
               input.style("font-weight", "bold");
-              input.style("border", "2px solid #666");
-              input.style("background-color", "#ffffff");
+              input.style("border", "2px solid #7d9088");
+              input.style("background-color", "#f6f2e9");
               input.style("color", "#000");
               input.style("text-align", "center");
               input.style("margin", "0");
@@ -229,8 +230,8 @@ export default function P5Sketch({ k1, k2, t }) {
               input.style("height", inputSize + "px");
               input.style("font-size", P.min(12, inputSize / 3) + "px");
               input.style("font-weight", "bold");
-              input.style("border", "2px solid #666");
-              input.style("background-color", "#ffffff");
+              input.style("border", "2px solid #7d9088");
+              input.style("background-color", "#f6f2e9");
               input.style("color", "#000");
               input.style("text-align", "center");
               input.style("margin", "0");
@@ -336,7 +337,7 @@ export default function P5Sketch({ k1, k2, t }) {
           let signY = 150 + (rowsA * (inputSize + 4)) / 2;
           P.textSize(32);
           P.textAlign(P.CENTER, P.CENTER);
-          P.fill(220, 34, 72);
+          P.fill(...BOARD);
           P.text("×", signX, signY);
 
           // Matrix B label
@@ -365,7 +366,7 @@ export default function P5Sketch({ k1, k2, t }) {
             // Draw equals sign
             let equalsX = P.width / 2;
             let equalsY = 150 + (rowsA * (inputSize + 4)) / 2;
-            P.fill(220, 34, 72);
+            P.fill(...BOARD);
             P.textSize(32);
             P.textAlign(P.CENTER, P.CENTER);
             P.text("=", equalsX, equalsY);
@@ -396,7 +397,7 @@ export default function P5Sketch({ k1, k2, t }) {
 
         function createHTMLText(P, cnv, text, x, y) {
           let label = P.createDiv(text);
-          label.style("color", "white");
+          label.style("color", "#f1ede2");
           label.style("font-weight", "bold");
           label.style("font-size", "12px");
           label.position(cnv.position().x + x, cnv.position().y + y);
@@ -405,8 +406,8 @@ export default function P5Sketch({ k1, k2, t }) {
 
         function createHTMLInput(P, cnv, defaultValue, x, y, range = [1, 5]) {
           let input = P.createInput(defaultValue);
-          input.style("border", "2px solid #666");
-          input.style("background-color", "#ffffff");
+          input.style("border", "2px solid #7d9088");
+          input.style("background-color", "#f6f2e9");
           input.style("color", "#000");
           input.style("width", "35px");
           input.style("font-size", "12px");
@@ -438,9 +439,9 @@ export default function P5Sketch({ k1, k2, t }) {
           generateButton = P.createButton("Generate Matrices");
           generateButton.style("font-size", "12px");
           generateButton.style("padding", "6px 12px");
-          generateButton.style("color", "white");
-          generateButton.style("background-color", "#007bff");
-          generateButton.style("border", "2px solid #007bff");
+          generateButton.style("color", "#1d2320");
+          generateButton.style("background-color", "#f1ede2");
+          generateButton.style("border", "2px solid #f1ede2");
           generateButton.style("border-radius", "6px");
           generateButton.style("cursor", "pointer");
           generateButton.style("font-weight", "bold");
@@ -453,9 +454,9 @@ export default function P5Sketch({ k1, k2, t }) {
           multiplyButton = P.createButton("Calculate Product");
           multiplyButton.style("font-size", "12px");
           multiplyButton.style("padding", "6px 12px");
-          multiplyButton.style("color", "white");
-          multiplyButton.style("background-color", "#28a745");
-          multiplyButton.style("border", "2px solid #28a745");
+          multiplyButton.style("color", "#f1ede2");
+          multiplyButton.style("background-color", "transparent");
+          multiplyButton.style("border", "2px solid #7d9088");
           multiplyButton.style("border-radius", "6px");
           multiplyButton.style("cursor", "pointer");
           multiplyButton.style("font-weight", "bold");
@@ -469,7 +470,7 @@ export default function P5Sketch({ k1, k2, t }) {
         };
 
         P.draw = () => {
-          P.background(220, 34, 72);
+          P.background(...BOARD);
 
           // Update animation
           if (showAnimation) {

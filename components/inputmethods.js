@@ -48,9 +48,9 @@ export class inputMethod_directedAdjMatrix {
     this.inputButton = this.P.createButton("Input Matrix");
     this.inputButton.style("font-size", "16px");
     this.inputButton.style("padding", "10px 20px");
-    this.inputButton.style("color", "white");
-    this.inputButton.style("background-color", "#6c757d");
-    this.inputButton.style("border", "2px solid #6c757d");
+    this.inputButton.style("color", "#f1ede2");
+    this.inputButton.style("background-color", "transparent");
+    this.inputButton.style("border", "2px solid #7d9088");
     this.inputButton.style("border-radius", "8px");
     this.inputButton.style("cursor", "pointer");
     this.inputButton.style("font-weight", "bold");
@@ -61,9 +61,9 @@ export class inputMethod_directedAdjMatrix {
     this.doneButton = this.P.createButton("Done");
     this.doneButton.style("font-size", "14px");
     this.doneButton.style("padding", "8px 16px");
-    this.doneButton.style("color", "white");
-    this.doneButton.style("background-color", "#dc3545");
-    this.doneButton.style("border", "2px solid #dc3545");
+    this.doneButton.style("color", "#f1ede2");
+    this.doneButton.style("background-color", "transparent");
+    this.doneButton.style("border", "2px solid #7d9088");
     this.doneButton.style("border-radius", "6px");
     this.doneButton.style("cursor", "pointer");
     this.doneButton.style("font-weight", "bold");
@@ -88,8 +88,8 @@ export class inputMethod_directedAdjMatrix {
     this.sizeInput.style("-moz-appearance", "textfield");
     this.sizeInput.style("appearance", "textfield");
     this.sizeInput.style("font-weight", "bold");
-    this.sizeInput.style("border", "2px solid #666");
-    this.sizeInput.style("background-color", "#ffffff");
+    this.sizeInput.style("border", "2px solid #7d9088");
+    this.sizeInput.style("background-color", "#f6f2e9");
     this.sizeInput.style("color", "#000");
     this.sizeInput.position(this.baseX + 130, cnv.position().y + 70);
 
@@ -97,9 +97,9 @@ export class inputMethod_directedAdjMatrix {
     this.generateButton = this.P.createButton("Generate Matrix");
     this.generateButton.style("font-size", "14px");
     this.generateButton.style("padding", "8px 16px");
-    this.generateButton.style("color", "white");
-    this.generateButton.style("background-color", "#007bff");
-    this.generateButton.style("border", "2px solid #007bff");
+    this.generateButton.style("color", "#1d2320");
+    this.generateButton.style("background-color", "#f1ede2");
+    this.generateButton.style("border", "2px solid #f1ede2");
     this.generateButton.style("border-radius", "6px");
     this.generateButton.style("cursor", "pointer");
     this.generateButton.style("font-weight", "bold");
@@ -110,9 +110,9 @@ export class inputMethod_directedAdjMatrix {
     this.randomButton = this.P.createButton("Random Graph");
     this.randomButton.style("font-size", "14px");
     this.randomButton.style("padding", "8px 16px");
-    this.randomButton.style("color", "white");
-    this.randomButton.style("background-color", "#28a745");
-    this.randomButton.style("border", "2px solid #28a745");
+    this.randomButton.style("color", "#f1ede2");
+    this.randomButton.style("background-color", "transparent");
+    this.randomButton.style("border", "2px solid #7d9088");
     this.randomButton.style("border-radius", "6px");
     this.randomButton.style("cursor", "pointer");
     this.randomButton.style("font-weight", "bold");
@@ -241,8 +241,8 @@ export class inputMethod_directedAdjMatrix {
         button.style("height", buttonSize + "px");
         button.style("font-size", this.P.min(12, buttonSize / 2.5) + "px");
         button.style("font-weight", "bold");
-        button.style("border", "2px solid #666");
-        button.style("background-color", "#ffffff");
+        button.style("border", "2px solid #7d9088");
+        button.style("background-color", "#f6f2e9");
         button.style("color", "#000");
         button.style("cursor", "pointer");
         button.style("margin", "0");
@@ -300,11 +300,11 @@ export class inputMethod_directedAdjMatrix {
     let button = this.matrixButtons[row][col];
     if (this.matrix[row][col] === 1) {
       button.html("1");
-      button.style("background-color", "#4CAF50");
-      button.style("color", "white");
+      button.style("background-color", "#7fd196");
+      button.style("color", "#1d2320");
     } else {
       button.html("0");
-      button.style("background-color", "#ffffff");
+      button.style("background-color", "#f6f2e9");
       button.style("color", "#000");
     }
   }
@@ -358,7 +358,7 @@ export class inputMethod_directedAdjMatrix {
     if (this.isInputPanelVisible || this.panelOffset > -390) {
       this.P.push();
       this.P.fill(240, 240, 240, 200);
-      this.P.stroke(100);
+      this.P.stroke(150, 165, 157);
       this.P.strokeWeight(2);
       this.P.rect(this.panelOffset, 0, 400, 500);
       this.P.pop();
@@ -409,9 +409,9 @@ export class inputMethod_undirectedAdjMatrix {
     this.inputButton = this.P.createButton("Input Matrix");
     this.inputButton.style("font-size", "16px");
     this.inputButton.style("padding", "10px 20px");
-    this.inputButton.style("color", "white");
-    this.inputButton.style("background-color", "#6c757d");
-    this.inputButton.style("border", "2px solid #6c757d");
+    this.inputButton.style("color", "#f1ede2");
+    this.inputButton.style("background-color", "transparent");
+    this.inputButton.style("border", "2px solid #7d9088");
     this.inputButton.style("border-radius", "8px");
     this.inputButton.style("cursor", "pointer");
     this.inputButton.style("font-weight", "bold");
@@ -422,9 +422,9 @@ export class inputMethod_undirectedAdjMatrix {
     this.doneButton = this.P.createButton("Done");
     this.doneButton.style("font-size", "14px");
     this.doneButton.style("padding", "8px 16px");
-    this.doneButton.style("color", "white");
-    this.doneButton.style("background-color", "#dc3545");
-    this.doneButton.style("border", "2px solid #dc3545");
+    this.doneButton.style("color", "#f1ede2");
+    this.doneButton.style("background-color", "transparent");
+    this.doneButton.style("border", "2px solid #7d9088");
     this.doneButton.style("border-radius", "6px");
     this.doneButton.style("cursor", "pointer");
     this.doneButton.style("font-weight", "bold");
@@ -449,8 +449,8 @@ export class inputMethod_undirectedAdjMatrix {
     this.sizeInput.style("-moz-appearance", "textfield");
     this.sizeInput.style("appearance", "textfield");
     this.sizeInput.style("font-weight", "bold");
-    this.sizeInput.style("border", "2px solid #666");
-    this.sizeInput.style("background-color", "#ffffff");
+    this.sizeInput.style("border", "2px solid #7d9088");
+    this.sizeInput.style("background-color", "#f6f2e9");
     this.sizeInput.style("color", "#000");
     this.sizeInput.position(this.baseX + 130, cnv.position().y + 70);
 
@@ -458,9 +458,9 @@ export class inputMethod_undirectedAdjMatrix {
     this.generateButton = this.P.createButton("Generate Matrix");
     this.generateButton.style("font-size", "14px");
     this.generateButton.style("padding", "8px 16px");
-    this.generateButton.style("color", "white");
-    this.generateButton.style("background-color", "#007bff");
-    this.generateButton.style("border", "2px solid #007bff");
+    this.generateButton.style("color", "#1d2320");
+    this.generateButton.style("background-color", "#f1ede2");
+    this.generateButton.style("border", "2px solid #f1ede2");
     this.generateButton.style("border-radius", "6px");
     this.generateButton.style("cursor", "pointer");
     this.generateButton.style("font-weight", "bold");
@@ -471,9 +471,9 @@ export class inputMethod_undirectedAdjMatrix {
     this.randomButton = this.P.createButton("Random Graph");
     this.randomButton.style("font-size", "14px");
     this.randomButton.style("padding", "8px 16px");
-    this.randomButton.style("color", "white");
-    this.randomButton.style("background-color", "#28a745");
-    this.randomButton.style("border", "2px solid #28a745");
+    this.randomButton.style("color", "#f1ede2");
+    this.randomButton.style("background-color", "transparent");
+    this.randomButton.style("border", "2px solid #7d9088");
     this.randomButton.style("border-radius", "6px");
     this.randomButton.style("cursor", "pointer");
     this.randomButton.style("font-weight", "bold");
@@ -605,8 +605,8 @@ export class inputMethod_undirectedAdjMatrix {
         button.style("height", buttonSize + "px");
         button.style("font-size", this.P.min(12, buttonSize / 2.5) + "px");
         button.style("font-weight", "bold");
-        button.style("border", "2px solid #666");
-        button.style("background-color", "#ffffff");
+        button.style("border", "2px solid #7d9088");
+        button.style("background-color", "#f6f2e9");
         button.style("color", "#000");
         button.style("cursor", "pointer");
         button.style("margin", "0");
@@ -670,11 +670,11 @@ export class inputMethod_undirectedAdjMatrix {
     let button = this.matrixButtons[row][col];
     if (this.matrix[row][col] === 1) {
       button.html("1");
-      button.style("background-color", "#4CAF50");
-      button.style("color", "white");
+      button.style("background-color", "#7fd196");
+      button.style("color", "#1d2320");
     } else {
       button.html("0");
-      button.style("background-color", "#ffffff");
+      button.style("background-color", "#f6f2e9");
       button.style("color", "#000");
     }
   }
@@ -728,7 +728,7 @@ export class inputMethod_undirectedAdjMatrix {
     if (this.isInputPanelVisible || this.panelOffset > -390) {
       this.P.push();
       this.P.fill(240, 240, 240, 200);
-      this.P.stroke(100);
+      this.P.stroke(150, 165, 157);
       this.P.strokeWeight(2);
       this.P.rect(this.panelOffset, 0, 400, 500);
       this.P.pop();
@@ -779,9 +779,9 @@ export class inputMethod_weightedAdjMatrix {
     this.inputButton = this.P.createButton("Input Matrix");
     this.inputButton.style("font-size", "16px");
     this.inputButton.style("padding", "10px 20px");
-    this.inputButton.style("color", "white");
-    this.inputButton.style("background-color", "#6c757d");
-    this.inputButton.style("border", "2px solid #6c757d");
+    this.inputButton.style("color", "#f1ede2");
+    this.inputButton.style("background-color", "transparent");
+    this.inputButton.style("border", "2px solid #7d9088");
     this.inputButton.style("border-radius", "8px");
     this.inputButton.style("cursor", "pointer");
     this.inputButton.style("font-weight", "bold");
@@ -792,9 +792,9 @@ export class inputMethod_weightedAdjMatrix {
     this.doneButton = this.P.createButton("Done");
     this.doneButton.style("font-size", "14px");
     this.doneButton.style("padding", "8px 16px");
-    this.doneButton.style("color", "white");
-    this.doneButton.style("background-color", "#dc3545");
-    this.doneButton.style("border", "2px solid #dc3545");
+    this.doneButton.style("color", "#f1ede2");
+    this.doneButton.style("background-color", "transparent");
+    this.doneButton.style("border", "2px solid #7d9088");
     this.doneButton.style("border-radius", "6px");
     this.doneButton.style("cursor", "pointer");
     this.doneButton.style("font-weight", "bold");
@@ -819,8 +819,8 @@ export class inputMethod_weightedAdjMatrix {
     this.sizeInput.style("-moz-appearance", "textfield");
     this.sizeInput.style("appearance", "textfield");
     this.sizeInput.style("font-weight", "bold");
-    this.sizeInput.style("border", "2px solid #666");
-    this.sizeInput.style("background-color", "#ffffff");
+    this.sizeInput.style("border", "2px solid #7d9088");
+    this.sizeInput.style("background-color", "#f6f2e9");
     this.sizeInput.style("color", "#000");
     this.sizeInput.position(this.baseX + 130, cnv.position().y + 70);
 
@@ -828,9 +828,9 @@ export class inputMethod_weightedAdjMatrix {
     this.generateButton = this.P.createButton("Generate Matrix");
     this.generateButton.style("font-size", "14px");
     this.generateButton.style("padding", "8px 16px");
-    this.generateButton.style("color", "white");
-    this.generateButton.style("background-color", "#007bff");
-    this.generateButton.style("border", "2px solid #007bff");
+    this.generateButton.style("color", "#1d2320");
+    this.generateButton.style("background-color", "#f1ede2");
+    this.generateButton.style("border", "2px solid #f1ede2");
     this.generateButton.style("border-radius", "6px");
     this.generateButton.style("cursor", "pointer");
     this.generateButton.style("font-weight", "bold");
@@ -841,9 +841,9 @@ export class inputMethod_weightedAdjMatrix {
     this.randomButton = this.P.createButton("Random Graph");
     this.randomButton.style("font-size", "14px");
     this.randomButton.style("padding", "8px 16px");
-    this.randomButton.style("color", "white");
-    this.randomButton.style("background-color", "#28a745");
-    this.randomButton.style("border", "2px solid #28a745");
+    this.randomButton.style("color", "#f1ede2");
+    this.randomButton.style("background-color", "transparent");
+    this.randomButton.style("border", "2px solid #7d9088");
     this.randomButton.style("border-radius", "6px");
     this.randomButton.style("cursor", "pointer");
     this.randomButton.style("font-weight", "bold");
@@ -978,8 +978,8 @@ export class inputMethod_weightedAdjMatrix {
         input.style("height", buttonSize + "px");
         input.style("font-size", this.P.min(10, buttonSize / 3) + "px");
         input.style("font-weight", "bold");
-        input.style("border", "2px solid #666");
-        input.style("background-color", "#ffffff");
+        input.style("border", "2px solid #7d9088");
+        input.style("background-color", "#f6f2e9");
         input.style("color", "#000");
         input.style("margin", "0");
         input.style("padding", "2px");
@@ -1045,14 +1045,14 @@ export class inputMethod_weightedAdjMatrix {
     let weight = this.matrix[row][col];
 
     if (weight === 0) {
-      input.style("background-color", "#ffffff");
+      input.style("background-color", "#f6f2e9");
       input.style("color", "#000");
     } else if (weight < 0) {
-      input.style("background-color", "#ff6b6b"); // Red for negative weights
-      input.style("color", "white");
+      input.style("background-color", "#f08068"); // Red for negative weights
+      input.style("color", "#f1ede2");
     } else {
-      input.style("background-color", "#4CAF50"); // Green for positive weights
-      input.style("color", "white");
+      input.style("background-color", "#7fd196"); // Green for positive weights
+      input.style("color", "#f1ede2");
     }
     input.value(weight.toString());
   }
@@ -1106,7 +1106,7 @@ export class inputMethod_weightedAdjMatrix {
     if (this.isInputPanelVisible || this.panelOffset > -390) {
       this.P.push();
       this.P.fill(240, 240, 240, 200);
-      this.P.stroke(100);
+      this.P.stroke(150, 165, 157);
       this.P.strokeWeight(2);
       this.P.rect(this.panelOffset, 0, 400, 500);
       this.P.pop();

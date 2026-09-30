@@ -77,7 +77,7 @@ const AdBanner = ({
       >
         {/* Placeholder text shown behind ad */}
         <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
-          <span className="text-gray-500 text-sm font-light opacity-30 uppercase tracking-widest border border-gray-500/30 px-2 py-1 rounded">
+          <span className="font-mono text-ink-3 text-[10px] opacity-60 uppercase tracking-[0.2em] border border-rule px-2 py-1 rounded">
             Ad
           </span>
         </div>

@@ -41,15 +41,15 @@ export default function NumberInput({
   };
 
   return (
-    <div className=" flex gap-4 mb-5">
-      <Button className="dobtn" onClick={generateRandomArray}>
+    <div className="flex flex-wrap items-center gap-3 mb-5">
+      <Button className="dobtn-secondary" onClick={generateRandomArray}>
         RandomArray
       </Button>
 
       <Input
         placeholder="Enter numbers separated by commas"
         value={input}
-        className="w-70 inpbox"
+        className="w-72 inpbox"
         onChange={(e) => setInput(e.target.value)}
       />
       <Button onClick={handleConvert} className="dobtn">

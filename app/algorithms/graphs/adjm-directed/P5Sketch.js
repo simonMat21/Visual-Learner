@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import { BOARD, CHALK } from "@/lib/boardPalette";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
@@ -101,8 +102,8 @@ export default function P5Sketch({ k1, k2, t }) {
               button.style("height", buttonSize + "px");
               button.style("font-size", P.min(14, buttonSize / 2.5) + "px");
               button.style("font-weight", "bold");
-              button.style("border", "2px solid #666");
-              button.style("background-color", "#ffffff");
+              button.style("border", "2px solid #7d9088");
+              button.style("background-color", "#f6f2e9");
               button.style("color", "#000");
               button.style("cursor", "pointer");
               button.style("margin", "0");
@@ -131,11 +132,11 @@ export default function P5Sketch({ k1, k2, t }) {
           let button = matrixButtons[row][col];
           if (matrix[row][col] === 1) {
             button.html("1");
-            button.style("background-color", "#4CAF50");
-            button.style("color", "white");
+            button.style("background-color", "#7fd196");
+            button.style("color", "#1d2320");
           } else {
             button.html("0");
-            button.style("background-color", "#ffffff");
+            button.style("background-color", "#f6f2e9");
             button.style("color", "#000");
           }
         }
@@ -149,7 +150,7 @@ export default function P5Sketch({ k1, k2, t }) {
         }
 
         function drawGraph() {
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(16);
           P.textAlign(P.LEFT);
           P.noStroke();
@@ -186,7 +187,7 @@ export default function P5Sketch({ k1, k2, t }) {
           }
 
           P.noStroke();
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(14);
           P.textAlign(P.LEFT);
           let edgeCount = 0;
@@ -200,7 +201,7 @@ export default function P5Sketch({ k1, k2, t }) {
           P.text("Edges: " + edgeCount, 600, 440);
           P.text("Directed Graph", 600, 460);
 
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(12);
           P.textAlign(P.CENTER);
           let buttonSize = P.min(40, 300 / matrixSize);
@@ -234,7 +235,7 @@ export default function P5Sketch({ k1, k2, t }) {
             let endX = x2 - dx * nodeRadius;
             let endY = y2 - dy * nodeRadius;
 
-            P.stroke(100);
+            P.stroke(150, 165, 157);
             P.line(startX, startY, endX, endY);
 
             let arrowSize = 10;
@@ -243,7 +244,7 @@ export default function P5Sketch({ k1, k2, t }) {
             P.push();
             P.translate(endX, endY);
             P.rotate(angle);
-            P.fill(100);
+            P.fill(150, 165, 157);
             P.noStroke();
             P.triangle(
               0,
@@ -262,7 +263,7 @@ export default function P5Sketch({ k1, k2, t }) {
           let loopRadius = nodeRadius + 12;
 
           P.push();
-          P.stroke(100);
+          P.stroke(150, 165, 157);
           P.strokeWeight(2);
           P.noFill();
 
@@ -295,7 +296,7 @@ export default function P5Sketch({ k1, k2, t }) {
           P.push();
           P.translate(arrowX, arrowY);
           P.rotate(arrowAngle + P.PI / 1.6); // Tangent to the circle
-          P.fill(100);
+          P.fill(150, 165, 157);
           P.noStroke();
           let arrowSize = 6;
           P.triangle(
@@ -323,17 +324,17 @@ export default function P5Sketch({ k1, k2, t }) {
           sizeInput.style("-moz-appearance", "textfield");
           sizeInput.style("appearance", "textfield");
           sizeInput.style("font-weight", "bold");
-          sizeInput.style("border", "2px solid #666");
-          sizeInput.style("background-color", "#ffffff");
+          sizeInput.style("border", "2px solid #7d9088");
+          sizeInput.style("background-color", "#f6f2e9");
           sizeInput.style("color", "#000");
           sizeInput.position(cnv.position().x + 50, cnv.position().y + 30);
 
           generateButton = P.createButton("Generate Matrix");
           generateButton.style("font-size", "14px");
           generateButton.style("padding", "8px 16px");
-          generateButton.style("color", "white");
-          generateButton.style("background-color", "#007bff");
-          generateButton.style("border", "2px solid #007bff");
+          generateButton.style("color", "#1d2320");
+          generateButton.style("background-color", "#f1ede2");
+          generateButton.style("border", "2px solid #f1ede2");
           generateButton.style("border-radius", "6px");
           generateButton.style("cursor", "pointer");
           generateButton.style("font-weight", "bold");
@@ -346,9 +347,9 @@ export default function P5Sketch({ k1, k2, t }) {
           randomButton = P.createButton("Random Graph");
           randomButton.style("font-size", "14px");
           randomButton.style("padding", "8px 16px");
-          randomButton.style("color", "white");
-          randomButton.style("background-color", "#28a745");
-          randomButton.style("border", "2px solid #28a745");
+          randomButton.style("color", "#f1ede2");
+          randomButton.style("background-color", "transparent");
+          randomButton.style("border", "2px solid #7d9088");
           randomButton.style("border-radius", "6px");
           randomButton.style("cursor", "pointer");
           randomButton.style("font-weight", "bold");
@@ -360,9 +361,9 @@ export default function P5Sketch({ k1, k2, t }) {
         };
 
         P.draw = () => {
-          P.background(220, 34, 72);
+          P.background(...BOARD);
 
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(14);
           P.textAlign(P.LEFT);
           P.text("Matrix Size:", 20, 15);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import { BOARD } from "@/lib/boardPalette";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
@@ -281,8 +282,8 @@ export default function P5Sketch({ k1, k2, t }) {
               input.style("height", inputSize + "px");
               input.style("font-size", P.min(10, inputSize / 3) + "px");
               input.style("font-weight", "bold");
-              input.style("border", "2px solid #666");
-              input.style("background-color", "#ffffff");
+              input.style("border", "2px solid #7d9088");
+              input.style("background-color", "#f6f2e9");
               input.style("color", "#000");
               input.style("text-align", "center");
               input.style("margin", "0");
@@ -431,7 +432,7 @@ export default function P5Sketch({ k1, k2, t }) {
 
         function createHTMLText(P, text, x, y) {
           let label = P.createDiv(text);
-          label.style("color", "white");
+          label.style("color", "#f1ede2");
           label.style("font-weight", "bold");
           label.style("font-size", "12px");
           label.position(x, y);
@@ -449,8 +450,8 @@ export default function P5Sketch({ k1, k2, t }) {
           rowsAInput.style("width", "35px");
           rowsAInput.style("font-size", "12px");
           rowsAInput.style("font-weight", "bold");
-          rowsAInput.style("border", "2px solid #666");
-          rowsAInput.style("background-color", "#ffffff");
+          rowsAInput.style("border", "2px solid #7d9088");
+          rowsAInput.style("background-color", "#f6f2e9");
           rowsAInput.style("color", "#000");
           rowsAInput.style("text-align", "center");
           rowsAInput.position(65, 20);
@@ -463,8 +464,8 @@ export default function P5Sketch({ k1, k2, t }) {
           colsAInput.style("width", "35px");
           colsAInput.style("font-size", "12px");
           colsAInput.style("font-weight", "bold");
-          colsAInput.style("border", "2px solid #666");
-          colsAInput.style("background-color", "#ffffff");
+          colsAInput.style("border", "2px solid #7d9088");
+          colsAInput.style("background-color", "#f6f2e9");
           colsAInput.style("color", "#000");
           colsAInput.style("text-align", "center");
           colsAInput.position(140, 20);
@@ -472,9 +473,9 @@ export default function P5Sketch({ k1, k2, t }) {
           generateButton = P.createButton("Generate Matrix");
           generateButton.style("font-size", "12px");
           generateButton.style("padding", "6px 12px");
-          generateButton.style("color", "white");
-          generateButton.style("background-color", "#007bff");
-          generateButton.style("border", "2px solid #007bff");
+          generateButton.style("color", "#1d2320");
+          generateButton.style("background-color", "#f1ede2");
+          generateButton.style("border", "2px solid #f1ede2");
           generateButton.style("border-radius", "6px");
           generateButton.style("cursor", "pointer");
           generateButton.style("font-weight", "bold");
@@ -484,9 +485,9 @@ export default function P5Sketch({ k1, k2, t }) {
           calculateButton = P.createButton("Compute SVD");
           calculateButton.style("font-size", "12px");
           calculateButton.style("padding", "6px 12px");
-          calculateButton.style("color", "white");
-          calculateButton.style("background-color", "#28a745");
-          calculateButton.style("border", "2px solid #28a745");
+          calculateButton.style("color", "#f1ede2");
+          calculateButton.style("background-color", "transparent");
+          calculateButton.style("border", "2px solid #7d9088");
           calculateButton.style("border-radius", "6px");
           calculateButton.style("cursor", "pointer");
           calculateButton.style("font-weight", "bold");
@@ -497,7 +498,7 @@ export default function P5Sketch({ k1, k2, t }) {
         };
 
         P.draw = () => {
-          P.background(220, 34, 72);
+          P.background(...BOARD);
 
           drawResults();
         };

@@ -32,12 +32,33 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Vector Addition
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Result: Vector
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-plum rounded-full mr-2"></span>
+                Commutative: a + b = b + a
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           {/* <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
@@ -99,37 +120,16 @@ export default function Home() {
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Title */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
-              Vector Addition
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full px-4 py-2 mt-3 border border-blue-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Result: Vector
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
-                Commutative: a + b = b + a
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Definition */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              ⭕
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             Definition and Component Form
           </h2>
-          <div className="space-y-6 text-gray-300 leading-relaxed">
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-6">
+          <div className="space-y-6 text-ink-2 leading-relaxed">
+            <div className="vl-note vl-note-blue p-6">
               <div className="text-center mb-4">
-                <h3 className="text-2xl font-bold text-blue-400 mb-4">
+                <h3 className="text-2xl font-bold text-pen-blue mb-4">
                   Component-wise Addition
                 </h3>
                 <p className="text-xl mb-6">
@@ -138,19 +138,19 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                 <div className="text-center">
-                  <p className="font-semibold text-blue-300">2D Vectors</p>
+                  <p className="font-semibold text-pen-blue">2D Vectors</p>
                   <p className="text-sm">(a₁, a₂) + (b₁, b₂)</p>
                   <p className="text-sm">= (a₁+b₁, a₂+b₂)</p>
                 </div>
                 <div className="text-center">
-                  <p className="font-semibold text-purple-300">3D Vectors</p>
+                  <p className="font-semibold text-pen-plum">3D Vectors</p>
                   <p className="text-sm">(a₁, a₂, a₃) + (b₁, b₂, b₃)</p>
                   <p className="text-sm">= (a₁+b₁, a₂+b₂, a₃+b₃)</p>
                 </div>
                 <div className="text-center">
-                  <p className="font-semibold text-cyan-300">Result</p>
+                  <p className="font-semibold text-pen-blue">Result</p>
                   <p className="text-sm">Always a vector</p>
-                  <p className="text-xs text-gray-400">Same dimension</p>
+                  <p className="text-xs text-ink-3">Same dimension</p>
                 </div>
               </div>
             </div>
@@ -158,24 +158,21 @@ export default function Home() {
         </div>
 
         {/* Geometric Methods */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🎯
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Geometric Methods
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-purple-300 mb-4">
+            <div className="vl-note vl-note-plum p-6">
+              <h3 className="vl-h3 mb-4">
                 Triangle Method (Head-to-Tail)
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-ink-2">
                 <p className="text-sm mb-3">
                   Place the tail of vector{" "}
-                  <span className="text-purple-400 font-semibold">b</span> at
+                  <span className="text-pen-plum font-semibold">b</span> at
                   the head of vector{" "}
-                  <span className="text-purple-400 font-semibold">a</span>
+                  <span className="text-pen-plum font-semibold">a</span>
                 </p>
                 <ul className="space-y-2 text-sm">
                   <li>• Draw vector a from origin</li>
@@ -186,14 +183,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-cyan-300 mb-4">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-4">
                 Parallelogram Method
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-ink-2">
                 <p className="text-sm mb-3">
                   Place both vectors at the{" "}
-                  <span className="text-cyan-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     same origin
                   </span>
                 </p>
@@ -209,78 +206,72 @@ export default function Home() {
         </div>
 
         {/* Properties */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-cyan-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              ⚡
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Properties of Vector Addition
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-cyan-300 mb-4">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-4">
                 Commutative
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-ink-2">
                 <p className="text-center text-lg font-bold">a + b = b + a</p>
                 <p className="text-sm">Order doesn&apos;t matter</p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-ink-3">
                   Forms same parallelogram
                 </p>
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-green-300 mb-4">
+            <div className="vl-note vl-note-green p-6">
+              <h3 className="vl-h3 mb-4">
                 Associative
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-ink-2">
                 <p className="text-center text-lg font-bold">
                   (a + b) + c = a + (b + c)
                 </p>
                 <p className="text-sm">Grouping doesn&apos;t matter</p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-ink-3">
                   Can add multiple vectors
                 </p>
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-orange-300 mb-4">
+            <div className="vl-note vl-note-rust p-6">
+              <h3 className="vl-h3 mb-4">
                 Identity Element
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-ink-2">
                 <p className="text-center text-lg font-bold">a + 0 = a</p>
                 <p className="text-sm">Zero vector is identity</p>
-                <p className="text-xs text-gray-400">0 = (0, 0, 0, ...)</p>
+                <p className="text-xs text-ink-3">0 = (0, 0, 0, ...)</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Vector Subtraction */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-pink-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📐
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Vector Subtraction
           </h2>
-          <div className="bg-gradient-to-r from-pink-500/10 to-red-500/10 border border-pink-500/20 rounded-lg p-6">
+          <div className="vl-note vl-note-rust p-6">
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-pink-400 mb-2">
+              <h3 className="text-2xl font-bold text-pen-rust mb-2">
                 a - b = a + (-b)
               </h3>
-              <p className="text-lg text-gray-300">
+              <p className="text-lg text-ink-2">
                 Subtraction is adding the negative
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3 className="text-xl font-semibold text-pink-300 mb-4">
+                <h3 className="vl-h3 mb-4">
                   Component Form
                 </h3>
-                <div className="space-y-3 text-gray-300">
+                <div className="space-y-3 text-ink-2">
                   <p className="text-center font-bold">
                     a - b = (a₁-b₁, a₂-b₂, a₃-b₃)
                   </p>
@@ -288,16 +279,16 @@ export default function Home() {
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-pink-300 mb-4">
+                <h3 className="vl-h3 mb-4">
                   Geometric Meaning
                 </h3>
-                <div className="space-y-3 text-gray-300">
+                <div className="space-y-3 text-ink-2">
                   <p className="text-sm">
-                    <span className="text-pink-400 font-semibold">a - b:</span>{" "}
+                    <span className="text-pen-rust font-semibold">a - b:</span>{" "}
                     Vector from b to a
                   </p>
                   <p className="text-sm">Points from second to first</p>
-                  <p className="text-xs text-gray-400">Reverse of b - a</p>
+                  <p className="text-xs text-ink-3">Reverse of b - a</p>
                 </div>
               </div>
             </div>
@@ -305,38 +296,35 @@ export default function Home() {
         </div>
 
         {/* Scalar Multiplication */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔄
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Scalar Multiplication
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-green-300 mb-4">
+            <div className="vl-note vl-note-green p-6">
+              <h3 className="vl-h3 mb-4">
                 Definition
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-ink-2">
                 <p className="text-center text-lg font-bold">
                   ca = (ca₁, ca₂, ca₃)
                 </p>
                 <p>
-                  <span className="text-green-400 font-semibold">Effect:</span>{" "}
+                  <span className="text-pen-green font-semibold">Effect:</span>{" "}
                   Scales magnitude
                 </p>
                 <p className="text-sm">Multiply each component by c</p>
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-yellow-300 mb-4">
+            <div className="vl-note vl-note-gold p-6">
+              <h3 className="vl-h3 mb-4">
                 Positive Scalar
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-ink-2">
                 <p className="text-center text-lg font-bold">c &gt; 0</p>
                 <p>
-                  <span className="text-yellow-400 font-semibold">Result:</span>{" "}
+                  <span className="text-pen-gold font-semibold">Result:</span>{" "}
                   Same direction
                 </p>
                 <p className="text-sm">c &gt; 1: longer</p>
@@ -344,14 +332,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-red-500/10 to-pink-500/10 border border-red-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-red-300 mb-4">
+            <div className="vl-note vl-note-rust p-6">
+              <h3 className="vl-h3 mb-4">
                 Negative Scalar
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-3 text-ink-2">
                 <p className="text-center text-lg font-bold">c &lt; 0</p>
                 <p>
-                  <span className="text-red-400 font-semibold">Result:</span>{" "}
+                  <span className="text-pen-rust font-semibold">Result:</span>{" "}
                   Opposite direction
                 </p>
                 <p className="text-sm">Also scales magnitude</p>
@@ -362,48 +350,45 @@ export default function Home() {
         </div>
 
         {/* Linear Combinations */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-orange-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Linear Combinations
           </h2>
-          <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-6">
+          <div className="vl-note vl-note-rust p-6">
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-orange-400 mb-2">
+              <h3 className="text-2xl font-bold text-pen-rust mb-2">
                 v = c₁a₁ + c₂a₂ + ... + cₙaₙ
               </h3>
-              <p className="text-lg text-gray-300">
+              <p className="text-lg text-ink-2">
                 Any vector can be expressed as a combination of basis vectors
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3 className="text-xl font-semibold text-orange-300 mb-4">
+                <h3 className="vl-h3 mb-4">
                   Standard Basis (3D)
                 </h3>
-                <div className="space-y-3 text-gray-300">
+                <div className="space-y-3 text-ink-2">
                   <p className="text-sm">
-                    <span className="text-orange-400 font-semibold">i</span> =
+                    <span className="text-pen-rust font-semibold">i</span> =
                     (1, 0, 0)
                   </p>
                   <p className="text-sm">
-                    <span className="text-orange-400 font-semibold">j</span> =
+                    <span className="text-pen-rust font-semibold">j</span> =
                     (0, 1, 0)
                   </p>
                   <p className="text-sm">
-                    <span className="text-orange-400 font-semibold">k</span> =
+                    <span className="text-pen-rust font-semibold">k</span> =
                     (0, 0, 1)
                   </p>
                   <p className="text-sm mt-3">v = v₁i + v₂j + v₃k</p>
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-orange-300 mb-4">
+                <h3 className="vl-h3 mb-4">
                   Applications
                 </h3>
-                <div className="space-y-2 text-gray-300 text-sm">
+                <div className="space-y-2 text-ink-2 text-sm">
                   <p>• Any vector as sum of basis vectors</p>
                   <p>• Coordinate transformations</p>
                   <p>• Linear algebra operations</p>
@@ -415,37 +400,34 @@ export default function Home() {
         </div>
 
         {/* Unit Vectors */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-yellow-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📝
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Unit Vectors and Normalization
           </h2>
-          <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-lg p-6">
+          <div className="vl-note vl-note-gold p-6">
             <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-yellow-400 mb-2">
+              <h3 className="text-2xl font-bold text-pen-gold mb-2">
                 û = a / |a|
               </h3>
-              <p className="text-lg text-gray-300">
+              <p className="text-lg text-ink-2">
                 Unit vector has magnitude 1
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
-                <p className="font-semibold text-yellow-300">Definition</p>
+                <p className="font-semibold text-pen-gold">Definition</p>
                 <p className="text-sm">|u| = 1</p>
-                <p className="text-xs text-gray-400">Length is exactly 1</p>
+                <p className="text-xs text-ink-3">Length is exactly 1</p>
               </div>
               <div className="text-center">
-                <p className="font-semibold text-orange-300">Direction</p>
+                <p className="font-semibold text-pen-rust">Direction</p>
                 <p className="text-sm">Same as original</p>
-                <p className="text-xs text-gray-400">Only magnitude changes</p>
+                <p className="text-xs text-ink-3">Only magnitude changes</p>
               </div>
               <div className="text-center">
-                <p className="font-semibold text-red-300">Usage</p>
+                <p className="font-semibold text-pen-rust">Usage</p>
                 <p className="text-sm">Represents direction only</p>
-                <p className="text-xs text-gray-400">Common in graphics</p>
+                <p className="text-xs text-ink-3">Common in graphics</p>
               </div>
             </div>
           </div>
@@ -453,43 +435,43 @@ export default function Home() {
 
         {/* Real World Applications */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              🔬 <span className="ml-2">Real-World Applications</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Real-World Applications</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Physics:</span> Force
+                • <span className="text-pen-green">Physics:</span> Force
                 composition and net force
               </li>
               <li>
-                • <span className="text-emerald-400">Navigation:</span> Course
+                • <span className="text-pen-green">Navigation:</span> Course
                 corrections and displacement
               </li>
               <li>
-                • <span className="text-emerald-400">Computer Graphics:</span>{" "}
+                • <span className="text-pen-green">Computer Graphics:</span>{" "}
                 Object transformations and movement
               </li>
               <li>
-                • <span className="text-emerald-400">Game Development:</span>{" "}
+                • <span className="text-pen-green">Game Development:</span>{" "}
                 Character movement and velocity
               </li>
               <li>
-                • <span className="text-emerald-400">Robotics:</span> Path
+                • <span className="text-pen-green">Robotics:</span> Path
                 planning and motion control
               </li>
               <li>
-                • <span className="text-emerald-400">Engineering:</span> Load
+                • <span className="text-pen-green">Engineering:</span> Load
                 distribution and structural analysis
               </li>
             </ul>
           </div>
 
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-violet-300 mb-4 flex items-center">
-              🧮 <span className="ml-2">Problem-Solving Tips</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Problem-Solving Tips</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>• Add component by component</li>
               <li>• Use head-to-tail for visualization</li>
               <li>• Break into components for calculation</li>

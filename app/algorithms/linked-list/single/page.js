@@ -520,12 +520,41 @@ Must traverse to find predecessor node
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl">
+              Singly Linked List
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Search: O(n)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Insert: O(1) at head
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Delete: O(1) at head
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-plum rounded-full mr-2"></span>
+                Unidirectional
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="grid grid-cols-2 gap-6">
             {inputs.slice(0, 2).map((item, index) => (
               <div key={index} className="flex flex-col gap-2">
@@ -584,7 +613,7 @@ Must traverse to find predecessor node
           </div>
 
           <div className="flex items-center justify-center space-x-4 mt-4">
-            <span className="text-gray-300 text-sm">Speed:</span>
+            <span className="text-ink-2 text-sm">Speed:</span>
             <Slider
               defaultValue={[1]}
               min={0.5}
@@ -609,112 +638,83 @@ Must traverse to find predecessor node
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-5">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
-              Singly Linked List
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Search: O(n)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Insert: O(1) at head
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Delete: O(1) at head
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
-                Unidirectional
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔗
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             Singly Linked List Operations
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-purple-300 mb-2">
+            <div className="vl-note vl-note-plum p-4">
+              <h3 className="vl-h3 mb-2">
                 <button
                   onClick={() =>
                     document
                       .getElementById("setup-section")
                       .scrollIntoView({ behavior: "smooth" })
                   }
-                  className="hover:text-purple-200 transition-colors cursor-pointer"
+                  className="hover:text-pen-plum transition-colors cursor-pointer"
                 >
                   Setup
                 </button>
               </h3>
-              <p className="text-gray-300 text-sm">
+              <p className="text-ink-2 text-sm">
                 Each node contains data and one pointer: next (forward
                 direction). Simpler structure than doubly linked list with less
                 memory overhead.
               </p>
             </div>
-            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-green-300 mb-2">
+            <div className="vl-note vl-note-green p-4">
+              <h3 className="vl-h3 mb-2">
                 <button
                   onClick={() =>
                     document
                       .getElementById("insert-section")
                       .scrollIntoView({ behavior: "smooth" })
                   }
-                  className="hover:text-green-200 transition-colors cursor-pointer"
+                  className="hover:text-pen-green transition-colors cursor-pointer"
                 >
                   Insert
                 </button>
               </h3>
-              <p className="text-gray-300 text-sm">
+              <p className="text-ink-2 text-sm">
                 Insert at beginning or specific position. Only need to update 2
                 pointers. Simpler than doubly linked list but requires traversal
                 for middle insertion.
               </p>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-4">
+              <h3 className="vl-h3 mb-2">
                 <button
                   onClick={() =>
                     document
                       .getElementById("search-section")
                       .scrollIntoView({ behavior: "smooth" })
                   }
-                  className="hover:text-blue-200 transition-colors cursor-pointer"
+                  className="hover:text-pen-blue transition-colors cursor-pointer"
                 >
                   Search
                 </button>
               </h3>
-              <p className="text-gray-300 text-sm">
+              <p className="text-ink-2 text-sm">
                 Traverse from head only to find elements. Cannot search
                 backwards. Suitable for sequential access patterns.
               </p>
             </div>
-            <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-red-300 mb-2">
+            <div className="vl-note vl-note-rust p-4">
+              <h3 className="vl-h3 mb-2">
                 <button
                   onClick={() =>
                     document
                       .getElementById("delete-section")
                       .scrollIntoView({ behavior: "smooth" })
                   }
-                  className="hover:text-red-200 transition-colors cursor-pointer"
+                  className="hover:text-pen-rust transition-colors cursor-pointer"
                 >
                   Delete
                 </button>
               </h3>
-              <p className="text-gray-300 text-sm">
+              <p className="text-ink-2 text-sm">
                 Remove nodes by finding predecessor and updating next pointer.
                 Must traverse to find predecessor node.
               </p>
@@ -725,27 +725,24 @@ Must traverse to find predecessor node
         {/* Setup Section */}
         <div
           id="setup-section"
-          className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8"
+          className="vl-card p-8"
         >
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔧
-            </span>
+          <h2 className="vl-h2 mb-6">
             Setup - Node Structure
           </h2>
           <div className="mb-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
+            <div className="vl-note vl-note-plum p-6">
+              <p className="text-ink-2 text-lg leading-relaxed">
                 A Singly Linked List is the simplest form of linked list where
                 each node contains data and a single pointer to the next node.
                 This unidirectional structure allows traversal only in the
                 forward direction. Each node has two components: the data value
                 and a next pointer to the following node. The list maintains a
                 reference only to the{" "}
-                <span className="text-purple-400 font-semibold">head</span>{" "}
+                <span className="text-pen-plum font-semibold">head</span>{" "}
                 node, which serves as the entry point. This minimal structure
                 results in
-                <span className="text-purple-400 font-semibold">
+                <span className="text-pen-plum font-semibold">
                   {" "}
                   lower memory overhead
                 </span>
@@ -765,27 +762,24 @@ Must traverse to find predecessor node
         {/* Insert Section */}
         <div
           id="insert-section"
-          className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8"
+          className="vl-card p-8"
         >
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              ➕
-            </span>
+          <h2 className="vl-h2 mb-6">
             Insert - Add Operation
           </h2>
           <div className="mb-6">
-            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
+            <div className="vl-note vl-note-green p-6">
+              <p className="text-ink-2 text-lg leading-relaxed">
                 Insertion in a singly linked list is simpler than in doubly
                 linked lists due to fewer pointer updates. There are two main
                 scenarios: inserting at the beginning and inserting at a
                 specific position. Beginning insertion is
-                <span className="text-green-400 font-semibold"> O(1)</span> as
+                <span className="text-pen-green font-semibold"> O(1)</span> as
                 it only requires updating the new node&apos;s next pointer to
                 the current head and updating the head reference. For middle
                 insertion, we must traverse to the position before the insertion
                 point, then update only
-                <span className="text-green-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   two pointers
                 </span>
                 : the new node&apos;s next and the predecessor&apos;s next. This
@@ -805,17 +799,14 @@ Must traverse to find predecessor node
         {/* Search Section */}
         <div
           id="search-section"
-          className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8"
+          className="vl-card p-8"
         >
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+          <h2 className="vl-h2 mb-6">
             Search - Find Operation
           </h2>
           <div className="mb-6">
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
+            <div className="vl-note vl-note-blue p-6">
+              <p className="text-ink-2 text-lg leading-relaxed">
                 Search operation in a singly linked list follows a
                 straightforward linear traversal from the head node. Unlike
                 doubly linked lists, there&apos;s no option for backward
@@ -823,7 +814,7 @@ Must traverse to find predecessor node
                 algorithm compares each node&apos;s data with the target value,
                 continuing until either the value is found or the end of the
                 list is reached. While this results in{" "}
-                <span className="text-blue-400 font-semibold">O(n)</span> time
+                <span className="text-pen-blue font-semibold">O(n)</span> time
                 complexity in the worst case, the unidirectional nature makes it
                 suitable for applications with primarily sequential access
                 patterns. For sorted lists, early termination can be implemented
@@ -841,17 +832,14 @@ Must traverse to find predecessor node
         {/* Delete Section */}
         <div
           id="delete-section"
-          className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8"
+          className="vl-card p-8"
         >
-          <h2 className="text-2xl font-semibold text-red-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🗑️
-            </span>
+          <h2 className="vl-h2 mb-6">
             Delete - Remove Operation
           </h2>
           <div className="mb-6">
-            <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
+            <div className="vl-note vl-note-rust p-6">
+              <p className="text-ink-2 text-lg leading-relaxed">
                 Deletion in a singly linked list requires careful handling due
                 to the inability to access the previous node directly. Two main
                 cases exist: deleting the first node (simply update the head
@@ -861,9 +849,9 @@ Must traverse to find predecessor node
                 the predecessor is found, deletion is accomplished by updating
                 its next pointer to skip the node being deleted. While this
                 makes deletion
-                <span className="text-red-400 font-semibold">O(n)</span> for
+                <span className="text-pen-rust font-semibold">O(n)</span> for
                 arbitrary positions, head deletion remains{" "}
-                <span className="text-red-400 font-semibold">O(1)</span>. This
+                <span className="text-pen-rust font-semibold">O(1)</span>. This
                 limitation is addressed in doubly linked lists with backward
                 pointers.
               </p>

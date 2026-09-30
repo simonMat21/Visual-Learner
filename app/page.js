@@ -1,352 +1,199 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { subjects, allTopics } from "@/lib/topics";
 
-export default function Home() {
-  const [activeTab, setActiveTab] = useState("Algorithms");
-  const [isLoaded, setIsLoaded] = useState(false);
+const TABS = [...subjects.map((s) => ({ id: s.id, name: s.name })), { id: "logic", name: "Logic Design", soon: true }];
+const PEN_TEXT = { rust: "text-pen-rust", blue: "text-pen-blue", green: "text-pen-green" };
+const PEN_BG = { rust: "bg-pen-rust", blue: "bg-pen-blue", green: "bg-pen-green" };
 
+/* A small, static chalkboard showing one bubble-sort comparison. */
+function BoardIllustration() {
+  const values = [12, 47, 31, 8, 56, 23];
+  return (
+    <div className="relative rounded-2xl border-[6px] border-board-2 bg-board p-6 shadow-[0_24px_50px_-28px_rgb(29_35_32/0.7)]">
+      <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.14em] text-chalk/60">
+        <span>bubble sort</span>
+        <span>pass 2 · compare</span>
+      </div>
+      <div className="mt-8 flex items-end justify-center gap-3">
+        {values.map((v, i) => {
+          const active = i === 2 || i === 3;
+          return (
+            <div key={i} className="flex flex-col items-center gap-2">
+              <div
+                className={`grid h-14 w-14 place-items-center rounded-md font-mono text-lg font-semibold text-ink ${
+                  active ? "bg-chalk ring-[3px] ring-[#f2c14e] ring-offset-2 ring-offset-board" : "bg-chalk/90"
+                }`}
+              >
+                {v}
+              </div>
+              <span className="font-mono text-[10px] text-chalk/40">{i}</span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-6 flex items-center justify-center gap-2 font-mono text-xs text-[#f2c14e]">
+        <span>31 &gt; 8</span>
+        <span className="text-chalk/50">→ swap</span>
+      </div>
+    </div>
+  );
+}
+
+function TopicIndex() {
+  const router = useRouter();
+  const params = useSearchParams();
+  const [activeTab, setActiveTab] = useState("algorithms");
+
+  // ?tab= wins, then the last tab the visitor used
   useEffect(() => {
-    const savedTab = localStorage.getItem("activeTab");
-    if (savedTab) {
-      setActiveTab(savedTab);
-    }
-    setIsLoaded(true);
-  }, []);
+    const fromUrl = params.get("tab");
+    let saved = null;
+    try {
+      saved = localStorage.getItem("activeTab");
+    } catch {}
+    const wanted = (fromUrl || saved || "algorithms").toLowerCase();
+    const match = TABS.find((t) => t.id === wanted || t.name.toLowerCase() === wanted);
+    setActiveTab(match ? match.id : "algorithms");
+  }, [params]);
 
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("activeTab", activeTab);
-    }
-  }, [activeTab, isLoaded]);
-
-  const algorithmLinkers = [
-    {
-      title: "Sorting",
-      icon: "🔄",
-      color: "from-purple-500 to-pink-500",
-      shadowColor: "shadow-purple-500/50",
-      links: [
-        { href: "algorithms/sorting/bubble-sort", val: "Bubble Sort" },
-        { href: "algorithms/sorting/selection-sort", val: "Selection Sort" },
-        { href: "algorithms/sorting/insertion-sort", val: "Insertion Sort" },
-        { href: "algorithms/sorting/merge-sort", val: "Merge Sort" },
-        { href: "algorithms/sorting/quick-sort", val: "Quick Sort" },
-        { href: "algorithms/sorting/heap-sort", val: "Heap Sort" },
-        { href: "algorithms/sorting/count-sort", val: "Count Sort" },
-        { href: "algorithms/sorting/bucket-sort", val: "Bucket Sort" },
-        { href: "algorithms/sorting/radix-sort", val: "Radix Sort" },
-      ],
-    },
-    {
-      title: "Search",
-      icon: "🔍",
-      color: "from-blue-500 to-cyan-500",
-      shadowColor: "shadow-blue-500/50",
-      links: [
-        { href: "algorithms/search/binary-search", val: "Binary Search" },
-        { href: "algorithms/search/linear-search", val: "Linear Search" },
-      ],
-    },
-    {
-      title: "Binary Search Tree",
-      icon: "🌳",
-      color: "from-green-500 to-emerald-500",
-      shadowColor: "shadow-green-500/50",
-      links: [
-        { href: "algorithms/bst/basic", val: "BST Basic" },
-        { href: "algorithms/bst/advanced", val: "BST Advanced" },
-        { href: "algorithms/bst/operations", val: "BST Operations" },
-      ],
-    },
-    {
-      title: "Linked List",
-      icon: "🔗",
-      color: "from-orange-500 to-red-500",
-      shadowColor: "shadow-orange-500/50",
-      links: [
-        { href: "algorithms/linked-list/single", val: "Linked List" },
-        { href: "algorithms/linked-list/double", val: "Double Linked List" },
-      ],
-    },
-    {
-      title: "Heap",
-      icon: "📊",
-      color: "from-yellow-500 to-orange-500",
-      shadowColor: "shadow-yellow-500/50",
-      links: [
-        { href: "algorithms/heap/min-heap", val: "Min Heap" },
-        { href: "algorithms/heap/max-heap", val: "Max Heap" },
-        { href: "algorithms/sorting/heap-sort", val: "Heap Sort" },
-      ],
-    },
-    {
-      title: "Hash",
-      icon: "🗝️",
-      color: "from-indigo-500 to-purple-500",
-      shadowColor: "shadow-indigo-500/50",
-      links: [
-        { href: "algorithms/hash-table", val: "Hash Table" },
-        { href: "algorithms/sorting/count-sort", val: "Count Sort" },
-        { href: "algorithms/hash-table/linear-probing", val: "Linear Probing" },
-        {
-          href: "algorithms/hash-table/quadratic-probing",
-          val: "Quadratic Probing",
-        },
-        { href: "algorithms/hash-table/chaining", val: "Hash Table Chaining" },
-        { href: "algorithms/sorting/bucket-sort", val: "Bucket Sort" },
-      ],
-    },
-    {
-      title: "Graph",
-      icon: "🌐",
-      color: "from-green-500 to-emerald-500",
-      shadowColor: "shadow-green-500/50",
-      links: [
-        {
-          href: "algorithms/graphs/adjm-undirected",
-          val: "Adjacency Matrix (undirected)",
-        },
-        {
-          href: "algorithms/graphs/adjm-directed",
-          val: "Adjacency Matrix (directed)",
-        },
-        {
-          href: "algorithms/graphs/adjl-directed",
-          val: "Adjacency List (undirected/directed)",
-        },
-        {
-          href: "algorithms/graphs/adjm-weighted",
-          val: "Adjacency Matrix (weighted)",
-        },
-        {
-          href: "algorithms/graphs/adjm-input",
-          val: "Adjacency Matrix (input)",
-        },
-      ],
-    },
-  ];
-
-  const mathLinkers = [
-    {
-      title: "Vectors",
-      icon: "📐",
-      color: "from-blue-500 to-cyan-500",
-      shadowColor: "shadow-blue-500/50",
-      links: [
-        { href: "math/vector/vector-rep", val: "Vector Representation" },
-        { href: "math/vector/vector-addition", val: "Vector Addition" },
-        { href: "math/vector/vector-subtraction", val: "Vector Subtraction" },
-        { href: "math/vector/vector-dot-product", val: "Vector Dot Product" },
-      ],
-    },
-    {
-      title: "Coordinate Geometry",
-      icon: "📊",
-      color: "from-green-500 to-emerald-500",
-      shadowColor: "shadow-green-500/50",
-      links: [
-        { href: "math/coordGeometry/line", val: "Line" },
-        { href: "math/coordGeometry/circle", val: "Circle" },
-        { href: "math/coordGeometry/ellipse", val: "Ellipse" },
-        { href: "math/coordGeometry/hyperbola", val: "Hyperbola" },
-        { href: "math/coordGeometry/parabola", val: "Parabola" },
-      ],
-    },
-    {
-      title: "Matrix",
-      icon: "🔢",
-      color: "from-purple-500 to-pink-500",
-      shadowColor: "shadow-purple-500/50",
-      links: [
-        { href: "math/matrix/basic-calc", val: "Matrix Operations" },
-        { href: "math/matrix/matrix-mult", val: "Matrix Multiplication" },
-        { href: "math/matrix/eigen-values", val: "Eigenvalues & Eigenvectors" },
-        { href: "math/matrix/psudo-inverse", val: "Pseudo Inverse" },
-        { href: "math/matrix/SVD", val: "Singular Value Decomposition" },
-      ],
-    },
-    {
-      title: "Functions",
-      icon: "📈",
-      color: "from-red-500 to-orange-500",
-      shadowColor: "shadow-red-500/50",
-      links: [
-        { href: "math/functions/graph-playground", val: "Graph Playground" },
-      ],
-    },
-  ];
-
-  const physicsLinkers = [
-    {
-      title: "Functions",
-      icon: "📈",
-      color: "from-orange-500 to-red-500",
-      shadowColor: "shadow-orange-500/50",
-      links: [{ href: "physics/damping-function", val: "Damping Function" }],
-    },
-    {
-      title: "Light",
-      icon: "💡",
-      color: "from-yellow-500 to-orange-500",
-      shadowColor: "shadow-yellow-500/50",
-      links: [
-        { href: "physics/color-mixing-light", val: "Color Mixing Light" },
-        { href: "physics/color-mixing-pigment", val: "Color Mixing Pigment" },
-        { href: "physics/light-refraction", val: "Light Refraction" },
-      ],
-    },
-  ];
-
-  const getCurrentLinkers = () => {
-    switch (activeTab) {
-      case "Algorithms":
-        return algorithmLinkers;
-      case "Math":
-        return mathLinkers;
-      case "Physics":
-        return physicsLinkers;
-      default:
-        return [];
-    }
+  const choose = (id) => {
+    setActiveTab(id);
+    try {
+      localStorage.setItem("activeTab", id);
+    } catch {}
+    router.replace(`/?tab=${id}`, { scroll: false });
   };
 
-  return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black py-8 px-4 sm:px-6 lg:px-8">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
-          Visual Learner
-        </h1>
-        <p className="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto">
-          Master data structures and algorithms through interactive
-          visualizations
-        </p>
-        <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
+  const subject = subjects.find((s) => s.id === activeTab);
+  let counter = 0;
 
-        {/* Navigation */}
-        <div className="flex justify-center mt-8 px-4">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-2 w-full max-w-4xl">
-            <div className="grid grid-cols-4 gap-1 sm:gap-2">
-              {["Algorithms", "Math", "Physics", "Logic Design"].map(
-                (item, index) => (
-                  <button
-                    key={item}
-                    onClick={() => setActiveTab(item)}
-                    className={`
-                    px-1 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold transition-all duration-300
-                    text-xs sm:text-base text-center
-                    ${
-                      activeTab === item
-                        ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg"
-                        : "text-gray-300 hover:text-white hover:bg-white/10"
-                    }
-                    transform hover:scale-105 active:scale-95
-                  `}
-                  >
-                    <span className="block sm:hidden">
-                      {item === "Algorithms"
-                        ? "Algo"
-                        : item === "Logic Design"
-                        ? "Logic"
-                        : item}
-                    </span>
-                    <span className="hidden sm:block">{item}</span>
-                  </button>
-                )
-              )}
-            </div>
-          </div>
+  return (
+    <section id="topics" className="mx-auto max-w-6xl px-8">
+      {/* Subject tabs */}
+      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-rule">
+        <div role="tablist" aria-label="Subjects" className="-mb-px flex gap-1">
+          {TABS.map((t) => {
+            const active = t.id === activeTab;
+            return (
+              <button
+                key={t.id}
+                role="tab"
+                aria-selected={active}
+                onClick={() => choose(t.id)}
+                className={`relative rounded-t-lg border px-4 py-2.5 text-sm font-medium transition-colors sm:px-5 ${
+                  active
+                    ? "border-rule border-b-card bg-card text-ink"
+                    : "border-transparent text-ink-3 hover:text-ink"
+                }`}
+              >
+                {t.name}
+                {t.soon && (
+                  <span className="ml-2 rounded-full bg-paper-2 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-ink-3">
+                    soon
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
+        {subject && <p className="hidden pb-3 text-sm text-ink-3 md:block">{subject.blurb}</p>}
       </div>
 
-      {/* Categories */}
-      <div className="max-w-7xl mx-auto space-y-12">
-        {getCurrentLinkers().length > 0 ? (
-          getCurrentLinkers().map((category, categoryIndex) => (
-            <div
-              key={categoryIndex}
-              className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300"
-            >
-              {/* Category Header */}
-              <div className="flex items-center justify-center mb-8">
-                <div className="flex items-center space-x-4">
-                  <span className="text-3xl sm:text-4xl">{category.icon}</span>
-                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
-                    {category.title}
-                  </h2>
+      {/* Topic groups */}
+      <div className="rounded-b-2xl border border-t-0 border-rule bg-card px-6 py-8 sm:px-10">
+        {subject ? (
+          <div className="space-y-12">
+            {subject.groups.map((group) => (
+              <div key={group.title}>
+                <div className="mb-5 flex items-baseline gap-3">
+                  <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">{group.title}</h2>
+                  <span className="font-mono text-xs text-ink-3">
+                    {group.topics.length} {group.topics.length === 1 ? "topic" : "topics"}
+                  </span>
                 </div>
+                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {group.topics.map((topic) => {
+                    counter += 1;
+                    return (
+                      <li key={topic.href}>
+                        <Link
+                          href={topic.href}
+                          className="group relative flex h-full flex-col rounded-xl border border-rule bg-paper/60 px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-rule-strong hover:bg-card hover:shadow-[0_12px_28px_-20px_rgb(29_35_32/0.45)]"
+                        >
+                          <span
+                            className={`absolute inset-x-5 top-0 h-[2px] origin-left scale-x-0 rounded-full transition-transform duration-300 group-hover:scale-x-100 ${PEN_BG[subject.pen]}`}
+                          />
+                          <span className="flex items-center justify-between font-mono text-[11px] text-ink-3">
+                            <span>{String(counter).padStart(2, "0")}</span>
+                            <span
+                              aria-hidden="true"
+                              className={`translate-x-[-4px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 ${PEN_TEXT[subject.pen]}`}
+                            >
+                              →
+                            </span>
+                          </span>
+                          <span className="mt-2 font-display text-lg font-semibold leading-snug text-ink">
+                            {topic.name}
+                          </span>
+                          <span className="mt-1 text-sm leading-snug text-ink-3">{topic.blurb}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
-
-              {/* Links Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
-                {category.links.map((link, linkIndex) => (
-                  <Link href={`/${link.href}`} key={linkIndex} className="group">
-                    <div
-                      className={`
-                      relative overflow-hidden rounded-xl p-4 sm:p-6 h-28 sm:h-32 
-                      bg-gradient-to-br ${category.color} 
-                      shadow-lg ${category.shadowColor}
-                      transform transition-all duration-300 
-                      hover:scale-105 hover:shadow-2xl
-                      active:scale-95
-                      flex items-center justify-center
-                      border border-white/20
-                    `}
-                    >
-                      {/* Animated background effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-
-                      {/* Content */}
-                      <div className="relative z-10 text-center">
-                        <h3 className="text-white font-semibold text-sm sm:text-base lg:text-lg leading-tight">
-                          {link.val}
-                        </h3>
-                      </div>
-
-                      {/* Hover glow effect */}
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
-            <div className="relative">
-              {/* Animated dots */}
-              <div className="flex justify-center space-x-2 mb-6">
-                <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-bounce"></div>
-                <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-bounce delay-150"></div>
-                <div className="w-3 h-3 bg-gradient-to-r from-pink-500 to-blue-500 rounded-full animate-bounce delay-300"></div>
-              </div>
-
-              {/* Coming Soon Text */}
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent mb-4 animate-pulse">
-                Coming Soon
-              </h2>
-
-              <p className="text-gray-400 text-lg mb-8">
-                {activeTab} visualizations are under development
-              </p>
-
-              {/* Animated progress bar */}
-              <div className="max-w-md mx-auto bg-gray-700 rounded-full h-2 overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full animate-pulse w-1/3"></div>
-              </div>
-
-              {/* Floating particles */}
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute w-1 h-1 bg-blue-400 rounded-full opacity-60 animate-ping top-1/4 left-1/4"></div>
-                <div className="absolute w-1 h-1 bg-purple-400 rounded-full opacity-60 animate-ping delay-700 top-3/4 right-1/4"></div>
-                <div className="absolute w-1 h-1 bg-pink-400 rounded-full opacity-60 animate-ping delay-1000 top-1/2 left-3/4"></div>
-                <div className="absolute w-1 h-1 bg-yellow-400 rounded-full opacity-60 animate-ping delay-300 top-1/3 right-1/3"></div>
-              </div>
-            </div>
+          <div className="mx-auto max-w-md py-12 text-center">
+            <p className="vl-eyebrow">In the works</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink">
+              Logic Design is coming soon
+            </h2>
+            <p className="mt-3 text-ink-3">
+              Gates, truth tables and circuits are being drawn up. In the meantime, the other subjects are ready to
+              explore.
+            </p>
           </div>
         )}
       </div>
+    </section>
+  );
+}
+
+export default function Home() {
+  return (
+    <main className="vl-page pt-0">
+      {/* Hero */}
+      <section className="mx-auto grid max-w-6xl items-center gap-12 px-8 pb-14 pt-14 md:grid-cols-[1.1fr_1fr] md:pt-20">
+        <div>
+          <p className="vl-eyebrow">Interactive visual notes · {allTopics.length} topics</p>
+          <h1 className="vl-title mt-4 text-5xl leading-[1.05] sm:text-6xl">
+            Watch the idea <em className="font-medium italic text-pen-rust">move</em>, then it clicks.
+          </h1>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-2">
+            Step through algorithms, data structures, math and physics on a live chalkboard. Feed in your own numbers,
+            slow it down, and read the explanation and code alongside.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link href="/algorithms/sorting/bubble-sort" className="dobtn px-5">
+              Start with Bubble Sort
+            </Link>
+            <a href="#topics" className="dobtn-secondary px-5">
+              Browse all topics
+            </a>
+          </div>
+        </div>
+        <BoardIllustration />
+      </section>
+
+      <Suspense fallback={null}>
+        <TopicIndex />
+      </Suspense>
     </main>
   );
 }

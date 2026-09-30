@@ -35,21 +35,36 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              The Cartesian Coordinate System
+            </h1>
+            <p className="text-ink-2 text-lg">
+              A system that specifies each point uniquely in a plane by a set of
+              numerical coordinates.
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="mb-4">
             <div className="flex items-center gap-2 mb-2">
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-ink-2">
                 Function Equation (in terms of x)
               </label>
               <div className="relative group">
-                <Info className="w-4 h-4 text-gray-400 cursor-help" />
-                <div className="absolute left-0 top-full mt-2 hidden group-hover:block w-64 p-3 bg-gray-900 border border-gray-700 rounded-lg shadow-xl z-50 text-xs text-gray-300">
-                  <p className="font-semibold mb-2 text-blue-300">
+                <Info className="w-4 h-4 text-ink-3 cursor-help" />
+                <div className="absolute left-0 top-full mt-2 hidden group-hover:block w-64 p-3 bg-paper-2 border border-rule rounded-lg shadow-xl z-50 text-xs text-ink-2">
+                  <p className="font-semibold mb-2 text-pen-blue">
                     Allowed Math Functions:
                   </p>
                   <p className="leading-relaxed">
@@ -60,12 +75,12 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-gray-300 font-mono text-lg">y =</span>
+              <span className="text-ink-2 font-mono text-lg">y =</span>
               <Input
                 type="text"
                 value={functionStr}
                 onChange={(e) => setFunctionStr(e.target.value)}
-                className="bg-gray-800 border-gray-700 text-white font-mono"
+                className="bg-paper-2 border-rule text-ink font-mono"
                 placeholder="e.g. sin(x), x*x, floor(x)"
               />
             </div>
@@ -83,48 +98,32 @@ export default function Home() {
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
 
-        {/* Introduction */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-              The Cartesian Coordinate System
-            </h1>
-            <p className="text-gray-300 text-lg">
-              A system that specifies each point uniquely in a plane by a set of
-              numerical coordinates.
-            </p>
-          </div>
-        </div>
-
         {/* The Basics: Axes and Origin */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             Axes and Coordinates
           </h2>
-          <div className="space-y-6 text-gray-300 leading-relaxed">
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
+          <div className="space-y-6 text-ink-2 leading-relaxed">
+            <div className="vl-note vl-note-blue p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-xl font-bold text-blue-400 mb-2">
+                  <h3 className="text-xl font-bold text-pen-blue mb-2">
                     The Axes
                   </h3>
                   <ul className="space-y-2">
                     <li>
                       •{" "}
-                      <span className="font-semibold text-white">X-Axis:</span>{" "}
+                      <span className="font-semibold text-ink">X-Axis:</span>{" "}
                       The horizontal number line.
                     </li>
                     <li>
                       •{" "}
-                      <span className="font-semibold text-white">Y-Axis:</span>{" "}
+                      <span className="font-semibold text-ink">Y-Axis:</span>{" "}
                       The vertical number line.
                     </li>
                     <li>
                       •{" "}
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-ink">
                         Origin (0,0):
                       </span>{" "}
                       The point where the axes intersect.
@@ -132,7 +131,7 @@ export default function Home() {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-cyan-400 mb-2">
+                  <h3 className="text-xl font-bold text-pen-blue mb-2">
                     Coordinates (x, y)
                   </h3>
                   <p className="mb-2">
@@ -141,14 +140,14 @@ export default function Home() {
                   <ul className="space-y-2">
                     <li>
                       •{" "}
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-ink">
                         x-coordinate (Abscissa):
                       </span>{" "}
                       Distance from the y-axis.
                     </li>
                     <li>
                       •{" "}
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-ink">
                         y-coordinate (Ordinate):
                       </span>{" "}
                       Distance from the x-axis.
@@ -161,78 +160,72 @@ export default function Home() {
         </div>
 
         {/* Quadrants */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              ◰
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             The Four Quadrants
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-4 text-center">
-              <h3 className="text-lg font-bold text-green-400 mb-2">
+            <div className="bg-paper-2 border border-rule rounded-lg p-4 text-center">
+              <h3 className="text-lg font-bold text-pen-green mb-2">
                 Quadrant I
               </h3>
               <p className="text-2xl mb-2">(+, +)</p>
-              <p className="text-sm text-gray-400">Top Right</p>
-              <p className="text-xs text-gray-500 mt-1">x &gt; 0, y &gt; 0</p>
+              <p className="text-sm text-ink-3">Top Right</p>
+              <p className="text-xs text-ink-3 mt-1">x &gt; 0, y &gt; 0</p>
             </div>
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-4 text-center">
-              <h3 className="text-lg font-bold text-yellow-400 mb-2">
+            <div className="bg-paper-2 border border-rule rounded-lg p-4 text-center">
+              <h3 className="text-lg font-bold text-pen-gold mb-2">
                 Quadrant II
               </h3>
               <p className="text-2xl mb-2">(-, +)</p>
-              <p className="text-sm text-gray-400">Top Left</p>
-              <p className="text-xs text-gray-500 mt-1">x &lt; 0, y &gt; 0</p>
+              <p className="text-sm text-ink-3">Top Left</p>
+              <p className="text-xs text-ink-3 mt-1">x &lt; 0, y &gt; 0</p>
             </div>
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-4 text-center">
-              <h3 className="text-lg font-bold text-red-400 mb-2">
+            <div className="bg-paper-2 border border-rule rounded-lg p-4 text-center">
+              <h3 className="text-lg font-bold text-pen-rust mb-2">
                 Quadrant III
               </h3>
               <p className="text-2xl mb-2">(-, -)</p>
-              <p className="text-sm text-gray-400">Bottom Left</p>
-              <p className="text-xs text-gray-500 mt-1">x &lt; 0, y &lt; 0</p>
+              <p className="text-sm text-ink-3">Bottom Left</p>
+              <p className="text-xs text-ink-3 mt-1">x &lt; 0, y &lt; 0</p>
             </div>
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-4 text-center">
-              <h3 className="text-lg font-bold text-blue-400 mb-2">
+            <div className="bg-paper-2 border border-rule rounded-lg p-4 text-center">
+              <h3 className="text-lg font-bold text-pen-blue mb-2">
                 Quadrant IV
               </h3>
               <p className="text-2xl mb-2">(+, -)</p>
-              <p className="text-sm text-gray-400">Bottom Right</p>
-              <p className="text-xs text-gray-500 mt-1">x &gt; 0, y &lt; 0</p>
+              <p className="text-sm text-ink-3">Bottom Right</p>
+              <p className="text-xs text-ink-3 mt-1">x &gt; 0, y &lt; 0</p>
             </div>
           </div>
         </div>
 
         {/* Essential Formulas */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📐
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Essential Formulas
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-green-300 mb-4">
+            <div className="vl-note vl-note-green p-6">
+              <h3 className="vl-h3 mb-4">
                 Distance Formula
               </h3>
-              <p className="text-gray-300 mb-4">
+              <p className="text-ink-2 mb-4">
                 Calculates the length of the line segment connecting two points.
               </p>
-              <div className="bg-black/30 p-4 rounded-lg text-center font-mono text-lg text-green-400">
+              <div className="bg-paper-2 p-4 rounded-lg text-center font-mono text-lg text-pen-green">
                 d = √((x₂ - x₁)² + (y₂ - y₁)²)
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-purple-300 mb-4">
+            <div className="vl-note vl-note-plum p-6">
+              <h3 className="vl-h3 mb-4">
                 Midpoint Formula
               </h3>
-              <p className="text-gray-300 mb-4">
+              <p className="text-ink-2 mb-4">
                 Finds the center point exactly halfway between two points.
               </p>
-              <div className="bg-black/30 p-4 rounded-lg text-center font-mono text-lg text-purple-400">
+              <div className="bg-paper-2 p-4 rounded-lg text-center font-mono text-lg text-pen-plum">
                 M = ((x₁ + x₂)/2, (y₁ + y₂)/2)
               </div>
             </div>
@@ -241,42 +234,42 @@ export default function Home() {
 
         {/* Applications */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              🌍 <span className="ml-2">Real-World Applications</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Real-World Applications</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">GPS & Navigation:</span>{" "}
+                • <span className="text-pen-green">GPS & Navigation:</span>{" "}
                 Latitude and Longitude are essentially coordinates on a sphere.
               </li>
               <li>
-                • <span className="text-emerald-400">Computer Graphics:</span>{" "}
+                • <span className="text-pen-green">Computer Graphics:</span>{" "}
                 Every pixel on your screen is a coordinate (x, y).
               </li>
               <li>
-                • <span className="text-emerald-400">Data Science:</span>{" "}
+                • <span className="text-pen-green">Data Science:</span>{" "}
                 Scatter plots visualize relationships between two variables.
               </li>
               <li>
-                • <span className="text-emerald-400">Robotics:</span> Defining
+                • <span className="text-pen-green">Robotics:</span> Defining
                 position and movement paths in space.
               </li>
             </ul>
           </div>
 
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-violet-300 mb-4 flex items-center">
-              💡 <span className="ml-2">Did You Know?</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Did You Know?</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed mb-4">
+            <p className="text-ink-2 leading-relaxed mb-4">
               The system is named after <strong>René Descartes</strong>, a
               French mathematician and philosopher. Legend has it he came up
               with the idea while watching a fly crawl on his ceiling and
               realizing he could describe its position by its distance from the
               walls.
             </p>
-            <p className="text-gray-400 italic text-sm">
+            <p className="text-ink-3 italic text-sm">
               &quot;I think, therefore I am.&quot; - René Descartes
             </p>
           </div>

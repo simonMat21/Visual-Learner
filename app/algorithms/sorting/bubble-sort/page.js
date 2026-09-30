@@ -94,12 +94,37 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Bubble Sort
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Time: O(n²)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Space: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Stable
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
@@ -109,7 +134,7 @@ export default function Home() {
               }}
             />
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -132,47 +157,21 @@ export default function Home() {
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
 
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Bubble Sort
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Time: O(n²)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Space: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Stable
-              </span>
-            </div>
-          </div>
-        </div>
-
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💡
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How It Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               This sorting algorithm compares the adjacent elements and sorts
               them if they are in the wrong order. It repeats this process{" "}
-              <span className="text-orange-400 font-semibold">n²</span> times
+              <span className="text-pen-rust font-semibold">n²</span> times
               for the array to be sorted.
             </p>
             <p className="text-lg">
               It&apos;s called{" "}
-              <span className="text-purple-400 font-semibold">
+              <span className="text-pen-plum font-semibold">
                 &quot;bubble&quot;
               </span>{" "}
               sort because smaller elements slowly &quot;bubble up&quot; to the
@@ -183,11 +182,8 @@ export default function Home() {
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -207,20 +203,17 @@ export default function Home() {
         /> */}
 
         {/* Detailed Explanation */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Deeper Look
           </h2>
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
+            <div className="vl-note vl-note-plum p-6">
+              <p className="text-ink-2 text-lg leading-relaxed">
                 If you take a broader look, it is like taking the biggest
                 element and placing it at the end of the array, then repeating
                 this process until the array is sorted. Bubble Sort is a{" "}
-                <span className="text-green-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   stable sort
                 </span>
                 , meaning that elements with equal values maintain their
@@ -233,24 +226,24 @@ export default function Home() {
 
         {/* Fun Facts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-yellow-300 mb-4 flex items-center">
-              🧪 <span className="ml-2">Stress Test</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Stress Test</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-ink-2 leading-relaxed">
               Bubble Sort is sometimes used in embedded or very low-level
               testing as a &quot;canary&quot; algorithm to validate a basic
               sorting function.
             </p>
           </div>
 
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-cyan-300 mb-4 flex items-center">
-              🧙‍♂️ <span className="ml-2">Variants in Practice</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Variants in Practice</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-ink-2 leading-relaxed">
               Bubble Sort is too slow for large datasets. But variants like{" "}
-              <span className="text-cyan-400 font-semibold">
+              <span className="text-pen-blue font-semibold">
                 Cocktail Shaker Sort
               </span>
               (a bidirectional version) are more efficient in some situations.

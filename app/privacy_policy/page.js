@@ -8,21 +8,21 @@ const PrivacyPolicy = () => {
   const formattedDate = "December 10, 2025";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-950 to-blue-900 py-12 px-4">
+    <div className="vl-page pt-6 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
+          <h1 className="vl-title text-4xl md:text-5xl mb-3">
             Privacy Policy
           </h1>
-          <p className="text-blue-300">Visual Learner</p>
-          <p className="text-blue-400 text-sm mt-2">
+          <p className="vl-eyebrow">Visual Learner</p>
+          <p className="font-mono text-xs text-ink-3 mt-2">
             Last updated: {formattedDate}
           </p>
         </div>
 
         {/* Content */}
-        <div className="bg-blue-900 bg-opacity-50 rounded-lg p-8 md:p-10 text-blue-50 space-y-8">
+        <div className="vl-card p-8 md:p-12 text-ink-2 space-y-10">
           {/* Welcome Section */}
           <section>
             <p className="text-lg leading-relaxed">
@@ -31,7 +31,7 @@ const PrivacyPolicy = () => {
                 href="https://www.visuallearner.org/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-300 hover:text-blue-200 underline"
+                className="text-pen-blue underline underline-offset-2 hover:text-ink"
               >
                 Visual Learner
               </a>
@@ -43,7 +43,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 1 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               1. Website Overview
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -51,10 +51,10 @@ const PrivacyPolicy = () => {
               physics concepts, and mathematical models in a simple, interactive
               way.
             </p>
-            <p className="font-semibold text-white mb-3">
+            <p className="font-semibold text-ink mb-3">
               The website is owned and managed by:
             </p>
-            <ul className="space-y-2 ml-6 border-l-2 border-blue-400 pl-4">
+            <ul className="space-y-2 ml-6 border-l-2 border-pen-blue pl-4">
               <li>
                 <strong>Name:</strong> Simon Mattekkatt
               </li>
@@ -65,7 +65,7 @@ const PrivacyPolicy = () => {
                 <strong>Email:</strong>{" "}
                 <a
                   href="mailto:simonmatttekkatt21@gmail.com"
-                  className="text-blue-300 hover:text-blue-200"
+                  className="text-pen-blue underline underline-offset-2 hover:text-ink"
                 >
                   simonmatttekkatt21@gmail.com
                 </a>
@@ -75,7 +75,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 2 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               2. Information We Collect
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -85,32 +85,32 @@ const PrivacyPolicy = () => {
                 information from users.
               </strong>
             </p>
-            <p className="font-semibold text-white mb-3">This includes:</p>
+            <p className="font-semibold text-ink mb-3">This includes:</p>
             <ul className="grid grid-cols-2 md:grid-cols-3 gap-3 ml-6">
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> No names
+                <span className="text-pen-blue mr-2">✗</span> No names
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> No email addresses
+                <span className="text-pen-blue mr-2">✗</span> No email addresses
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> No device data
+                <span className="text-pen-blue mr-2">✗</span> No device data
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> No analytics
+                <span className="text-pen-blue mr-2">✗</span> No analytics
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> No forms or
+                <span className="text-pen-blue mr-2">✗</span> No forms or
                 submissions
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> No log-in data
+                <span className="text-pen-blue mr-2">✗</span> No log-in data
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> No uploaded files
+                <span className="text-pen-blue mr-2">✗</span> No uploaded files
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> No location
+                <span className="text-pen-blue mr-2">✗</span> No location
                 tracking
               </li>
             </ul>
@@ -118,24 +118,24 @@ const PrivacyPolicy = () => {
 
           {/* Section 3 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               3. Cookies & Tracking
             </h2>
             <p className="mb-4 leading-relaxed">We do not use:</p>
             <ul className="grid gap-2 ml-6">
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> Cookies
+                <span className="text-pen-blue mr-2">✗</span> Cookies
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> Tracking
+                <span className="text-pen-blue mr-2">✗</span> Tracking
                 technologies
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> Analytics services
+                <span className="text-pen-blue mr-2">✗</span> Analytics services
                 (e.g., Google Analytics)
               </li>
               <li className="flex items-center">
-                <span className="text-blue-300 mr-2">✗</span> Third-party
+                <span className="text-pen-blue mr-2">✗</span> Third-party
                 scripts (except Google AdSense)
               </li>
             </ul>
@@ -147,7 +147,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 4 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               4. Advertising (Google AdSense)
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -170,7 +170,7 @@ const PrivacyPolicy = () => {
                 href="https://www.google.com/policies/technologies/ads/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-300 hover:text-blue-200 underline"
+                className="text-pen-blue underline underline-offset-2 hover:text-ink"
               >
                 https://www.google.com/policies/technologies/ads/
               </a>
@@ -179,7 +179,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 5 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               5. Third-Party Services
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -194,7 +194,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 6 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               6. User Rights
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -206,7 +206,7 @@ const PrivacyPolicy = () => {
               <li>• CCPA/CPRA (California)</li>
               <li>• Indian IT privacy guidelines</li>
             </ul>
-            <p className="font-semibold text-white mb-3">
+            <p className="font-semibold text-ink mb-3">
               If any feature in the future requires data collection, we will:
             </p>
             <ul className="space-y-2 ml-6">
@@ -218,7 +218,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 7 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               7. Children&apos;s Privacy
             </h2>
             <p className="leading-relaxed">
@@ -229,7 +229,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 8 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               8. Data Stored
             </h2>
             <p className="leading-relaxed">
@@ -239,7 +239,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 9 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               9. Links to External Sites
             </h2>
             <p className="leading-relaxed">
@@ -251,7 +251,7 @@ const PrivacyPolicy = () => {
 
           {/* Section 10 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               10. Changes to This Privacy Policy
             </h2>
             <p className="leading-relaxed">
@@ -262,14 +262,14 @@ const PrivacyPolicy = () => {
 
           {/* Section 11 */}
           <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl font-semibold text-ink mb-4">
               11. Contact Us
             </h2>
             <p className="mb-4 leading-relaxed">
               If you have any questions about this Privacy Policy, you can
               contact:
             </p>
-            <div className="bg-blue-800 bg-opacity-50 rounded p-6 space-y-3">
+            <div className="rounded-xl border border-rule bg-paper-2/60 p-6 space-y-3">
               <p>
                 <strong>Name:</strong> Simon Mattekkatt
               </p>
@@ -277,7 +277,7 @@ const PrivacyPolicy = () => {
                 <strong>Email:</strong>{" "}
                 <a
                   href="mailto:simonmatttekkatt21@gmail.com"
-                  className="text-blue-300 hover:text-blue-200"
+                  className="text-pen-blue underline underline-offset-2 hover:text-ink"
                 >
                   simonmatttekkatt21@gmail.com
                 </a>
@@ -292,7 +292,7 @@ const PrivacyPolicy = () => {
         <div className="text-center mt-12">
           <Link
             href="/"
-            className="inline-block px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors"
+            className="dobtn px-5"
           >
             Back to Home
           </Link>

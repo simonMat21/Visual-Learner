@@ -21,12 +21,26 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Eigenvalues & Eigenvectors
+            </h1>
+            <p className="text-ink-2 text-lg">
+              Vectors that don&apos;t change direction under transformation.
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <P5Sketch
             k1={sliderValue[0]}
             k2={sliderValue2[0]}
@@ -38,35 +52,21 @@ export default function Home() {
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Title */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Eigenvalues & Eigenvectors
-            </h1>
-            <p className="text-gray-300 text-lg">
-              Vectors that don&apos;t change direction under transformation.
-            </p>
-          </div>
-        </div>
 
         {/* Definition */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-orange-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              λ
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             The Eigen Equation
           </h2>
-          <div className="space-y-6 text-gray-300 leading-relaxed">
-            <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-6 text-center">
-              <h3 className="text-3xl font-bold text-orange-400 mb-2">
+          <div className="space-y-6 text-ink-2 leading-relaxed">
+            <div className="vl-note vl-note-rust p-6 text-center">
+              <h3 className="text-3xl font-bold text-pen-rust mb-2">
                 Av = λv
               </h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-                <h4 className="font-bold text-orange-300 mb-2">
+              <div className="vl-card p-4 rounded-lg">
+                <h4 className="font-bold text-pen-rust mb-2">
                   v (Eigenvector)
                 </h4>
                 <p className="text-sm">
@@ -74,8 +74,8 @@ export default function Home() {
                   transformation A. It does not change direction.
                 </p>
               </div>
-              <div className="bg-white/5 p-4 rounded-lg border border-white/10">
-                <h4 className="font-bold text-red-300 mb-2">λ (Eigenvalue)</h4>
+              <div className="vl-card p-4 rounded-lg">
+                <h4 className="font-bold text-pen-rust mb-2">λ (Eigenvalue)</h4>
                 <p className="text-sm">
                   The scalar factor by which the eigenvector is stretched or
                   shrunk.
@@ -86,51 +86,51 @@ export default function Home() {
         </div>
 
         {/* Calculation */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-red-300 mb-4">
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How to Find Them
           </h2>
-          <p className="text-gray-300 mb-4">
+          <p className="text-ink-2 mb-4">
             To find the eigenvalues, we solve the characteristic equation:
           </p>
-          <div className="text-center bg-white/5 p-4 rounded-lg border border-white/10 mb-4">
-            <p className="text-xl font-mono text-orange-300">det(A - λI) = 0</p>
+          <div className="vl-card text-center p-4 rounded-lg mb-4">
+            <p className="text-xl font-mono text-pen-rust">det(A - λI) = 0</p>
           </div>
-          <p className="text-gray-300">
+          <p className="text-ink-2">
             Once λ is found, substitute it back into{" "}
             <strong>(A - λI)v = 0</strong> to solve for the eigenvector v.
           </p>
         </div>
 
         {/* Applications */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-orange-300 mb-4">
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             Applications
           </h2>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-ink-2">
             <li className="flex items-start">
-              <span className="mr-2 text-red-400">•</span>
+              <span className="mr-2 text-pen-rust">•</span>
               <span>
                 <strong>Google PageRank:</strong> Uses eigenvectors of the web
                 graph.
               </span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-red-400">•</span>
+              <span className="mr-2 text-pen-rust">•</span>
               <span>
                 <strong>Vibration Analysis:</strong> Natural frequencies of
                 bridges/buildings.
               </span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-red-400">•</span>
+              <span className="mr-2 text-pen-rust">•</span>
               <span>
                 <strong>Face Recognition:</strong> Eigenfaces in computer
                 vision.
               </span>
             </li>
             <li className="flex items-start">
-              <span className="mr-2 text-red-400">•</span>
+              <span className="mr-2 text-pen-rust">•</span>
               <span>
                 <strong>Quantum Mechanics:</strong> States and observables.
               </span>

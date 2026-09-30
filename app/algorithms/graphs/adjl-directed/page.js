@@ -150,12 +150,37 @@ Use cases:
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Adjacency List for Directed Graphs
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Space: O(V + E)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Add Edge: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Dynamic Size
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <P5Sketch
             k1={sliderValue[0]}
             k2={sliderValue2[0]}
@@ -167,38 +192,13 @@ Use cases:
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Adjacency List for Directed Graphs
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-orange-400/20 to-red-400/20 rounded-full px-4 py-2 mt-3 border border-orange-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-orange-400 rounded-full mr-2"></span>
-                Space: O(V + E)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Add Edge: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Dynamic Size
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-orange-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📋
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             Understanding Adjacency Lists
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               An adjacency list is a collection of lists used to represent a
               graph. Each vertex has a list containing all vertices it is
@@ -211,8 +211,8 @@ Use cases:
               space-efficient for graphs with few connections relative to the
               total number of possible edges.
             </p>
-            <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-4 my-4">
-              <p className="text-center text-lg font-bold text-orange-400">
+            <div className="vl-note vl-note-rust p-4 my-4">
+              <p className="text-center text-lg font-bold text-pen-rust">
                 Space Usage: O(V + E) instead of O(V²) for adjacency matrix
               </p>
             </div>
@@ -220,11 +220,8 @@ Use cases:
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-red-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -235,78 +232,75 @@ Use cases:
         </div>
 
         {/* Performance Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Performance Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-orange-300 mb-2">
+            <div className="vl-note vl-note-rust p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Add Edge:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-yellow-400 font-semibold">
+                  <span className="text-pen-gold font-semibold">
                     Remove Edge:
                   </span>{" "}
                   O(degree)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-yellow-400 font-semibold">
+                  <span className="text-pen-gold font-semibold">
                     Check Edge:
                   </span>{" "}
                   O(degree)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Get Neighbors:
                   </span>{" "}
                   O(1)
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Space Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Total Space:
                   </span>{" "}
                   O(V + E)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Per Vertex:
                   </span>{" "}
                   O(degree)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Sparse Graphs:
                   </span>{" "}
                   Much better than O(V²)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">Dynamic:</span>{" "}
+                  <span className="text-pen-blue font-semibold">Dynamic:</span>{" "}
                   Grows with actual edges
                 </li>
               </ul>
@@ -316,60 +310,60 @@ Use cases:
 
         {/* Comparisons */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              ✅ <span className="ml-2">Advantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Advantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Space efficient:</span>{" "}
+                • <span className="text-pen-green">Space efficient:</span>{" "}
                 Only stores existing edges
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Fast neighbor iteration:
                 </span>{" "}
                 Direct access to adjacency list
               </li>
               <li>
-                • <span className="text-emerald-400">Dynamic size:</span> Adapts
+                • <span className="text-pen-green">Dynamic size:</span> Adapts
                 to actual graph density
               </li>
               <li>
-                • <span className="text-emerald-400">Memory locality:</span>{" "}
+                • <span className="text-pen-green">Memory locality:</span>{" "}
                 Better cache performance for sparse graphs
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">Easy to add vertices:</span>{" "}
+                <span className="text-pen-green">Easy to add vertices:</span>{" "}
                 Just add new list
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-amber-300 mb-4 flex items-center">
-              ⚠️ <span className="ml-2">Disadvantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Disadvantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-amber-400">Slower edge queries:</span>{" "}
+                • <span className="text-pen-gold">Slower edge queries:</span>{" "}
                 O(degree) vs O(1) for matrix
               </li>
               <li>
-                • <span className="text-amber-400">Complex deletion:</span> Need
+                • <span className="text-pen-gold">Complex deletion:</span> Need
                 to search through lists
               </li>
               <li>
-                • <span className="text-amber-400">No direct indexing:</span>{" "}
+                • <span className="text-pen-gold">No direct indexing:</span>{" "}
                 Can&apos;t directly access edge weights
               </li>
               <li>
-                • <span className="text-amber-400">Memory fragmentation:</span>{" "}
+                • <span className="text-pen-gold">Memory fragmentation:</span>{" "}
                 Dynamic allocation overhead
               </li>
               <li>
-                • <span className="text-amber-400">Dense graphs:</span> May use
+                • <span className="text-pen-gold">Dense graphs:</span> May use
                 more space than matrix
               </li>
             </ul>
@@ -377,35 +371,32 @@ Use cases:
         </div>
 
         {/* Use Cases */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-violet-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-violet-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🎯
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Best Use Cases
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-lg p-4">
-              <h4 className="text-md font-semibold text-violet-300 mb-2">
+            <div className="vl-note vl-note-plum p-4">
+              <h4 className="text-md font-semibold text-pen-plum mb-2">
                 Sparse Graphs
               </h4>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-ink-2">
                 When edges &lt;&lt; V², adjacency lists save significant space
               </p>
             </div>
-            <div className="bg-gradient-to-r from-indigo-500/10 to-blue-500/10 border border-indigo-500/20 rounded-lg p-4">
-              <h4 className="text-md font-semibold text-indigo-300 mb-2">
+            <div className="vl-note vl-note-blue p-4">
+              <h4 className="text-md font-semibold text-pen-blue mb-2">
                 Graph Traversal
               </h4>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-ink-2">
                 DFS, BFS benefit from fast neighbor iteration
               </p>
             </div>
-            <div className="bg-gradient-to-r from-teal-500/10 to-green-500/10 border border-teal-500/20 rounded-lg p-4">
-              <h4 className="text-md font-semibold text-teal-300 mb-2">
+            <div className="vl-note vl-note-green p-4">
+              <h4 className="text-md font-semibold text-pen-green mb-2">
                 Dynamic Graphs
               </h4>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-ink-2">
                 When vertices/edges are frequently added/removed
               </p>
             </div>

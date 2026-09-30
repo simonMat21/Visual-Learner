@@ -87,10 +87,32 @@ Repeat log₂(n) times:
     }
   };
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Binary Search
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Time: O(log(n))
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Space: O(1)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div key={1} className="flex justify-center gap-4 mb-4 rounded-5">
             <Input
               className="inpbox"
@@ -117,7 +139,7 @@ Repeat log₂(n) times:
               }}
             />
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -140,45 +162,24 @@ Repeat log₂(n) times:
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Binary Search
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Time: O(log(n))
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Space: O(1)
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💡
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How It Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               This search algorithm repeatedly reduces the search area by half on
               each iteration. Binary search only works on a sorted list. It
               repeats this process{" "}
-              <span className="text-orange-400 font-semibold">log₂(n)</span>{" "}
+              <span className="text-pen-rust font-semibold">log₂(n)</span>{" "}
               times when the target doesn&apos;t exist or if the target is the
               first or last element.
             </p>
             <p className="text-lg">
               It&apos;s called{" "}
-              <span className="text-purple-400 font-semibold">
+              <span className="text-pen-plum font-semibold">
                 &quot;Binary&quot;
               </span>{" "}
               search because the algorithm repeatedly divides the search area
@@ -188,11 +189,8 @@ Repeat log₂(n) times:
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -203,16 +201,13 @@ Repeat log₂(n) times:
         </div>
 
         {/* Detailed Explanation */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Deeper Look
           </h2>
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
+            <div className="vl-note vl-note-plum p-6">
+              <p className="text-ink-2 text-lg leading-relaxed">
                 Binary Search is a fast searching algorithm that works on a
                 sorted array by repeatedly dividing the search space in half to
                 locate a target value. Starting with the middle element, the
@@ -222,7 +217,7 @@ Repeat log₂(n) times:
                 process is repeated until the target is found or the search
                 space is empty.
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
+              <p className="text-ink-2 text-lg leading-relaxed">
                 It is most suited for searching in large datasets instead of
                 linear search.
               </p>
@@ -232,29 +227,29 @@ Repeat log₂(n) times:
 
         {/* Fun Facts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-yellow-300 mb-4 flex items-center">
-              🧪 <span className="ml-2">Constrained but effective</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Constrained but effective</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-ink-2 leading-relaxed">
               Since binary search requires a sorted array, we may need to sort
               the dataset before searching. In exchange for some extra steps, it
               overtakes linear search by time taken. Perfect for large datasets.
             </p>
           </div>
 
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-cyan-300 mb-4 flex items-center">
-              🧙‍♂️ <span className="ml-2">Variants in Practice</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Variants in Practice</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-ink-2 leading-relaxed">
               Binary Search is good for even large datasets but there exists
               variants like{" "}
-              <span className="text-cyan-400 font-semibold">
+              <span className="text-pen-blue font-semibold">
                 Ternery search
               </span>{" "}
               which divides by 3 and{" "}
-              <span className="text-cyan-400 font-semibold">
+              <span className="text-pen-blue font-semibold">
                 Exponential Search
               </span>{" "}
               which scans exponentially and uses binary search in a found range

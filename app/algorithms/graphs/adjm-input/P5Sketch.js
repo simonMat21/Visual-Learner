@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { inputMethod_directedAdjMatrix } from "../../../../components/inputmethods";
+import { BOARD, CHALK } from "@/lib/boardPalette";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
@@ -48,7 +49,7 @@ export default function P5Sketch({ k1, k2, t }) {
             let endX = x2 - dx * nodeRadius;
             let endY = y2 - dy * nodeRadius;
 
-            P.stroke(100);
+            P.stroke(150, 165, 157);
             P.line(startX, startY, endX, endY);
 
             let arrowSize = 10;
@@ -57,7 +58,7 @@ export default function P5Sketch({ k1, k2, t }) {
             P.push();
             P.translate(endX, endY);
             P.rotate(angle);
-            P.fill(100);
+            P.fill(150, 165, 157);
             P.noStroke();
             P.triangle(
               0,
@@ -76,7 +77,7 @@ export default function P5Sketch({ k1, k2, t }) {
           let loopRadius = nodeRadius + 12;
 
           P.push();
-          P.stroke(100);
+          P.stroke(150, 165, 157);
           P.strokeWeight(2);
           P.noFill();
 
@@ -109,7 +110,7 @@ export default function P5Sketch({ k1, k2, t }) {
           P.push();
           P.translate(arrowX, arrowY);
           P.rotate(arrowAngle + P.PI / 1.6); // Tangent to the circle
-          P.fill(100);
+          P.fill(150, 165, 157);
           P.noStroke();
           let arrowSize = 6;
           P.triangle(
@@ -149,7 +150,7 @@ export default function P5Sketch({ k1, k2, t }) {
         };
 
         P.draw = () => {
-          P.background(220, 34, 72);
+          P.background(...BOARD);
 
           // Update panel animation and draw background using inputMethod
           if (inputHandler) {
@@ -158,7 +159,7 @@ export default function P5Sketch({ k1, k2, t }) {
           }
 
           // Always draw the graph visualization
-          P.fill(0);
+          P.fill(...CHALK);
           P.textAlign(P.CENTER);
           P.textSize(16);
           P.text("Graph Visualization", 700, 80);
@@ -195,7 +196,7 @@ export default function P5Sketch({ k1, k2, t }) {
 
           // Draw stats
           P.noStroke();
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(14);
           P.textAlign(P.LEFT);
           let edgeCount = 0;

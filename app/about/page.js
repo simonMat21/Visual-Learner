@@ -12,7 +12,7 @@ const libraries = [
   },
   {
     name: "Next.js",
-    icon: <Layers size={32} color="#ffffff" />,
+    icon: <Layers size={32} color="#1d2320" />,
     link: "https://nextjs.org",
     use: "React Framework",
   },
@@ -36,7 +36,7 @@ const libraries = [
   },
   {
     name: "Lucide React",
-    icon: <Github size={32} color="#ffffff" />,
+    icon: <Github size={32} color="#1d2320" />,
     link: "https://lucide.dev",
     use: "Icons",
   },
@@ -48,7 +48,7 @@ const libraries = [
   },
   {
     name: "Vercel",
-    icon: <Layers size={32} color="#ffffff" />,
+    icon: <Layers size={32} color="#1d2320" />,
     link: "https://vercel.com",
     use: "Deployment",
   },
@@ -94,50 +94,50 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main id="about" className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white p-8">
+    <main id="about" className="vl-page p-8">
       {/* About Section */}
       <div className="max-w-6xl mx-auto mb-16">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-6">
+          <h1 className="vl-title text-6xl mb-6">
             Visual Learner
           </h1>
-          <p className="text-2xl text-gray-300 mb-8 font-light">
+          <p className="text-xl text-ink-2 mb-8">
             Making complex concepts simple through interactive visualizations
           </p>
         </div>
 
         {/* Mission Cards */}
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-2xl p-6 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="vl-card p-7">
+            <div className="mb-5 grid h-12 w-12 place-items-center rounded-xl border border-rule bg-paper-2">
               <span className="text-2xl">🎓</span>
             </div>
-            <h3 className="text-xl font-bold mb-3">Educational Excellence</h3>
-            <p className="text-gray-300">
+            <h3 className="font-display text-xl font-semibold text-ink mb-2">Educational Excellence</h3>
+            <p className="text-ink-2">
               Interactive tools that transform learning algorithms, data
               structures, and mathematical concepts into engaging visual
               experiences.
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-2xl p-6 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="vl-card p-7">
+            <div className="mb-5 grid h-12 w-12 place-items-center rounded-xl border border-rule bg-paper-2">
               <span className="text-2xl">🤝</span>
             </div>
-            <h3 className="text-xl font-bold mb-3">Open Source</h3>
-            <p className="text-gray-300">
+            <h3 className="font-display text-xl font-semibold text-ink mb-2">Open Source</h3>
+            <p className="text-ink-2">
               Built by the community, for the community. Every line of code is
               open source and welcomes contributions from developers worldwide.
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-green-500/10 to-teal-500/10 border border-green-500/20 rounded-2xl p-6 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="vl-card p-7">
+            <div className="mb-5 grid h-12 w-12 place-items-center rounded-xl border border-rule bg-paper-2">
               <span className="text-2xl">🚀</span>
             </div>
-            <h3 className="text-xl font-bold mb-3">Innovation</h3>
-            <p className="text-gray-300">
+            <h3 className="font-display text-xl font-semibold text-ink mb-2">Innovation</h3>
+            <p className="text-ink-2">
               Cutting-edge web technologies and creative coding techniques to
               deliver smooth, responsive, and beautiful learning experiences.
             </p>
@@ -145,23 +145,23 @@ export default function AboutPage() {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-          <h2 className="text-3xl font-bold mb-4">Join Our Mission</h2>
-          <p className="text-lg text-gray-300 mb-6 max-w-3xl mx-auto">
+        <div className="text-center rounded-2xl border border-rule bg-board px-8 py-12 text-chalk">
+          <h2 className="font-display text-3xl font-semibold mb-4 text-chalk">Join Our Mission</h2>
+          <p className="text-lg text-chalk/75 mb-8 max-w-3xl mx-auto">
             Whether you&apos;re a student exploring algorithms, an educator
             seeking interactive tools, or a developer passionate about open
             source - there&apos;s a place for you in our community.
           </p>
-          <div className="flex justify-center space-x-4">
+          <div className="flex flex-wrap justify-center gap-3">
             <a
               href="https://github.com/simonMat21/Visual-Learner"
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full text-white font-semibold"
+              className="inline-flex h-11 items-center rounded-lg bg-chalk px-5 text-sm font-medium text-ink transition-colors hover:bg-white"
             >
               🎯 Learn & Explore
             </a>
             <a
               href="https://github.com/simonMat21/Visual-Learner/discussions"
-              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white font-semibold"
+              className="inline-flex h-11 items-center rounded-lg border border-chalk/40 px-5 text-sm font-medium text-chalk transition-colors hover:bg-board-2"
             >
               💡 Contribute Ideas
             </a>
@@ -170,12 +170,12 @@ export default function AboutPage() {
       </div>
 
       {/* Team Section */}
-      <h2 className="text-4xl font-semibold mb-6 text-center">Meet the Team</h2>
+      <h2 className="vl-title text-4xl mb-8 mt-16 text-center">Meet the Team</h2>
 
       {loading ? (
         <div className="text-center mb-12">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
-          <p className="mt-2 text-gray-400">Loading contributors...</p>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-pen-plum"></div>
+          <p className="mt-2 text-ink-3">Loading contributors...</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 max-w-7xl mx-auto mb-12 place-items-center">
@@ -188,11 +188,11 @@ export default function AboutPage() {
               className="flex flex-col items-center text-center group"
             >
               <div className="relative">
-                <div className="w-20 h-20 rounded-full overflow-hidden shadow-[0_0_15px_#8b5cf6] transition-all duration-300 group-hover:shadow-[0_0_25px_#ec4899] group-hover:scale-110">
+                <div className="w-20 h-20 rounded-full overflow-hidden transition-all duration-300 group-hover:scale-110">
                   <img
                     src={`https://github.com/${member.username}.png`}
                     alt={`${member.name} profile picture`}
-                    className="w-full h-full object-cover rounded-full bg-gray-800"
+                    className="w-full h-full object-cover rounded-full bg-paper-2"
                     onError={(e) => {
                       e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
                         member.name
@@ -212,10 +212,10 @@ export default function AboutPage() {
       {/* Libraries Section */}
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-4">
+          <h2 className="vl-title text-4xl mb-4">
             Built With Amazing Tools
           </h2>
-          <p className="text-lg text-gray-300">
+          <p className="text-lg text-ink-2">
             Powered by the best open-source technologies
           </p>
         </div>
@@ -227,15 +227,15 @@ export default function AboutPage() {
               href={lib.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 transition-all duration-300 hover:border-white/20 hover:shadow-xl hover:shadow-purple-500/20 hover:-translate-y-1 flex flex-col items-center text-center"
+              className="vl-card group p-6 transition-all duration-300 hover:border-rule-strong hover:-translate-y-1 flex flex-col items-center text-center"
             >
               <div className="mb-4 transition-transform duration-300 group-hover:scale-110">
                 {lib.icon}
               </div>
-              <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors duration-300">
+              <h3 className="font-display text-lg font-semibold text-ink mb-1">
                 {lib.name}
               </h3>
-              <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+              <p className="text-sm text-ink-3 group-hover:text-ink-2 transition-colors duration-300">
                 {lib.use}
               </p>
             </a>

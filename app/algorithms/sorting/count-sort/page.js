@@ -105,12 +105,37 @@ Works only for non-negative integers`,
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Count Sort
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-plum rounded-full mr-2"></span>
+                Time: O(n + k)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Space: O(k)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Stable
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
@@ -120,7 +145,7 @@ Works only for non-negative integers`,
               }}
             />
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -142,38 +167,13 @@ Works only for non-negative integers`,
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent mb-2">
-              Count Sort
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-purple-400/20 to-indigo-400/20 rounded-full px-4 py-2 mt-3 border border-purple-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
-                Time: O(n + k)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-indigo-400 rounded-full mr-2"></span>
-                Space: O(k)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Stable
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How Count Sort Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               Count Sort is a non-comparison based sorting algorithm that counts
               the occurrences of each distinct element in the array. It works by
@@ -195,11 +195,8 @@ Works only for non-negative integers`,
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-indigo-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -210,43 +207,40 @@ Works only for non-negative integers`,
         </div>
 
         {/* Properties & Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Algorithm Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-indigo-500/10 border border-purple-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-purple-300 mb-2">
+            <div className="vl-note vl-note-plum p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
-                  • <span className="text-purple-400 font-semibold">Best:</span>{" "}
+                  • <span className="text-pen-plum font-semibold">Best:</span>{" "}
                   O(n + k)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-purple-400 font-semibold">
+                  <span className="text-pen-plum font-semibold">
                     Average:
                   </span>{" "}
                   O(n + k)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-purple-400 font-semibold">Worst:</span>{" "}
+                  <span className="text-pen-plum font-semibold">Worst:</span>{" "}
                   O(n + k)
                 </li>
                 <li>• where k is the range of input</li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-indigo-500/10 to-blue-500/10 border border-indigo-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-indigo-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Key Properties
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>• Non-comparison based algorithm</li>
                 <li>• Stable sorting (maintains relative order)</li>
                 <li>• Works only with non-negative integers</li>
@@ -258,42 +252,42 @@ Works only for non-negative integers`,
 
         {/* Applications & Limitations */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              🎯 <span className="ml-2">Best Use Cases</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Best Use Cases</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Small range of integers
                 </span>
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Frequency counting problems
                 </span>
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   As subroutine in radix sort
                 </span>
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   When stability is required
                 </span>
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-red-300 mb-4 flex items-center">
-              ⚠️ <span className="ml-2">Limitations</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Limitations</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>• Only works with non-negative integers</li>
               <li>• Space complexity increases with range</li>
               <li>• Inefficient when range is much larger than n</li>

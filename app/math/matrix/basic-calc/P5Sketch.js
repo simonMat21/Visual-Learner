@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import { BOARD, CHALK } from "@/lib/boardPalette";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
@@ -196,8 +197,8 @@ export default function P5Sketch({ k1, k2, t }) {
               input.style("height", inputSize + "px");
               input.style("font-size", P.min(16, inputSize / 3) + "px");
               input.style("font-weight", "bold");
-              input.style("border", "2px solid #666");
-              input.style("background-color", "#ffffff");
+              input.style("border", "2px solid #7d9088");
+              input.style("background-color", "#f6f2e9");
               input.style("color", "#000");
               input.style("text-align", "center");
               input.style("margin", "0");
@@ -216,7 +217,7 @@ export default function P5Sketch({ k1, k2, t }) {
         function drawMatrixDisplay(mat, x, y, title, decimals = 2) {
           if (!mat) return;
 
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(14);
           P.textAlign(P.LEFT);
           P.noStroke();
@@ -226,7 +227,7 @@ export default function P5Sketch({ k1, k2, t }) {
           let fontSize = P.min(12, cellSize / 3.5);
 
           // Draw matrix border
-          P.stroke(100);
+          P.stroke(150, 165, 157);
           P.strokeWeight(2);
           P.noFill();
           let matWidth = matrixSize * cellSize;
@@ -265,14 +266,14 @@ export default function P5Sketch({ k1, k2, t }) {
         }
 
         function drawResults() {
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(16);
           P.textAlign(P.LEFT);
           P.noStroke();
           P.text("Input Matrix (A):", 20, 80);
 
           // Draw input matrix labels
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(12);
           P.textAlign(P.CENTER);
           let inputSize = P.min(50, 250 / matrixSize);
@@ -295,7 +296,7 @@ export default function P5Sketch({ k1, k2, t }) {
             let spacing = matrixSize * P.min(45, 180 / matrixSize) + 40;
 
             // Transpose - with proper notation
-            P.fill(0);
+            P.fill(...CHALK);
             P.textSize(16);
             P.textAlign(P.LEFT);
             P.text("Transpose (A", 450, resultStartY - 20);
@@ -306,14 +307,14 @@ export default function P5Sketch({ k1, k2, t }) {
             drawMatrixDisplay(transpose, 450, resultStartY, "", 2);
 
             // Adjoint
-            P.fill(0);
+            P.fill(...CHALK);
             P.textSize(16);
             P.textAlign(P.LEFT);
             P.text("Adjoint (adj(A)):", 450 + spacing, resultStartY - 20);
             drawMatrixDisplay(adjoint, 450 + spacing, resultStartY, "", 2);
 
             // Determinant and Trace on same line
-            P.fill(0);
+            P.fill(...CHALK);
             P.textSize(16);
             P.textAlign(P.LEFT);
             P.text("Determinant (|A|) =", 450, resultStartY + spacing);
@@ -322,7 +323,7 @@ export default function P5Sketch({ k1, k2, t }) {
             P.text(determinant.toFixed(2), 610, resultStartY + spacing);
 
             // Trace
-            P.fill(0);
+            P.fill(...CHALK);
             P.textSize(16);
             P.text("Trace (tr(A)) =", 450, resultStartY + spacing + 30);
             P.textSize(18);
@@ -331,7 +332,7 @@ export default function P5Sketch({ k1, k2, t }) {
 
             // Inverse - with proper notation
             if (inverse) {
-              P.fill(0);
+              P.fill(...CHALK);
               P.textSize(16);
               P.textAlign(P.LEFT);
               P.text("Inverse (A", 450, resultStartY + spacing + 65);
@@ -347,7 +348,7 @@ export default function P5Sketch({ k1, k2, t }) {
                 2
               );
             } else {
-              P.fill(0);
+              P.fill(...CHALK);
               P.textSize(16);
               P.textAlign(P.LEFT);
               P.text("Inverse (A", 450, resultStartY + spacing + 65);
@@ -360,7 +361,7 @@ export default function P5Sketch({ k1, k2, t }) {
               P.textAlign(P.LEFT);
               P.text("Does not exist", 450, resultStartY + spacing + 85);
               P.textSize(12);
-              P.fill(100);
+              P.fill(150, 165, 157);
               P.text("(Determinant = 0)", 450, resultStartY + spacing + 103);
             }
           }
@@ -378,17 +379,17 @@ export default function P5Sketch({ k1, k2, t }) {
           sizeInput.style("-moz-appearance", "textfield");
           sizeInput.style("appearance", "textfield");
           sizeInput.style("font-weight", "bold");
-          sizeInput.style("border", "2px solid #666");
-          sizeInput.style("background-color", "#ffffff");
+          sizeInput.style("border", "2px solid #7d9088");
+          sizeInput.style("background-color", "#f6f2e9");
           sizeInput.style("color", "#000");
           sizeInput.position(cnv.position().x + 160, cnv.position().y + 30);
 
           generateButton = P.createButton("Generate Matrix");
           generateButton.style("font-size", "14px");
           generateButton.style("padding", "8px 16px");
-          generateButton.style("color", "white");
-          generateButton.style("background-color", "#007bff");
-          generateButton.style("border", "2px solid #007bff");
+          generateButton.style("color", "#1d2320");
+          generateButton.style("background-color", "#f1ede2");
+          generateButton.style("border", "2px solid #f1ede2");
           generateButton.style("border-radius", "6px");
           generateButton.style("cursor", "pointer");
           generateButton.style("font-weight", "bold");
@@ -401,9 +402,9 @@ export default function P5Sketch({ k1, k2, t }) {
           calculateButton = P.createButton("Calculate All");
           calculateButton.style("font-size", "14px");
           calculateButton.style("padding", "8px 16px");
-          calculateButton.style("color", "white");
-          calculateButton.style("background-color", "#28a745");
-          calculateButton.style("border", "2px solid #28a745");
+          calculateButton.style("color", "#f1ede2");
+          calculateButton.style("background-color", "transparent");
+          calculateButton.style("border", "2px solid #7d9088");
           calculateButton.style("border-radius", "6px");
           calculateButton.style("cursor", "pointer");
           calculateButton.style("font-weight", "bold");
@@ -417,9 +418,9 @@ export default function P5Sketch({ k1, k2, t }) {
         };
 
         P.draw = () => {
-          P.background(220, 34, 72);
+          P.background(...BOARD);
 
-          P.fill(0);
+          P.fill(...CHALK);
           P.textSize(14);
           P.textAlign(P.LEFT);
           P.text("Matrix Size (1-5):", 20, 45);

@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator } from "@/components/Animator2";
+import { BOARD, CHALK, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
 
 export default function P5Sketch({ add, animSpd, actionExicutable }) {
   const sketchRef = useRef(null);
@@ -24,7 +25,7 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
             this.y = y;
             this.opacity = 0;
             this.hide = false;
-            this.col = [0, 0, 255];
+            this.col = [...HIGHLIGHT];
           }
 
           show() {
@@ -46,7 +47,7 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
           show() {
             P.push();
-            P.stroke(0, 0, 255, this.opacity);
+            P.stroke(...HIGHLIGHT, this.opacity);
             P.strokeWeight(3);
             P.noFill();
             P.bezier(
@@ -91,13 +92,10 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
 
           show() {
-            P.fill(
-              P.map(this.val, box.minVal, box.maxVal, 255, 50),
-              this.opacity
-            );
+            P.fill(tileColor(P, P.map(this.val, box.minVal, box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
-            P.fill(255, 105, 0, this.opacity);
+            P.fill(...INK, this.opacity);
             P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
             P.textSize(20);
@@ -124,13 +122,10 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
 
           show() {
-            P.fill(
-              P.map(this.val, box.minVal, box.maxVal, 255, 50),
-              this.opacity
-            );
+            P.fill(tileColor(P, P.map(this.val, box.minVal, box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
-            P.fill(255, 105, 0, this.opacity);
+            P.fill(...INK, this.opacity);
             P.strokeWeight(3);
             P.textAlign(P.CENTER, P.CENTER);
             P.textSize(20);
@@ -159,7 +154,7 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
 
           show() {
             P.push();
-            P.stroke(0, 0, 255, this.opacity);
+            P.stroke(...HIGHLIGHT, this.opacity);
             P.strokeWeight(3);
             P.noFill();
             if (this.parent != null) {
@@ -188,11 +183,11 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
               P.push();
               //---------rect---------
               P.noStroke();
-              P.fill(68, 5, 97, this.opacity);
+              P.fill(...CHALK, this.opacity);
               P.rectMode(P.CENTER);
               P.rect(this.x, this.y, 40);
               //---------text---------
-              P.fill(255, 105, 0, this.opacity);
+              P.fill(...INK, this.opacity);
               P.strokeWeight(1);
               P.textAlign(P.CENTER, P.CENTER);
               P.textSize(20);
@@ -444,7 +439,7 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
 
         P.draw = () => {
           P.frameRate(60);
-          P.background(220, 34, 72);
+          P.background(...BOARD);
 
           animator_1.mainAnimationSequence();
           animator_2.mainAnimationSequence();

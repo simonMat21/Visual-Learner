@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
+import { BOARD } from "@/lib/boardPalette";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
@@ -320,7 +321,7 @@ export default function P5Sketch({ k1, k2, t }) {
 
         P.draw = () => {
           P.frameRate(60);
-          P.background(80);
+          P.background(...BOARD);
 
           // Check clicks BEFORE translating the coordinate system
           checkClicked([mPos1, mPos2]);

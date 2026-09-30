@@ -124,7 +124,7 @@ function Slider({
     >
       {/* Optional Label */}
       {label && (
-        <span className="text-sm font-medium text-gray-300 min-w-fit">
+        <span className="text-sm font-medium text-ink-2 min-w-fit">
           {label}:
         </span>
       )}
@@ -148,7 +148,7 @@ function Slider({
           <SliderPrimitive.Track
             data-slot="slider-track"
             className={cn(
-              "relative grow overflow-hidden bg-gradient-to-r from-gray-200 to-gray-300 cursor-pointer rounded-full",
+              "relative grow overflow-hidden bg-rule cursor-pointer rounded-full",
               "data-[orientation=horizontal]:h-2 data-[orientation=horizontal]:w-full",
               "data-[orientation=vertical]:h-full data-[orientation=vertical]:w-2",
               "shadow-inner"
@@ -157,7 +157,7 @@ function Slider({
             <SliderPrimitive.Range
               data-slot="slider-range"
               className={cn(
-                "absolute bg-gradient-to-r from-red-400 to-red-500 rounded-full",
+                "absolute bg-pen-rust rounded-full",
                 "data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full",
                 "shadow-sm"
               )}
@@ -169,9 +169,9 @@ function Slider({
               data-slot="slider-thumb"
               key={index}
               className={cn(
-                "block size-5 shrink-0 rounded-full border-2 border-white bg-gradient-to-b from-red-400 to-red-500",
-                "cursor-pointer ring-red-200 shadow-lg transition-all duration-200",
-                "hover:scale-110 hover:shadow-xl hover:ring-4",
+                "block size-5 shrink-0 rounded-full border-2 border-pen-rust bg-card",
+                "cursor-grab ring-pen-rust/25 shadow-sm transition-all duration-200",
+                "hover:scale-110 hover:ring-4",
                 "focus-visible:ring-4 focus-visible:outline-none focus-visible:scale-110",
                 "disabled:pointer-events-none disabled:opacity-50",
                 "active:scale-95"
@@ -185,7 +185,7 @@ function Slider({
       {showValue && (
         <div
           className={cn(
-            "flex items-center justify-center bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg border shadow-sm",
+            "flex items-center justify-center bg-card rounded-lg border border-rule-strong",
             valueClassName
           )}
           style={{ width: getValueDisplayWidth() }}
@@ -198,8 +198,8 @@ function Slider({
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
             className={cn(
-              "w-full text-center text-sm font-semibold text-gray-800 bg-transparent border-none outline-none",
-              "focus:bg-white focus:shadow-inner focus:ring-2 focus:ring-red-300 rounded px-1"
+              "w-full text-center font-mono text-sm font-semibold text-ink bg-transparent border-none outline-none",
+              "focus:bg-paper focus:ring-2 focus:ring-pen-rust/30 rounded px-1"
             )}
           />
         </div>

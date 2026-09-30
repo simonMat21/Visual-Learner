@@ -51,67 +51,36 @@ const PhoneScreenBlock = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-6 w-screen h-screen overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-96 h-96 bg-blue-500 rounded-full opacity-20 animate-pulse -top-48 -left-48"></div>
-        <div className="absolute w-80 h-80 bg-purple-500 rounded-full opacity-20 animate-pulse delay-1000 -bottom-40 -right-40"></div>
-        <div className="absolute w-64 h-64 bg-indigo-500 rounded-full opacity-20 animate-pulse delay-500 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-      </div>
-
-      {/* Main content */}
-      <div className="relative z-10 text-center max-w-md mx-auto">
-        {/* Animated icon */}
-        <div className="mb-8">
-          <div className="relative inline-block">
-            <div className="w-20 h-32 bg-white rounded-xl shadow-2xl animate-bounce">
-              <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-gray-300 rounded-full"></div>
-              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gray-300 rounded-full"></div>
-              <div className="absolute top-8 bottom-16 left-2 right-2 bg-gray-100 rounded-lg flex items-center justify-center">
-                <div className="w-6 h-6 bg-red-500 rounded animate-ping"></div>
-              </div>
+    <div className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center overflow-hidden bg-paper p-6">
+      <div className="w-full max-w-sm text-center">
+        {/* Phone → desktop sketch */}
+        <div className="mx-auto mb-8 flex items-end justify-center gap-4" aria-hidden="true">
+          <div className="relative h-24 w-14 rounded-xl border-2 border-ink bg-card">
+            <div className="absolute left-1/2 top-2 h-1 w-5 -translate-x-1/2 rounded-full bg-rule-strong" />
+            <div className="absolute inset-x-2 bottom-3 top-5 rounded-md bg-board" />
+          </div>
+          <span className="mb-10 font-mono text-lg text-pen-rust animate-pulse">→</span>
+          <div className="flex flex-col items-center">
+            <div className="h-20 w-32 rounded-lg border-2 border-ink bg-card p-1.5">
+              <div className="h-full w-full rounded bg-board" />
             </div>
-            {/* Desktop icon */}
-            <div className="absolute -right-8 top-4 w-12 h-8 bg-white rounded-sm shadow-lg">
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-1 bg-gray-300"></div>
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-2 bg-gray-300 rounded-sm"></div>
-            </div>
-            {/* Arrow */}
-            <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 text-white text-xl animate-pulse">
-              →
-            </div>
+            <div className="h-2 w-2 bg-ink" />
+            <div className="h-1.5 w-14 rounded-sm bg-ink" />
           </div>
         </div>
 
-        {/* Message */}
-        <h1 className="text-white text-xl font-bold mb-6 leading-relaxed">
-          {message}
-        </h1>
+        <p className="vl-eyebrow">Best on a bigger screen</p>
+        <h1 className="vl-title mt-3 text-3xl leading-tight">{message}</h1>
+        <p className="mt-3 text-sm leading-relaxed text-ink-3">
+          The chalkboard visualizations need room to move. Open this page on a laptop or desktop, or switch your
+          browser to desktop mode.
+        </p>
 
-        {/* Animated dots */}
-        <div className="flex justify-center space-x-2 mb-8">
-          <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
-          <div className="w-2 h-2 bg-white rounded-full animate-bounce delay-150"></div>
-          <div className="w-2 h-2 bg-white rounded-full animate-bounce delay-300"></div>
-        </div>
-
-        {/* Optional link */}
         {linkText && linkUrl && (
-          <a
-            href={linkUrl}
-            className="inline-block bg-white text-purple-900 px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-gray-100 transition-colors duration-200 transform hover:scale-105"
-          >
+          <a href={linkUrl} className="dobtn mt-8 px-5">
             {linkText}
           </a>
         )}
-      </div>
-
-      {/* Floating particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute w-1 h-1 bg-white rounded-full opacity-60 animate-ping top-1/4 left-1/4"></div>
-        <div className="absolute w-1 h-1 bg-white rounded-full opacity-60 animate-ping delay-700 top-3/4 right-1/4"></div>
-        <div className="absolute w-1 h-1 bg-white rounded-full opacity-60 animate-ping delay-1000 top-1/2 left-3/4"></div>
-        <div className="absolute w-1 h-1 bg-white rounded-full opacity-60 animate-ping delay-300 top-1/3 right-1/3"></div>
       </div>
     </div>
   );

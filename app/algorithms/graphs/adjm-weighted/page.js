@@ -365,12 +365,37 @@ Use cases:
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Weighted Adjacency Matrix for Directed Graphs
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-plum rounded-full mr-2"></span>
+                Space: O(n²)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Weight Query: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Weighted Matrix
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <P5Sketch
             k1={sliderValue[0]}
             k2={sliderValue2[0]}
@@ -382,59 +407,34 @@ Use cases:
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
-              Weighted Adjacency Matrix for Directed Graphs
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full px-4 py-2 mt-3 border border-purple-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-purple-400 rounded-full mr-2"></span>
-                Space: O(n²)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-pink-400 rounded-full mr-2"></span>
-                Weight Query: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Weighted Matrix
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              ⚖️
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             Understanding Weighted Adjacency Matrices
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               A weighted adjacency matrix is a square matrix used to represent a
               weighted directed graph. For a graph with{" "}
-              <span className="text-purple-400 font-semibold">n vertices</span>,
+              <span className="text-pen-plum font-semibold">n vertices</span>,
               the adjacency matrix is an{" "}
-              <span className="text-purple-400 font-semibold">n×n matrix</span>
+              <span className="text-pen-plum font-semibold">n×n matrix</span>
               where each cell [i][j] contains the weight of the edge from vertex
               i to vertex j, or 0 if no edge exists.
             </p>
             <p className="text-lg">
               Unlike unweighted graphs that store only 0s and 1s, weighted
               matrices store
-              <span className="text-pink-400 font-semibold">
+              <span className="text-pen-rust font-semibold">
                 {" "}
                 actual edge weights
               </span>
               , making them ideal for representing distances, costs, capacities,
               or any numerical relationship between vertices.
             </p>
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-4 my-4">
-              <p className="text-center text-lg font-bold text-purple-400">
+            <div className="vl-note vl-note-plum p-4 my-4">
+              <p className="text-center text-lg font-bold text-pen-plum">
                 matrix[i][j] = weight if edge exists from vertex i to vertex j,
                 0 otherwise
               </p>
@@ -443,11 +443,8 @@ Use cases:
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-pink-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -458,72 +455,69 @@ Use cases:
         </div>
 
         {/* Properties Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Properties & Complexity
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-purple-300 mb-2">
+            <div className="vl-note vl-note-plum p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Weight lookup:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Add weighted edge:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Remove edge:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-yellow-400 font-semibold">
+                  <span className="text-pen-gold font-semibold">
                     Get neighbors with weights:
                   </span>{" "}
                   O(n)
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Space & Properties
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
-                  • <span className="text-blue-400 font-semibold">Space:</span>{" "}
+                  • <span className="text-pen-blue font-semibold">Space:</span>{" "}
                   O(n²) always
                 </li>
                 <li>
-                  • <span className="text-blue-400 font-semibold">Memory:</span>{" "}
+                  • <span className="text-pen-blue font-semibold">Memory:</span>{" "}
                   Fixed regardless of edge count
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Representation:
                   </span>{" "}
                   Dense storage
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Matrix ops:
                   </span>{" "}
                   Easy to perform
@@ -535,60 +529,60 @@ Use cases:
 
         {/* Use Cases & Comparisons */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              ✅ <span className="ml-2">Best Use Cases</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Best Use Cases</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Weighted graphs:</span>{" "}
+                • <span className="text-pen-green">Weighted graphs:</span>{" "}
                 Roads with distances, network costs, capacities
               </li>
               <li>
-                • <span className="text-emerald-400">Fast weight queries:</span>{" "}
+                • <span className="text-pen-green">Fast weight queries:</span>{" "}
                 Frequent &quot;what&apos;s the weight?&quot; checks
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Shortest path algorithms:
                 </span>{" "}
                 Dijkstra&apos;s, Floyd-Warshall implementations
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">Dense weighted graphs:</span>{" "}
+                <span className="text-pen-green">Dense weighted graphs:</span>{" "}
                 When most vertex pairs have weighted edges
               </li>
               <li>
-                • <span className="text-emerald-400">Flow networks:</span> Max
+                • <span className="text-pen-green">Flow networks:</span> Max
                 flow, min cost flow problems
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-amber-300 mb-4 flex items-center">
-              ⚠️ <span className="ml-2">Limitations</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Limitations</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-amber-400">Space inefficient:</span>{" "}
+                • <span className="text-pen-gold">Space inefficient:</span>{" "}
                 Wastes memory for sparse graphs
               </li>
               <li>
-                • <span className="text-amber-400">Fixed size:</span> Difficult
+                • <span className="text-pen-gold">Fixed size:</span> Difficult
                 to add/remove vertices
               </li>
               <li>
-                • <span className="text-amber-400">Large graphs:</span> O(n²)
+                • <span className="text-pen-gold">Large graphs:</span> O(n²)
                 space becomes prohibitive
               </li>
               <li>
-                • <span className="text-amber-400">Iteration:</span> O(n) to
+                • <span className="text-pen-gold">Iteration:</span> O(n) to
                 find all neighbors
               </li>
               <li>
-                • <span className="text-amber-400">Cache performance:</span>{" "}
+                • <span className="text-pen-gold">Cache performance:</span>{" "}
                 Poor for very large matrices
               </li>
             </ul>

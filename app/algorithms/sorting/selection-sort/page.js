@@ -97,12 +97,37 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Selection Sort
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Time: O(n²)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Space: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Not Stable
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
@@ -112,7 +137,7 @@ export default function Home() {
               }}
             />
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -134,38 +159,13 @@ export default function Home() {
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent mb-2">
-              Selection Sort
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-teal-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Time: O(n²)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Space: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-orange-400 rounded-full mr-2"></span>
-                Not Stable
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🎯
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How Selection Sort Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               Selection Sort works by repeatedly finding the minimum element
               from the unsorted portion of the array and placing it at the
@@ -175,23 +175,23 @@ export default function Home() {
             <p className="text-lg">The algorithm follows these steps:</p>
             <ul className="list-disc ml-6 space-y-2">
               <li>
-                <span className="text-green-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   Find minimum:
                 </span>{" "}
                 Search for the smallest element in the unsorted portion
               </li>
               <li>
-                <span className="text-green-400 font-semibold">Swap:</span>{" "}
+                <span className="text-pen-green font-semibold">Swap:</span>{" "}
                 Exchange it with the first element of the unsorted portion
               </li>
               <li>
-                <span className="text-green-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   Expand sorted region:
                 </span>{" "}
                 Move the boundary between sorted and unsorted portions
               </li>
               <li>
-                <span className="text-green-400 font-semibold">Repeat:</span>{" "}
+                <span className="text-pen-green font-semibold">Repeat:</span>{" "}
                 Continue until the entire array is sorted
               </li>
             </ul>
@@ -199,11 +199,8 @@ export default function Home() {
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -214,72 +211,69 @@ export default function Home() {
         </div>
 
         {/* Performance Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Algorithm Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-green-300 mb-2">
+            <div className="vl-note vl-note-green p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
-                  • <span className="text-red-400 font-semibold">Best:</span>{" "}
+                  • <span className="text-pen-rust font-semibold">Best:</span>{" "}
                   O(n²) - even if already sorted
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-yellow-400 font-semibold">
+                  <span className="text-pen-gold font-semibold">
                     Average:
                   </span>{" "}
                   O(n²)
                 </li>
                 <li>
-                  • <span className="text-red-400 font-semibold">Worst:</span>{" "}
+                  • <span className="text-pen-rust font-semibold">Worst:</span>{" "}
                   O(n²) - reverse sorted
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Comparisons:
                   </span>{" "}
                   Always (n-1) + (n-2) + ... + 1
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Key Properties
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-red-400 font-semibold">
+                  <span className="text-pen-rust font-semibold">
                     Not stable:
                   </span>{" "}
                   relative order not preserved
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     In-place:
                   </span>{" "}
                   requires only O(1) extra memory
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-orange-400 font-semibold">
+                  <span className="text-pen-rust font-semibold">
                     Not adaptive:
                   </span>{" "}
                   always performs O(n²) comparisons
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Minimum swaps:
                   </span>{" "}
                   at most n-1 swaps
@@ -291,58 +285,58 @@ export default function Home() {
 
         {/* Comparisons & Use Cases */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-amber-300 mb-4 flex items-center">
-              🏆 <span className="ml-2">Advantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Advantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-amber-400">Simple to understand</span>{" "}
+                • <span className="text-pen-gold">Simple to understand</span>{" "}
                 and implement
               </li>
               <li>
                 •{" "}
-                <span className="text-amber-400">Minimum number of swaps</span>{" "}
+                <span className="text-pen-gold">Minimum number of swaps</span>{" "}
                 (at most n-1)
               </li>
               <li>
-                • <span className="text-amber-400">In-place sorting</span> - no
+                • <span className="text-pen-gold">In-place sorting</span> - no
                 extra memory needed
               </li>
               <li>
                 •{" "}
-                <span className="text-amber-400">Performance independent</span>{" "}
+                <span className="text-pen-gold">Performance independent</span>{" "}
                 of input order
               </li>
               <li>
                 •{" "}
-                <span className="text-amber-400">Good for small datasets</span>
+                <span className="text-pen-gold">Good for small datasets</span>
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-red-300 mb-4 flex items-center">
-              ⚠️ <span className="ml-2">Disadvantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Disadvantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-red-400">O(n²) time complexity</span> in
+                • <span className="text-pen-rust">O(n²) time complexity</span> in
                 all cases
               </li>
               <li>
-                • <span className="text-red-400">Not stable</span> - changes
+                • <span className="text-pen-rust">Not stable</span> - changes
                 relative order
               </li>
               <li>
-                • <span className="text-red-400">Not adaptive</span> -
+                • <span className="text-pen-rust">Not adaptive</span> -
                 doesn&apos;t benefit from partial sorting
               </li>
               <li>
-                • <span className="text-red-400">Poor performance</span> on
+                • <span className="text-pen-rust">Poor performance</span> on
                 large datasets
               </li>
               <li>
-                • <span className="text-red-400">More comparisons</span> than
+                • <span className="text-pen-rust">More comparisons</span> than
                 insertion sort
               </li>
             </ul>

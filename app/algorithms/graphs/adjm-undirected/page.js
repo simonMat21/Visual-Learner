@@ -386,12 +386,37 @@ Use cases:
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Adjacency Matrix for Undirected Graphs
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Space: O(n²)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Edge Query: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Symmetric Matrix
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <P5Sketch
             k1={sliderValue[0]}
             k2={sliderValue2[0]}
@@ -403,44 +428,19 @@ Use cases:
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent mb-2">
-              Adjacency Matrix for Undirected Graphs
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-teal-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Space: O(n²)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
-                Edge Query: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Symmetric Matrix
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             Understanding Undirected Graph Adjacency Matrices
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               An adjacency matrix for an undirected graph is a square matrix
               used to represent connections between vertices. For a graph with{" "}
-              <span className="text-green-400 font-semibold">n vertices</span>,
+              <span className="text-pen-green font-semibold">n vertices</span>,
               the adjacency matrix is an{" "}
-              <span className="text-green-400 font-semibold">
+              <span className="text-pen-green font-semibold">
                 n×n symmetric matrix
               </span>{" "}
               where each cell [i][j] indicates whether there is an edge between
@@ -448,12 +448,12 @@ Use cases:
             </p>
             <p className="text-lg">
               In an undirected graph, the matrix is always{" "}
-              <span className="text-teal-400 font-semibold">symmetric</span>{" "}
+              <span className="text-pen-green font-semibold">symmetric</span>{" "}
               because if there&apos;s an edge from vertex A to vertex B,
               there&apos;s also an edge from B to A.
             </p>
-            <div className="bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/20 rounded-lg p-4 my-4">
-              <p className="text-center text-lg font-bold text-green-400">
+            <div className="vl-note vl-note-green p-4 my-4">
+              <p className="text-center text-lg font-bold text-pen-green">
                 matrix[i][j] = matrix[j][i] = 1 if edge exists between vertices
                 i and j, 0 otherwise
               </p>
@@ -462,11 +462,8 @@ Use cases:
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-teal-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -477,71 +474,68 @@ Use cases:
         </div>
 
         {/* Properties Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Properties & Complexity
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-green-300 mb-2">
+            <div className="vl-note vl-note-green p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Edge lookup:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Add edge:
                   </span>{" "}
                   O(1) - updates 2 cells
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Remove edge:
                   </span>{" "}
                   O(1) - updates 2 cells
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-yellow-400 font-semibold">
+                  <span className="text-pen-gold font-semibold">
                     Get neighbors:
                   </span>{" "}
                   O(n)
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Space & Properties
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
-                  • <span className="text-blue-400 font-semibold">Space:</span>{" "}
+                  • <span className="text-pen-blue font-semibold">Space:</span>{" "}
                   O(n²) always
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">Symmetry:</span>{" "}
+                  <span className="text-pen-blue font-semibold">Symmetry:</span>{" "}
                   Matrix is always symmetric
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">Diagonal:</span>{" "}
+                  <span className="text-pen-blue font-semibold">Diagonal:</span>{" "}
                   Usually 0 (no self-loops)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Memory efficiency:
                   </span>{" "}
                   Can store only upper triangle
@@ -553,59 +547,59 @@ Use cases:
 
         {/* Use Cases & Comparisons */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              ✅ <span className="ml-2">Best Use Cases</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Best Use Cases</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Social networks:</span>{" "}
+                • <span className="text-pen-green">Social networks:</span>{" "}
                 Friendship connections
               </li>
               <li>
-                • <span className="text-emerald-400">Road networks:</span>{" "}
+                • <span className="text-pen-green">Road networks:</span>{" "}
                 Bidirectional roads
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Communication networks:
                 </span>{" "}
                 Two-way connections
               </li>
               <li>
-                • <span className="text-emerald-400">Dense graphs:</span> When
+                • <span className="text-pen-green">Dense graphs:</span> When
                 most vertices are connected
               </li>
               <li>
-                • <span className="text-emerald-400">Matrix operations:</span>{" "}
+                • <span className="text-pen-green">Matrix operations:</span>{" "}
                 Graph algorithms using linear algebra
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-amber-300 mb-4 flex items-center">
-              🔄 <span className="ml-2">Key Differences</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Key Differences</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-amber-400">Symmetric matrix:</span>{" "}
+                • <span className="text-pen-gold">Symmetric matrix:</span>{" "}
                 matrix[i][j] = matrix[j][i]
               </li>
               <li>
-                • <span className="text-amber-400">Degree concept:</span> Number
+                • <span className="text-pen-gold">Degree concept:</span> Number
                 of neighbors for each vertex
               </li>
               <li>
-                • <span className="text-amber-400">Memory optimization:</span>{" "}
+                • <span className="text-pen-gold">Memory optimization:</span>{" "}
                 Can store only upper/lower triangle
               </li>
               <li>
-                • <span className="text-amber-400">Edge counting:</span> Each
+                • <span className="text-pen-gold">Edge counting:</span> Each
                 edge counted once, not twice
               </li>
               <li>
-                • <span className="text-amber-400">No direction:</span>{" "}
+                • <span className="text-pen-gold">No direction:</span>{" "}
                 Relationships are bidirectional
               </li>
             </ul>

@@ -395,12 +395,37 @@ Table size should be prime to avoid clustering`,
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Quadratic Probing Hash Table
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Average: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Worst: O(n)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Space: O(n)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <div className="flex gap-6">
               <div className="flex items-center gap-2">
@@ -456,7 +481,7 @@ Table size should be prime to avoid clustering`,
             </div>
 
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -480,38 +505,13 @@ Table size should be prime to avoid clustering`,
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Quadratic Probing Hash Table
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-orange-400/20 to-red-400/20 rounded-full px-4 py-2 mt-3 border border-orange-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-orange-400 rounded-full mr-2"></span>
-                Average: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Worst: O(n)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Space: O(n)
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-orange-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How Quadratic Probing Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               Quadratic Probing is a collision resolution technique for hash
               tables that uses a quadratic function to find the next available
@@ -519,35 +519,35 @@ Table size should be prime to avoid clustering`,
               slots (linear probing), it checks slots at quadratic intervals.
             </p>
             <p className="text-lg">The probing sequence follows the formula:</p>
-            <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-4 my-4">
-              <p className="text-center text-xl font-bold text-orange-400">
+            <div className="vl-note vl-note-rust p-4 my-4">
+              <p className="text-center text-xl font-bold text-pen-rust">
                 h(k, i) = (h(k) + i²) mod m
               </p>
-              <p className="text-center text-sm text-gray-300 mt-2">
+              <p className="text-center text-sm text-ink-2 mt-2">
                 where k = key, i = probe number (0, 1, 2, ...), m = table size
               </p>
             </div>
             <ul className="list-disc ml-6 space-y-2">
               <li>
-                <span className="text-orange-400 font-semibold">
+                <span className="text-pen-rust font-semibold">
                   Collision occurs:
                 </span>{" "}
                 Use quadratic sequence: +0, +1, +4, +9, +16, ...
               </li>
               <li>
-                <span className="text-orange-400 font-semibold">
+                <span className="text-pen-rust font-semibold">
                   Better clustering:
                 </span>{" "}
                 Avoids primary clustering of linear probing
               </li>
               <li>
-                <span className="text-orange-400 font-semibold">
+                <span className="text-pen-rust font-semibold">
                   Load factor:
                 </span>{" "}
                 Keep below 0.7 for optimal performance
               </li>
               <li>
-                <span className="text-orange-400 font-semibold">
+                <span className="text-pen-rust font-semibold">
                   Table size:
                 </span>{" "}
                 Should be prime to ensure good distribution
@@ -557,11 +557,8 @@ Table size should be prime to avoid clustering`,
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-red-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -572,75 +569,72 @@ Table size should be prime to avoid clustering`,
         </div>
 
         {/* Algorithm Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Performance Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-orange-300 mb-2">
+            <div className="vl-note vl-note-rust p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Average Insert:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Average Search:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Average Delete:
                   </span>{" "}
                   O(1)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-red-400 font-semibold">
+                  <span className="text-pen-rust font-semibold">
                     Worst case:
                   </span>{" "}
                   O(n) for all operations
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Key Properties
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
-                  • <span className="text-blue-400 font-semibold">Space:</span>{" "}
+                  • <span className="text-pen-blue font-semibold">Space:</span>{" "}
                   O(n) for table storage
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Load factor:
                   </span>{" "}
                   α = n/m should be &lt; 0.7
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Clustering:
                   </span>{" "}
                   Reduces primary clustering
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Cache performance:
                   </span>{" "}
                   Better than chaining
@@ -652,60 +646,60 @@ Table size should be prime to avoid clustering`,
 
         {/* Advantages & Disadvantages */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              ✅ <span className="ml-2">Advantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Advantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Better than linear probing:
                 </span>{" "}
                 Reduces primary clustering
               </li>
               <li>
-                • <span className="text-emerald-400">Cache-friendly:</span>{" "}
+                • <span className="text-pen-green">Cache-friendly:</span>{" "}
                 Better memory locality than chaining
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">Simple implementation:</span>{" "}
+                <span className="text-pen-green">Simple implementation:</span>{" "}
                 No extra data structures needed
               </li>
               <li>
-                • <span className="text-emerald-400">Memory efficient:</span> No
+                • <span className="text-pen-green">Memory efficient:</span> No
                 pointer overhead
               </li>
               <li>
-                • <span className="text-emerald-400">Good performance:</span>{" "}
+                • <span className="text-pen-green">Good performance:</span>{" "}
                 When load factor is controlled
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-red-300 mb-4 flex items-center">
-              ❌ <span className="ml-2">Disadvantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Disadvantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-red-400">Secondary clustering:</span>{" "}
+                • <span className="text-pen-rust">Secondary clustering:</span>{" "}
                 Keys with same hash value cluster
               </li>
               <li>
-                • <span className="text-red-400">Limited load factor:</span>{" "}
+                • <span className="text-pen-rust">Limited load factor:</span>{" "}
                 Performance degrades after 70% full
               </li>
               <li>
-                • <span className="text-red-400">Deletion complexity:</span>{" "}
+                • <span className="text-pen-rust">Deletion complexity:</span>{" "}
                 Requires tombstone mechanism
               </li>
               <li>
-                • <span className="text-red-400">Table size constraints:</span>{" "}
+                • <span className="text-pen-rust">Table size constraints:</span>{" "}
                 Must be prime for optimal performance
               </li>
               <li>
-                • <span className="text-red-400">Probing may fail:</span> Cannot
+                • <span className="text-pen-rust">Probing may fail:</span> Cannot
                 guarantee finding slot in full table
               </li>
             </ul>

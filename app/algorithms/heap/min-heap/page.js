@@ -408,12 +408,37 @@ Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Min Heap
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Insert: O(log n)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Extract Min: O(log n)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Peek: O(1)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <div className="flex gap-6">
               <div className="flex items-center gap-3">
@@ -447,7 +472,7 @@ Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
             </div>
 
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -471,38 +496,13 @@ Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-              Min Heap
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-blue-400/20 to-cyan-400/20 rounded-full px-4 py-2 mt-3 border border-blue-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Insert: O(log n)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2"></span>
-                Extract Min: O(log n)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Peek: O(1)
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How Min Heap Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               A Min Heap is a complete binary tree where every parent node is
               less than or equal to its children. The minimum element is always
@@ -512,31 +512,31 @@ Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
             <p className="text-lg">Key properties of Min Heap:</p>
             <ul className="list-disc ml-6 space-y-2">
               <li>
-                <span className="text-blue-400 font-semibold">
+                <span className="text-pen-blue font-semibold">
                   Heap Property:
                 </span>{" "}
                 Parent ≤ children for all nodes
               </li>
               <li>
-                <span className="text-blue-400 font-semibold">
+                <span className="text-pen-blue font-semibold">
                   Complete Tree:
                 </span>{" "}
                 All levels filled except possibly the last
               </li>
               <li>
-                <span className="text-blue-400 font-semibold">
+                <span className="text-pen-blue font-semibold">
                   Array Representation:
                 </span>{" "}
                 Parent at index i, children at 2i+1 and 2i+2
               </li>
               <li>
-                <span className="text-blue-400 font-semibold">
+                <span className="text-pen-blue font-semibold">
                   Root Minimum:
                 </span>{" "}
                 Smallest element always at index 0
               </li>
               <li>
-                <span className="text-blue-400 font-semibold">
+                <span className="text-pen-blue font-semibold">
                   Efficient Operations:
                 </span>{" "}
                 Insert and extract in O(log n) time
@@ -546,11 +546,8 @@ Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-cyan-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -561,72 +558,69 @@ Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
         </div>
 
         {/* Operations Analysis */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              📊
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Operations Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Time Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
-                  • <span className="text-blue-400 font-semibold">Insert:</span>{" "}
+                  • <span className="text-pen-blue font-semibold">Insert:</span>{" "}
                   O(log n) - heapify up
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Extract Min:
                   </span>{" "}
                   O(log n) - heapify down
                 </li>
                 <li>
-                  • <span className="text-green-400 font-semibold">Peek:</span>{" "}
+                  • <span className="text-pen-green font-semibold">Peek:</span>{" "}
                   O(1) - just return root
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-cyan-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Build Heap:
                   </span>{" "}
                   O(n) from array
                 </li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-purple-300 mb-2">
+            <div className="vl-note vl-note-plum p-6">
+              <h3 className="vl-h3 mb-2">
                 Space Complexity
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-purple-400 font-semibold">
+                  <span className="text-pen-plum font-semibold">
                     Storage:
                   </span>{" "}
                   O(n) for n elements
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-purple-400 font-semibold">
+                  <span className="text-pen-plum font-semibold">
                     Array-based:
                   </span>{" "}
                   No extra pointer overhead
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-purple-400 font-semibold">
+                  <span className="text-pen-plum font-semibold">
                     In-place:
                   </span>{" "}
                   Operations use O(1) extra space
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-purple-400 font-semibold">
+                  <span className="text-pen-plum font-semibold">
                     Cache-friendly:
                   </span>{" "}
                   Good memory locality
@@ -638,60 +632,60 @@ Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
 
         {/* Applications & Use Cases */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              🎯 <span className="ml-2">Applications</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Applications</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-emerald-400">Priority Queues:</span>{" "}
+                • <span className="text-pen-green">Priority Queues:</span>{" "}
                 Process scheduling, event simulation
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">
+                <span className="text-pen-green">
                   Dijkstra&apos;s Algorithm:
                 </span>{" "}
                 Shortest path finding
               </li>
               <li>
-                • <span className="text-emerald-400">Huffman Coding:</span> Data
+                • <span className="text-pen-green">Huffman Coding:</span> Data
                 compression algorithms
               </li>
               <li>
-                • <span className="text-emerald-400">A* Search:</span>{" "}
+                • <span className="text-pen-green">A* Search:</span>{" "}
                 Pathfinding in games and robotics
               </li>
               <li>
-                • <span className="text-emerald-400">Median Finding:</span>{" "}
+                • <span className="text-pen-green">Median Finding:</span>{" "}
                 Using two heaps (min + max)
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-violet-300 mb-4 flex items-center">
-              ⚡ <span className="ml-2">Advantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Advantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-violet-400">Efficient min access:</span>{" "}
+                • <span className="text-pen-plum">Efficient min access:</span>{" "}
                 O(1) to find minimum
               </li>
               <li>
                 •{" "}
-                <span className="text-violet-400">Logarithmic operations:</span>{" "}
+                <span className="text-pen-plum">Logarithmic operations:</span>{" "}
                 Insert/delete in O(log n)
               </li>
               <li>
-                • <span className="text-violet-400">Memory efficient:</span>{" "}
+                • <span className="text-pen-plum">Memory efficient:</span>{" "}
                 Array-based implementation
               </li>
               <li>
-                • <span className="text-violet-400">Simple structure:</span>{" "}
+                • <span className="text-pen-plum">Simple structure:</span>{" "}
                 Easy to implement and understand
               </li>
               <li>
-                • <span className="text-violet-400">Cache performance:</span>{" "}
+                • <span className="text-pen-plum">Cache performance:</span>{" "}
                 Good spatial locality
               </li>
             </ul>

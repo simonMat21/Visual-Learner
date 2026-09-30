@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
+import { BAD, BOARD, CHALK, GOOD, HIGHLIGHT, INK } from "@/lib/boardPalette";
 
 export default function P5Sketch({
   dlt,
@@ -32,7 +33,7 @@ export default function P5Sketch({
             this.y = y;
             this.opacity = 0;
             this.hide = false;
-            this.col = [0, 255, 0];
+            this.col = [...GOOD];
           }
 
           show() {
@@ -57,22 +58,22 @@ export default function P5Sketch({
           show() {
             P.push();
             //---------rect---------
-            P.stroke(0, 0, 0, this.opacity);
+            P.stroke(...CHALK, this.opacity);
             P.fill(200, this.opacity);
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 30, 60);
             //---------text---------
-            P.fill(255, 105, 0, this.opacity);
+            P.fill(...INK, this.opacity);
             P.strokeWeight(1);
             P.textAlign(P.CENTER);
             P.textSize(15);
             P.noStroke();
             P.text(this.indexVal, this.x, this.y - 10);
             if (this.val >= 0) {
-              P.fill(0, 0, 255, this.opacity);
+              P.fill(...HIGHLIGHT, this.opacity);
             }
             P.text(this.val, this.x, this.y + 20);
-            P.stroke(0, 0, 0, this.opacity);
+            P.stroke(...CHALK, this.opacity);
             P.line(this.x - 15, this.y, this.x + 15, this.y);
             P.pop();
           }
@@ -184,7 +185,7 @@ export default function P5Sketch({
           return animator.animationSequence([
             animator.animateFunc(1, () => {
               if (t) {
-                ckr.col = [255, 0, 0];
+                ckr.col = [...BAD];
               }
             }),
             animator.to(1, [a2o(ckr, a.x, a.y, 0)]),
@@ -193,7 +194,7 @@ export default function P5Sketch({
             animator.animate(15, [a2o(ckr, 0, 0, -255)]),
             animator.animateFunc(1, () => {
               if (t) {
-                ckr.col = [0, 255, 0];
+                ckr.col = [...GOOD];
               }
             }),
           ]);
@@ -216,7 +217,7 @@ export default function P5Sketch({
 
         P.draw = () => {
           P.frameRate(60);
-          P.background(220, 34, 72);
+          P.background(...BOARD);
 
           animator.mainAnimationSequence();
           animator.setDelayMult(animSpdRef.current);

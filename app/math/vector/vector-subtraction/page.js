@@ -80,12 +80,37 @@ from the tip of b to the tip of a.`,
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Vector Subtraction
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Time: O(n²)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-blue rounded-full mr-2"></span>
+                Space: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Stable
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           {/* <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
@@ -147,41 +172,17 @@ from the tip of b to the tip of a.`,
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">
-              Vector Subtraction
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Time: O(n²)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
-                Space: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Stable
-              </span>
-            </div>
-          </div>
-        </div>
+
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💡
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How It Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               Subtracting one vector from another is the same as adding its
               opposite:{" "}
-              <span className="text-orange-400 font-semibold">
+              <span className="text-pen-rust font-semibold">
                 a − b = a + (−b)
               </span>
               . The vector −b has the same length as b but points the other
@@ -189,7 +190,7 @@ from the tip of b to the tip of a.`,
             </p>
             <p className="text-lg">
               In components, you subtract matching entries:{" "}
-              <span className="text-purple-400 font-semibold">
+              <span className="text-pen-plum font-semibold">
                 (a₁ − b₁, a₂ − b₂, …, aₙ − bₙ)
               </span>
               . Both vectors must have the same number of components.
@@ -197,11 +198,8 @@ from the tip of b to the tip of a.`,
           </div>
         </div>
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -211,21 +209,18 @@ from the tip of b to the tip of a.`,
           />
         </div>
         {/* Detailed Explanation */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-purple-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Deeper Look
           </h2>
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg p-6">
-              <p className="text-gray-300 text-lg leading-relaxed">
+            <div className="vl-note vl-note-plum p-6">
+              <p className="text-ink-2 text-lg leading-relaxed">
                 Place a and b tail to tail. The difference{" "}
-                <span className="text-green-400 font-semibold">a − b</span> is
+                <span className="text-pen-green font-semibold">a − b</span> is
                 the arrow that runs from the tip of b to the tip of a — so
                 b + (a − b) = a. Unlike addition, subtraction is{" "}
-                <span className="text-green-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   not commutative
                 </span>
                 : b − a points the opposite way to a − b, with the same length.
@@ -235,26 +230,26 @@ from the tip of b to the tip of a.`,
         </div>
         {/* Fun Facts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-yellow-300 mb-4 flex items-center">
-              📍 <span className="ml-2">Displacement</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Displacement</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-ink-2 leading-relaxed">
               If a and b are position vectors of two points, a − b is the
               displacement from point B to point A, and its length{" "}
-              <span className="text-yellow-400 font-semibold">|a − b|</span> is
+              <span className="text-pen-gold font-semibold">|a − b|</span> is
               the distance between them.
             </p>
           </div>
 
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-cyan-300 mb-4 flex items-center">
-              🏃 <span className="ml-2">Relative Velocity</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Relative Velocity</span>
             </h3>
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-ink-2 leading-relaxed">
               Physics uses subtraction for relative motion: the velocity of A as
               seen from B is{" "}
-              <span className="text-cyan-400 font-semibold">
+              <span className="text-pen-blue font-semibold">
                 v<sub>A</sub> − v<sub>B</sub>
               </span>
               .

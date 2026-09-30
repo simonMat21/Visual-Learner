@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
+import { BOARD, CHALK } from "@/lib/boardPalette";
 
 export default function P5Sketch({ k1, k2, t }) {
   const sketchRef = useRef(null);
@@ -115,7 +116,7 @@ export default function P5Sketch({ k1, k2, t }) {
 
         P.draw = () => {
           P.frameRate(60);
-          P.background(220, 34, 72);
+          P.background(...BOARD);
           checkClicked([mPos]);
           [x, x1] = dampFunc(
             mPos.x,
@@ -138,7 +139,7 @@ export default function P5Sketch({ k1, k2, t }) {
           P.noStroke();
           P.fill(255, 255, 255, 230); // White background with slight transparency
 
-          P.fill(0); // Black text
+          P.fill(...CHALK); // Black text
           P.textAlign(P.LEFT, P.TOP);
 
           // Main equation

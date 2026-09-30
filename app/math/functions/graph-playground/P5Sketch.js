@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import { BOARD } from "@/lib/boardPalette";
 
 export default function P5Sketch({ functionStr }) {
   const sketchRef = useRef(null);
@@ -327,7 +328,7 @@ export default function P5Sketch({ functionStr }) {
 
         P.draw = () => {
           P.translate(P.width / 2, P.height / 2);
-          P.background(80);
+          P.background(...BOARD);
 
           // Draw scale using the scale parameters
           Scale(scaleParameters, showGrid);

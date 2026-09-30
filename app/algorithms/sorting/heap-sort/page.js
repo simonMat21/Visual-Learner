@@ -192,12 +192,37 @@ Not stable but consistent performance`,
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white pt-5">
+    <main className="vl-page">
       <PhoneScreenBlock message="Please switch to desktop mode to view this website" />
+
+      {/* Title */}
+      <div className="max-w-6xl mx-auto px-8 mb-6">
+        <div className="vl-hero">
+          <div>
+            <h1 className="vl-title text-4xl mb-2">
+              Heap Sort
+            </h1>
+            <div className="vl-meta mt-3">
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Time: O(n log n)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-green rounded-full mr-2"></span>
+                Space: O(1)
+              </span>
+              <span className="flex items-center">
+                <span className="w-2 h-2 bg-pen-rust rounded-full mr-2"></span>
+                Not Stable
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="vl-card p-6">
           <div className="flex flex-col items-center space-y-6">
             <NumberInput
               onSubmit={(arr) => {
@@ -207,7 +232,7 @@ Not stable but consistent performance`,
               }}
             />
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300 text-sm">Speed:</span>
+              <span className="text-ink-2 text-sm">Speed:</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
@@ -229,38 +254,13 @@ Not stable but consistent performance`,
       {/* Content Section */}
       <div className="max-w-6xl mx-auto px-8 space-y-8">
         <AdBanner position="bottom" size="responsive" adTest="off" />
-        {/* Algorithm Info */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent mb-2">
-              Heap Sort
-            </h1>
-            <div className="inline-flex items-center space-x-4 text-sm bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-full px-4 py-2 mt-3 border border-green-400/30">
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
-                Time: O(n log n)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-emerald-400 rounded-full mr-2"></span>
-                Space: O(1)
-              </span>
-              <span className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
-                Not Stable
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Description */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-green-300 mb-4 flex items-center">
-            <span className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🏔️
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-4">
             How Heap Sort Works
           </h2>
-          <div className="space-y-4 text-gray-300 leading-relaxed">
+          <div className="space-y-4 text-ink-2 leading-relaxed">
             <p className="text-lg">
               Heap Sort is a comparison-based sorting algorithm that uses a
               binary heap data structure. It works by first building a max heap
@@ -272,11 +272,11 @@ Not stable but consistent performance`,
             </p>
             <ul className="list-disc ml-6 space-y-2">
               <li>
-                <span className="text-green-400 font-semibold">Heapify:</span>{" "}
+                <span className="text-pen-green font-semibold">Heapify:</span>{" "}
                 Build a max heap from the unsorted array
               </li>
               <li>
-                <span className="text-green-400 font-semibold">
+                <span className="text-pen-green font-semibold">
                   Extract-Max:
                 </span>{" "}
                 Repeatedly remove the root (max element) and restore heap
@@ -294,11 +294,8 @@ Not stable but consistent performance`,
         </div>
 
         {/* Code Block */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-emerald-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              💻
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Implementation
           </h2>
           <CodeBlock
@@ -309,22 +306,19 @@ Not stable but consistent performance`,
         </div>
 
         {/* Heap Properties */}
-        <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8">
-          <h2 className="text-2xl font-semibold text-blue-300 mb-6 flex items-center">
-            <span className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 text-sm">
-              🔍
-            </span>
+        <div className="vl-card p-8">
+          <h2 className="vl-h2 mb-6">
             Heap Properties & Analysis
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-green-300 mb-2">
+            <div className="vl-note vl-note-green p-6">
+              <h3 className="vl-h3 mb-2">
                 Heap Structure
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-green-400 font-semibold">
+                  <span className="text-pen-green font-semibold">
                     Complete binary tree
                   </span>
                 </li>
@@ -333,31 +327,31 @@ Not stable but consistent performance`,
                 <li>• Height: O(log n)</li>
               </ul>
             </div>
-            <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-blue-300 mb-2">
+            <div className="vl-note vl-note-blue p-6">
+              <h3 className="vl-h3 mb-2">
                 Complexity Analysis
               </h3>
-              <ul className="text-gray-300 space-y-2">
+              <ul className="text-ink-2 space-y-2">
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Build heap:
                   </span>{" "}
                   O(n)
                 </li>
                 <li>
                   •{" "}
-                  <span className="text-blue-400 font-semibold">
+                  <span className="text-pen-blue font-semibold">
                     Extract max:
                   </span>{" "}
                   O(log n)
                 </li>
                 <li>
-                  • <span className="text-blue-400 font-semibold">Total:</span>{" "}
+                  • <span className="text-pen-blue font-semibold">Total:</span>{" "}
                   O(n log n)
                 </li>
                 <li>
-                  • <span className="text-blue-400 font-semibold">Space:</span>{" "}
+                  • <span className="text-pen-blue font-semibold">Space:</span>{" "}
                   O(1) in-place
                 </li>
               </ul>
@@ -367,49 +361,49 @@ Not stable but consistent performance`,
 
         {/* Advantages & Disadvantages */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-emerald-300 mb-4 flex items-center">
-              ✅ <span className="ml-2">Advantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Advantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
                 •{" "}
-                <span className="text-emerald-400">Guaranteed O(n log n)</span>{" "}
+                <span className="text-pen-green">Guaranteed O(n log n)</span>{" "}
                 worst-case
               </li>
               <li>
-                • <span className="text-emerald-400">In-place sorting</span>{" "}
+                • <span className="text-pen-green">In-place sorting</span>{" "}
                 (O(1) space)
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">Consistent performance</span>{" "}
+                <span className="text-pen-green">Consistent performance</span>{" "}
                 across all inputs
               </li>
               <li>
                 •{" "}
-                <span className="text-emerald-400">Good cache performance</span>
+                <span className="text-pen-green">Good cache performance</span>
               </li>
             </ul>
           </div>
-          <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-            <h3 className="text-xl font-semibold text-red-300 mb-4 flex items-center">
-              ❌ <span className="ml-2">Disadvantages</span>
+          <div className="vl-card p-6">
+            <h3 className="vl-h3 mb-4">
+               <span>Disadvantages</span>
             </h3>
-            <ul className="text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-ink-2 leading-relaxed space-y-2">
               <li>
-                • <span className="text-red-400">Not stable</span> (doesn&apos;t
+                • <span className="text-pen-rust">Not stable</span> (doesn&apos;t
                 preserve order)
               </li>
               <li>
-                • <span className="text-red-400">Slower than quicksort</span> in
+                • <span className="text-pen-rust">Slower than quicksort</span> in
                 average case
               </li>
               <li>
-                • <span className="text-red-400">Complex implementation</span>
+                • <span className="text-pen-rust">Complex implementation</span>
               </li>
               <li>
-                • <span className="text-red-400">Poor performance</span> on
+                • <span className="text-pen-rust">Poor performance</span> on
                 small arrays
               </li>
             </ul>
