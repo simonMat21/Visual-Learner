@@ -5,11 +5,10 @@ import { BOARD, CHALK } from "@/lib/boardPalette";
 import { createMatrixBoard } from "@/lib/graphBoard";
 import { countEdges, sumWeights } from "@/lib/graphModel";
 import {
+  drawGraphEdges,
   drawHeading,
   drawNodes,
-  drawSelfLoop,
   drawStats,
-  drawWeightedArrow,
 } from "@/lib/graphDraw";
 
 const HINT =
@@ -21,6 +20,7 @@ export default function P5Sketch() {
   useEffect(() => {
     let p5Instance = null;
     let cancelled = false;
+    let boardRef = null;
     import("p5").then((p5Module) => {
       if (cancelled) return;
       const p5 = p5Module.default;
@@ -32,6 +32,7 @@ export default function P5Sketch() {
           const cnv = P.createCanvas(1000, 500);
           board = createMatrixBoard(P, { directed: true, weighted: true });
           board.attach(cnv);
+          boardRef = board;
           P.mousePressed = () => board.press(P.mouseX, P.mouseY);
           P.windowResized = () => board.handleResize();
         };
@@ -45,29 +46,16 @@ export default function P5Sketch() {
           drawHeading(P, HINT, 20, 108, { size: 12, color: CHALK });
           board.drawHeaders();
 
-          const radius = board.radius();
-          for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-              const weight = matrix[i][j];
-              if (weight === 0) continue;
-              if (i === j) {
-                drawSelfLoop(P, nodes[i].x, nodes[i].y, i, radius);
-                continue;
-              }
-              const reciprocal = matrix[j][i] !== 0;
-              drawWeightedArrow(
-                P,
-                nodes[i].x,
-                nodes[i].y,
-                nodes[j].x,
-                nodes[j].y,
-                weight,
-                radius,
-                { reciprocal, dashed: reciprocal && j < i }
-              );
-            }
-          }
-          drawNodes(P, nodes);
+          const hover = board.hover;
+          drawGraphEdges(P, {
+            matrix,
+            nodes,
+            radius: board.radius(),
+            directed: true,
+            weighted: true,
+            hover,
+          });
+          drawNodes(P, nodes, { highlight: hover ? [hover.i, hover.j] : [] });
 
           drawHeading(P, "Graph", 690, 62, { align: P.CENTER, size: 18 });
           drawStats(
@@ -88,6 +76,7 @@ export default function P5Sketch() {
     });
     return () => {
       cancelled = true;
+      boardRef?.destroy();
       p5Instance?.remove();
     };
   }, []);

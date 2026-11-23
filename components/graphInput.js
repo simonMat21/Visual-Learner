@@ -189,7 +189,7 @@ export class GraphInputPanel {
 
     this.elements.presets = PRESETS.map((preset) =>
       makeButton(P, preset.label, {
-        kind: "ghost",
+        kind: "outline",
         size: 13,
         width: 74,
         height: 28,
@@ -221,17 +221,18 @@ export class GraphInputPanel {
       value: this.size,
       min: 1,
       max: this.opts.maxSize,
+      kind: "outline",
       onChange: (value) => this.setSize(value),
     });
 
     this.elements.randomButton = makeButton(P, "Random", {
-      kind: "ghost",
+      kind: "outline",
       width: 100,
       height: 32,
       onPress: () => this.generateRandomGraph(),
     });
     this.elements.clearButton = makeButton(P, "Clear all", {
-      kind: "ghost",
+      kind: "outline",
       width: 104,
       height: 32,
       onPress: () => this.clearGraph(),
@@ -378,6 +379,11 @@ export class GraphInputPanel {
   }
 
   updatePanelAnimation() {
+    // the page can shift after setup (fonts, ads, scrollbar); follow the canvas
+    if (this.cnv) {
+      const { x, y } = this.cnv.position();
+      if (x !== this.baseX || y !== this.baseY) this.handleResize();
+    }
     const animating = this.isOpen || this.panelOffset > CLOSED_OFFSET + 8;
     this.panelOffset = this.P.lerp(
       this.panelOffset,
@@ -394,6 +400,7 @@ export class GraphInputPanel {
         originY,
         pitch,
         cell,
+        highlight: this.grid.active ? { row: this.grid.active.i, col: this.grid.active.j } : null,
         gutter,
       });
     } else {

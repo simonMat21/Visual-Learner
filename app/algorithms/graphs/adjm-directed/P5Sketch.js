@@ -5,10 +5,9 @@ import { BOARD, CHALK } from "@/lib/boardPalette";
 import { createMatrixBoard } from "@/lib/graphBoard";
 import { countEdges } from "@/lib/graphModel";
 import {
-  drawArrow,
+  drawGraphEdges,
   drawHeading,
   drawNodes,
-  drawSelfLoop,
   drawStats,
 } from "@/lib/graphDraw";
 
@@ -20,6 +19,7 @@ export default function P5Sketch() {
   useEffect(() => {
     let p5Instance = null;
     let cancelled = false;
+    let boardRef = null;
     import("p5").then((p5Module) => {
       if (cancelled) return;
       const p5 = p5Module.default;
@@ -31,6 +31,7 @@ export default function P5Sketch() {
           const cnv = P.createCanvas(1000, 500);
           board = createMatrixBoard(P, { directed: true, weighted: false });
           board.attach(cnv);
+          boardRef = board;
           P.mousePressed = () => board.press(P.mouseX, P.mouseY);
           P.windowResized = () => board.handleResize();
         };
@@ -44,15 +45,16 @@ export default function P5Sketch() {
           drawHeading(P, HINT, 20, 108, { size: 12, color: CHALK });
           board.drawHeaders();
 
-          const radius = board.radius();
-          for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-              if (matrix[i][j] === 0) continue;
-              if (i === j) drawSelfLoop(P, nodes[i].x, nodes[i].y, i, radius);
-              else drawArrow(P, nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y, radius);
-            }
-          }
-          drawNodes(P, nodes);
+          const hover = board.hover;
+          drawGraphEdges(P, {
+            matrix,
+            nodes,
+            radius: board.radius(),
+            directed: true,
+            weighted: false,
+            hover,
+          });
+          drawNodes(P, nodes, { highlight: hover ? [hover.i, hover.j] : [] });
 
           drawHeading(P, "Graph", 690, 62, { align: P.CENTER, size: 18 });
           drawStats(
@@ -72,6 +74,7 @@ export default function P5Sketch() {
     });
     return () => {
       cancelled = true;
+      boardRef?.destroy();
       p5Instance?.remove();
     };
   }, []);

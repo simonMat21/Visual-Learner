@@ -278,6 +278,7 @@ export class MatrixDrawer {
       originY: GRID.y,
       pitch,
       cell,
+      highlight: this.grid.active ? { row: this.grid.active.i, col: this.grid.active.j } : null,
       gutter: 26,
     });
   }

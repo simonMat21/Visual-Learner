@@ -5,10 +5,9 @@ import { inputMethod_directedAdjMatrix } from "../../../../components/inputmetho
 import { BOARD, CHALK } from "@/lib/boardPalette";
 import { countEdges } from "@/lib/graphModel";
 import {
-  drawArrow,
+  drawGraphEdges,
   drawHeading,
   drawNodes,
-  drawSelfLoop,
   drawStats,
   layoutRing,
   nodeRadius,
@@ -63,18 +62,13 @@ export default function P5Sketch() {
 
           drawHeading(P, "Graph", 690, 62, { align: P.CENTER, size: 18 });
 
-          for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-              if (matrix[i][j] === 0) continue;
-              if (i === j) {
-                drawSelfLoop(P, nodes[i].x, nodes[i].y, i, radius);
-                continue;
-              }
-              drawArrow(P, nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y, radius);
-            }
-          }
-
-          drawNodes(P, nodes);
+          const grid = inputHandler.grid;
+          const hover =
+            inputHandler.getIsInputPanelVisible() && inputHandler.tab === "matrix" && grid
+              ? grid.active
+              : null;
+          drawGraphEdges(P, { matrix, nodes, radius, directed: true, hover });
+          drawNodes(P, nodes, { highlight: hover ? [hover.i, hover.j] : [] });
 
           drawStats(
             P,
@@ -88,7 +82,7 @@ export default function P5Sketch() {
               P,
               "press \u201cInput Graph\u201d to type edges like 0-1, 0-2, 1-3",
               690,
-              250,
+              306,
               { align: P.CENTER, size: 14, color: CHALK }
             );
           }

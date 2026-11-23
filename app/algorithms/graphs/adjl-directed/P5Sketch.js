@@ -3,15 +3,15 @@
 import { useRef, useEffect } from "react";
 import { BOARD, CHALK } from "@/lib/boardPalette";
 import {
-  drawArrow,
+  drawGraphEdges,
   drawHeading,
   drawNodes,
-  drawSelfLoop,
   drawStats,
   layoutRing,
   nodeRadius,
 } from "@/lib/graphDraw";
 import {
+  CHALK_TEXT,
   makeButton,
   makeLabel,
   makeStepper,
@@ -76,7 +76,7 @@ export default function P5Sketch() {
         function buildRows() {
           clearRows();
           for (let i = 0; i < size; i++) {
-            const label = makeLabel(P, `${i}:`, { size: 14 });
+            const label = makeLabel(P, `${i}:`, { size: 14, color: CHALK_TEXT });
             label.elt.style.width = "18px";
             label.elt.style.textAlign = "right";
 
@@ -199,7 +199,7 @@ export default function P5Sketch() {
 
           list = emptyList();
 
-          controls.sizeLabel = makeLabel(P, "Vertices", { size: 14 });
+          controls.sizeLabel = makeLabel(P, "Vertices", { size: 14, color: CHALK_TEXT });
           controls.stepper = makeStepper(P, {
             value: size,
             min: 1,
@@ -238,32 +238,25 @@ export default function P5Sketch() {
         };
 
         P.draw = () => {
+          // follow the canvas if the page shifted after setup
+          const pos = canvas.position();
+          if (pos.x !== baseX || pos.y !== baseY) {
+            baseX = pos.x;
+            baseY = pos.y;
+            layout();
+          }
           P.background(...BOARD);
 
-          const radius = nodeRadius(size);
-          const drawn = new Set();
-
+          // the list drawn through the same helper as the matrix pages
+          const matrix = Array.from({ length: size }, () => Array(size).fill(0));
           for (let from = 0; from < size; from++) {
             for (const to of list[from] ?? []) {
-              if (to >= size) continue;
-              if (from === to) {
-                drawSelfLoop(P, nodes[from].x, nodes[from].y, from, radius);
-                continue;
-              }
-              if (!directed) {
-                const key = from < to ? `${from}-${to}` : `${to}-${from}`;
-                if (drawn.has(key)) continue;
-                drawn.add(key);
-                drawArrow(P, nodes[from].x, nodes[from].y, nodes[to].x, nodes[to].y, radius, {
-                  directed: false,
-                });
-                continue;
-              }
-              drawArrow(P, nodes[from].x, nodes[from].y, nodes[to].x, nodes[to].y, radius);
+              if (to < size) matrix[from][to] = 1;
             }
           }
-
-          drawNodes(P, nodes);
+          const focused = rowInputs.findIndex((input) => document.activeElement === input.elt);
+          drawGraphEdges(P, { matrix, nodes, radius: nodeRadius(size), directed });
+          drawNodes(P, nodes, { highlight: focused >= 0 ? [focused] : [] });
 
           drawHeading(P, "Adjacency List", 24, 152);
           drawHeading(
