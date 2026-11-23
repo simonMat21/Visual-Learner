@@ -61,6 +61,9 @@ export default function sitemap() {
     "algorithms/graphs/adjm-undirected",
     "algorithms/graphs/adjm-weighted",
     "algorithms/graphs/adjm-input",
+    // Minimum Spanning Tree
+    "algorithms/mst/prims-algorithm",
+    "algorithms/mst/kruskals-algorithm",
   ].map((path) => ({
     url: `${baseUrl}/${path}`,
     lastModified: new Date(),

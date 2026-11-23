@@ -1,13 +1,31 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { BOARD, CHALK } from "@/lib/boardPalette";
+import {
+  drawArrow,
+  drawHeading,
+  drawNodes,
+  drawSelfLoop,
+  drawStats,
+  layoutRing,
+  nodeRadius,
+} from "@/lib/graphDraw";
+import {
+  makeButton,
+  makeLabel,
+  makeStepper,
+  PAPER,
+  RULE,
+  styleField,
+} from "@/lib/graphDom";
+
+const ROWS = { x: 24, y: 186, pitch: 30, height: 26, width: 210 };
 
 export default function P5Sketch() {
   const sketchRef = useRef(null);
 
   useEffect(() => {
-    // Dynamically import p5 only on the client
     let p5Instance = null;
     let cancelled = false;
     import("p5").then((p5Module) => {
@@ -15,466 +33,256 @@ export default function P5Sketch() {
       const p5 = p5Module.default;
 
       const sketch = (P) => {
-        let graphSize = 3;
-        let adjacencyList = {};
-        let listElements = [];
-        let sizeInput;
-        let generateButton;
-        let randomButton;
-        let toggleButton;
-        let isDirected = true;
+        const maxSize = 8;
+        let size = 5;
+        let list = [];
         let nodes = [];
+        let directed = true;
+        let baseX = 0;
+        let baseY = 0;
+        let canvas = null;
+        let rowLabels = [];
+        let rowInputs = [];
+        const controls = {};
 
-        function generateGraph() {
-          let newSize = parseInt(sizeInput.value());
-          if (newSize < 1 || newSize > 8) {
-            alert("Please enter a size between 1 and 8");
-            return;
-          }
+        const emptyList = () => Array.from({ length: size }, () => []);
 
-          graphSize = newSize;
-          clearListElements();
-
-          // Initialize adjacency list
-          adjacencyList = {};
-          for (let i = 0; i < graphSize; i++) {
-            adjacencyList[i] = [];
-          }
-
-          createAdjacencyListDisplay();
-          generateNodePositions();
+        function layoutNodes() {
+          nodes = layoutRing(P, size, { cx: 700, cy: 250, radius: 130 });
         }
 
-        function generateRandomGraph() {
-          // Clear existing lists
-          for (let i = 0; i < graphSize; i++) {
-            adjacencyList[i] = [];
-          }
+        function edgeCount() {
+          let total = 0;
+          list.forEach((neighbors) => {
+            total += neighbors.length;
+          });
+          return directed ? total : total / 2;
+        }
 
-          // Generate random edges
-          if (isDirected) {
-            for (let i = 0; i < graphSize; i++) {
-              for (let j = 0; j < graphSize; j++) {
-                if (i !== j && P.random() < 0.3) {
-                  adjacencyList[i].push(j);
-                }
+        function setSize(next) {
+          size = Math.min(maxSize, Math.max(1, next));
+          list = Array.from({ length: size }, (_, i) => list[i] ?? []);
+          buildRows();
+          layoutNodes();
+        }
+
+        function clearRows() {
+          rowLabels.forEach((el) => el.remove());
+          rowInputs.forEach((el) => el.remove());
+          rowLabels = [];
+          rowInputs = [];
+        }
+
+        function buildRows() {
+          clearRows();
+          for (let i = 0; i < size; i++) {
+            const label = makeLabel(P, `${i}:`, { size: 14 });
+            label.elt.style.width = "18px";
+            label.elt.style.textAlign = "right";
+
+            const input = P.createInput(list[i].join(", "));
+            input.attribute("aria-label", `Neighbours of vertex ${i}`);
+            styleField(input, { size: 13, align: "left", background: PAPER });
+            input.elt.style.width = ROWS.width + "px";
+            input.elt.style.height = ROWS.height + "px";
+            input.elt.style.padding = "4px 8px";
+            input.elt.style.border = "2px solid " + RULE;
+            input.input(() => onRowEdited(i, input.elt.value));
+
+            rowLabels.push(label);
+            rowInputs.push(input);
+          }
+          layout();
+        }
+
+        function onRowEdited(vertex, raw) {
+          const parsed = [];
+          raw
+            .split(",")
+            .map((part) => part.trim())
+            .filter((part) => part !== "")
+            .forEach((part) => {
+              const value = parseInt(part, 10);
+              if (Number.isInteger(value) && value >= 0 && value < size) {
+                parsed.push(value);
               }
-            }
-          } else {
-            // For undirected graphs, only generate edges once
-            for (let i = 0; i < graphSize; i++) {
-              for (let j = i + 1; j < graphSize; j++) {
-                if (P.random() < 0.3) {
-                  adjacencyList[i].push(j);
-                  adjacencyList[j].push(i);
-                }
-              }
-            }
-          }
-          updateListDisplay();
-        }
+            });
 
-        function toggleGraphType() {
-          isDirected = !isDirected;
-          updateToggleButtonText();
+          const previous = list[vertex];
+          list[vertex] = parsed.filter((value, index) => parsed.indexOf(value) === index);
 
-          // If switching to undirected, make adjacency list symmetric
-          if (!isDirected) {
-            makeGraphUndirected();
-          }
-          updateListDisplay();
-        }
-
-        function makeGraphUndirected() {
-          // Make the adjacency list symmetric
-          for (let i = 0; i < graphSize; i++) {
-            for (let neighbor of adjacencyList[i]) {
-              if (!adjacencyList[neighbor].includes(i)) {
-                adjacencyList[neighbor].push(i);
-              }
-            }
+          if (!directed) {
+            previous
+              .filter((v) => v !== vertex && !parsed.includes(v))
+              .forEach((v) => {
+                list[v] = list[v].filter((n) => n !== vertex);
+              });
+            parsed.forEach((v) => {
+              if (v !== vertex && !list[v].includes(vertex)) list[v].push(vertex);
+            });
+            syncRows();
           }
         }
 
-        function updateToggleButtonText() {
-          if (toggleButton) {
-            toggleButton.html(
-              isDirected ? "Switch to Undirected" : "Switch to Directed"
-            );
-          }
-        }
-
-        function generateNodePositions() {
-          nodes = [];
-          let centerX = 700;
-          let centerY = 250;
-          let radius = 120;
-
-          for (let i = 0; i < graphSize; i++) {
-            let angle = (P.TWO_PI / graphSize) * i - P.PI / 2;
-            let x = centerX + P.cos(angle) * radius;
-            let y = centerY + P.sin(angle) * radius;
-            nodes.push({ x: x, y: y, label: i });
-          }
-        }
-
-        function clearListElements() {
-          listElements.forEach((element) => {
-            if (element && element.remove) {
-              element.remove();
+        function syncRows() {
+          rowInputs.forEach((input, i) => {
+            if (document.activeElement !== input.elt) {
+              input.elt.value = list[i].join(", ");
             }
           });
-          listElements = [];
         }
 
-        function createAdjacencyListDisplay() {
-          listElements = [];
-          let startX = 50;
-          let startY = 180;
-          let lineHeight = 25;
-
-          for (let i = 0; i < graphSize; i++) {
-            // Create vertex label
-            let vertexLabel = P.createDiv(`${i}:`);
-            vertexLabel.style("position", "absolute");
-            vertexLabel.style("font-weight", "bold");
-            vertexLabel.style("font-size", "14px");
-            vertexLabel.style("color", "#000");
-            vertexLabel.position(startX + 20, startY + i * lineHeight);
-            listElements.push(vertexLabel);
-
-            // Create input field for adjacency list
-            let listInput = P.createInput(adjacencyList[i].join(", "));
-            listInput.style("width", "200px");
-            listInput.style("font-size", "12px");
-            listInput.style("border", "2px solid #7d9088");
-            listInput.style("padding", "4px");
-            listInput.style("margin-left", "20px");
-            listInput.position(startX + 25, startY + i * lineHeight - 5);
-
-            // Add event listener to update adjacency list
-            listInput.input(createInputHandler(i));
-            listElements.push(listInput);
-          }
-        }
-
-        function createInputHandler(vertex) {
-          return function () {
-            let input = this.value();
-            let oldNeighbors = [...adjacencyList[vertex]]; // Store old neighbors
-            adjacencyList[vertex] = [];
-
-            if (input.trim() !== "") {
-              let neighbors = input
-                .split(",")
-                .map((s) => s.trim())
-                .filter((s) => s !== "");
-              for (let neighbor of neighbors) {
-                let n = parseInt(neighbor);
-                if (!isNaN(n) && n >= 0 && n < graphSize) {
-                  adjacencyList[vertex].push(n);
-                }
-              }
-            }
-
-            // If undirected graph, update the reverse connections
-            if (!isDirected) {
-              // Remove old reverse connections
-              for (let oldNeighbor of oldNeighbors) {
-                let index = adjacencyList[oldNeighbor].indexOf(vertex);
-                if (index > -1) {
-                  adjacencyList[oldNeighbor].splice(index, 1);
-                }
-              }
-
-              // Add new reverse connections
-              for (let neighbor of adjacencyList[vertex]) {
-                if (!adjacencyList[neighbor].includes(vertex)) {
-                  adjacencyList[neighbor].push(vertex);
-                }
-              }
-
-              // Update all displays
-              updateListDisplay();
-            }
-          };
-        }
-
-        function updateListDisplay() {
-          for (let i = 0; i < graphSize; i++) {
-            if (listElements[i * 2 + 1]) {
-              listElements[i * 2 + 1].value(adjacencyList[i].join(", "));
+        function randomize() {
+          list = emptyList();
+          for (let i = 0; i < size; i++) {
+            for (let j = 0; j < size; j++) {
+              if (i === j) continue;
+              if (!directed && j < i) continue;
+              if (P.random() < 0.3) list[i].push(j);
             }
           }
-        }
-
-        function drawGraph() {
-          P.fill(...CHALK);
-          P.textSize(16);
-          P.textAlign(P.LEFT);
-          P.noStroke();
-          P.text("Adjacency List (Edit values):", 50, 80);
-
-          P.textAlign(P.CENTER);
-          P.text("Graph Visualization", 700, 80);
-
-          // Draw edges based on adjacency list
-          let drawnEdges = new Set(); // To avoid drawing duplicate edges for undirected graphs
-
-          for (let vertex in adjacencyList) {
-            let from = parseInt(vertex);
-            for (let to of adjacencyList[vertex]) {
-              if (from === to) {
-                // Draw self-loop
-                drawSelfLoop(nodes[from].x, nodes[from].y, from);
-              } else if (to < graphSize) {
-                // For undirected graphs, avoid drawing the same edge twice
-                if (!isDirected) {
-                  let edgeId = from < to ? `${from}-${to}` : `${to}-${from}`;
-                  if (drawnEdges.has(edgeId)) continue;
-                  drawnEdges.add(edgeId);
-                  // Draw undirected edge (line without arrow)
-                  drawUndirectedEdge(
-                    nodes[from].x,
-                    nodes[from].y,
-                    nodes[to].x,
-                    nodes[to].y
-                  );
-                } else {
-                  // Draw directed arrow
-                  drawArrow(
-                    nodes[from].x,
-                    nodes[from].y,
-                    nodes[to].x,
-                    nodes[to].y
-                  );
+          if (!directed) {
+            for (let i = 0; i < size; i++) {
+              for (let j = i + 1; j < size; j++) {
+                if (list[i].includes(j)) {
+                  list[j].push(i);
                 }
               }
             }
           }
-
-          // Draw nodes
-          for (let i = 0; i < graphSize; i++) {
-            P.fill(255);
-            P.stroke(0);
-            P.strokeWeight(2);
-            let nodeSize = P.min(35, 250 / graphSize);
-            P.circle(nodes[i].x, nodes[i].y, nodeSize);
-
-            P.fill(0);
-            P.textAlign(P.CENTER, P.CENTER);
-            P.textSize(P.min(16, nodeSize / 2));
-            P.text(i, nodes[i].x, nodes[i].y);
-          }
-
-          // Display graph statistics
-          P.noStroke();
-          P.fill(...CHALK);
-          P.textSize(14);
-          P.textAlign(P.LEFT);
-          let edgeCount = 0;
-          for (let vertex in adjacencyList) {
-            edgeCount += adjacencyList[vertex].length;
-          }
-
-          // For undirected graphs, each edge is counted twice, so divide by 2
-          if (!isDirected) {
-            edgeCount = edgeCount / 2;
-          }
-
-          P.text("Nodes: " + graphSize, 600, 420);
-          P.text("Edges: " + edgeCount, 600, 440);
-          P.text(isDirected ? "Directed Graph" : "Undirected Graph", 600, 460);
-
-          // Draw adjacency list structure
-          P.fill(...CHALK);
-          P.textSize(12);
-          P.text("Format: vertex1, vertex2, vertex3...", 50, 100);
-          P.text("(Enter comma-separated neighbor vertices)", 50, 115);
-          if (!isDirected) {
-            P.text("Note: Adding edge A→B automatically adds B→A", 50, 130);
-          }
+          syncRows();
         }
 
-        function drawArrow(x1, y1, x2, y2) {
-          let nodeRadius = P.min(17, 125 / graphSize);
-          let dx = x2 - x1;
-          let dy = y2 - y1;
-          let length = P.sqrt(dx * dx + dy * dy);
+        function clearAll() {
+          list = emptyList();
+          syncRows();
+        }
 
-          if (length > nodeRadius * 2) {
-            dx /= length;
-            dy /= length;
+        function toggleDirection() {
+          directed = !directed;
+          controls.toggle.html(
+            directed ? "Switch to undirected" : "Switch to directed"
+          );
+          if (!directed) {
+            for (let i = 0; i < size; i++) {
+              for (const neighbor of [...list[i]]) {
+                if (!list[neighbor].includes(i)) list[neighbor].push(i);
+              }
+            }
+          }
+          syncRows();
+        }
 
-            let startX = x1 + dx * nodeRadius;
-            let startY = y1 + dy * nodeRadius;
-            let endX = x2 - dx * nodeRadius;
-            let endY = y2 - dy * nodeRadius;
-
-            P.stroke(150, 165, 157);
-            P.strokeWeight(2);
-            P.line(startX, startY, endX, endY);
-
-            let arrowSize = 10;
-            let angle = P.atan2(dy, dx);
-
-            P.push();
-            P.translate(endX, endY);
-            P.rotate(angle);
-            P.fill(150, 165, 157);
-            P.noStroke();
-            P.triangle(
-              0,
-              0,
-              -arrowSize,
-              arrowSize / 2,
-              -arrowSize,
-              -arrowSize / 2
+        function layout() {
+          rowLabels.forEach((label, i) => {
+            label.position(
+              baseX + ROWS.x,
+              baseY + ROWS.y + i * ROWS.pitch + 5
             );
-            P.pop();
-          }
-        }
-
-        function drawUndirectedEdge(x1, y1, x2, y2) {
-          let nodeRadius = P.min(17, 125 / graphSize);
-          let dx = x2 - x1;
-          let dy = y2 - y1;
-          let length = P.sqrt(dx * dx + dy * dy);
-
-          if (length > nodeRadius * 2) {
-            dx /= length;
-            dy /= length;
-
-            let startX = x1 + dx * nodeRadius;
-            let startY = y1 + dy * nodeRadius;
-            let endX = x2 - dx * nodeRadius;
-            let endY = y2 - dy * nodeRadius;
-
-            P.stroke(150, 165, 157);
-            P.strokeWeight(2);
-            P.line(startX, startY, endX, endY);
-          }
-        }
-
-        function drawSelfLoop(x, y, nodeIndex) {
-          let nodeRadius = P.min(17, 125 / graphSize);
-          let loopRadius = nodeRadius + 12;
-
-          P.push();
-          P.stroke(150, 165, 157);
-          P.strokeWeight(2);
-          P.noFill();
-
-          let offsetAngle = (nodeIndex * P.PI) / 4;
-          let loopCenterX =
-            x + P.cos(offsetAngle - P.PI / 2) * (nodeRadius + loopRadius / 2.5);
-          let loopCenterY =
-            y + P.sin(offsetAngle - P.PI / 2) * (nodeRadius + loopRadius / 2.5);
-
-          let startAngle = offsetAngle + P.PI / 1.4;
-          let endAngle = startAngle + (3 * P.PI) / 2;
-
-          P.arc(
-            loopCenterX,
-            loopCenterY,
-            loopRadius,
-            loopRadius,
-            startAngle,
-            endAngle
-          );
-
-          let arrowAngle = endAngle;
-          let arrowX = loopCenterX + P.cos(arrowAngle) * (loopRadius / 2.5);
-          let arrowY = loopCenterY + P.sin(arrowAngle) * (loopRadius / 2.5);
-
-          P.push();
-          P.translate(arrowX, arrowY);
-          P.rotate(arrowAngle + P.PI / 1.6);
-          P.fill(150, 165, 157);
-          P.noStroke();
-          let arrowSize = 6;
-          P.triangle(
-            0,
-            0,
-            -arrowSize / 2,
-            -arrowSize,
-            arrowSize / 2,
-            -arrowSize
-          );
-          P.pop();
-
-          P.pop();
+          });
+          rowInputs.forEach((input, i) => {
+            input.position(baseX + ROWS.x + 24, baseY + ROWS.y + i * ROWS.pitch);
+          });
+          if (controls.sizeLabel)
+            controls.sizeLabel.position(baseX + 20, baseY + 56);
+          controls.stepper.layout(baseX + 96, baseY + 42);
+          if (controls.random) controls.random.position(baseX + 224, baseY + 42);
+          if (controls.clear) controls.clear.position(baseX + 332, baseY + 42);
+          if (controls.toggle) controls.toggle.position(baseX + 20, baseY + 96);
         }
 
         P.setup = () => {
-          let cnv = P.createCanvas(1000, 500);
+          const cnv = P.createCanvas(1000, 500);
+          canvas = cnv;
+          baseX = cnv.position().x;
+          baseY = cnv.position().y;
 
-          sizeInput = P.createInput("5");
-          sizeInput.attribute("type", "number");
-          sizeInput.attribute("min", "1");
-          sizeInput.attribute("max", "8");
-          sizeInput.style("width", "50px");
-          sizeInput.style("font-size", "14px");
-          sizeInput.style("-moz-appearance", "textfield");
-          sizeInput.style("appearance", "textfield");
-          sizeInput.style("font-weight", "bold");
-          sizeInput.style("border", "2px solid #7d9088");
-          sizeInput.style("background-color", "#f6f2e9");
-          sizeInput.style("color", "#000");
-          sizeInput.position(cnv.position().x + 50, cnv.position().y + 30);
+          list = emptyList();
 
-          generateButton = P.createButton("Generate Graph");
-          generateButton.style("font-size", "14px");
-          generateButton.style("padding", "8px 16px");
-          generateButton.style("color", "#1d2320");
-          generateButton.style("background-color", "#f1ede2");
-          generateButton.style("border", "2px solid #f1ede2");
-          generateButton.style("border-radius", "6px");
-          generateButton.style("cursor", "pointer");
-          generateButton.style("font-weight", "bold");
-          generateButton.mousePressed(generateGraph);
-          generateButton.position(
-            cnv.position().x + 150,
-            cnv.position().y + 18
-          );
+          controls.sizeLabel = makeLabel(P, "Vertices", { size: 14 });
+          controls.stepper = makeStepper(P, {
+            value: size,
+            min: 1,
+            max: maxSize,
+            onChange: (value) => setSize(value),
+          });
+          controls.random = makeButton(P, "Random", {
+            kind: "ghost",
+            width: 100,
+            height: 30,
+            onPress: () => randomize(),
+          });
+          controls.clear = makeButton(P, "Clear", {
+            kind: "ghost",
+            width: 88,
+            height: 30,
+            onPress: () => clearAll(),
+          });
+          controls.toggle = makeButton(P, "Switch to undirected", {
+            kind: "solid",
+            width: 176,
+            height: 30,
+            onPress: () => toggleDirection(),
+          });
 
-          randomButton = P.createButton("Random Graph");
-          randomButton.style("font-size", "14px");
-          randomButton.style("padding", "8px 16px");
-          randomButton.style("color", "#f1ede2");
-          randomButton.style("background-color", "transparent");
-          randomButton.style("border", "2px solid #7d9088");
-          randomButton.style("border-radius", "6px");
-          randomButton.style("cursor", "pointer");
-          randomButton.style("font-weight", "bold");
-          randomButton.mousePressed(generateRandomGraph);
-          randomButton.position(cnv.position().x + 320, cnv.position().y + 18);
+          buildRows();
+          layoutNodes();
+        };
 
-          toggleButton = P.createButton("Switch to Undirected");
-          toggleButton.style("font-size", "14px");
-          toggleButton.style("padding", "8px 16px");
-          toggleButton.style("color", "#f1ede2");
-          toggleButton.style("background-color", "transparent");
-          toggleButton.style("border", "2px solid #7d9088");
-          toggleButton.style("border-radius", "6px");
-          toggleButton.style("cursor", "pointer");
-          toggleButton.style("font-weight", "bold");
-          toggleButton.mousePressed(toggleGraphType);
-          toggleButton.position(cnv.position().x + 480, cnv.position().y + 18);
-
-          generateGraph();
-          generateNodePositions();
+        P.windowResized = () => {
+          if (canvas) {
+            baseX = canvas.position().x;
+            baseY = canvas.position().y;
+          }
+          layout();
         };
 
         P.draw = () => {
           P.background(...BOARD);
 
-          P.fill(...CHALK);
-          P.textSize(14);
-          P.textAlign(P.LEFT);
-          P.text("Graph Size:", 20, 15);
+          const radius = nodeRadius(size);
+          const drawn = new Set();
 
-          drawGraph();
+          for (let from = 0; from < size; from++) {
+            for (const to of list[from] ?? []) {
+              if (to >= size) continue;
+              if (from === to) {
+                drawSelfLoop(P, nodes[from].x, nodes[from].y, from, radius);
+                continue;
+              }
+              if (!directed) {
+                const key = from < to ? `${from}-${to}` : `${to}-${from}`;
+                if (drawn.has(key)) continue;
+                drawn.add(key);
+                drawArrow(P, nodes[from].x, nodes[from].y, nodes[to].x, nodes[to].y, radius, {
+                  directed: false,
+                });
+                continue;
+              }
+              drawArrow(P, nodes[from].x, nodes[from].y, nodes[to].x, nodes[to].y, radius);
+            }
+          }
+
+          drawNodes(P, nodes);
+
+          drawHeading(P, "Adjacency List", 24, 152);
+          drawHeading(
+            P,
+            "type the neighbours of each vertex, e.g. 1, 3, 4",
+            24,
+            172,
+            { size: 12, color: CHALK }
+          );
+          drawHeading(P, "Graph", 700, 62, { align: P.CENTER, size: 18 });
+          drawStats(
+            P,
+            [
+              `${size} vertices \u00b7 ${edgeCount()} edges`,
+              directed ? "directed graph" : "undirected graph",
+            ],
+            480,
+            452
+          );
         };
       };
 
@@ -486,5 +294,6 @@ export default function P5Sketch() {
       p5Instance?.remove();
     };
   }, []);
+
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }
