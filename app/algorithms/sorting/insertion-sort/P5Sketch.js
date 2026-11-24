@@ -2,9 +2,11 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
-import { BOARD, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
+import { createNarrator, drawBoxState } from "@/lib/sortNarration";
+import { BOARD, HIGHLIGHT, INK, tileColor, GOOD, CHALK } from "@/lib/boardPalette";
 
 export default function P5Sketch({
+  onNarrate,
   dlt,
   add,
   srch,
@@ -12,6 +14,7 @@ export default function P5Sketch({
   actionExicutable,
 }) {
   const sketchRef = useRef(null);
+  const onNarrateRef = useRef(onNarrate);
   const deleteRef = useRef(dlt);
   const searchRef = useRef(srch);
   const addRef = useRef(add);
@@ -60,7 +63,9 @@ export default function P5Sketch({
           }
 
           show() {
-            P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
+            drawBoxState(P, this, { size: 60, colors: { GOOD, HIGHLIGHT, CHALK } });
+            if (this.done) P.fill(GOOD[0], GOOD[1], GOOD[2], this.opacity);
+            else P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 60);
             P.fill(...INK, this.opacity);
@@ -74,26 +79,53 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
         function insertionSort(arr) {
-          let n = arr.length;
+          const n = arr.length;
+          const v = (b) => b.val;
+          narr.say([], `Insertion sort grows a sorted part on the left. Each new item is slid left until it sits in the right spot, like sorting playing cards in your hand.`);
+          const firstBox = arr[0];
+          narr.run(() => (firstBox.part = true));
+          narr.pause(50);
           for (let i = 1; i < n; i++) {
+            const key = arr[i];
+            narr.run(() => (key.tag = "key"));
+            narr.say([0, 1], `Take a[${i}] = ${v(key)} and insert it into the sorted part a[0..${i - 1}].`);
+            narr.pause(30);
             let j = i;
             while (j > 0) {
-              animator.addStage({
-                funcName: "check",
-                Args: [arr[j - 1], arr[j]],
-              });
-              if (arr[j - 1].val > arr[j].val) {
-                animator.addStage({
-                  funcName: "swap",
-                  Args: [arr[j - 1], arr[j]],
-                });
-                [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]];
-                j--;
-              } else {
-                break;
-              }
+              const left = arr[j - 1];
+              const bigger = v(left) > v(key);
+              narr.say(
+                2,
+                bigger
+                  ? `Is ${v(left)} (on the left) bigger than ${v(key)}? Yes → ${v(key)} has to move further left.`
+                  : `Is ${v(left)} (on the left) bigger than ${v(key)}? No → ${v(key)} has found its spot.`,
+                { comparisons: 1 }
+              );
+              animator.addStage({ funcName: "check", Args: [left, key] });
+              if (!bigger) break;
+              narr.say(3, `Swap ${v(left)} and ${v(key)}: ${v(key)} moves one step left.`, { swaps: 1 });
+              animator.addStage({ funcName: "swap", Args: [left, key] });
+              [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]];
+              j--;
             }
+            if (j === 0) narr.say(2, `${v(key)} reached the front: it is the smallest so far.`);
+            // capture the boxes now: arr keeps changing while later passes are queued
+            const sortedPart = arr.slice(0, i + 1);
+            narr.run(() => {
+              key.tag = null;
+              sortedPart.forEach((b) => (b.part = true));
+            });
+            narr.say(4, `a[0..${i}] is sorted now: ${arr.slice(0, i + 1).map(v).join(", ")}.`);
+            narr.pause(30);
           }
+          narr.run(() => {
+            arr.forEach((b) => {
+              b.done = true;
+              b.part = false;
+            });
+            checkers.forEach((c) => (c.opacity = 0));
+          });
+          narr.say([], `Done! Every item was inserted, so the array is sorted: ${arr.map(v).join(", ")}.`, {}, { done: true });
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -143,12 +175,28 @@ export default function P5Sketch({
         //------------------------------------------------------------------------------------------------
 
         let boxes = [];
+
+        /** Index numbers under each position, so a[j] in the pseudocode has a place to point at. */
+        function drawSlots() {
+          if (!boxes.length) return;
+          P.push();
+          P.noStroke();
+          P.fill(CHALK[0], CHALK[1], CHALK[2], 140);
+          P.textAlign(P.CENTER, P.CENTER);
+          P.textSize(13);
+          for (let i = 0; i < boxes.length; i++) {
+            P.text(String(i), P.width / 2 - 40 * boxes.length + i * 80, 205);
+          }
+          P.pop();
+        }
         let checkers = [];
 
         let animator;
+        let narr;
         P.setup = () => {
-          P.createCanvas(1000, 500);
+          P.createCanvas(1000, 230);
           animator = new Animator();
+          narr = createNarrator(animator, onNarrateRef, { stats: { comparisons: 0, swaps: 0 } });
           animator.functionsDictionary = {
             insert: insert,
             check: check,
@@ -173,11 +221,12 @@ export default function P5Sketch({
 
           if (addRef.current.start && addRef.current.val.length != 0) {
             boxes = [];
+            narr.reset();
             const liveInput = addRef.current.val;
             for (let i = 0; i < liveInput.length; i++) {
               boxes[i] = new Box(
                 P.width / 2 - 40 * liveInput.length + i * 80,
-                220,
+                110,
                 liveInput[i]
               );
               animator.addStage({ funcName: "insert", Args: [boxes[i]] });
@@ -196,6 +245,7 @@ export default function P5Sketch({
             addRef.current.start = false;
           }
 
+          drawSlots();
           boxes.forEach((b) => {
             b.show();
           });
@@ -215,12 +265,15 @@ export default function P5Sketch({
   }, []);
 
   useEffect(() => {
-    addRef.current = add;
+    // The page switches `start` back off after a few ms. If no frame ran in
+    // between (slow or background tab), keep the request until draw() takes it.
+    addRef.current = !add.start && addRef.current.start ? { ...add, start: true } : add;
+    onNarrateRef.current = onNarrate;
     deleteRef.current = dlt;
     searchRef.current = srch;
     actionExicutableRef.current = actionExicutable;
     animSpdRef.current = animSpd;
-  }, [dlt, add, srch, animSpd, actionExicutable]);
+  }, [dlt, add, srch, animSpd, actionExicutable, onNarrate]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

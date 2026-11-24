@@ -2,9 +2,11 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
-import { BOARD, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
+import { createNarrator, drawBoxState } from "@/lib/sortNarration";
+import { BOARD, HIGHLIGHT, INK, tileColor, GOOD, CHALK } from "@/lib/boardPalette";
 
 export default function P5Sketch({
+  onNarrate,
   dlt,
   add,
   srch,
@@ -12,6 +14,7 @@ export default function P5Sketch({
   actionExicutable,
 }) {
   const sketchRef = useRef(null);
+  const onNarrateRef = useRef(onNarrate);
   const deleteRef = useRef(dlt);
   const searchRef = useRef(srch);
   const addRef = useRef(add);
@@ -60,7 +63,9 @@ export default function P5Sketch({
           }
 
           show() {
-            P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
+            drawBoxState(P, this, { size: 60, colors: { GOOD, HIGHLIGHT, CHALK } });
+            if (this.done) P.fill(GOOD[0], GOOD[1], GOOD[2], this.opacity);
+            else P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 60);
             P.fill(...INK, this.opacity);
@@ -74,25 +79,46 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
         function bubbleSort(arr) {
-          let yt = [];
-          let n = arr.length;
+          const n = arr.length;
+          const v = (b) => b.val;
+          narr.say([], `Bubble sort walks along the array comparing neighbours. Big values “bubble” to the right end, one per pass.`);
+          narr.pause(50);
           for (let i = 0; i < n - 1; i++) {
+            let swapped = false;
+            narr.say([0, 1], `Pass ${i + 1}: walk from the left up to position ${n - 1 - i}.`, { passes: 1 });
             for (let j = 0; j < n - 1 - i; j++) {
-              animator.addStage({
-                funcName: "check",
-                Args: [arr[j], arr[j + 1]],
-              });
-
-              if (arr[j].val > arr[j + 1].val) {
-                animator.addStage({
-                  funcName: "swap",
-                  Args: [arr[j], arr[j + 1]],
-                });
+              const a = arr[j];
+              const b = arr[j + 1];
+              const swap = v(a) > v(b);
+              narr.say(
+                [2, 3],
+                swap
+                  ? `Compare a[${j}] = ${v(a)} and a[${j + 1}] = ${v(b)}: ${v(a)} > ${v(b)}, so they are in the wrong order → swap.`
+                  : `Compare a[${j}] = ${v(a)} and a[${j + 1}] = ${v(b)}: already in order, nothing to do.`,
+                { comparisons: 1 }
+              );
+              animator.addStage({ funcName: "check", Args: [a, b] });
+              if (swap) {
+                narr.say(4, `Swap ${v(a)} and ${v(b)}.`, { swaps: 1 });
+                animator.addStage({ funcName: "swap", Args: [a, b] });
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                swapped = true;
+              } else {
+                narr.pause(12);
               }
             }
+            const last = arr[n - 1 - i];
+            narr.run(() => (last.done = true));
+            if (!swapped) {
+              narr.say(5, `No swaps in this pass, so every neighbour pair is in order: the array is already sorted. Stop early.`);
+              break;
+            }
+            narr.say(6, `${v(last)} is the largest value left, so it has bubbled to position ${n - 1 - i}, its final place.`);
+            narr.pause(35);
           }
-          return yt;
+          narr.run(() => arr.forEach((b) => (b.done = true)));
+          narr.run(() => checkers.forEach((c) => (c.opacity = 0)));
+          narr.say([], `Done! The array is sorted: ${arr.map(v).join(", ")}.`, {}, { done: true });
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -142,12 +168,28 @@ export default function P5Sketch({
         //------------------------------------------------------------------------------------------------
 
         let boxes = [];
+
+        /** Index numbers under each position, so a[j] in the pseudocode has a place to point at. */
+        function drawSlots() {
+          if (!boxes.length) return;
+          P.push();
+          P.noStroke();
+          P.fill(CHALK[0], CHALK[1], CHALK[2], 140);
+          P.textAlign(P.CENTER, P.CENTER);
+          P.textSize(13);
+          for (let i = 0; i < boxes.length; i++) {
+            P.text(String(i), P.width / 2 - 40 * boxes.length + i * 80, 205);
+          }
+          P.pop();
+        }
         let checkers = [];
 
         let animator;
+        let narr;
         P.setup = () => {
-          P.createCanvas(1000, 500);
+          P.createCanvas(1000, 230);
           animator = new Animator();
+          narr = createNarrator(animator, onNarrateRef, { stats: { comparisons: 0, swaps: 0, passes: 0 } });
           animator.functionsDictionary = {
             insert: insert,
             check: check,
@@ -172,11 +214,12 @@ export default function P5Sketch({
 
           if (addRef.current.start && addRef.current.val.length != 0) {
             boxes = [];
+            narr.reset();
             const liveInput = addRef.current.val;
             for (let i = 0; i < liveInput.length; i++) {
               boxes[i] = new Box(
                 P.width / 2 - 40 * liveInput.length + i * 80,
-                220,
+                110,
                 liveInput[i]
               );
               animator.addStage({ funcName: "insert", Args: [boxes[i]] });
@@ -195,6 +238,7 @@ export default function P5Sketch({
             addRef.current.start = false;
           }
 
+          drawSlots();
           boxes.forEach((b) => {
             b.show();
           });
@@ -214,12 +258,15 @@ export default function P5Sketch({
   }, []);
 
   useEffect(() => {
-    addRef.current = add;
+    // The page switches `start` back off after a few ms. If no frame ran in
+    // between (slow or background tab), keep the request until draw() takes it.
+    addRef.current = !add.start && addRef.current.start ? { ...add, start: true } : add;
+    onNarrateRef.current = onNarrate;
     deleteRef.current = dlt;
     searchRef.current = srch;
     animSpdRef.current = animSpd;
     actionExicutableRef.current = actionExicutable;
-  }, [dlt, add, srch, animSpd, actionExicutable]);
+  }, [dlt, add, srch, animSpd, actionExicutable, onNarrate]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

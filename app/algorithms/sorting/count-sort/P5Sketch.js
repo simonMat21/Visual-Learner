@@ -2,9 +2,11 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
+import { createNarrator } from "@/lib/sortNarration";
 import { BOARD, CHALK, GOOD, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
 
 export default function P5Sketch({
+  onNarrate,
   dlt,
   add,
   srch,
@@ -12,6 +14,7 @@ export default function P5Sketch({
   actionExicutable,
 }) {
   const sketchRef = useRef(null);
+  const onNarrateRef = useRef(onNarrate);
   const deleteRef = useRef(dlt);
   const searchRef = useRef(srch);
   const addRef = useRef(add);
@@ -63,7 +66,8 @@ export default function P5Sketch({
             P.push();
             P.noStroke();
 
-            P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
+            if (this.done) P.fill(GOOD[0], GOOD[1], GOOD[2], this.opacity);
+            else P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
             P.fill(...INK, this.opacity);
@@ -117,7 +121,7 @@ export default function P5Sketch({
             this.vgap = 70;
           }
           setUp() {
-            for (let i = 0; i <= 100; i++) {
+            for (let i = 0; i < 100; i++) {
               if (i < 25) {
                 this.table.push(
                   new HT_box(i, this.x + i * 38, this.y + this.vgap * 0, 255)
@@ -187,24 +191,36 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
 
+        // Every state change goes through narr.run, so the counts and the
+        // written values change exactly when the animation reaches them.
         function countSort(arr, ht) {
-          animator.standAloneFunc(1, () => {
+          const vals = arr.map((b) => b.val);
+          const max = Math.max(...vals);
+          const tally = Array(100).fill(0);
+
+          narr.say([], `Counting sort never compares items. It counts how many times each value appears, then writes the values back in order.`);
+          narr.pause(50);
+          narr.say(0, `Every possible value 0–99 gets a counter (the grid above), all starting at 0.`);
+          narr.pause(40);
+
+          narr.run(() => {
             checkers[0].x = arr[0].x;
             checkers[0].y = arr[0].y;
+            checkers[0].col = [...HIGHLIGHT];
           });
-
           animator.addStage({
             funcName: "insert",
             Args: [checkers[0]],
           });
           for (let i = 0; i < arr.length; i++) {
+            const x = vals[i];
+            const c = ++tally[x];
+            narr.say(1, `Read a[${i}] = ${x} → count[${x}] goes up to ${c}.`, { counted: 1 });
             animator.addStage({
               funcName: "check",
               Args: [arr[i], checkers[0], [10, 10]],
             });
-            animator.standAloneFunc(1, () => {
-              ht.table[arr[i].val].count++;
-            });
+            narr.run(() => ht.table[x].count++);
           }
 
           animator.addStage({
@@ -218,66 +234,67 @@ export default function P5Sketch({
             },
           });
 
-          animator.standAloneFunc(1, () => {
+          narr.say([2, 3], `Everything is counted. Now walk the counters from 0 up to ${max} and write each value back as many times as it was counted.`);
+          narr.pause(40);
+          narr.run(() => {
             checkers[0].x = arr[0].x;
             checkers[0].y = arr[0].y;
             checkers[0].col = [...HIGHLIGHT];
-
             checkers[1].x = ht.table[0].x;
             checkers[1].y = ht.table[0].y;
             checkers[1].col = [...HIGHLIGHT];
           });
-
           animator.addStage({
             funcName: "insert",
             Args: [checkers[0]],
           });
-
           animator.addStage({
             funcName: "insert",
             Args: [checkers[1]],
           });
 
-          animator.standAloneFunc(1, () => {
-            let index = 0;
-            let index_ = 0;
-            for (let i = 0; i < ht.table.length; i++) {
+          let k = 0;
+          for (let v = 0; v <= max; v++) {
+            animator.addStage({
+              funcName: "check",
+              Args: [ht.table[v], checkers[1], [2, 2]],
+            });
+            for (let j = 0; j < tally[v]; j++) {
+              const slot = arr[k];
+              const pos = k;
+              narr.say(4, `count[${v}] = ${tally[v] - j}: write ${v} into a[${pos}] and lower the count.`, { written: 1 });
               animator.addStage({
                 funcName: "check",
-                Args: [ht.table[i], checkers[1], [2, 2]],
+                Args: [slot, checkers[0], [5, 5]],
               });
-              for (let j = 0; j < ht.table[i].count; j++) {
-                animator.addStage({
-                  funcName: "check",
-                  Args: [arr[index_], checkers[0], [5, 5]],
-                });
-                index_++;
-                animator.standAloneFunc(1, () => {
-                  arr[index++].val = i;
-                  ht.table[i].count--;
-                });
-              }
+              narr.run(() => {
+                slot.val = v;
+                slot.done = true;
+                ht.table[v].count--;
+              });
+              k++;
             }
+          }
 
-            animator.addStage({
-              func: function () {
-                return animator.animationSequence([
-                  animator.animateFunc(10, () => {
-                    checkers[1].col = [...GOOD];
-                    checkers[0].col = [...GOOD];
-                  }),
-                  animator.animate(40, [
-                    a2o(checkers[0], 0, 0, -255),
-                    a2o(checkers[1], 0, 0, -255),
-                  ]),
-                  animator.animateFunc(1, () => {
-                    checkers[1].col = [...HIGHLIGHT];
-                    checkers[0].col = [...HIGHLIGHT];
-                  }),
-                ]);
-              },
-            });
+          animator.addStage({
+            func: function () {
+              return animator.animationSequence([
+                animator.animateFunc(10, () => {
+                  checkers[1].col = [...GOOD];
+                  checkers[0].col = [...GOOD];
+                }),
+                animator.animate(40, [
+                  a2o(checkers[0], 0, 0, -255),
+                  a2o(checkers[1], 0, 0, -255),
+                ]),
+                animator.animateFunc(1, () => {
+                  checkers[1].col = [...HIGHLIGHT];
+                  checkers[0].col = [...HIGHLIGHT];
+                }),
+              ]);
+            },
           });
+          narr.say([], `Done! The array is sorted: ${[...vals].sort((a, b) => a - b).join(", ")}.`, {}, { done: true });
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -305,9 +322,11 @@ export default function P5Sketch({
         let checkers = [];
 
         let animator;
+        let narr;
         P.setup = () => {
-          P.createCanvas(1000, 500);
+          P.createCanvas(1000, 370);
           animator = new Animator();
+          narr = createNarrator(animator, onNarrateRef, { stats: { counted: 0, written: 0 } });
           animator.functionsDictionary = {
             insert: insert,
             check: check,
@@ -341,15 +360,15 @@ export default function P5Sketch({
             for (let i = 0; i < liveInput.length; i++) {
               boxes[i] = new Box(
                 P.width / 2 - 20 * liveInput.length + i * 40,
-                400,
+                335,
                 liveInput[i]
               );
               animator.addStage({ funcName: "insert", Args: [boxes[i]] });
             }
 
-            animator.standAloneFunc(1, () => {
-              countSort(boxes, HT);
-            });
+            HT.reset();
+            narr.reset();
+            countSort(boxes, HT);
             addRef.current.start = false;
           }
 
@@ -373,12 +392,15 @@ export default function P5Sketch({
   }, []);
 
   useEffect(() => {
-    addRef.current = add;
+    // The page switches `start` back off after a few ms. If no frame ran in
+    // between (slow or background tab), keep the request until draw() takes it.
+    addRef.current = !add.start && addRef.current.start ? { ...add, start: true } : add;
+    onNarrateRef.current = onNarrate;
     deleteRef.current = dlt;
     searchRef.current = srch;
     actionExicutableRef.current = actionExicutable;
     animSpdRef.current = animSpd;
-  }, [dlt, add, srch, animSpd, actionExicutable]);
+  }, [dlt, add, srch, animSpd, actionExicutable, onNarrate]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

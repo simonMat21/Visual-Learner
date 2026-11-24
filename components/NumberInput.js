@@ -9,6 +9,7 @@ export default function NumberInput({
   onSubmit,
   valRange = [0, 100],
   lenRange = [5, 10],
+  className = "mb-5",
 }) {
   const [input, setInput] = useState("");
   function generateRandomArray() {
@@ -41,7 +42,7 @@ export default function NumberInput({
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-3 mb-5">
+    <div className={`flex flex-wrap items-center gap-3 ${className}`}>
       <Button className="dobtn-secondary" onClick={generateRandomArray}>
         RandomArray
       </Button>

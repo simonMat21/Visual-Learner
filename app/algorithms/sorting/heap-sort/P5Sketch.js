@@ -2,10 +2,13 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator } from "@/components/Animator2";
-import { BOARD, CHALK, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
+import { createNarrator } from "@/lib/sortNarration";
+import { BOARD, CHALK, HIGHLIGHT, INK, tileColor, GOOD } from "@/lib/boardPalette";
 
-export default function P5Sketch({ add, animSpd, actionExicutable }) {
+export default function P5Sketch({
+  onNarrate, add, animSpd, actionExicutable }) {
   const sketchRef = useRef(null);
+  const onNarrateRef = useRef(onNarrate);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
   const actionExicutableRef = useRef(actionExicutable);
@@ -92,7 +95,8 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
 
           show() {
-            P.fill(tileColor(P, P.map(this.val, box.minVal, box.maxVal, 0, 1), this.opacity));
+            if (this.done) P.fill(GOOD[0], GOOD[1], GOOD[2], this.opacity);
+            else P.fill(tileColor(P, P.map(this.val, box.minVal, box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
             P.fill(...INK, this.opacity);
@@ -122,7 +126,8 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
 
           show() {
-            P.fill(tileColor(P, P.map(this.val, box.minVal, box.maxVal, 0, 1), this.opacity));
+            if (this.done) P.fill(GOOD[0], GOOD[1], GOOD[2], this.opacity);
+            else P.fill(tileColor(P, P.map(this.val, box.minVal, box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 40);
             P.fill(...INK, this.opacity);
@@ -233,46 +238,79 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
 
         //-----------------------------------------------------------------------------------------------
 
-        function heapSortByVal(animator, arr) {
+        // Runs once per animator (array row and tree), so both play the same steps.
+        // Only the array row's narrator reports to the page.
+        function heapSortByVal(animator, arr, narr) {
           const n = arr.length;
+          const v = (b) => b.val;
 
           function heapify(arr, n, i) {
             let largest = i;
             const left = 2 * i + 1;
             const right = 2 * i + 2;
+            let comparisons = 0;
 
-            if (left < n && arr[left].val > arr[largest].val) {
-              largest = left;
+            if (left < n) {
+              comparisons++;
+              if (arr[left].val > arr[largest].val) largest = left;
             }
-
-            if (right < n && arr[right].val > arr[largest].val) {
-              largest = right;
+            if (right < n) {
+              comparisons++;
+              if (arr[right].val > arr[largest].val) largest = right;
             }
 
             if (largest !== i) {
+              const parent = arr[i];
+              const child = arr[largest];
+              narr.say(
+                [4, 5],
+                `${v(child)} is the biggest of ${v(parent)} and its children, so swap it up above ${v(parent)}.`,
+                { comparisons, swaps: 1 }
+              );
               [arr[i], arr[largest]] = [arr[largest], arr[i]];
               animator.addStage({
                 funcName: "swap",
                 Args: [arr[i], arr[largest]],
               });
               heapify(arr, n, largest);
+            } else if (comparisons > 0) {
+              narr.say(4, `${v(arr[i])} is at least as big as its children, so this part of the heap is fine.`, { comparisons });
+              narr.pause(25);
             }
           }
 
+          narr.say([], `Heap sort first arranges the items as a max-heap (every parent ≥ its children), then repeatedly moves the biggest item, the root, to the end.`);
+          narr.pause(50);
+
           // Build max heap
-          for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+          const lastParent = Math.floor(n / 2) - 1;
+          narr.say(0, `Phase 1, build the heap: fix every parent from the last one (index ${lastParent}) back to the root.`);
+          narr.pause(30);
+          for (let i = lastParent; i >= 0; i--) {
             heapify(arr, n, i);
           }
+          narr.say(0, `The heap is built: the largest value, ${v(arr[0])}, is at the root.`);
+          narr.pause(40);
 
           // Heap sort
           for (let i = n - 1; i > 0; i--) {
+            const max = arr[0];
+            narr.say([1, 2], `Swap the root ${v(max)} (the largest left) with the last heap item ${v(arr[i])}. ${v(max)} is now in its final place.`, { swaps: 1 });
             [arr[0], arr[i]] = [arr[i], arr[0]];
             animator.addStage({
               funcName: "swap",
               Args: [arr[0], arr[i]],
             });
+            narr.run(() => (max.done = true));
+            if (i > 1) {
+              narr.say(3, `The heap shrinks to ${i} items. Sift the new root ${v(arr[0])} down to restore the heap.`);
+              narr.pause(25);
+            }
             heapify(arr, i, 0);
           }
+          const smallest = arr[0];
+          narr.run(() => (smallest.done = true));
+          narr.say([], `Done! The array is sorted: ${arr.map(v).join(", ")}.`, {}, { done: true });
 
           return arr;
         }
@@ -413,17 +451,21 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
         let checkers = [];
         let animator_1;
         let animator_2;
+        let narr_1;
+        let narr_2;
         let root;
         let arrows = [];
 
         P.setup = () => {
-          P.createCanvas(1000, 500);
+          P.createCanvas(1000, 400);
           root = new Node();
           root.val = 12;
           root.setPosition(P.width / 2, 180, P.width / 2);
           root.show();
           animator_1 = new Animator();
           animator_2 = new Animator();
+          narr_1 = createNarrator(animator_1, onNarrateRef, { stats: { comparisons: 0, swaps: 0 } });
+          narr_2 = createNarrator(animator_2, { current: null });
 
           animator_2.functionsDictionary = {
             swap: swapNode,
@@ -455,6 +497,8 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           if (addRef.current.start && addRef.current.val.length != 0) {
             boxes = [];
             boxes_s = [];
+            const levels = Math.floor(Math.log2(Math.max(1, addRef.current.val.length))) + 1;
+            P.resizeCanvas(1000, 128 + 78 * (levels - 1) + 38);
             arrows = [];
             const liveInput = addRef.current.val;
             for (let i = 0; i < liveInput.length; i++) {
@@ -474,19 +518,19 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
             }
 
             linkHeapNodes(boxes_s);
-            boxes_s[0].setPosition(P.width / 2, 150, P.width / 2);
+            boxes_s[0].setPosition(P.width / 2, 128, P.width / 2);
             boxes_s.forEach((item) => {
               if (item.parent) {
                 if (item.parent.lchild === item) {
                   item.setPosition(
                     item.parent.x - item.parent.wd / 2,
-                    item.parent.y + 100,
+                    item.parent.y + 78,
                     item.parent.wd / 2
                   );
                 } else {
                   item.setPosition(
                     item.parent.x + item.parent.wd / 2,
-                    item.parent.y + 100,
+                    item.parent.y + 78,
                     item.parent.wd / 2
                   );
                 }
@@ -503,8 +547,9 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
             ).val;
             box_ex.maxVal = box.maxVal;
             box_ex.minVal = box.minVal;
-            heapSortByVal(animator_1, boxes);
-            heapSortByVal(animator_2, boxes_s);
+            narr_1.reset();
+            heapSortByVal(animator_1, boxes, narr_1);
+            heapSortByVal(animator_2, boxes_s, narr_2);
             addRef.current.start = false;
           }
 
@@ -525,10 +570,13 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
   }, []);
 
   useEffect(() => {
-    addRef.current = add;
+    // The page switches `start` back off after a few ms. If no frame ran in
+    // between (slow or background tab), keep the request until draw() takes it.
+    addRef.current = !add.start && addRef.current.start ? { ...add, start: true } : add;
+    onNarrateRef.current = onNarrate;
     actionExicutableRef.current = actionExicutable;
     animSpdRef.current = animSpd;
-  }, [add, animSpd, actionExicutable]);
+  }, [add, animSpd, actionExicutable, onNarrate]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

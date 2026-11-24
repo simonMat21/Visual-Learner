@@ -2,9 +2,11 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
-import { BOARD, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
+import { createNarrator } from "@/lib/sortNarration";
+import { BOARD, HIGHLIGHT, INK, tileColor, GOOD, CHALK } from "@/lib/boardPalette";
 
 export default function P5Sketch({
+  onNarrate,
   dlt,
   add,
   srch,
@@ -12,6 +14,7 @@ export default function P5Sketch({
   actionExicutable,
 }) {
   const sketchRef = useRef(null);
+  const onNarrateRef = useRef(onNarrate);
   const deleteRef = useRef(dlt);
   const searchRef = useRef(srch);
   const addRef = useRef(add);
@@ -61,7 +64,8 @@ export default function P5Sketch({
           }
 
           show() {
-            P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
+            if (this.done) P.fill(GOOD[0], GOOD[1], GOOD[2], this.opacity);
+            else P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 100, 30);
             P.fill(...INK, this.opacity);
@@ -77,13 +81,24 @@ export default function P5Sketch({
 
         //-----------------------------------------------------------------------------------------------
         function radixSort(arr) {
+          const names = ["ones", "tens", "hundreds"];
+          narr.say([], `Radix sort never compares two numbers. It sorts by one digit at a time, starting with the ones digit, and each pass keeps ties in the order the previous pass left them.`);
+          narr.pause(50);
+          let order = [...arr];
           for (let i = 0; i < 3; i++) {
+            const id = 2 - i;
+            narr.say(0, `Pass ${i + 1}: look only at the ${names[i]} digit (highlighted column).`, { passes: 1 });
             animator.addStage({
               funcName: "check",
             });
+            order = [...order].sort((a, b) => a.digits[id] - b.digits[id]);
+            narr.say(
+              1,
+              `Reorder by the ${names[i]} digit. Items with the same digit keep their previous order (a stable sort) → ${order.map((b) => b.val).join(", ")}.`
+            );
             animator.addStage({
               funcName: "sort",
-              Args: [arr, 2 - i],
+              Args: [arr, id],
             });
           }
           animator.addStage({
@@ -95,6 +110,8 @@ export default function P5Sketch({
               ]);
             },
           });
+          narr.run(() => arr.forEach((b) => (b.done = true)));
+          narr.say(2, `Done! After the hundreds digit every number is in order: ${order.map((b) => b.val).join(", ")}.`, {}, { done: true });
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -164,9 +181,11 @@ export default function P5Sketch({
         let checkers = [];
 
         let animator;
+        let narr;
         P.setup = () => {
-          P.createCanvas(1000, 500);
+          P.createCanvas(1000, 400);
           animator = new Animator();
+          narr = createNarrator(animator, onNarrateRef, { stats: { passes: 0 } });
           animator.functionsDictionary = {
             insert: insert,
             check: check,
@@ -191,13 +210,15 @@ export default function P5Sketch({
 
           if (addRef.current.start && addRef.current.val.length != 0) {
             boxes = [];
+            narr.reset();
+            P.resizeCanvas(1000, Math.max(240, addRef.current.val.length * 34 + 80));
             checkers[0].x = 550;
             const liveInput = addRef.current.val;
             console.log(liveInput);
             for (let i = 0; i < liveInput.length; i++) {
               boxes[i] = new Box(
                 P.width / 2,
-                P.height / 2 - 20 * liveInput.length + i * 40,
+                P.height / 2 - 17 * liveInput.length + i * 34 + 3,
                 liveInput[i]
               );
               animator.addStage({ funcName: "insert", Args: [boxes[i]] });
@@ -209,8 +230,8 @@ export default function P5Sketch({
               current.val < max.val ? current : max
             ).val;
 
-            checkers[0].y = boxes[0].y - 20;
-            checkers[0].shape[1] = boxes.length * 40;
+            checkers[0].y = boxes[0].y - 17;
+            checkers[0].shape[1] = boxes.length * 34;
             animator.addStage({ funcName: "insert", Args: [checkers[0]] });
 
             radixSort(boxes);
@@ -237,12 +258,15 @@ export default function P5Sketch({
   }, []);
 
   useEffect(() => {
-    addRef.current = add;
+    // The page switches `start` back off after a few ms. If no frame ran in
+    // between (slow or background tab), keep the request until draw() takes it.
+    addRef.current = !add.start && addRef.current.start ? { ...add, start: true } : add;
+    onNarrateRef.current = onNarrate;
     deleteRef.current = dlt;
     searchRef.current = srch;
     actionExicutableRef.current = actionExicutable;
     animSpdRef.current = animSpd;
-  }, [dlt, add, srch, animSpd, actionExicutable]);
+  }, [dlt, add, srch, animSpd, actionExicutable, onNarrate]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

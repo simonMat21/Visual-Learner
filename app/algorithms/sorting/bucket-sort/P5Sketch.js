@@ -2,10 +2,13 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
+import { createNarrator } from "@/lib/sortNarration";
 import { BAD, BOARD, CHALK, GOOD, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
 
-export default function P5Sketch({ add, animSpd, actionExicutable }) {
+export default function P5Sketch({
+  onNarrate, add, animSpd, actionExicutable }) {
   const sketchRef = useRef(null);
+  const onNarrateRef = useRef(onNarrate);
   const addRef = useRef(add);
   const animSpdRef = useRef(animSpd);
   const actionExicutableRef = useRef(actionExicutable);
@@ -82,7 +85,8 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
             P.push();
             //---------rect---------
             P.stroke(100, this.opacity);
-            P.fill(tileColor(P, P.map(this.val, HT_box.minVal, HT_box.maxVal, 0, 1), this.opacity));
+            if (this.done) P.fill(GOOD[0], GOOD[1], GOOD[2], this.opacity);
+            else P.fill(tileColor(P, P.map(this.val, HT_box.minVal, HT_box.maxVal, 0, 1), this.opacity));
             P.rectMode(P.CENTER);
             P.rect(this.x, this.y, 30);
             //---------text---------
@@ -104,7 +108,7 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
               .map(() => []);
             this.x = 300;
             this.y = 30;
-            this.vgap = 35;
+            this.vgap = 32;
           }
 
           setUp() {
@@ -122,29 +126,19 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
 
           hash(val) {
-            if (val < 10) return 0;
-            if (val < 20) return 1;
-            if (val < 30) return 2;
-            if (val < 40) return 3;
-            if (val < 50) return 4;
-            if (val < 60) return 5;
-            if (val < 70) return 6;
-            if (val < 80) return 7;
-            if (val < 90) return 8;
-            if (val < 100) return 9;
+            // 0-9 -> 0, 10-19 -> 1, ... ; 100 would be bucket 10, so it joins the last one
+            return Math.min(this.size - 1, Math.max(0, Math.floor(val / 10)));
           }
 
           insert(val) {
             let nbox = new HT_box(val, 100, 200, 0);
+            let idx = this.hash(val);
+            narr.say(1, `${val} goes into bucket ${idx} (values ${idx * 10}–${idx * 10 + 9}), because ⌊${val} / 10⌋ = ${idx}.`, { placed: 1 });
             animator.addStage({
               funcName: "insert",
               Args: [nbox],
             });
-            let idx = this.hash(val);
-            // Check if val already exists (optional)
-            for (let box of this.table[idx]) {
-              if (box.val === val) return; // avoid duplicates
-            }
+            // duplicates are kept: a sort must not lose items
             let chainLen = this.table[idx].length;
             animator.addStage({
               funcName: "add",
@@ -158,19 +152,32 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
 
           sortHT() {
+            narr.say(2, `Every item is in a bucket. Now sort each bucket on its own; buckets are small, so this is quick.`);
+            narr.pause(40);
             ckr.setUp(100, 200, 0);
             animator.addStage({
               funcName: "insert",
               Args: [ckr],
             });
-            this.table.forEach((arr) => {
+            this.table.forEach((arr, idx) => {
+              const items = arr.filter((_, id) => id > 0);
+              if (items.length > 0) {
+                const sorted = items.map((b) => b.val).sort((a, b) => a - b);
+                narr.say(
+                  2,
+                  items.length === 1
+                    ? `Bucket ${idx} has a single item (${sorted[0]}), so it is already sorted.`
+                    : `Sort bucket ${idx}: ${items.map((b) => b.val).join(", ")} → ${sorted.join(", ")}.`,
+                  { sorted: 1 }
+                );
+              }
               animator.addStage({
                 funcName: "check",
                 Args: [arr[0], ckr],
               });
               animator.addStage({
                 funcName: "Sort",
-                Args: [arr.filter((_, id) => id > 0)],
+                Args: [items],
               });
             });
             animator.addStage({
@@ -180,6 +187,9 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
           }
 
           bringHTdown() {
+            const all = [];
+            this.table.forEach((arr) => all.push(...arr.filter((_, id) => id > 0).map((b) => b.val).sort((a, b) => a - b)));
+            narr.say(3, `Join the buckets in order, bucket 0 first. Each bucket is sorted and every value in a bucket is smaller than the next bucket's, so the result is sorted.`);
             let xSet = 0;
             this.table.forEach((arr) => {
               animator.addStage({
@@ -191,6 +201,9 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
               });
               xSet += arr.length - 1;
             });
+            const items = this.table.flatMap((arr) => arr.filter((_, id) => id > 0));
+            narr.run(() => items.forEach((b) => (b.done = true)));
+            narr.say([], `Done! The array is sorted: ${all.join(", ")}.`, {}, { done: true });
           }
 
           reset() {
@@ -294,7 +307,7 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
             animator.to(
               30,
               arr.map((a, i) => {
-                return a2o(a, x + 40 * i, 400, 255);
+                return a2o(a, x + 40 * i, 375, 255);
               })
             ),
           ]);
@@ -305,10 +318,12 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
         let ht = new HashTable();
         let ckr = new checker();
         let animator;
+        let narr;
 
         P.setup = () => {
-          P.createCanvas(1000, 500);
+          P.createCanvas(1000, 405);
           animator = new Animator();
+          narr = createNarrator(animator, onNarrateRef, { stats: { placed: 0, sorted: 0 } });
           animator.functionsDictionary = {
             insert: insert,
             check: check,
@@ -338,6 +353,9 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
 
           if (addRef.current.start) {
             ht.reset();
+            narr.reset();
+            narr.say([0], `Bucket sort spreads the numbers into 10 buckets by their tens digit, sorts each small bucket, then joins the buckets in order.`);
+            narr.pause(50);
             animator.standAloneFunc(1, () => {
               addRef.current.val.forEach((element) => {
                 ht.insert(element);
@@ -366,10 +384,13 @@ export default function P5Sketch({ add, animSpd, actionExicutable }) {
   }, []);
 
   useEffect(() => {
-    addRef.current = add;
+    // The page switches `start` back off after a few ms. If no frame ran in
+    // between (slow or background tab), keep the request until draw() takes it.
+    addRef.current = !add.start && addRef.current.start ? { ...add, start: true } : add;
+    onNarrateRef.current = onNarrate;
     actionExicutableRef.current = actionExicutable;
     animSpdRef.current = animSpd;
-  }, [add, animSpd, actionExicutable]);
+  }, [add, animSpd, actionExicutable, onNarrate]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

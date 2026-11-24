@@ -2,9 +2,11 @@
 
 import React, { useRef, useEffect } from "react";
 import { Animator, a2o } from "@/components/Tideon";
-import { BOARD, HIGHLIGHT, INK, tileColor } from "@/lib/boardPalette";
+import { createNarrator, drawBoxState } from "@/lib/sortNarration";
+import { BOARD, HIGHLIGHT, INK, tileColor, GOOD, CHALK } from "@/lib/boardPalette";
 
 export default function P5Sketch_quickSort({
+  onNarrate,
   dlt,
   add,
   srch,
@@ -12,6 +14,7 @@ export default function P5Sketch_quickSort({
   actionExicutable,
 }) {
   const sketchRef = useRef(null);
+  const onNarrateRef = useRef(onNarrate);
   const deleteRef = useRef(dlt);
   const searchRef = useRef(srch);
   const addRef = useRef(add);
@@ -39,7 +42,15 @@ export default function P5Sketch_quickSort({
           }
 
           show() {
-            P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
+            drawBoxState(P, this, {
+              size: 60,
+              cx: this.x + 30,
+              cy: this.y + 30,
+              tagBelow: true,
+              colors: { GOOD, HIGHLIGHT, CHALK },
+            });
+            if (this.done) P.fill(GOOD[0], GOOD[1], GOOD[2], this.opacity);
+            else P.fill(tileColor(P, P.map(this.val, Box.minVal, Box.maxVal, 0, 1), this.opacity));
             P.rect(this.x, this.y, 60);
             P.fill(...INK, this.opacity);
             P.strokeWeight(3);
@@ -89,6 +100,11 @@ export default function P5Sketch_quickSort({
               this.x + 5,
               this.y - 15
             );
+            P.noStroke();
+            P.textAlign(P.LEFT, P.CENTER);
+            P.textSize(13);
+            P.textStyle(P.BOLD);
+            P.text("i", this.x + 9, this.y - 11);
             P.pop();
           }
         }
@@ -122,7 +138,7 @@ export default function P5Sketch_quickSort({
           return animator.animationSequence([
             animator.animate(
               20,
-              arr.map((item) => a2o(item, 0, 60, 0))
+              arr.map((item) => a2o(item, 0, 46, 0))
             ),
           ]);
         }
@@ -131,7 +147,7 @@ export default function P5Sketch_quickSort({
           return animator.animationSequence([
             animator.to(
               40,
-              arr.map((item) => a2o(item, item.x, 200, item.opacity))
+              arr.map((item) => a2o(item, item.x, 50, item.opacity))
             ),
           ]);
         }
@@ -145,9 +161,16 @@ export default function P5Sketch_quickSort({
         //------------------------------------------------------------------------------------------------
 
         function getQuickSortInstructions(arr) {
-          let yt = [];
+          const v = (b) => b.val;
+          const list = (from, to) => arr.slice(from, to + 1).map(v).join(", ");
+
+          narr.say([], `Quick sort picks a pivot, moves everything smaller to its left and everything else to its right, then sorts the two sides the same way.`);
+          narr.pause(50);
 
           function partition(arr, start, end) {
+            const pivot = arr[end];
+            narr.run(() => (pivot.tag = "pivot"));
+            narr.say([1, 2], `Partition [${list(start, end)}] around the pivot ${v(pivot)} (the last item). The pointer i marks where the next smaller item goes.`, { partitions: 1 });
             animator.addStage({
               funcName: "depth",
               Args: arr.slice(start, end + 1),
@@ -159,12 +182,24 @@ export default function P5Sketch_quickSort({
             });
 
             for (let j = start; j < end; j++) {
+              const item = arr[j];
+              const smaller = v(item) < v(pivot);
+              narr.say(
+                [3, 4],
+                smaller
+                  ? `Is ${v(item)} < pivot ${v(pivot)}? Yes → it belongs on the left side.`
+                  : `Is ${v(item)} < pivot ${v(pivot)}? No → it stays on the right side.`,
+                { comparisons: 1 }
+              );
               animator.addStage({
                 funcName: "check",
                 Args: [arr[j], arr[end], arrows[0], arrows[1]],
               });
 
-              if (arr[j].val < arr[end].val) {
+              if (smaller) {
+                narr.say(5, arr[i] === item
+                  ? `${v(item)} is already at position i, so it simply stays; move i one step right.`
+                  : `Swap ${v(item)} with ${v(arr[i])} (at i) to move it to the left side, then move i one step right.`, { swaps: arr[i] === item ? 0 : 1 });
                 animator.addStage({
                   funcName: "swap",
                   Args: [arr[i], arr[j]],
@@ -180,11 +215,17 @@ export default function P5Sketch_quickSort({
             }
 
             // Final pivot swap
+            narr.say(6, `Every item left of i is smaller than ${v(pivot)}. Swap the pivot into position i: it is now in its final place.`, { swaps: arr[i] === pivot ? 0 : 1 });
             animator.addStage({
               funcName: "swap",
               Args: [arr[i], arr[end]],
             });
             [arr[i], arr[end]] = [arr[end], arr[i]];
+            narr.run(() => {
+              pivot.tag = null;
+              pivot.done = true;
+            });
+            narr.pause(25);
 
             return i;
           }
@@ -192,29 +233,58 @@ export default function P5Sketch_quickSort({
           function quick_sort(arr, start = 0, end = arr.length - 1) {
             if (start < end) {
               const p = partition(arr, start, end);
+              narr.say(7, `Now sort the left side [${list(start, p - 1) || "empty"}] and the right side [${list(p + 1, end) || "empty"}].`);
+              narr.pause(30);
               quick_sort(arr, start, p - 1);
               quick_sort(arr, p + 1, end);
+            } else if (start === end) {
+              const only = arr[start];
+              narr.say(1, `[${v(only)}] has just one item, so it is already sorted.`);
+              narr.run(() => (only.done = true));
+              narr.pause(20);
             }
           }
           quick_sort(arr);
-          console.log(arr);
           animator.addStage({
             funcName: "comeBack",
             Args: [...arr, arrows[0], arrows[1], pointers[0]],
           });
-          return yt;
+          narr.run(() => [...arrows, ...pointers].forEach((m) => (m.opacity = 0)));
+          narr.say([], `Done! The array is sorted: ${arr.map(v).join(", ")}.`, {}, { done: true });
+          return [];
         }
 
         //------------------------------------------------------------------------------------------------
 
         let boxes = [];
+
+        /** How many partitions nest at most for these values (Lomuto, last item as pivot). */
+        function partitionDepth(values) {
+          const a = [...values];
+          const go = (lo, hi) => {
+            if (lo >= hi) return 0;
+            const pivot = a[hi];
+            let i = lo;
+            for (let j = lo; j < hi; j++) {
+              if (a[j] < pivot) {
+                [a[i], a[j]] = [a[j], a[i]];
+                i++;
+              }
+            }
+            [a[i], a[hi]] = [a[hi], a[i]];
+            return 1 + Math.max(go(lo, i - 1), go(i + 1, hi));
+          };
+          return go(0, a.length - 1);
+        }
         let arrows = [];
         let pointers = [];
 
         let animator;
+        let narr;
         P.setup = () => {
-          P.createCanvas(1000, 500);
+          P.createCanvas(1000, 290);
           animator = new Animator();
+          narr = createNarrator(animator, onNarrateRef, { stats: { comparisons: 0, swaps: 0, partitions: 0 } });
           // animator.delayMult = 0.5;
           animator.functionsDictionary = {
             insert: insert,
@@ -241,7 +311,10 @@ export default function P5Sketch_quickSort({
           }
           if (addRef.current.start && addRef.current.val.length != 0) {
             boxes = [];
+            narr.reset();
             const liveInput = addRef.current.val;
+            // every partition moves its part 46px down, so size the board to the deepest one
+            P.resizeCanvas(1000, Math.max(230, 50 + 46 * partitionDepth(liveInput) + 60 + 30));
             for (let i = 0; i < liveInput.length; i++) {
               boxes[i] = new Box(
                 500 - 40 * liveInput.length + i * 80,
@@ -292,12 +365,15 @@ export default function P5Sketch_quickSort({
   }, []);
 
   useEffect(() => {
-    addRef.current = add;
+    // The page switches `start` back off after a few ms. If no frame ran in
+    // between (slow or background tab), keep the request until draw() takes it.
+    addRef.current = !add.start && addRef.current.start ? { ...add, start: true } : add;
+    onNarrateRef.current = onNarrate;
     deleteRef.current = dlt;
     searchRef.current = srch;
     actionExicutableRef.current = actionExicutable;
     animSpdRef.current = animSpd;
-  }, [dlt, add, srch, animSpd, actionExicutable]);
+  }, [dlt, add, srch, animSpd, actionExicutable, onNarrate]);
 
   return <div ref={sketchRef} className="canvas-wrapper"></div>;
 }

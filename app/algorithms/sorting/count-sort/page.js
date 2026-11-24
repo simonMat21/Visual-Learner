@@ -10,11 +10,13 @@ import PhoneScreenBlock from "@/components/phoneScreenBlocker";
 import AdBanner from "@/components/AdBanner";
 
 import P5Sketch from "./P5Sketch";
+import SortNarration from "@/components/SortNarration";
 
 export default function Home() {
   const [AEBool, setAEBool] = useState(true);
   const [addForm, setAddForm] = useState({ val: [], pos: 0, start: false });
   const [animSpd, setAnimSpd] = useState(1);
+  const [narration, setNarration] = useState(null);
 
   const codeSnippets = {
     js: `// Count Sort (for non-negative integers)
@@ -135,24 +137,29 @@ Works only for non-negative integers`,
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="vl-card p-6">
-          <div className="flex flex-col items-center space-y-6">
+        <div id="sort-visualizer" className="vl-card scroll-mt-20 px-6 py-4">
+          <div className="mb-3 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             <NumberInput
+              className=""
+              valRange={[0, 99]}
               onSubmit={(arr) => {
                 updateForm(1, "val", arr);
                 updateForm(1, "start", true);
+                document
+                  .getElementById("sort-visualizer")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
                 setTimeout(() => updateForm(1, "start", false), 10);
               }}
             />
-            <div className="flex items-center space-x-4">
-              <span className="text-ink-2 text-sm">Speed:</span>
+            <div className="flex items-center gap-3">
+              <span className="text-ink-2 text-sm">Speed</span>
               <Slider
                 defaultValue={[1]}
                 min={0.5}
                 max={1.5}
                 step={0.01}
                 onValueChange={([val]) => setAnimSpd(2 - val)}
-                className="w-64 h-6"
+                className="w-48 h-6"
               />
             </div>
           </div>
@@ -160,7 +167,9 @@ Works only for non-negative integers`,
             add={addForm}
             animSpd={animSpd}
             actionExicutable={(b) => setAEBool(b)}
+            onNarrate={setNarration}
           />
+          <SortNarration algo="count" state={narration} />
         </div>
       </div>
 
