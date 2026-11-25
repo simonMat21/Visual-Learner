@@ -17,7 +17,9 @@ import { CHALK_TEXT, MatrixGrid, makeButton, makeLabel, makeStepper } from "@/li
 import { BOARD_LIGHT, CHALK, HIGHLIGHT } from "@/lib/boardPalette";
 
 const GRID = { x: 48, y: 134 };
-const cellFor = (size) => Math.min(34, 300 / Math.max(1, size));
+// cells shrink so the grid always ends above the buttons at the bottom
+const cellFor = (size, height = 500) =>
+  Math.min(34, 300 / Math.max(1, size), (height - GRID.y - 70) / Math.max(1, size) - 4);
 
 export class MatrixDrawer {
   /**
@@ -90,7 +92,7 @@ export class MatrixDrawer {
       matrix: this.matrix,
       weighted: this.opts.weighted,
       directed: this.opts.directed,
-      cell: cellFor,
+      cell: (size) => cellFor(size, this.opts.height),
       originX: GRID.x,
       originY: GRID.y,
       gutter: 26,

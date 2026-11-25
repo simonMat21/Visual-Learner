@@ -66,6 +66,8 @@ export default function sitemap() {
     "algorithms/graphs/adjm-undirected",
     "algorithms/graphs/adjm-weighted",
     "algorithms/graphs/adjm-input",
+    "algorithms/graphs/bfs",
+    "algorithms/graphs/dfs",
     // Minimum Spanning Tree
     "algorithms/mst/prims-algorithm",
     "algorithms/mst/kruskals-algorithm",
