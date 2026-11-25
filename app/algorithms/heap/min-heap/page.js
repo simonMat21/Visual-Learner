@@ -1,30 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
 import PhoneScreenBlock from "@/components/phoneScreenBlocker";
 import AdBanner from "@/components/AdBanner";
 
-import P5Sketch from "./P5Sketch";
+import HeapVisualizer from "@/components/HeapVisualizer";
 
 export default function Home() {
-  const [AEBool, setAEBool] = useState(true);
-  const [addForm, setAddForm] = useState({ val: 0, pos: 0, start: false });
-  const [searchForm, setSearchForm] = useState({
-    val: 0,
-    start: false,
-  });
-  const [deleteForm, setDeleteForm] = useState({
-    pos: 0,
-    start: false,
-  });
-
-  const [animSpd, setAnimSpd] = useState(1);
-
   const codeSnippets = {
     js: `// Min Heap Implementation
 class MinHeap {
@@ -391,18 +375,6 @@ Operations:
 Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
   };
 
-  const updateForm = (n, key, value) => {
-    if (key !== "start" || AEBool) {
-      if (n == 1) {
-        setAddForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 2) {
-        setDeleteForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 3) {
-        setSearchForm((prev) => ({ ...prev, [key]: value }));
-      }
-    }
-  };
-
   useEffect(() => {
     window.scrollTo({ top: 50, behavior: "smooth" });
   }, []);
@@ -438,58 +410,8 @@ Used in: Priority queues, heap sort, Dijkstra's algorithm, Huffman coding`,
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="vl-card p-6">
-          <div className="flex flex-col items-center space-y-6">
-            <div className="flex gap-6">
-              <div className="flex items-center gap-3">
-                <Input
-                  className="w-52 inpbox"
-                  placeholder="Enter number to add"
-                  onChange={(e) => updateForm(1, "val", Number(e.target.value))}
-                />
-                <Button
-                  className="dobtn"
-                  onClick={() => {
-                    updateForm(1, "start", true);
-                    setTimeout(() => updateForm(1, "start", false), 10);
-                  }}
-                >
-                  Add
-                </Button>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <Button
-                  onClick={() => {
-                    updateForm(2, "start", true);
-                    setTimeout(() => updateForm(2, "start", false), 10);
-                  }}
-                  className="dobtn"
-                >
-                  Extract Min
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <span className="text-ink-2 text-sm">Speed:</span>
-              <Slider
-                defaultValue={[1]}
-                min={0.5}
-                max={1.5}
-                step={0.01}
-                onValueChange={([val]) => setAnimSpd(2 - val)}
-                className="w-64 h-6"
-              />
-            </div>
-          </div>
-          <P5Sketch
-            add={addForm}
-            dlt={deleteForm}
-            srch={searchForm}
-            animSpd={animSpd}
-            actionExicutable={(b) => setAEBool(b)}
-          />
+        <div className="vl-card px-6 py-4">
+          <HeapVisualizer type="min" />
         </div>
       </div>
 
