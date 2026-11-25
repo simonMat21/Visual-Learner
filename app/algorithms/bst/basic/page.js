@@ -1,42 +1,13 @@
 "use client";
 
-import { useState } from "react";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
 import PhoneScreenBlock from "@/components/phoneScreenBlocker";
 import AdBanner from "@/components/AdBanner";
 
-import P5Sketch from "./P5Sketch";
+import BstVisualizer from "@/components/BstVisualizer";
 
 export default function Home() {
-  const [AEBool, setAEBool] = useState(true);
-  const [addForm, setAddForm] = useState({ val: 0, pos: 0, start: false });
-  const [searchForm, setSearchForm] = useState({
-    val: 0,
-    start: false,
-  });
-  const [deleteForm, setDeleteForm] = useState({
-    pos: 0,
-    start: false,
-  });
-
-  const [animSpd, setAnimSpd] = useState(1);
-
-  const updateForm = (n, key, value) => {
-    if (key !== "start" || AEBool) {
-      if (n == 1) {
-        setAddForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 2) {
-        setDeleteForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 3) {
-        setSearchForm((prev) => ({ ...prev, [key]: value }));
-      }
-    }
-  };
-
   const codeSnippets = {
     setup: {
       js: `class Node {
@@ -324,11 +295,6 @@ def _delete_node(self, node, data):
     },
   };
 
-  const inputs = [
-    { inp: "Enter number to add", btn: "add", x1: 1, x2: "val" },
-    { inp: "Enter number to search", btn: "search", x1: 3, x2: "val" },
-    { inp: "Enter number to delete", btn: "delete", x1: 2, x2: "pos" },
-  ];
 
   return (
     <main className="vl-page">
@@ -361,53 +327,8 @@ def _delete_node(self, node, data):
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="vl-card p-6">
-          <div className="flex flex-row gap-6">
-            {inputs.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex items-center gap-2 mb-4 rounded-5"
-                >
-                  <Input
-                    className="w-52 inpbox" // Set specific width
-                    placeholder={item.inp}
-                    onChange={(e) =>
-                      updateForm(item.x1, item.x2, Number(e.target.value))
-                    }
-                  />
-
-                  <Button
-                    className="dobtn"
-                    onClick={() => {
-                      updateForm(item.x1, "start", true);
-                      setTimeout(() => updateForm(item.x1, "start", false), 10);
-                    }}
-                  >
-                    {item.btn}
-                  </Button>
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex items-center justify-center space-x-4">
-            <span className="text-ink-2 text-sm">Speed:</span>
-            <Slider
-              defaultValue={[1]}
-              min={0.5}
-              max={1.5}
-              step={0.01}
-              onValueChange={([val]) => setAnimSpd(2 - val)}
-              className="w-64 h-6"
-            />
-          </div>
-          <P5Sketch
-            add={addForm}
-            dlt={deleteForm}
-            srch={searchForm}
-            animSpd={animSpd}
-            actionExicutable={(b) => setAEBool(b)}
-          />
+        <div className="vl-card px-6 py-4">
+          <BstVisualizer mode="basic" />
         </div>
       </div>
 

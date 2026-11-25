@@ -50,6 +50,7 @@ export default function sitemap() {
     // Linked List
     "algorithms/linked-list/single",
     "algorithms/linked-list/double",
+    "algorithms/linked-list/circular",
     // Hash Table
     "algorithms/hash-table",
     "algorithms/hash-table/chaining",

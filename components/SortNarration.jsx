@@ -20,8 +20,8 @@ function LegendMark({ item }) {
  * Pseudocode with the running line lit up, plus a few counters and a legend.
  * Fed by the sketch's onNarrate callback (see lib/sortNarration.js).
  */
-export default function SortNarration({ algo, state }) {
-  const guide = SORT_GUIDES[algo];
+export default function SortNarration({ algo, state, guide: given }) {
+  const guide = given || SORT_GUIDES[algo];
   if (!guide) return null;
   const lines = state?.lines || [];
   const stats = state?.stats || {};
@@ -58,10 +58,20 @@ export default function SortNarration({ algo, state }) {
           ))}
         </div>
 
-        {state?.done && (
-          <div className="rounded-lg border border-pen-green/40 bg-paper px-3 py-1.5 text-sm font-semibold text-pen-green">
-            Sorted!
+        {state?.result ? (
+          <div
+            className={`rounded-lg border bg-paper px-3 py-1.5 text-sm font-semibold ${
+              state.miss ? "border-pen-rust/40 text-pen-rust" : "border-pen-green/40 text-pen-green"
+            }`}
+          >
+            {state.result}
           </div>
+        ) : (
+          state?.done && (
+            <div className="rounded-lg border border-pen-green/40 bg-paper px-3 py-1.5 text-sm font-semibold text-pen-green">
+              Sorted!
+            </div>
+          )
         )}
 
         {guide.legend.length > 0 && (

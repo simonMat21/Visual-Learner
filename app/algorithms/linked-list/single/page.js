@@ -1,49 +1,13 @@
 "use client";
 
-import { useState } from "react";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { CodeBlock, TextBox } from "@/components/CodeBlock";
 import PhoneScreenBlock from "@/components/phoneScreenBlocker";
 import AdBanner from "@/components/AdBanner";
 
-import P5Sketch from "./P5Sketch";
+import LinkedListVisualizer from "@/components/LinkedListVisualizer";
 
 export default function Home() {
-  const [AEBool, setAEBool] = useState(true);
-  const [addForm, setAddForm] = useState({ val: [10, 20, 30], start: false });
-  const [searchForm, setSearchForm] = useState({
-    val: 0,
-    start: false,
-  });
-  const [deleteForm, setDeleteForm] = useState({
-    pos: 0,
-    start: false,
-  });
-  const [insertForm, setInsertForm] = useState({
-    val: 0,
-    pos: 0,
-    start: false,
-  });
-
-  const [animSpd, setAnimSpd] = useState(1);
-
-  const updateForm = (n, key, value) => {
-    if (key !== "start" || AEBool) {
-      if (n == 1) {
-        setAddForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 2) {
-        setDeleteForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 3) {
-        setSearchForm((prev) => ({ ...prev, [key]: value }));
-      } else if (n == 4) {
-        setInsertForm((prev) => ({ ...prev, [key]: value }));
-      }
-    }
-  };
-
   const codeSnippets = {
     setup: {
       js: `class Node {
@@ -513,11 +477,6 @@ Must traverse to find predecessor node
     },
   };
 
-  const inputs = [
-    { inp: "Enter value to insert", btn: "Insert", x1: 4, x2: "val" },
-    { inp: "Enter value to search", btn: "Search", x1: 3, x2: "val" },
-    { inp: "Enter position to delete", btn: "Delete", x1: 2, x2: "pos" },
-  ];
 
   return (
     <main className="vl-page">
@@ -554,84 +513,8 @@ Must traverse to find predecessor node
 
       {/* Visualization Section */}
       <div className="max-w-6xl mx-auto px-8 mb-12">
-        <div className="vl-card p-6">
-          <div className="grid grid-cols-2 gap-6">
-            {inputs.slice(0, 2).map((item, index) => (
-              <div key={index} className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <Input
-                    className="w-52 inpbox"
-                    placeholder={item.inp}
-                    onChange={(e) => {
-                      updateForm(item.x1, item.x2, Number(e.target.value));
-                    }}
-                  />
-                  <Button
-                    className="dobtn"
-                    onClick={() => {
-                      updateForm(item.x1, "start", true);
-                      setTimeout(() => updateForm(item.x1, "start", false), 10);
-                    }}
-                    disabled={!AEBool}
-                  >
-                    {item.btn}
-                  </Button>
-                </div>
-                {item.x1 === 4 && (
-                  <Input
-                    className="w-52 inpbox"
-                    placeholder="Enter position"
-                    onChange={(e) =>
-                      updateForm(4, "pos", Number(e.target.value))
-                    }
-                  />
-                )}
-              </div>
-            ))}
-
-            {inputs.slice(2).map((item, index) => (
-              <div key={index + 2} className="flex items-center gap-2">
-                <Input
-                  className="w-52 inpbox"
-                  placeholder={item.inp}
-                  onChange={(e) =>
-                    updateForm(item.x1, item.x2, Number(e.target.value))
-                  }
-                />
-                <Button
-                  className="dobtn"
-                  onClick={() => {
-                    updateForm(item.x1, "start", true);
-                    setTimeout(() => updateForm(item.x1, "start", false), 10);
-                  }}
-                  disabled={!AEBool}
-                >
-                  {item.btn}
-                </Button>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-center space-x-4 mt-4">
-            <span className="text-ink-2 text-sm">Speed:</span>
-            <Slider
-              defaultValue={[1]}
-              min={0.5}
-              max={1.5}
-              step={0.01}
-              onValueChange={([val]) => setAnimSpd(val)}
-              className="w-64 h-6"
-            />
-          </div>
-
-          <P5Sketch
-            add={addForm}
-            dlt={deleteForm}
-            srch={searchForm}
-            insert={insertForm}
-            animSpd={animSpd}
-            actionExicutable={(b) => setAEBool(b)}
-          />
+        <div className="vl-card px-6 py-4">
+          <LinkedListVisualizer kind="single" />
         </div>
       </div>
 
