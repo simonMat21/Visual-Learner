@@ -71,6 +71,24 @@ export default function sitemap() {
     // Minimum Spanning Tree
     "algorithms/mst/prims-algorithm",
     "algorithms/mst/kruskals-algorithm",
+    "algorithms/mst/boruvkas-algorithm",
+    // Shortest Paths
+    "algorithms/shortest-path/dijkstra",
+    "algorithms/shortest-path/bellman-ford",
+    "algorithms/shortest-path/floyd-warshall",
+    "algorithms/shortest-path/johnson",
+    // Graph Connectivity
+    "algorithms/connectivity/connected-components",
+    "algorithms/connectivity/kosaraju",
+    "algorithms/connectivity/tarjan",
+    "algorithms/connectivity/topological-sort",
+    "algorithms/connectivity/union-find",
+    // Balanced Trees
+    "algorithms/balanced-trees/avl-tree",
+    "algorithms/balanced-trees/red-black-tree",
+    // Tree Algorithms
+    "algorithms/tree-algorithms/lca",
+    "algorithms/tree-algorithms/tree-diameter",
   ].map((path) => ({
     url: `${baseUrl}/${path}`,
     lastModified: new Date(),

@@ -1,107 +1,97 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
+const CLIENT = "ca-pub-9246867260344606";
+
+/**
+ * One AdSense display unit.
+ *
+ * - Requests the ad only once per <ins>, and only once its container has a
+ *   real width (pushing into a 0-wide slot fails with "No slot size for
+ *   availableWidth=0", and React dev mode runs effects twice).
+ * - Uses the fully responsive "auto" format, which Google can fill far more
+ *   often than a fixed "horizontal" shape.
+ * - When Google answers "unfilled" (no ad to show), the whole block
+ *   collapses instead of leaving an empty box on the page.
+ */
 const AdBanner = ({
   position = "top", // top, bottom, sidebar
   size = "responsive", // small, medium, large, responsive
   className = "",
   adSlot = "5174363643",
-  adTest = "off", // Set to "on" for testing during development
+  adTest = "off", // "on" only while testing; never in production
 }) => {
-  const getSizeStyles = () => {
-    switch (size) {
-      case "small":
-        return {
-          width: "320px",
-          height: "100px",
-        };
-      case "medium":
-        return {
-          width: "728px",
-          height: "90px",
-        };
-      case "large":
-        return {
-          width: "970px",
-          height: "250px",
-        };
-      case "responsive":
-      default:
-        return {
-          width: "100%",
-          height: "auto",
-          minHeight: "100px",
-          maxHeight: "280px", // Limit maximum height
-        };
-    }
-  };
-
-  const getContainerStyles = () => {
-    const baseStyles =
-      "ad-banner-container flex justify-center items-center my-4 w-full";
-
-    switch (position) {
-      case "top":
-        return `${baseStyles} mb-8`;
-      case "bottom":
-        return `${baseStyles} mt-8`;
-      case "sidebar":
-        return `${baseStyles} mx-2`;
-      default:
-        return baseStyles;
-    }
-  };
+  const wrapRef = useRef(null);
+  const insRef = useRef(null);
+  const [status, setStatus] = useState("loading"); // loading | filled | unfilled
 
   useEffect(() => {
-    try {
-      // Initialize AdSense ads
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (error) {
-      console.error("AdBanner error:", error);
-    }
-  }, [adSlot]); // Re-initialize if ad slot changes
+    const ins = insRef.current;
+    const wrap = wrapRef.current;
+    if (!ins || !wrap) return undefined;
 
-  // Warn if ad slot is not provided
-  if (!adSlot) {
-    console.warn(
-      "AdBanner component: No adSlot provided. Please add a valid ad slot ID."
-    );
-  }
+    // follow Google's verdict on this slot
+    const readStatus = () => {
+      const s = ins.getAttribute("data-ad-status");
+      if (s === "filled") setStatus("filled");
+      else if (s === "unfilled") setStatus("unfilled");
+    };
+    const watcher = new MutationObserver(readStatus);
+    watcher.observe(ins, { attributes: true, attributeFilter: ["data-ad-status"] });
+    readStatus();
+
+    // request the ad once the slot has a width
+    let resize = null;
+    const request = () => {
+      if (ins.getAttribute("data-adsbygoogle-status")) return true; // already requested
+      if (wrap.getBoundingClientRect().width < 1) return false;
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {
+        console.error("AdBanner error:", error);
+      }
+      return true;
+    };
+    if (!request()) {
+      resize = new ResizeObserver(() => {
+        if (request()) resize.disconnect();
+      });
+      resize.observe(wrap);
+    }
+
+    return () => {
+      watcher.disconnect();
+      resize?.disconnect();
+    };
+  }, [adSlot]);
+
+  const fixed = {
+    small: { width: "320px", height: "100px" },
+    medium: { width: "728px", height: "90px" },
+    large: { width: "970px", height: "250px" },
+  }[size];
+
+  const spacing = { top: "mb-8", bottom: "mt-8", sidebar: "mx-2" }[position] || "";
 
   return (
-    <div className={`${getContainerStyles()} ${className}`}>
-      <div
-        className="relative w-full flex justify-center items-center overflow-hidden"
-        style={{ minHeight: size === "responsive" ? "100px" : "auto" }}
-      >
-        {/* Placeholder text shown behind ad */}
-        <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
-          <span className="font-mono text-ink-3 text-[10px] opacity-60 uppercase tracking-[0.2em] border border-rule px-2 py-1 rounded">
-            Ad
-          </span>
-        </div>
-
-        {/* Ad container */}
-        <div className="w-full flex justify-center z-10">
-          <ins
-            className="adsbygoogle"
-            style={{
-              display: "block",
-              textAlign: "center",
-              width: "100%",
-              ...getSizeStyles(),
-            }}
-            data-ad-client="ca-pub-9246867260344606"
-            data-ad-slot={adSlot}
-            data-ad-format={size === "responsive" ? "horizontal" : "rectangle"}
-            data-full-width-responsive={
-              size === "responsive" ? "true" : "false"
-            }
-            data-adtest={adTest}
-          ></ins>
-        </div>
-      </div>
+    <div
+      ref={wrapRef}
+      className={`ad-banner-container w-full ${status === "unfilled" ? "hidden" : `my-4 ${spacing}`} ${className}`}
+      // keep a little room while loading so the page doesn't jump much when an ad arrives
+      style={status === "loading" && !fixed ? { minHeight: "90px" } : undefined}
+      aria-hidden={status !== "filled"}
+    >
+      <ins
+        key={adSlot}
+        ref={insRef}
+        className="adsbygoogle"
+        style={fixed ? { display: "inline-block", ...fixed } : { display: "block", width: "100%" }}
+        data-ad-client={CLIENT}
+        data-ad-slot={adSlot}
+        {...(fixed ? {} : { "data-ad-format": "auto", "data-full-width-responsive": "true" })}
+        {...(adTest === "on" ? { "data-adtest": "on" } : {})}
+      ></ins>
     </div>
   );
 };
