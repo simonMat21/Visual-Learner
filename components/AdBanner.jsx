@@ -10,8 +10,10 @@ const CLIENT = "ca-pub-9246867260344606";
  * - Requests the ad only once per <ins>, and only once its container has a
  *   real width (pushing into a 0-wide slot fails with "No slot size for
  *   availableWidth=0", and React dev mode runs effects twice).
- * - Uses the fully responsive "auto" format, which Google can fill far more
- *   often than a fixed "horizontal" shape.
+ * - Uses fixed, standard ad sizes per screen width (see .vl-ad-slot in
+ *   globals.css): 728x90 on wide screens, 468x60 on medium, 320x100 on
+ *   phones. A fully responsive unit can reserve a 280-600px tall area that
+ *   stays blank if the creative never draws; a fixed size can't.
  * - When Google answers "unfilled" (no ad to show), the whole block
  *   collapses instead of leaving an empty box on the page.
  */
@@ -77,19 +79,16 @@ const AdBanner = ({
   return (
     <div
       ref={wrapRef}
-      className={`ad-banner-container w-full ${status === "unfilled" ? "hidden" : `my-4 ${spacing}`} ${className}`}
-      // keep a little room while loading so the page doesn't jump much when an ad arrives
-      style={status === "loading" && !fixed ? { minHeight: "90px" } : undefined}
+      className={`ad-banner-container flex w-full justify-center overflow-hidden ${status === "unfilled" ? "hidden" : `my-4 ${spacing}`} ${className}`}
       aria-hidden={status !== "filled"}
     >
       <ins
         key={adSlot}
         ref={insRef}
-        className="adsbygoogle"
-        style={fixed ? { display: "inline-block", ...fixed } : { display: "block", width: "100%" }}
+        className={`adsbygoogle ${fixed ? "" : "vl-ad-slot"}`}
+        style={fixed ? { display: "inline-block", ...fixed } : undefined}
         data-ad-client={CLIENT}
         data-ad-slot={adSlot}
-        {...(fixed ? {} : { "data-ad-format": "auto", "data-full-width-responsive": "true" })}
         {...(adTest === "on" ? { "data-adtest": "on" } : {})}
       ></ins>
     </div>

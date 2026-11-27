@@ -223,3 +223,29 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- ad slots ----------
+   Exact ad size per screen width (Google's "modify responsive ad code"
+   method): standard sizes fill well and never reserve a tall empty area.
+   Widths include the page's side padding (2 x 32px). */
+.vl-ad-slot {
+  display: inline-block;
+  width: 320px;
+  height: 100px;
+}
+@media (min-width: 540px) {
+  .vl-ad-slot {
+    width: 468px;
+    height: 60px;
+  }
+}
+@media (min-width: 800px) {
+  .vl-ad-slot {
+    width: 728px;
+    height: 90px;
+  }
+}
+/* Google marks a slot it couldn't fill; never leave a blank box behind */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+}
