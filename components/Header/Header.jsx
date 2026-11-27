@@ -10,13 +10,13 @@ const nav = [
 const Header = () => {
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-8">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-8">
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-3" aria-label="Visual Learner home">
           <span className="grid h-9 w-9 place-items-center rounded-lg bg-board font-mono text-sm font-semibold text-chalk shadow-[inset_0_0_0_2px_var(--color-board-2)] transition-transform duration-300 group-hover:-rotate-6">
             VL
           </span>
-          <span className="font-display text-xl font-semibold tracking-tight text-ink">
+          <span className="font-display text-lg font-semibold tracking-tight text-ink sm:text-xl">
             Visual Learner
           </span>
         </Link>

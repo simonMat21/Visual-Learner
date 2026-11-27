@@ -13,18 +13,18 @@ const PEN_BG = { rust: "bg-pen-rust", blue: "bg-pen-blue", green: "bg-pen-green"
 function BoardIllustration() {
   const values = [12, 47, 31, 8, 56, 23];
   return (
-    <div className="relative rounded-2xl border-[6px] border-board-2 bg-board p-6 shadow-[0_24px_50px_-28px_rgb(29_35_32/0.7)]">
-      <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.14em] text-chalk/60">
+    <div className="relative mx-auto w-full min-w-0 max-w-xl rounded-2xl border-[6px] border-board-2 bg-board p-4 shadow-[0_24px_50px_-28px_rgb(29_35_32/0.7)] sm:p-6">
+      <div className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-chalk/60 sm:text-[11px] sm:tracking-[0.14em]">
         <span>bubble sort</span>
         <span>pass 2 · compare</span>
       </div>
-      <div className="mt-8 flex items-end justify-center gap-3">
+      <div className="mt-6 flex items-end justify-center gap-1.5 sm:mt-8 sm:gap-3 lg:gap-2 xl:gap-3">
         {values.map((v, i) => {
           const active = i === 2 || i === 3;
           return (
-            <div key={i} className="flex flex-col items-center gap-2">
+            <div key={i} className="flex min-w-0 flex-col items-center gap-2">
               <div
-                className={`grid h-14 w-14 place-items-center rounded-md font-mono text-lg font-semibold text-ink ${
+                className={`grid h-10 w-10 place-items-center rounded-md font-mono text-base font-semibold text-ink sm:h-14 sm:w-14 sm:text-lg lg:h-12 lg:w-12 xl:h-14 xl:w-14 ${
                   active ? "bg-chalk ring-[3px] ring-[#f2c14e] ring-offset-2 ring-offset-board" : "bg-chalk/90"
                 }`}
               >
@@ -72,10 +72,10 @@ function TopicIndex() {
   let counter = 0;
 
   return (
-    <section id="topics" className="mx-auto max-w-6xl px-8">
+    <section id="topics" className="mx-auto max-w-6xl px-4 sm:px-8">
       {/* Subject tabs */}
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-rule">
-        <div role="tablist" aria-label="Subjects" className="-mb-px flex gap-1">
+        <div role="tablist" aria-label="Subjects" className="-mb-px flex max-w-full gap-1 overflow-x-auto [scrollbar-width:none]">
           {TABS.map((t) => {
             const active = t.id === activeTab;
             return (
@@ -84,7 +84,7 @@ function TopicIndex() {
                 role="tab"
                 aria-selected={active}
                 onClick={() => choose(t.id)}
-                className={`relative rounded-t-lg border px-4 py-2.5 text-sm font-medium transition-colors sm:px-5 ${
+                className={`relative shrink-0 whitespace-nowrap rounded-t-lg border px-3 py-2.5 text-sm font-medium transition-colors sm:px-5 ${
                   active
                     ? "border-rule border-b-card bg-card text-ink"
                     : "border-transparent text-ink-3 hover:text-ink"
@@ -104,13 +104,13 @@ function TopicIndex() {
       </div>
 
       {/* Topic groups */}
-      <div className="rounded-b-2xl border border-t-0 border-rule bg-card px-6 py-8 sm:px-10">
+      <div className="rounded-b-2xl border border-t-0 border-rule bg-card px-4 py-6 sm:px-10 sm:py-8">
         {subject ? (
-          <div className="space-y-12">
+          <div className="space-y-10 sm:space-y-12">
             {subject.groups.map((group) => (
               <div key={group.title}>
                 <div className="mb-5 flex items-baseline gap-3">
-                  <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">{group.title}</h2>
+                  <h2 className="font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">{group.title}</h2>
                   <span className="font-mono text-xs text-ink-3">
                     {group.topics.length} {group.topics.length === 1 ? "topic" : "topics"}
                   </span>
@@ -169,13 +169,13 @@ export default function Home() {
   return (
     <main className="vl-page pt-0">
       {/* Hero */}
-      <section className="mx-auto grid max-w-6xl items-center gap-12 px-8 pb-14 pt-14 md:grid-cols-[1.1fr_1fr] md:pt-20">
-        <div>
+      <section className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 pb-12 pt-10 sm:px-8 sm:pt-14 lg:grid-cols-[1.1fr_1fr] lg:gap-12 lg:pb-14 lg:pt-20">
+        <div className="min-w-0">
           <p className="vl-eyebrow">Interactive visual notes · {allTopics.length} topics</p>
-          <h1 className="vl-title mt-4 text-5xl leading-[1.05] sm:text-6xl">
+          <h1 className="vl-title mt-4 text-4xl leading-[1.08] sm:text-5xl md:text-6xl md:leading-[1.05]">
             Watch the idea <em className="font-medium italic text-pen-rust">move</em>, then it clicks.
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-2">
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-2 sm:mt-6 sm:text-lg">
             Step through algorithms, data structures, math and physics on a live chalkboard. Feed in your own numbers,
             slow it down, and read the explanation and code alongside.
           </p>
